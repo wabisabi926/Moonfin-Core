@@ -272,6 +272,10 @@ Future<List<dynamic>> _nextSeasonItemsProvider(
       seriesId: seriesId,
       seasonId: nextSeasonId,
     );
+    if (nextSeasonEpisodes.isEmpty ||
+        nextSeasonEpisodes.first.mediaSources.isEmpty) {
+      return const <dynamic>[];
+    }
     return nextSeasonEpisodes;
   } catch (_) {
     return const <dynamic>[];

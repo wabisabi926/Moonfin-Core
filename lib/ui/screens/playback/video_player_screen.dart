@@ -1966,6 +1966,22 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     return _nextUpCandidate() != null;
   }
 
+  bool _hasPlayableMediaSourceForQueueItem(dynamic item) {
+    if (item is AggregatedItem) {
+      if (!item.rawData.containsKey('MediaSources')) {
+        return true;
+      }
+      return item.mediaSources.isNotEmpty;
+    }
+    if (item is Map) {
+      final mediaSources = item['MediaSources'] as List?;
+      if (mediaSources != null) {
+        return mediaSources.isNotEmpty;
+      }
+    }
+    return true;
+  }
+
   bool _hasDistinctQueueNextItem() {
     if (!_queue.hasNext) {
       return false;
@@ -1979,6 +1995,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
     final nextItem = _queue.peekNext;
     if (nextItem == null) {
+      return false;
+    }
+
+    if (!_hasPlayableMediaSourceForQueueItem(nextItem)) {
       return false;
     }
 

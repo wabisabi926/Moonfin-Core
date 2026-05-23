@@ -4835,6 +4835,22 @@ class _ActionButtonsState extends State<_ActionButtons> {
         .toList();
   }
 
+  List<AggregatedItem> _truncateQueueIfImmediateNextUnplayable(
+    List<AggregatedItem> queue, {
+    required int startIndex,
+  }) {
+    if (startIndex < 0 || startIndex >= queue.length - 1) {
+      return queue;
+    }
+
+    final immediateNext = queue[startIndex + 1];
+    if (immediateNext.mediaSources.isNotEmpty) {
+      return queue;
+    }
+
+    return queue.sublist(0, startIndex + 1);
+  }
+
   Future<bool> _pushPlayerRouteWhileStartingPlayback(
     BuildContext context, {
     required String destination,
@@ -4974,6 +4990,10 @@ class _ActionButtonsState extends State<_ActionButtons> {
             final startIndex = episodes.indexWhere((e) => e.id == nextUp.id);
             final idx = startIndex >= 0 ? startIndex : 0;
             final selectedEpisode = episodes[idx];
+            final seriesQueue = _truncateQueueIfImmediateNextUnplayable(
+              episodes,
+              startIndex: idx,
+            );
             final startPosition = resume
                 ? (selectedEpisode.playbackPosition ?? Duration.zero)
                 : Duration.zero;
@@ -4983,7 +5003,7 @@ class _ActionButtonsState extends State<_ActionButtons> {
               [selectedEpisode],
             );
             await manager.playItems(
-              episodes,
+              seriesQueue,
               startIndex: idx,
               startPosition: startPosition,
               audioStreamIndex: audioStreamIndex,
@@ -5002,6 +5022,10 @@ class _ActionButtonsState extends State<_ActionButtons> {
                 : episodes.indexWhere((e) => !e.isPlayed);
             final idx = startIndex >= 0 ? startIndex : 0;
             final selectedEpisode = episodes[idx];
+            final seasonQueue = _truncateQueueIfImmediateNextUnplayable(
+              episodes,
+              startIndex: idx,
+            );
             final startPosition = resume
                 ? (selectedEpisode.playbackPosition ?? Duration.zero)
                 : Duration.zero;
@@ -5010,7 +5034,7 @@ class _ActionButtonsState extends State<_ActionButtons> {
               [selectedEpisode],
             );
             await manager.playItems(
-              episodes,
+              seasonQueue,
               startIndex: idx,
               startPosition: startPosition,
               audioStreamIndex: audioStreamIndex,
@@ -5025,6 +5049,10 @@ class _ActionButtonsState extends State<_ActionButtons> {
               final startIndex = episodes.indexWhere((e) => e.id == item.id);
               final idx = startIndex >= 0 ? startIndex : 0;
               final selectedEpisode = episodes[idx];
+              final episodeQueue = _truncateQueueIfImmediateNextUnplayable(
+                episodes,
+                startIndex: idx,
+              );
               final startPosition = resume
                   ? (selectedEpisode.playbackPosition ?? Duration.zero)
                   : Duration.zero;
@@ -5034,7 +5062,7 @@ class _ActionButtonsState extends State<_ActionButtons> {
                 mediaSourceId: widget.selectedMediaSourceId,
               );
               await manager.playItems(
-                episodes,
+                episodeQueue,
                 startIndex: idx,
                 startPosition: startPosition,
                 audioStreamIndex: audioStreamIndex,
