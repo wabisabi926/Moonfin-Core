@@ -23,6 +23,9 @@ import 'modules/preference_module.dart';
 final getIt = GetIt.instance;
 
 String _clientName() {
+  if (PlatformDetection.isAndroid && PlatformDetection.isTV) {
+    return 'Moonfin for Android TV';
+  }
   if (PlatformDetection.isAndroid) return 'Moonfin for Android';
   if (PlatformDetection.isIOS) return 'Moonfin for iOS';
   if (PlatformDetection.isMacOS) return 'Moonfin for macOS';

@@ -4,8 +4,8 @@ publish_to: 'none'
 version: 1.4.0+30000117
 
 moonfin:
-  android_tv_version: 1.9.1
-  android_tv_build_number: 2000003
+  android_tv_version: 1.9.2
+  android_tv_build_number: 2000004
 
 environment:
   sdk: ^3.11.0
