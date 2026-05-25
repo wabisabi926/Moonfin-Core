@@ -9,6 +9,7 @@ import '../../../preference/user_preferences.dart';
 import '../../../util/platform_detection.dart';
 import '../../widgets/settings/preference_binding.dart';
 import '../../widgets/settings/preference_tiles.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import 'settings_app_bar.dart';
 import '../../widgets/focus/request_initial_focus.dart';
 
@@ -156,86 +157,89 @@ class _ParentalSettingsScreenState extends State<ParentalSettingsScreen> {
     final l10n = AppLocalizations.of(context);
     final ratings = _effectiveRatings;
 
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.parentalControls)),
-      body: ValueListenableBuilder<String>(
-        valueListenable: _blockedRatings,
-        builder: (context, blockedValue, _) {
-          final blocked = blockedValue.isEmpty
-              ? <String>{}
-              : blockedValue.split(',').toSet();
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.parentalControls)),
+        body: ValueListenableBuilder<String>(
+          valueListenable: _blockedRatings,
+          builder: (context, blockedValue, _) {
+            final blocked = blockedValue.isEmpty
+                ? <String>{}
+                : blockedValue.split(',').toSet();
 
-          return ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: Text(l10n.blockContentWithRatings),
-              ),
-              if (_loadingRatings)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              else if (ratings.isEmpty)
+            return ListView(
+              children: [
                 Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    _ratingsError == null
-                        ? l10n.noContentRatingsFound
-                        : l10n.couldNotLoadServerRatings,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                )
-              else ...[
-                if (_ratingsError != null)
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: Text(l10n.blockContentWithRatings),
+                ),
+                if (_loadingRatings)
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                else if (ratings.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(16),
                     child: Text(
-                      l10n.couldNotRefreshRatings,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
+                      _ratingsError == null
+                          ? l10n.noContentRatingsFound
+                          : l10n.couldNotLoadServerRatings,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  )
+                else ...[
+                  if (_ratingsError != null)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                      child: Text(
+                        l10n.couldNotRefreshRatings,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                       ),
                     ),
-                  ),
-                ...ratings.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final rating = entry.value;
-                  final isBlocked = blocked.contains(rating);
-                  return TvFocusHighlight(
-                    builder: (_, focused) => ListTile(
-                      focusNode: index == 0 ? _firstRatingFocusNode : null,
-                      autofocus: PlatformDetection.isTV && index == 0,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      leading: IconTheme(
-                        data: IconThemeData(
-                          color: focused
-                              ? AppColors.black.withValues(alpha: 0.54)
-                              : AppColorScheme.onSurface.withValues(alpha: 0.7),
-                          size: 24,
+                  ...ratings.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final rating = entry.value;
+                    final isBlocked = blocked.contains(rating);
+                    return TvFocusHighlight(
+                      builder: (_, focused) => ListTile(
+                        focusNode: index == 0 ? _firstRatingFocusNode : null,
+                        autofocus: PlatformDetection.isTV && index == 0,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        leading: IconTheme(
+                          data: IconThemeData(
+                            color: focused
+                                ? AppColors.black.withValues(alpha: 0.54)
+                                : AppColorScheme.onSurface.withValues(alpha: 0.7),
+                            size: 24,
+                          ),
+                          child: Icon(
+                            isBlocked
+                                ? Icons.check_box
+                                : Icons.check_box_outline_blank,
+                          ),
                         ),
-                        child: Icon(
-                          isBlocked
-                              ? Icons.check_box
-                              : Icons.check_box_outline_blank,
+                        title: DefaultTextStyle.merge(
+                          style: TextStyle(
+                            color: focused
+                                ? AppColors.black.withValues(alpha: 0.87)
+                                : AppColorScheme.onSurface,
+                          ),
+                          child: Text(rating),
                         ),
+                        onTap: () => _toggle(rating),
                       ),
-                      title: DefaultTextStyle.merge(
-                        style: TextStyle(
-                          color: focused
-                              ? AppColors.black.withValues(alpha: 0.87)
-                              : AppColorScheme.onSurface,
-                        ),
-                        child: Text(rating),
-                      ),
-                      onTap: () => _toggle(rating),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                ],
               ],
-            ],
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

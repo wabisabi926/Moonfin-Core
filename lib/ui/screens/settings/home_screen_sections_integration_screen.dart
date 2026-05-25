@@ -5,6 +5,7 @@ import 'package:moonfin_design/moonfin_design.dart';
 import '../../../data/services/kefin_tweaks_service.dart';
 import '../../../data/services/home_screen_sections_service.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/settings_panel.dart';
 import 'home_sections_screen.dart';
 import 'settings_app_bar.dart';
@@ -59,26 +60,28 @@ class _HomeScreenSectionsIntegrationScreenState
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final caps = _service.allCapabilities.toList();
-    return Scaffold(
-      appBar: buildSettingsAppBar(
-        context,
-        const Text('Home Screen Sections'),
-        actions: [
-          IconButton(
-            tooltip: l10n.refresh,
-            icon: _refreshing
-                ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Icon(Icons.refresh),
-            onPressed: _refreshing ? null : _refresh,
-          ),
-        ],
-      ),
-      body: ListView(
-        children: [
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(
+          context,
+          const Text('Home Screen Sections'),
+          actions: [
+            IconButton(
+              tooltip: l10n.refresh,
+              icon: _refreshing
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.refresh),
+              onPressed: _refreshing ? null : _refresh,
+            ),
+          ],
+        ),
+        body: ListView(
+          children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Text(
@@ -106,7 +109,8 @@ class _HomeScreenSectionsIntegrationScreenState
                 const HomeSectionsScreen(showGeneralOptions: false),
               ),
             ),
-        ],
+          ],
+        ),
       ),
     );
   }

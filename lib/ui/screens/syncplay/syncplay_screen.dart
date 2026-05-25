@@ -8,6 +8,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../syncplay/syncplay_manager.dart';
 import '../../widgets/overlay_sheet.dart';
 import '../../widgets/focus/request_initial_focus.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 
 class SyncPlayScreen extends ConsumerStatefulWidget {
   const SyncPlayScreen({super.key});
@@ -40,17 +41,20 @@ class _SyncPlayScreenState extends ConsumerState<SyncPlayScreen> {
   Widget _buildContent(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final manager = ref.watch(syncPlayManagerProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.syncPlay),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: manager.isLoading ? null : () => manager.fetchGroups(),
-          ),
-        ],
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.syncPlay),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: manager.isLoading ? null : () => manager.fetchGroups(),
+            ),
+          ],
+        ),
+        body: _buildBody(context, manager, l10n),
       ),
-      body: _buildBody(context, manager, l10n),
     );
   }
 

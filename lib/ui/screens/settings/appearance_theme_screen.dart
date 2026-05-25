@@ -5,6 +5,7 @@ import 'package:moonfin_design/moonfin_design.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../preference/user_preferences.dart';
 import '../../theme/app_theme_controller.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import 'settings_app_bar.dart';
 
 class AppearanceThemeScreen extends StatelessWidget {
@@ -16,54 +17,57 @@ class AppearanceThemeScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.settingsAppearanceTheme)),
-      body: ListenableBuilder(
-        listenable: prefs,
-        builder: (context, _) {
-          final selectedBuiltIn = prefs.get(UserPreferences.visualTheme);
-          final selectedCustomId = prefs.get(UserPreferences.customThemeId);
-          final selectedThemeId = selectedCustomId.isNotEmpty
-              ? selectedCustomId
-              : AppThemeController.builtInThemeIdFor(selectedBuiltIn);
-          final themes = ThemeRegistry.availableThemes.values.toList()
-            ..sort((a, b) {
-              final aRank = _themeSortRank(a.id);
-              final bRank = _themeSortRank(b.id);
-              if (aRank != bRank) return aRank.compareTo(bRank);
-              return a.displayName.toLowerCase().compareTo(
-                b.displayName.toLowerCase(),
-              );
-            });
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.settingsAppearanceTheme)),
+        body: ListenableBuilder(
+          listenable: prefs,
+          builder: (context, _) {
+            final selectedBuiltIn = prefs.get(UserPreferences.visualTheme);
+            final selectedCustomId = prefs.get(UserPreferences.customThemeId);
+            final selectedThemeId = selectedCustomId.isNotEmpty
+                ? selectedCustomId
+                : AppThemeController.builtInThemeIdFor(selectedBuiltIn);
+            final themes = ThemeRegistry.availableThemes.values.toList()
+              ..sort((a, b) {
+                final aRank = _themeSortRank(a.id);
+                final bRank = _themeSortRank(b.id);
+                if (aRank != bRank) return aRank.compareTo(bRank);
+                return a.displayName.toLowerCase().compareTo(
+                  b.displayName.toLowerCase(),
+                );
+              });
 
-          return ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              Text(
-                l10n.settingsAppearanceThemeSubtitle,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.74),
+            return ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Text(
+                  l10n.settingsAppearanceThemeSubtitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.74),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              for (var i = 0; i < themes.length; i++) ...[
-                _ThemePreviewCard(
-                  themeId: themes[i].id,
-                  title: _titleForTheme(l10n, themes[i]),
-                  subtitle: _subtitleForTheme(l10n, themes[i]),
-                  selected: selectedThemeId == themes[i].id,
-                  stripes: [
-                    themes[i].colors.background,
-                    themes[i].colors.surface,
-                    themes[i].colors.accent,
-                    themes[i].colors.rangeProgress,
-                  ],
-                ),
-                if (i != themes.length - 1) const SizedBox(height: 16),
+                const SizedBox(height: 20),
+                for (var i = 0; i < themes.length; i++) ...[
+                  _ThemePreviewCard(
+                    themeId: themes[i].id,
+                    title: _titleForTheme(l10n, themes[i]),
+                    subtitle: _subtitleForTheme(l10n, themes[i]),
+                    selected: selectedThemeId == themes[i].id,
+                    stripes: [
+                      themes[i].colors.background,
+                      themes[i].colors.surface,
+                      themes[i].colors.accent,
+                      themes[i].colors.rangeProgress,
+                    ],
+                  ),
+                  if (i != themes.length - 1) const SizedBox(height: 16),
+                ],
               ],
-            ],
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -8,6 +8,7 @@ import '../../widgets/pin_entry_dialog.dart';
 import '../../../l10n/app_localizations.dart';
 import 'settings_app_bar.dart';
 import '../../widgets/focus/request_initial_focus.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 
 /// Settings screen for managing PIN code protection.
 class PinCodeSettingsScreen extends StatefulWidget {
@@ -105,33 +106,36 @@ class _PinCodeSettingsScreenState extends State<PinCodeSettingsScreen> {
 
   Widget _buildContent(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.pinCode)),
-      body: ListView(
-        children: [
-          SwitchListTile(
-            title: Text(l10n.enablePinCode),
-            subtitle: Text(l10n.requirePinToAccess),
-            secondary: const Icon(Icons.lock),
-            value: _pinEnabled,
-            onChanged: _togglePinEnabled,
-          ),
-          if (_pinEnabled) ...[
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: Text(l10n.changePin),
-              subtitle: Text(l10n.setNewPinCode),
-              onTap: _changePin,
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.pinCode)),
+        body: ListView(
+          children: [
+            SwitchListTile(
+              title: Text(l10n.enablePinCode),
+              subtitle: Text(l10n.requirePinToAccess),
+              secondary: const Icon(Icons.lock),
+              value: _pinEnabled,
+              onChanged: _togglePinEnabled,
             ),
-            ListTile(
-              leading: const Icon(Icons.delete),
-              title: Text(l10n.removePin),
-              subtitle: Text(l10n.removePinProtection),
-              onTap: _removePin,
-            ),
+            if (_pinEnabled) ...[
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.edit),
+                title: Text(l10n.changePin),
+                subtitle: Text(l10n.setNewPinCode),
+                onTap: _changePin,
+              ),
+              ListTile(
+                leading: const Icon(Icons.delete),
+                title: Text(l10n.removePin),
+                subtitle: Text(l10n.removePinProtection),
+                onTap: _removePin,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

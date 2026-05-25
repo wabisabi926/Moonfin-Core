@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:moonfin_design/moonfin_design.dart';
 import 'package:jellyfin_preference/jellyfin_preference.dart';
 import 'package:server_core/server_core.dart';
 
@@ -9,6 +8,7 @@ import '../../../data/services/plugin_sync_service.dart';
 import '../../../preference/user_preferences.dart';
 import '../../../util/platform_detection.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import 'settings_app_bar.dart';
 
 const _allSources = [
@@ -152,32 +152,34 @@ class _RatingsConfigScreenState extends State<RatingsConfigScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(
-        context,
-        Text(l10n.ratings),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.restore),
-            tooltip: l10n.resetToDefaults,
-            onPressed: () {
-              setState(() {
-                _store.set(
-                    UserPreferences.enabledRatings,
-                    UserPreferences.enabledRatings.defaultValue);
-                _loadFromPrefs();
-              });
-              _save();
-            },
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom + 16,
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(
+          context,
+          Text(l10n.ratings),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.restore),
+              tooltip: l10n.resetToDefaults,
+              onPressed: () {
+                setState(() {
+                  _store.set(
+                      UserPreferences.enabledRatings,
+                      UserPreferences.enabledRatings.defaultValue);
+                  _loadFromPrefs();
+                });
+                _save();
+              },
+            ),
+          ],
         ),
-        itemCount: _items.length + 1,
-        itemBuilder: (context, index) {
+        body: ListView.builder(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom + 16,
+          ),
+          itemCount: _items.length + 1,
+          itemBuilder: (context, index) {
           if (index == 0) {
             return ListTile(
               leading: const Icon(Icons.reorder),
@@ -202,6 +204,7 @@ class _RatingsConfigScreenState extends State<RatingsConfigScreen> {
             onMoveDown: () => _moveItem(itemIndex, 1),
           );
         },
+      ),
       ),
     );
   }

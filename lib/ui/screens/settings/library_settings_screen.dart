@@ -7,6 +7,7 @@ import '../../../data/models/aggregated_library.dart';
 import '../../../data/repositories/user_views_repository.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../navigation/home_refresh_bus.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_tiles.dart';
 import 'settings_app_bar.dart';
 import '../../widgets/focus/request_initial_focus.dart';
@@ -92,22 +93,25 @@ class _LibraryVisibilityScreenState extends State<LibraryVisibilityScreen> {
 
   Widget _buildContent(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.libraryVisibility)),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-            child: Text(l10n.libraryVisibilityDescription),
-          ),
-          if (_isLoading)
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Center(child: CircularProgressIndicator()),
-            )
-          else if (_libraries != null && _config != null)
-            ..._buildLibraryVisibilityTiles(),
-        ],
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.libraryVisibility)),
+        body: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Text(l10n.libraryVisibilityDescription),
+            ),
+            if (_isLoading)
+              const Padding(
+                padding: EdgeInsets.all(16),
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else if (_libraries != null && _config != null)
+              ..._buildLibraryVisibilityTiles(),
+          ],
+        ),
       ),
     );
   }

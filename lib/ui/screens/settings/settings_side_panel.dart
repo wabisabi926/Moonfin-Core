@@ -25,6 +25,7 @@ import '../../../preference/user_preferences.dart';
 import '../../navigation/destinations.dart';
 import '../../widgets/overlay_sheet.dart';
 import '../../widgets/settings/preference_binding.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_tiles.dart';
 import '../../widgets/settings/settings_panel.dart';
 import '../../widgets/navigation_layout.dart';
@@ -451,10 +452,12 @@ class _CustomizationCategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.settingsPersonalization)),
-      body: ListView(
-        children: [
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.settingsPersonalization)),
+        body: ListView(
+          children: [
           _TvSettingsListTile(
             autofocus: true,
             leading: const Icon(Icons.style),
@@ -484,7 +487,8 @@ class _CustomizationCategoryScreen extends StatelessWidget {
             onTap: () =>
                 context.pushSettingsScreen(const _LibrariesCategoryScreen()),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -969,10 +973,12 @@ class _PluginCategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.settingsDynamicContent)),
-      body: ListView(
-        children: [
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.settingsDynamicContent)),
+        body: ListView(
+          children: [
           _TvSettingsListTile(
             autofocus: true,
             leading: const Icon(Icons.featured_play_list),
@@ -995,7 +1001,8 @@ class _PluginCategoryScreen extends StatelessWidget {
             onTap: () =>
                 context.pushSettingsScreen(const _SeasonalEffectsScreen()),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -1052,13 +1059,15 @@ class _IntegrationsScreenState extends State<_IntegrationsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.integrations)),
-      body: FocusScope(
-        node: _integrationsScope,
-        autofocus: true,
-        child: ListView(
-          children: [
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.integrations)),
+        body: FocusScope(
+          node: _integrationsScope,
+          autofocus: true,
+          child: ListView(
+            children: [
             _TvSettingsListTile(
               autofocus: true,
               leading: const Icon(Icons.extension),
@@ -1108,7 +1117,8 @@ class _IntegrationsScreenState extends State<_IntegrationsScreen> {
                 const KefinTweaksIntegrationScreen(),
               ),
             ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -1692,10 +1702,12 @@ class _PlaybackCategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.settingsPlaybackSyncplay)),
-      body: ListView(
-        children: [
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.settingsPlaybackSyncplay)),
+        body: ListView(
+          children: [
           _TvSettingsListTile(
             autofocus: true,
             leading: const Icon(Icons.play_circle),
@@ -1747,7 +1759,8 @@ class _PlaybackCategoryScreen extends StatelessWidget {
             onTap: () =>
                 context.pushSettingsScreen(const _AdvancedOptionsScreen()),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

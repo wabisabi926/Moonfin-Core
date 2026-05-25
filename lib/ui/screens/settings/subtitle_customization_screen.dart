@@ -8,6 +8,7 @@ import '../../../preference/user_preferences.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../util/platform_detection.dart';
 import '../../widgets/overlay_sheet.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_binding.dart';
 import '../../widgets/settings/preference_tiles.dart';
 import '../../widgets/subtitle_preview.dart';
@@ -101,66 +102,69 @@ class _SubtitleCustomizationScreenState
 
   Widget _buildContent(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.subtitleCustomization)),
-      body: ListView(
-        children: [
-          const SubtitlePreview(),
-          _ColorPickerTile(
-            title: l10n.textFillColor,
-            icon: Icons.format_color_text,
-            preference: UserPreferences.subtitlesTextColor,
-            allowTransparent: false,
-          ),
-          _ColorPickerTile(
-            title: l10n.textStrokeColor,
-            icon: Icons.border_color,
-            preference: UserPreferences.subtitleTextStrokeColor,
-          ),
-          _ColorPickerTile(
-            title: l10n.backgroundColor,
-            icon: Icons.format_color_fill,
-            preference: UserPreferences.subtitlesBackgroundColor,
-          ),
-          _sliderTile(
-            context: context,
-            icon: Icons.format_size,
-            label: l10n.subtitleSize,
-            binding: _sizeBind,
-            outerNode: _sizeOuterNode,
-            innerNode: _sizeInnerNode,
-            focused: _sizeFocused,
-            onFocusChange: (f) {
-              if (_sizeFocused != f && mounted) {
-                setState(() => _sizeFocused = f);
-              }
-            },
-            min: 12,
-            max: 48,
-            divisions: 18,
-            step: 2,
-            labelBuilder: (v) => l10n.pixelValue(v.round()),
-          ),
-          _sliderTile(
-            context: context,
-            icon: Icons.vertical_align_bottom,
-            label: l10n.verticalOffset,
-            binding: _offsetBind,
-            outerNode: _offsetOuterNode,
-            innerNode: _offsetInnerNode,
-            focused: _offsetFocused,
-            onFocusChange: (f) {
-              if (_offsetFocused != f && mounted) {
-                setState(() => _offsetFocused = f);
-              }
-            },
-            min: 0.0,
-            max: 0.5,
-            divisions: 50,
-            step: 0.01,
-            labelBuilder: (v) => l10n.percentValue((v * 100).round()),
-          ),
-        ],
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.subtitleCustomization)),
+        body: ListView(
+          children: [
+            const SubtitlePreview(),
+            _ColorPickerTile(
+              title: l10n.textFillColor,
+              icon: Icons.format_color_text,
+              preference: UserPreferences.subtitlesTextColor,
+              allowTransparent: false,
+            ),
+            _ColorPickerTile(
+              title: l10n.textStrokeColor,
+              icon: Icons.border_color,
+              preference: UserPreferences.subtitleTextStrokeColor,
+            ),
+            _ColorPickerTile(
+              title: l10n.backgroundColor,
+              icon: Icons.format_color_fill,
+              preference: UserPreferences.subtitlesBackgroundColor,
+            ),
+            _sliderTile(
+              context: context,
+              icon: Icons.format_size,
+              label: l10n.subtitleSize,
+              binding: _sizeBind,
+              outerNode: _sizeOuterNode,
+              innerNode: _sizeInnerNode,
+              focused: _sizeFocused,
+              onFocusChange: (f) {
+                if (_sizeFocused != f && mounted) {
+                  setState(() => _sizeFocused = f);
+                }
+              },
+              min: 12,
+              max: 48,
+              divisions: 18,
+              step: 2,
+              labelBuilder: (v) => l10n.pixelValue(v.round()),
+            ),
+            _sliderTile(
+              context: context,
+              icon: Icons.vertical_align_bottom,
+              label: l10n.verticalOffset,
+              binding: _offsetBind,
+              outerNode: _offsetOuterNode,
+              innerNode: _offsetInnerNode,
+              focused: _offsetFocused,
+              onFocusChange: (f) {
+                if (_offsetFocused != f && mounted) {
+                  setState(() => _offsetFocused = f);
+                }
+              },
+              min: 0.0,
+              max: 0.5,
+              divisions: 50,
+              step: 0.01,
+              labelBuilder: (v) => l10n.percentValue((v * 100).round()),
+            ),
+          ],
+        ),
       ),
     );
   }

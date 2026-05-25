@@ -10,6 +10,7 @@ import '../../../preference/user_preferences.dart';
 import '../../../util/focus/dpad_keys.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../widgets/overlay_sheet.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_binding.dart';
 import '../../widgets/settings/preference_tiles.dart';
 import 'settings_app_bar.dart';
@@ -286,7 +287,9 @@ class _MediaBarSettingsScreenState extends State<MediaBarSettingsScreen> {
 
   Widget _buildContent(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-      return Scaffold(
+      return withCleanSettingsTypography(
+        context,
+        Scaffold(
         appBar: buildSettingsAppBar(
           context,
           Text(l10n.mediaBar),
@@ -377,6 +380,7 @@ class _MediaBarSettingsScreenState extends State<MediaBarSettingsScreen> {
               onChanged: _pushSync,
             ),
           ],
+        ),
         ),
       );
 }

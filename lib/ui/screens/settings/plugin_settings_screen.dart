@@ -5,6 +5,7 @@ import 'package:server_core/server_core.dart';
 
 import '../../../data/services/plugin_sync_service.dart';
 import '../../../preference/user_preferences.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_tiles.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../widgets/focus/request_initial_focus.dart';
@@ -140,9 +141,11 @@ class _PluginSettingsSectionState extends State<PluginSettingsSection> {
     final pluginSyncEnabled = _prefs.get(UserPreferences.pluginSyncEnabled);
     final showProfileSync = pluginAvailable && pluginSyncEnabled;
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
-      child: Column(
+    return withCleanSettingsTypography(
+      context,
+      Padding(
+        padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -304,6 +307,7 @@ class _PluginSettingsSectionState extends State<PluginSettingsSection> {
             ),
           ),
         ],
+        ),
       ),
     );
   }

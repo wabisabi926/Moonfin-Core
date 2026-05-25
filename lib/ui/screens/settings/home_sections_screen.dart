@@ -13,6 +13,7 @@ import '../../../preference/user_preferences.dart';
 import '../../../util/platform_detection.dart';
 import '../../widgets/overlay_sheet.dart';
 import '../../widgets/poster_size_settings_dialog.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_tiles.dart';
 import '../../widgets/settings/settings_panel.dart';
 import '../../../l10n/app_localizations.dart';
@@ -705,31 +706,34 @@ class _HomeSectionsScreenState extends State<HomeSectionsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: buildSettingsAppBar(
-        context,
-        Text(l10n.homeSections),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.restore),
-            tooltip: l10n.resetToDefaults,
-            onPressed: () {
-              setState(() {
-                _sections = HomeSectionConfig.defaults();
-                _rebuildFocusNodes();
-                _setMergeContinueWatchingNextUp(
-                  UserPreferences.mergeContinueWatchingNextUp.defaultValue,
-                  pushSync: false,
-                );
-              });
-              _save();
-            },
-          ),
-        ],
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(
+          context,
+          Text(l10n.homeSections),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.restore),
+              tooltip: l10n.resetToDefaults,
+              onPressed: () {
+                setState(() {
+                  _sections = HomeSectionConfig.defaults();
+                  _rebuildFocusNodes();
+                  _setMergeContinueWatchingNextUp(
+                    UserPreferences.mergeContinueWatchingNextUp.defaultValue,
+                    pushSync: false,
+                  );
+                });
+                _save();
+              },
+            ),
+          ],
+        ),
+        body: PlatformDetection.isTV
+            ? _buildTvList(l10n)
+            : _buildReorderableList(l10n),
       ),
-      body: PlatformDetection.isTV
-          ? _buildTvList(l10n)
-          : _buildReorderableList(l10n),
     );
   }
 

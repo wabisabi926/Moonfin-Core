@@ -15,6 +15,7 @@ import '../../../preference/seerr_row_config.dart';
 import '../../../preference/user_preferences.dart';
 import '../../../util/focus/dpad_keys.dart';
 import '../../../util/platform_detection.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import 'settings_app_bar.dart';
 
 typedef _SeerrSignInAction =
@@ -251,85 +252,88 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
         context,
         Text(l10n.seerr),
         actions: showSeerrSettings
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.restore),
-                  tooltip: l10n.resetRowsToDefaults,
-                  onPressed: _resetRows,
-                ),
-              ]
-            : const [],
+          ? [
+            IconButton(
+              icon: const Icon(Icons.restore),
+              tooltip: l10n.resetRowsToDefaults,
+              onPressed: _resetRows,
+            ),
+          ]
+          : const [],
       ),
-      body: ListView.builder(
-        itemCount: (showSeerrSettings ? _rows.length : 0) + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return Column(
-              children: [
-                if (seerrAvailable)
-                  SwitchListTile(
-                    secondary: const Icon(Icons.movie_filter),
-                    title: Text(l10n.enableSeerr),
-                    subtitle: Text(l10n.showSeerrInNavigation),
-                    value: _seerrPrefs.enabled,
-                    onChanged: _setSeerrEnabled,
-                  )
-                else
-                  ListTile(
-                    leading: const Icon(Icons.movie_filter_outlined),
-                    title: Text(l10n.enableSeerr),
-                    subtitle: Text(l10n.seerrUnavailable),
-                  ),
-                if (showSeerrSettings)
-                  _SeerrLoginCard(
-                    status: _seerrStatus,
-                    statusLoading: _statusLoading,
-                    onSignIn: _signInToSeerr,
-                    onSignOut: _signOutFromSeerr,
-                  ),
-                if (showSeerrSettings)
-                  SwitchListTile(
-                    secondary: const Icon(Icons.visibility_off),
-                    title: Text(l10n.nsfwFilter),
-                    subtitle: Text(l10n.hideAdultContent),
-                    value: _seerrPrefs.blockNsfw,
-                    onChanged: _setBlockNsfw,
-                  ),
-                if (showSeerrSettings)
-                  ListTile(
-                    leading: const Icon(Icons.view_carousel_outlined),
-                    title: Text(l10n.discoverRows),
-                    subtitle: Text(
-                      _syncService.pluginAvailable
+      body: withCleanSettingsTypography(
+        context,
+        ListView.builder(
+          itemCount: (showSeerrSettings ? _rows.length : 0) + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Column(
+                children: [
+                  if (seerrAvailable)
+                    SwitchListTile(
+                      secondary: const Icon(Icons.movie_filter),
+                      title: Text(l10n.enableSeerr),
+                      subtitle: Text(l10n.showSeerrInNavigation),
+                      value: _seerrPrefs.enabled,
+                      onChanged: _setSeerrEnabled,
+                    )
+                  else
+                    ListTile(
+                      leading: const Icon(Icons.movie_filter_outlined),
+                      title: Text(l10n.enableSeerr),
+                      subtitle: Text(l10n.seerrUnavailable),
+                    ),
+                  if (showSeerrSettings)
+                    _SeerrLoginCard(
+                      status: _seerrStatus,
+                      statusLoading: _statusLoading,
+                      onSignIn: _signInToSeerr,
+                      onSignOut: _signOutFromSeerr,
+                    ),
+                  if (showSeerrSettings)
+                    SwitchListTile(
+                      secondary: const Icon(Icons.visibility_off),
+                      title: Text(l10n.nsfwFilter),
+                      subtitle: Text(l10n.hideAdultContent),
+                      value: _seerrPrefs.blockNsfw,
+                      onChanged: _setBlockNsfw,
+                    ),
+                  if (showSeerrSettings)
+                    ListTile(
+                      leading: const Icon(Icons.view_carousel_outlined),
+                      title: Text(l10n.discoverRows),
+                      subtitle: Text(
+                        _syncService.pluginAvailable
                           ? l10n.discoverRowsDescriptionPlugin
                           : l10n.discoverRowsDescription,
+                      ),
                     ),
-                  ),
-                if (showSeerrSettings) const Divider(height: 1),
-              ],
+                  if (showSeerrSettings) const Divider(height: 1),
+                ],
+              );
+            }
+            final rowIndex = index - 1;
+            final row = _rows[rowIndex];
+            return _SeerrReorderableTile(
+              key: ValueKey(row.type),
+              focusNode: _focusNodes[rowIndex],
+              label: _rowLabel(row.type, l10n),
+              enabled: row.enabled,
+              enabledLabel: l10n.enabled,
+              hiddenLabel: l10n.hidden,
+              isFirst: rowIndex == 0,
+              isLast: rowIndex == _rows.length - 1,
+              onToggle: (enabled) {
+                setState(() {
+                  _rows[rowIndex] = row.copyWith(enabled: enabled);
+                });
+                _saveRows();
+              },
+              onMoveUp: () => _moveSeerrRow(rowIndex, -1),
+              onMoveDown: () => _moveSeerrRow(rowIndex, 1),
             );
-          }
-          final rowIndex = index - 1;
-          final row = _rows[rowIndex];
-          return _SeerrReorderableTile(
-            key: ValueKey(row.type),
-            focusNode: _focusNodes[rowIndex],
-            label: _rowLabel(row.type, l10n),
-            enabled: row.enabled,
-            enabledLabel: l10n.enabled,
-            hiddenLabel: l10n.hidden,
-            isFirst: rowIndex == 0,
-            isLast: rowIndex == _rows.length - 1,
-            onToggle: (enabled) {
-              setState(() {
-                _rows[rowIndex] = row.copyWith(enabled: enabled);
-              });
-              _saveRows();
-            },
-            onMoveUp: () => _moveSeerrRow(rowIndex, -1),
-            onMoveDown: () => _moveSeerrRow(rowIndex, 1),
-          );
-        },
+          },
+        ),
       ),
     );
   }

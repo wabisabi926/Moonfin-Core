@@ -9,6 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../preference/user_preferences.dart';
 import '../../../util/focus/dpad_keys.dart';
 import '../../widgets/overlay_sheet.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_tiles.dart';
 import 'settings_app_bar.dart';
 import '../../widgets/focus/request_initial_focus.dart';
@@ -102,34 +103,37 @@ class _HomeRowsImageTypeScreenState extends State<HomeRowsImageTypeScreen> {
         .toList()
       ..sort((a, b) => a.order.compareTo(b.order));
 
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.perRowImageType)),
-      body: ListView(
-        children: [
-          TvFocusHighlight(
-            builder: (_, _) => ListTile(
-              focusColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              leading: const Icon(Icons.view_stream),
-              title: Text(l10n.perRowSettings),
-            ),
-          ),
-          for (final section in enabledSections)
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.perRowImageType)),
+        body: ListView(
+          children: [
             TvFocusHighlight(
               builder: (_, _) => ListTile(
                 focusColor: Colors.transparent,
                 hoverColor: Colors.transparent,
-                leading: const Icon(Icons.image_outlined),
-                title: Text(_sectionLabel(section.type, l10n)),
-                subtitle: Text(_imageTypeLabel(_prefs.get(UserPreferences.homeRowImageType(section.type)), l10n)),
-                onTap: () => _showImageTypePicker(
-                  context,
-                  current: _prefs.get(UserPreferences.homeRowImageType(section.type)),
-                  onSelected: (value) => _setPerRowImageType(section.type, value),
-                ),
+                leading: const Icon(Icons.view_stream),
+                title: Text(l10n.perRowSettings),
               ),
             ),
-        ],
+            for (final section in enabledSections)
+              TvFocusHighlight(
+                builder: (_, _) => ListTile(
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  leading: const Icon(Icons.image_outlined),
+                  title: Text(_sectionLabel(section.type, l10n)),
+                  subtitle: Text(_imageTypeLabel(_prefs.get(UserPreferences.homeRowImageType(section.type)), l10n)),
+                  onTap: () => _showImageTypePicker(
+                    context,
+                    current: _prefs.get(UserPreferences.homeRowImageType(section.type)),
+                    onSelected: (value) => _setPerRowImageType(section.type, value),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

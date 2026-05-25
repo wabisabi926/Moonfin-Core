@@ -18,6 +18,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../navigation/destinations.dart';
 import '../../widgets/overlay_sheet.dart';
 import '../../widgets/focus/request_initial_focus.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 
 class DownloadSettingsScreen extends ConsumerWidget {
   const DownloadSettingsScreen({super.key});
@@ -35,10 +36,12 @@ class DownloadSettingsScreen extends ConsumerWidget {
     final storage = ref.watch(storageUsedProvider);
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.download)),
-      body: ListView(
-        children: [
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: AppBar(title: Text(l10n.download)),
+        body: ListView(
+          children: [
           _Section(title: l10n.quality),
           ListTile(
             leading: const Icon(Icons.high_quality),
@@ -108,7 +111,8 @@ class DownloadSettingsScreen extends ConsumerWidget {
             ),
             onTap: () => _confirmClearAll(context),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../preference/user_preferences.dart';
 import '../../../util/app_distribution.dart';
 import '../../widgets/app_update_dialog.dart';
+import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_tiles.dart';
 import '../../../l10n/app_localizations.dart';
 import 'settings_app_bar.dart';
@@ -22,49 +23,52 @@ class AboutScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final appVersion = GetIt.instance<DeviceInfo>().appVersion;
 
-    return Scaffold(
-      appBar: buildSettingsAppBar(context, Text(l10n.aboutTitle)),
-      body: ListView(
-        children: [
-          const SizedBox(height: 32),
-          Center(child: Image.asset('assets/images/logo_and_text.png', height: 80)),
-          const SizedBox(height: 4),
-          Center(child: Text(l10n.versionValue(appVersion))),
-          if (AppDistribution.supportsInAppUpdates) ...[
-            const SizedBox(height: 16),
-            const _CheckForUpdatesButton(),
-          ],
-          const SizedBox(height: 24),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.description),
-            title: Text(l10n.openSourceLicenses),
-            onTap: () => showLicensePage(
-              context: context,
-              applicationName: 'Moonfin',
-              applicationVersion: appVersion,
-              applicationIcon: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset('assets/images/logo_and_text.png', height: 48),
+    return withCleanSettingsTypography(
+      context,
+      Scaffold(
+        appBar: buildSettingsAppBar(context, Text(l10n.aboutTitle)),
+        body: ListView(
+          children: [
+            const SizedBox(height: 32),
+            Center(child: Image.asset('assets/images/logo_and_text.png', height: 80)),
+            const SizedBox(height: 4),
+            Center(child: Text(l10n.versionValue(appVersion))),
+            if (AppDistribution.supportsInAppUpdates) ...[
+              const SizedBox(height: 16),
+              const _CheckForUpdatesButton(),
+            ],
+            const SizedBox(height: 24),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.description),
+              title: Text(l10n.openSourceLicenses),
+              onTap: () => showLicensePage(
+                context: context,
+                applicationName: 'Moonfin',
+                applicationVersion: appVersion,
+                applicationIcon: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset('assets/images/logo_and_text.png', height: 48),
+                ),
               ),
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.code),
-            title: Text(l10n.sourceCode),
-            subtitle: Text(l10n.sourceCodeUrl),
-            onTap: () => launchUrl(Uri.parse('https://github.com/Moonfin-Client/Mobile-Desktop')),
-          ),
-          if (AppDistribution.supportsInAppUpdates) ...[
-            const Divider(),
-            SwitchPreferenceTile(
-              preference: UserPreferences.updateNotificationsEnabled,
-              title: l10n.updateNotifications,
-              subtitle: l10n.showWhenUpdatesAvailable,
-              icon: Icons.system_update,
+            ListTile(
+              leading: const Icon(Icons.code),
+              title: Text(l10n.sourceCode),
+              subtitle: Text(l10n.sourceCodeUrl),
+              onTap: () => launchUrl(Uri.parse('https://github.com/Moonfin-Client/Mobile-Desktop')),
             ),
+            if (AppDistribution.supportsInAppUpdates) ...[
+              const Divider(),
+              SwitchPreferenceTile(
+                preference: UserPreferences.updateNotificationsEnabled,
+                title: l10n.updateNotifications,
+                subtitle: l10n.showWhenUpdatesAvailable,
+                icon: Icons.system_update,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

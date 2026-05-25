@@ -150,6 +150,9 @@ flutter:
     - family: NeonPulseDisplay
       fonts:
         - asset: assets/fonts/ScienceGothic-Regular.ttf
+    - family: NotoSans
+      fonts:
+        - asset: assets/fonts/NotoSans-Regular.ttf
 
 msix_config:
   display_name: Moonfin
