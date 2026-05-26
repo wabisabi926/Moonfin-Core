@@ -105,22 +105,34 @@ class _ServerSelectScreenState extends State<ServerSelectScreen> {
 
   void _onAdditionState(ServerAdditionState state) {
     if (!mounted) return;
+    final shouldHandleAdditionState = _isConnecting || _isAddDialogOpen;
     switch (state) {
       case ServerConnecting():
+        if (!shouldHandleAdditionState) return;
         setState(() {
           _isConnecting = true;
           _errorMessage = null;
         });
       case ServerConnected(:final id):
+        if (!shouldHandleAdditionState) return;
         setState(() => _isConnecting = false);
         _addressController.clear();
         context.go('${Destinations.server}?serverId=$id');
       case ServerUnableToConnect():
+        if (!shouldHandleAdditionState) return;
         setState(() => _isConnecting = false);
     }
   }
 
   Future<void> _connectToDiscovered(DiscoveredServer discovered) async {
+    if (_isConnecting) return;
+    if (mounted) {
+      setState(() {
+        _isConnecting = true;
+        _errorMessage = null;
+      });
+    }
+
     try {
       await _serverRepo.addServer(discovered.address);
     } catch (e) {
@@ -436,7 +448,17 @@ class _FocusableTile extends StatefulWidget {
 
 class _FocusableTileState extends State<_FocusableTile> {
   bool _focused = false;
+  Timer? _selectHoldTimer;
+  bool _longPressFiredFromKey = false;
+  bool _selectKeyPressed = false;
   bool get _isMoonfin => ThemeRegistry.active.id == ThemeRegistry.moonfinId;
+
+  void _clearSelectKeyState() {
+    _selectHoldTimer?.cancel();
+    _selectHoldTimer = null;
+    _selectKeyPressed = false;
+    _longPressFiredFromKey = false;
+  }
 
   Color _tileIdleColor() {
     return _isMoonfin
@@ -445,29 +467,91 @@ class _FocusableTileState extends State<_FocusableTile> {
   }
 
   @override
+  void dispose() {
+    _clearSelectKeyState();
+    super.dispose();
+  }
+
+  KeyEventResult _onKeyEvent(FocusNode node, KeyEvent event) {
+    if (widget.onTap == null) return KeyEventResult.ignored;
+
+    if (!event.logicalKey.isSelectKey) {
+      return KeyEventResult.ignored;
+    }
+
+    if (event is KeyDownEvent) {
+      if (_selectKeyPressed) {
+        return KeyEventResult.handled;
+      }
+      _selectKeyPressed = true;
+      _longPressFiredFromKey = false;
+      _selectHoldTimer?.cancel();
+      if (widget.onLongPress != null) {
+        _selectHoldTimer = Timer(const Duration(milliseconds: 500), () {
+          _longPressFiredFromKey = true;
+          widget.onLongPress?.call();
+        });
+      }
+      return KeyEventResult.handled;
+    }
+
+    if (event is KeyRepeatEvent) {
+      if (widget.onLongPress != null && !_longPressFiredFromKey) {
+        _longPressFiredFromKey = true;
+        _selectHoldTimer?.cancel();
+        _selectHoldTimer = null;
+        widget.onLongPress?.call();
+      }
+      return KeyEventResult.handled;
+    }
+
+    if (event is KeyUpEvent) {
+      _selectKeyPressed = false;
+      _selectHoldTimer?.cancel();
+      _selectHoldTimer = null;
+      if (!_longPressFiredFromKey) {
+        widget.onTap?.call();
+      }
+      _longPressFiredFromKey = false;
+      return KeyEventResult.handled;
+    }
+
+    return KeyEventResult.ignored;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final radius = BorderRadius.circular(12);
     return Material(
       color: _focused ? _kAccent.withValues(alpha: 0.18) : _tileIdleColor(),
       borderRadius: radius,
-      child: InkWell(
-        borderRadius: radius,
-        focusColor: _kAccent.withValues(alpha: 0.2),
-        hoverColor: _kAccent.withValues(alpha: 0.12),
-        onFocusChange: (f) => setState(() => _focused = f),
-        onTap: widget.onTap,
-        onLongPress: widget.onLongPress,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 120),
-          decoration: BoxDecoration(
-            borderRadius: radius,
-            border: Border.all(
-              color: _focused ? _kAccent : Colors.transparent,
-              width: 2,
+      child: Focus(
+        onFocusChange: (f) {
+          if (!f) {
+            _clearSelectKeyState();
+          }
+          setState(() => _focused = f);
+        },
+        onKeyEvent: _onKeyEvent,
+        child: InkWell(
+          canRequestFocus: false,
+          borderRadius: radius,
+          focusColor: _kAccent.withValues(alpha: 0.2),
+          hoverColor: _kAccent.withValues(alpha: 0.12),
+          onTap: widget.onTap,
+          onLongPress: widget.onLongPress,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 120),
+            decoration: BoxDecoration(
+              borderRadius: radius,
+              border: Border.all(
+                color: _focused ? _kAccent : Colors.transparent,
+                width: 2,
+              ),
             ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: widget.child,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: widget.child,
         ),
       ),
     );

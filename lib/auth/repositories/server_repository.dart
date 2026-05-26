@@ -30,15 +30,28 @@ class ServerRepository {
     final stored = _authStore.getServers();
     _servers.clear();
 
+    final seenEndpoints = <String, String>{};
+
     for (final server in stored) {
       final normalizedAddress = normalizeServerBaseUrl(server.address);
+      final normalizedServer =
+          normalizedAddress != server.address && normalizedAddress.isNotEmpty
+          ? server.copyWith(address: normalizedAddress)
+          : server;
+
       if (normalizedAddress != server.address && normalizedAddress.isNotEmpty) {
-        final updated = server.copyWith(address: normalizedAddress);
-        await _authStore.putServer(updated);
-        _servers.add(updated);
-      } else {
-        _servers.add(server);
+        await _authStore.putServer(normalizedServer);
       }
+
+      final endpointKey = _endpointIdentity(normalizedServer.address);
+      final existingServerId = seenEndpoints[endpointKey];
+      if (existingServerId != null && existingServerId != normalizedServer.id) {
+        await _authStore.removeServer(normalizedServer.id);
+        continue;
+      }
+
+      seenEndpoints[endpointKey] = normalizedServer.id;
+      _servers.add(normalizedServer);
     }
   }
 
@@ -66,8 +79,11 @@ class ServerRepository {
         final serverAddress = resolvedUrl.isNotEmpty ? resolvedUrl : candidate;
         _logger.i('addServer probe success: candidate=$candidate resolved=$serverAddress type=$serverType version=${info['Version']}');
 
-        final existingIndex =
-            _servers.indexWhere((s) => s.address == serverAddress);
+        final existingIndex = _servers.indexWhere(
+          (s) =>
+              s.address == serverAddress ||
+              _endpointIdentity(s.address) == _endpointIdentity(serverAddress),
+        );
         if (existingIndex >= 0) {
           final existing = _servers[existingIndex];
           final updated = existing.copyWith(
@@ -219,6 +235,31 @@ class ServerRepository {
       addCandidate('http://$address:$port');
     }
     return candidates.toList();
+  }
+
+  String _endpointIdentity(String address) {
+    final normalized = normalizeServerBaseUrl(address);
+    final parseTarget = normalized.startsWith('http://') ||
+            normalized.startsWith('https://')
+        ? normalized
+        : 'https://$normalized';
+
+    final uri = Uri.tryParse(parseTarget);
+    if (uri == null || uri.host.isEmpty) {
+      return normalized.toLowerCase();
+    }
+
+    final host = uri.host.toLowerCase();
+    final path = uri.path.isEmpty ? '' : uri.path;
+    final port = uri.hasPort
+        ? uri.port
+        : (uri.scheme == 'http'
+              ? 80
+              : uri.scheme == 'https'
+              ? 443
+              : null);
+
+    return '$host:${port ?? ''}$path';
   }
 
   void dispose() {
