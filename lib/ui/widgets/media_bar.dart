@@ -18,6 +18,7 @@ import '../../data/models/media_bar_slide_item.dart';
 import '../../data/models/media_bar_state.dart';
 import '../../data/services/background_service.dart';
 import '../../data/services/media_server_client_factory.dart';
+import '../../data/services/sponsorblock_service.dart';
 import '../../data/services/youtube_stream_resolver.dart';
 import '../../data/viewmodels/media_bar_view_model.dart';
 import '../../preference/preference_constants.dart';
@@ -34,10 +35,7 @@ import 'rating_display.dart';
 import 'web_youtube_trailer.dart';
 
 List<Shadow> get _textShadows => [
-  Shadow(
-    blurRadius: 4,
-    color: AppColorScheme.scrim.withValues(alpha: 0.54),
-  ),
+  Shadow(blurRadius: 4, color: AppColorScheme.scrim.withValues(alpha: 0.54)),
 ];
 
 class MediaBar extends StatefulWidget {
@@ -67,7 +65,7 @@ class MediaBar extends StatefulWidget {
 }
 
 class _MediaBarState extends State<MediaBar>
-  with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   static const _openTimeout = Duration(seconds: 10);
   static const _previewRevealDelay = Duration(seconds: 3);
   static const _trailerResolveTimeout = Duration(seconds: 10);
@@ -79,6 +77,8 @@ class _MediaBarState extends State<MediaBar>
   final _backgroundService = GetIt.instance<BackgroundService>();
   final _playbackManager = GetIt.instance<PlaybackManager>();
   final _media3TrailerBackend = GetIt.instance<Media3PlayerBackend>();
+  final _sponsorBlockService = SponsorBlockService();
+  final _sponsorBlockSession = SponsorBlockSkipSession();
   bool _isHomeRouteActive = true;
 
   Timer? _autoAdvanceTimer;
@@ -98,6 +98,7 @@ class _MediaBarState extends State<MediaBar>
   StreamSubscription<bool>? _trailerCompletedSub;
   StreamSubscription<bool>? _media3TrailerCompletedSub;
   StreamSubscription<Map<String, dynamic>>? _media3EventSub;
+  StreamSubscription<Duration>? _trailerPositionSub;
   Timer? _trailerRevealTimer;
   Timer? _youTubeRevealTimer;
   double _trailerVideoOpacity = 0.0;
@@ -111,6 +112,8 @@ class _MediaBarState extends State<MediaBar>
   String? _activeYouTubeVideoId;
   String? _pendingYouTubeVideoId;
   bool _embeddedYouTubeAvailable = true;
+  bool _sponsorBlockSeekInFlight = false;
+  int _sponsorBlockToken = 0;
   String? _lastSyncedMakdBackdropUrl;
   final Set<String> _failedTrailerItemIds = <String>{};
   late bool _lastHardwareDecodingEnabled;
@@ -131,10 +134,7 @@ class _MediaBarState extends State<MediaBar>
       vsync: this,
       duration: const Duration(seconds: 10),
     );
-    _makdKenBurnsScale = Tween<double>(
-      begin: 1.0,
-      end: 1.08,
-    ).animate(
+    _makdKenBurnsScale = Tween<double>(begin: 1.0, end: 1.08).animate(
       CurvedAnimation(parent: _makdKenBurnsController, curve: Curves.easeOut),
     );
     _makdKenBurnsController.forward();
@@ -224,7 +224,8 @@ class _MediaBarState extends State<MediaBar>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    final isBackground = state == AppLifecycleState.paused ||
+    final isBackground =
+        state == AppLifecycleState.paused ||
         state == AppLifecycleState.hidden ||
         state == AppLifecycleState.detached ||
         (state == AppLifecycleState.inactive &&
@@ -256,7 +257,9 @@ class _MediaBarState extends State<MediaBar>
       final knownItemIds = state.items.map((item) => item.itemId).toSet();
       _failedTrailerItemIds.removeWhere((id) => !knownItemIds.contains(id));
     }
-    if (_isHomeRouteActive && state is MediaBarReady && state.items.isNotEmpty) {
+    if (_isHomeRouteActive &&
+        state is MediaBarReady &&
+        state.items.isNotEmpty) {
       _startAutoAdvance();
       if (_activeTrailerItemId == null && _currentIndex < state.items.length) {
         _scheduleTrailerPreview(state.items[_currentIndex]);
@@ -319,7 +322,10 @@ class _MediaBarState extends State<MediaBar>
     return mode == UserPreferences.mediaBarModeMakd;
   }
 
-  void _prefetchAllInBackground(List<MediaBarSlideItem> items, int centerIndex) {
+  void _prefetchAllInBackground(
+    List<MediaBarSlideItem> items,
+    int centerIndex,
+  ) {
     if (!mounted || items.isEmpty) return;
 
     final warmIndices = <int>{
@@ -394,10 +400,14 @@ class _MediaBarState extends State<MediaBar>
         _cancelTrailerPreview();
       }
     } else if (_trailerUsingMedia3) {
-      final audioEnabled = widget.prefs.get(UserPreferences.previewAudioEnabled);
+      final audioEnabled = widget.prefs.get(
+        UserPreferences.previewAudioEnabled,
+      );
       _media3TrailerBackend.setVolume(audioEnabled ? 100 : 0);
     } else if (_trailerPlayer != null) {
-      final audioEnabled = widget.prefs.get(UserPreferences.previewAudioEnabled);
+      final audioEnabled = widget.prefs.get(
+        UserPreferences.previewAudioEnabled,
+      );
       _trailerPlayer?.setVolume(audioEnabled ? 100 : 0);
     }
   }
@@ -433,22 +443,19 @@ class _MediaBarState extends State<MediaBar>
     if (_isTrailerPlaying) return;
     if (!_isHomeRouteActive) return;
     final intervalMs = widget.prefs.get(UserPreferences.mediaBarIntervalMs);
-    _autoAdvanceTimer = Timer.periodic(
-      Duration(milliseconds: intervalMs),
-      (_) {
-        if (_isPaused ||
-            _isTrailerPlaying ||
-            !mounted ||
-            widget.externallyPaused ||
-            !_isHomeRouteActive) {
-          return;
-        }
-        final items = widget.viewModel.items;
-        if (items.isEmpty) return;
-        final nextIndex = (_currentIndex + 1) % items.length;
-        _goToPage(nextIndex);
-      },
-    );
+    _autoAdvanceTimer = Timer.periodic(Duration(milliseconds: intervalMs), (_) {
+      if (_isPaused ||
+          _isTrailerPlaying ||
+          !mounted ||
+          widget.externallyPaused ||
+          !_isHomeRouteActive) {
+        return;
+      }
+      final items = widget.viewModel.items;
+      if (items.isEmpty) return;
+      final nextIndex = (_currentIndex + 1) % items.length;
+      _goToPage(nextIndex);
+    });
   }
 
   void _goToPage(int index) {
@@ -572,6 +579,7 @@ class _MediaBarState extends State<MediaBar>
     _activeTrailerItemId = null;
     _pendingTrailerItemId = null;
     _pendingYouTubeVideoId = null;
+    _clearSponsorBlockTracking();
     if (_activeYouTubeVideoId != null ||
         _trailerVideoOpacity != 0.0 ||
         wasUsingMedia3) {
@@ -586,7 +594,9 @@ class _MediaBarState extends State<MediaBar>
   }
 
   Future<void> _prepareTrailerPreview(
-      MediaBarSlideItem item, int resolveId) async {
+    MediaBarSlideItem item,
+    int resolveId,
+  ) async {
     if (_mainPlaybackActive || !_isHomeRouteCurrent()) {
       return;
     }
@@ -594,6 +604,7 @@ class _MediaBarState extends State<MediaBar>
     String? streamUrl;
     bool useYouTubeHeaders = false;
     String? youTubeVideoId;
+    String? sponsorBlockVideoId;
     final webOnly = PlatformDetection.isWeb;
     final supportsEmbeddedYouTube = _supportsEmbeddedYouTubePreview();
 
@@ -614,7 +625,8 @@ class _MediaBarState extends State<MediaBar>
       try {
         final fullItem = await client.itemsApi.getItem(item.itemId);
         if (!mounted || resolveId != _trailerResolveId) return;
-        remoteTrailers = (fullItem['RemoteTrailers'] as List?)
+        remoteTrailers =
+            (fullItem['RemoteTrailers'] as List?)
                 ?.cast<Map<String, dynamic>>() ??
             const [];
       } catch (_) {}
@@ -626,14 +638,15 @@ class _MediaBarState extends State<MediaBar>
         if (url == null) continue;
         final videoId = YouTubeStreamResolver.extractVideoId(url);
         if (videoId != null) {
+          sponsorBlockVideoId = videoId;
           if (supportsEmbeddedYouTube) {
             youTubeVideoId = videoId;
             break;
           }
           if (!webOnly) {
-            streamUrl = await YouTubeStreamResolver
-                .resolveFromUrl(url)
-                .timeout(_trailerResolveTimeout, onTimeout: () => null);
+            streamUrl = await YouTubeStreamResolver.resolveFromUrl(
+              url,
+            ).timeout(_trailerResolveTimeout, onTimeout: () => null);
             if (streamUrl != null) {
               useYouTubeHeaders = true;
             }
@@ -692,7 +705,10 @@ class _MediaBarState extends State<MediaBar>
         if (!mounted || resolveId != _trailerResolveId) return;
 
         final media = useYouTubeHeaders
-            ? Media(streamUrl, httpHeaders: YouTubeStreamResolver.youtubeHeaders)
+            ? Media(
+                streamUrl,
+                httpHeaders: YouTubeStreamResolver.youtubeHeaders,
+              )
             : Media(streamUrl);
         await player.open(media).timeout(_openTimeout);
         if (!mounted ||
@@ -708,6 +724,13 @@ class _MediaBarState extends State<MediaBar>
         _pendingTrailerItemId = null;
         _trailerVideoOpacity = 0;
       });
+
+      if (sponsorBlockVideoId != null && sponsorBlockVideoId.isNotEmpty) {
+        _startSponsorBlockTracking(sponsorBlockVideoId, resolveId);
+      } else {
+        _clearSponsorBlockTracking();
+      }
+
       await _tryRevealPreparedTrailer(item, resolveId);
     } catch (error) {
       _markTrailerFailed(item.itemId);
@@ -716,7 +739,9 @@ class _MediaBarState extends State<MediaBar>
   }
 
   Future<void> _tryRevealPreparedTrailer(
-      MediaBarSlideItem item, int resolveId) async {
+    MediaBarSlideItem item,
+    int resolveId,
+  ) async {
     if (!mounted || resolveId != _trailerResolveId) return;
     if (!_trailerRevealArmed) return;
     if (_activeTrailerItemId != item.itemId) return;
@@ -741,7 +766,9 @@ class _MediaBarState extends State<MediaBar>
     }
 
     if (_trailerUsingMedia3) {
-      final audioEnabled = widget.prefs.get(UserPreferences.previewAudioEnabled);
+      final audioEnabled = widget.prefs.get(
+        UserPreferences.previewAudioEnabled,
+      );
       try {
         await _media3TrailerBackend.setVolume(audioEnabled ? 100 : 0);
         if (!mounted || resolveId != _trailerResolveId) return;
@@ -810,7 +837,10 @@ class _MediaBarState extends State<MediaBar>
     var isBuffering = _media3TrailerBackend.isBuffering;
     var buffered = _media3TrailerBackend.buffer;
     var position = _media3TrailerBackend.position;
-    if (isPlaying && (!isBuffering || buffered > Duration.zero || position > Duration.zero)) {
+    if (isPlaying &&
+        (!isBuffering ||
+            buffered > Duration.zero ||
+            position > Duration.zero)) {
       return true;
     }
 
@@ -823,7 +853,9 @@ class _MediaBarState extends State<MediaBar>
     void checkReady() {
       if (!completer.isCompleted &&
           isPlaying &&
-          (!isBuffering || buffered > Duration.zero || position > Duration.zero)) {
+          (!isBuffering ||
+              buffered > Duration.zero ||
+              position > Duration.zero)) {
         completer.complete(true);
       }
     }
@@ -846,8 +878,10 @@ class _MediaBarState extends State<MediaBar>
     });
 
     try {
-      return await completer.future
-          .timeout(_trailerReadyTimeout, onTimeout: () => false);
+      return await completer.future.timeout(
+        _trailerReadyTimeout,
+        onTimeout: () => false,
+      );
     } finally {
       await playingSub.cancel();
       await bufferingSub.cancel();
@@ -856,14 +890,20 @@ class _MediaBarState extends State<MediaBar>
     }
   }
 
-  Future<bool> _waitForMediaKitTrailerReady(Player player, int resolveId) async {
+  Future<bool> _waitForMediaKitTrailerReady(
+    Player player,
+    int resolveId,
+  ) async {
     if (!mounted || resolveId != _trailerResolveId) return false;
 
     var isPlaying = player.state.playing;
     var isBuffering = player.state.buffering;
     var buffered = player.state.buffer;
     var position = player.state.position;
-    if (isPlaying && (!isBuffering || buffered > Duration.zero || position > Duration.zero)) {
+    if (isPlaying &&
+        (!isBuffering ||
+            buffered > Duration.zero ||
+            position > Duration.zero)) {
       return true;
     }
 
@@ -876,7 +916,9 @@ class _MediaBarState extends State<MediaBar>
     void checkReady() {
       if (!completer.isCompleted &&
           isPlaying &&
-          (!isBuffering || buffered > Duration.zero || position > Duration.zero)) {
+          (!isBuffering ||
+              buffered > Duration.zero ||
+              position > Duration.zero)) {
         completer.complete(true);
       }
     }
@@ -899,8 +941,10 @@ class _MediaBarState extends State<MediaBar>
     });
 
     try {
-      return await completer.future
-          .timeout(_trailerReadyTimeout, onTimeout: () => false);
+      return await completer.future.timeout(
+        _trailerReadyTimeout,
+        onTimeout: () => false,
+      );
     } finally {
       await playingSub.cancel();
       await bufferingSub.cancel();
@@ -941,6 +985,7 @@ class _MediaBarState extends State<MediaBar>
   }
 
   void _disposeTrailerPlayer() {
+    _clearSponsorBlockTracking();
     _trailerCompletedSub?.cancel();
     _trailerCompletedSub = null;
     _media3TrailerCompletedSub?.cancel();
@@ -953,6 +998,78 @@ class _MediaBarState extends State<MediaBar>
     _trailerPlayer?.dispose();
     _trailerPlayer = null;
     _trailerController = null;
+  }
+
+  void _clearSponsorBlockTracking() {
+    _sponsorBlockToken++;
+    _trailerPositionSub?.cancel();
+    _trailerPositionSub = null;
+    _sponsorBlockSeekInFlight = false;
+    _sponsorBlockSession.clear();
+  }
+
+  void _startSponsorBlockTracking(String videoId, int resolveId) {
+    _clearSponsorBlockTracking();
+    final token = ++_sponsorBlockToken;
+
+    if (_trailerUsingMedia3) {
+      _trailerPositionSub = _media3TrailerBackend.positionStream.listen((
+        position,
+      ) {
+        _handleSponsorBlockPosition(position);
+      });
+    } else {
+      final player = _trailerPlayer;
+      if (player == null) {
+        return;
+      }
+      _trailerPositionSub = player.stream.position.listen((position) {
+        _handleSponsorBlockPosition(position);
+      });
+    }
+
+    unawaited(() async {
+      final segments = await _sponsorBlockService.fetchSegments(
+        videoId,
+        categories: sponsorBlockDefaultCategories,
+      );
+      if (!mounted ||
+          resolveId != _trailerResolveId ||
+          token != _sponsorBlockToken) {
+        return;
+      }
+      _sponsorBlockSession.setSegments(segments);
+    }());
+  }
+
+  void _handleSponsorBlockPosition(Duration position) {
+    if (_sponsorBlockSeekInFlight || !_isTrailerPlaying) {
+      return;
+    }
+
+    final decision = _sponsorBlockSession.checkPosition(position);
+    if (!decision.shouldSkip || decision.skipTo == null) {
+      return;
+    }
+
+    final skipTo = decision.skipTo!;
+    if (skipTo <= position + const Duration(milliseconds: 500)) {
+      return;
+    }
+
+    _sponsorBlockSeekInFlight = true;
+    unawaited(() async {
+      try {
+        if (_trailerUsingMedia3) {
+          await _media3TrailerBackend.seekTo(skipTo);
+        } else {
+          await _trailerPlayer?.seek(skipTo);
+        }
+      } catch (_) {
+      } finally {
+        _sponsorBlockSeekInFlight = false;
+      }
+    }());
   }
 
   void _onTrailerCompleted(bool completed) {
@@ -1050,8 +1167,9 @@ class _MediaBarState extends State<MediaBar>
       return null;
     }
 
-    final preferred =
-        widget.prefs.get(UserPreferences.defaultAudioLanguage).trim();
+    final preferred = widget.prefs
+        .get(UserPreferences.defaultAudioLanguage)
+        .trim();
     if (preferred.isEmpty) {
       return first;
     }
@@ -1104,7 +1222,7 @@ class _MediaBarState extends State<MediaBar>
       for (final source in sources) {
         final sourceStreams =
             (source['MediaStreams'] as List?)?.whereType<Map>() ??
-                const <Map>[];
+            const <Map>[];
         for (final stream in sourceStreams) {
           final casted = stream.cast<String, dynamic>();
           if (casted['Type'] == 'Audio') {
@@ -1128,9 +1246,9 @@ class _MediaBarState extends State<MediaBar>
       'subtitleMethod': 'Drop',
       if (client.accessToken != null) 'ApiKey': client.accessToken!,
     };
-    return Uri.parse('${client.baseUrl}/Videos/$trailerId/stream')
-        .replace(queryParameters: params)
-        .toString();
+    return Uri.parse(
+      '${client.baseUrl}/Videos/$trailerId/stream',
+    ).replace(queryParameters: params).toString();
   }
 
   @override
@@ -1146,16 +1264,17 @@ class _MediaBarState extends State<MediaBar>
       MediaBarLoading() => SizedBox(height: widget.height),
       MediaBarDisabled() => const SizedBox.shrink(),
       MediaBarError(message: final message) => _buildStatusPanel(
-          context,
-          title: l10n.mediaBarError,
-          detail: message,
-          showRetry: true,
-        ),
-      MediaBarReady(items: final items) => items.isEmpty
-          ? const SizedBox.shrink()
-          : (useMakdStyle
-                ? _buildMakdSlideshow(context, items)
-                : _buildSlideshow(context, items)),
+        context,
+        title: l10n.mediaBarError,
+        detail: message,
+        showRetry: true,
+      ),
+      MediaBarReady(items: final items) =>
+        items.isEmpty
+            ? const SizedBox.shrink()
+            : (useMakdStyle
+                  ? _buildMakdSlideshow(context, items)
+                  : _buildSlideshow(context, items)),
     };
   }
 
@@ -1174,16 +1293,15 @@ class _MediaBarState extends State<MediaBar>
           decoration: BoxDecoration(
             color: AppColorScheme.scrim.withValues(alpha: 0.35),
             borderRadius: BorderRadius.circular(12),
-            border: Border.fromBorderSide(ThemeRegistry.active.borders.cardBorder),
+            border: Border.fromBorderSide(
+              ThemeRegistry.active.borders.cardBorder,
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               children: [
-                Icon(
-                  Icons.slideshow,
-                  color: AppColorScheme.accent,
-                ),
+                Icon(Icons.slideshow, color: AppColorScheme.accent),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -1201,9 +1319,12 @@ class _MediaBarState extends State<MediaBar>
                           detail,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColorScheme.onSurface.withValues(alpha: 0.85),
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: AppColorScheme.onSurface.withValues(
+                                  alpha: 0.85,
+                                ),
+                              ),
                         ),
                     ],
                   ),
@@ -1227,20 +1348,24 @@ class _MediaBarState extends State<MediaBar>
     final currentItem = items.elementAtOrNull(_currentIndex);
 
     final isMobile = PlatformDetection.useMobileUi;
-    final isTablet = isMobile && MediaQuery.of(context).size.shortestSide >= 600;
+    final isTablet =
+        isMobile && MediaQuery.of(context).size.shortestSide >= 600;
     final hasTvLeftSidebar =
         PlatformDetection.isTV &&
-        widget.prefs.get(UserPreferences.navbarPosition) ==
-            NavbarPosition.left;
+        widget.prefs.get(UserPreferences.navbarPosition) == NavbarPosition.left;
     final logoLeftInset = 16.0 + (hasTvLeftSidebar ? 72.0 : 0.0);
-    final navbarAtTop = isMobile &&
-        (widget.prefs.get(UserPreferences.navbarPosition) == NavbarPosition.top);
-    final toolbarInset = navbarAtTop ? MediaQuery.of(context).padding.top + 60.0 : 0.0;
+    final navbarAtTop =
+        isMobile &&
+        (widget.prefs.get(UserPreferences.navbarPosition) ==
+            NavbarPosition.top);
+    final toolbarInset = navbarAtTop
+        ? MediaQuery.of(context).padding.top + 60.0
+        : 0.0;
     final hasVisibleTrailerVideo =
-      (_activeYouTubeVideoId != null ||
-        _trailerUsingMedia3 ||
-        _trailerController != null) &&
-      _trailerVideoOpacity > 0;
+        (_activeYouTubeVideoId != null ||
+            _trailerUsingMedia3 ||
+            _trailerController != null) &&
+        _trailerVideoOpacity > 0;
 
     return MouseRegion(
       onEnter: (_) => _setPaused(true),
@@ -1262,127 +1387,146 @@ class _MediaBarState extends State<MediaBar>
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                AnimatedOpacity(
-                  opacity: hasVisibleTrailerVideo ? 0 : 1,
-                  duration: const Duration(milliseconds: 250),
-                  child: _BackdropLayer(
-                    items: items,
-                    pageController: _pageController,
-                    onPageChanged: _onPageChanged,
-                  ),
-                ),
-                ..._buildVideoOverlays(),
-                _GradientOverlay(
-                  color: overlayColor,
-                  opacity: overlayOpacity,
-                ),
-                if (items.length > 1)
-                  Positioned(
-                    bottom: 8,
-                    left: 0,
-                    right: 0,
-                    child: _IndicatorDots(
-                      count: items.length,
-                      current: _currentIndex,
-                      overlayColor: overlayColor,
-                      overlayOpacity: overlayOpacity,
+                  AnimatedOpacity(
+                    opacity: hasVisibleTrailerVideo ? 0 : 1,
+                    duration: const Duration(milliseconds: 250),
+                    child: _BackdropLayer(
+                      items: items,
+                      pageController: _pageController,
+                      onPageChanged: _onPageChanged,
                     ),
                   ),
-                if (currentItem != null && currentItem.logoUrl != null && (!isMobile || isTablet))
-                  Positioned(
-                    top: MediaQuery.of(context).padding.top + 56,
-                    left: logoLeftInset,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: SizedBox(
-                        key: ValueKey('logo_${currentItem.itemId}'),
-                        width: 280,
-                        height: 120,
-                        child: _buildLogoWithShadow(currentItem.logoUrl!),
+                  ..._buildVideoOverlays(),
+                  _GradientOverlay(
+                    color: overlayColor,
+                    opacity: overlayOpacity,
+                  ),
+                  if (items.length > 1)
+                    Positioned(
+                      bottom: 8,
+                      left: 0,
+                      right: 0,
+                      child: _IndicatorDots(
+                        count: items.length,
+                        current: _currentIndex,
+                        overlayColor: overlayColor,
+                        overlayOpacity: overlayOpacity,
                       ),
                     ),
-                  ),
-                if (currentItem != null)
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      behavior: PlatformDetection.useMobileUi
-                          ? HitTestBehavior.translucent
-                          : HitTestBehavior.deferToChild,
-                      onHorizontalDragEnd: PlatformDetection.useMobileUi
-                          ? (details) {
-                              final velocity = details.primaryVelocity ?? 0;
-                              if (velocity < -300 && _currentIndex < items.length - 1) {
-                                _goToPage(_currentIndex + 1);
-                              } else if (velocity > 300 && _currentIndex > 0) {
-                                _goToPage(_currentIndex - 1);
-                              }
-                            }
-                          : null,
+                  if (currentItem != null &&
+                      currentItem.logoUrl != null &&
+                      (!isMobile || isTablet))
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top + 56,
+                      left: logoLeftInset,
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 300),
-                        child: Column(
-                          key: ValueKey(currentItem.itemId),
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (isMobile && !isTablet && currentItem.logoUrl != null)
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16, bottom: 8),
-                                child: SizedBox(
-                                  width: 180,
-                                  height: 70,
-                                  child: _buildLogoWithShadow(currentItem.logoUrl!),
-                                ),
-                              ),
-                            _SlideInfo(
-                              item: currentItem,
-                              ratings: widget.viewModel.ratingsFor(currentItem.itemId),
-                              enableAdditionalRatings: widget.prefs.get(
-                                UserPreferences.enableAdditionalRatings,
-                              ),
-                              enabledRatings: widget.prefs.get(UserPreferences.enabledRatings),
-                              showLabels: widget.prefs.get(UserPreferences.showRatingLabels),
-                              showBadges: widget.prefs.get(UserPreferences.showRatingBadges),
-                            ),
-                          ],
+                        child: SizedBox(
+                          key: ValueKey('logo_${currentItem.itemId}'),
+                          width: 280,
+                          height: 120,
+                          child: _buildLogoWithShadow(currentItem.logoUrl!),
                         ),
                       ),
                     ),
-                  ),
-                if (items.length > 1 && !PlatformDetection.useMobileUi) ...[
-                  if (!_hideLeftNavArrowForSidebar)
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: Center(
-                      child: _NavArrow(
-                        icon: Icons.chevron_left,
-                        onTap: _currentIndex > 0
-                            ? () => _goToPage(_currentIndex - 1)
+                  if (currentItem != null)
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        behavior: PlatformDetection.useMobileUi
+                            ? HitTestBehavior.translucent
+                            : HitTestBehavior.deferToChild,
+                        onHorizontalDragEnd: PlatformDetection.useMobileUi
+                            ? (details) {
+                                final velocity = details.primaryVelocity ?? 0;
+                                if (velocity < -300 &&
+                                    _currentIndex < items.length - 1) {
+                                  _goToPage(_currentIndex + 1);
+                                } else if (velocity > 300 &&
+                                    _currentIndex > 0) {
+                                  _goToPage(_currentIndex - 1);
+                                }
+                              }
                             : null,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: Column(
+                            key: ValueKey(currentItem.itemId),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (isMobile &&
+                                  !isTablet &&
+                                  currentItem.logoUrl != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16,
+                                    bottom: 8,
+                                  ),
+                                  child: SizedBox(
+                                    width: 180,
+                                    height: 70,
+                                    child: _buildLogoWithShadow(
+                                      currentItem.logoUrl!,
+                                    ),
+                                  ),
+                                ),
+                              _SlideInfo(
+                                item: currentItem,
+                                ratings: widget.viewModel.ratingsFor(
+                                  currentItem.itemId,
+                                ),
+                                enableAdditionalRatings: widget.prefs.get(
+                                  UserPreferences.enableAdditionalRatings,
+                                ),
+                                enabledRatings: widget.prefs.get(
+                                  UserPreferences.enabledRatings,
+                                ),
+                                showLabels: widget.prefs.get(
+                                  UserPreferences.showRatingLabels,
+                                ),
+                                showBadges: widget.prefs.get(
+                                  UserPreferences.showRatingBadges,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: Center(
-                      child: _NavArrow(
-                        icon: Icons.chevron_right,
-                        onTap: _currentIndex < items.length - 1
-                            ? () => _goToPage(_currentIndex + 1)
-                            : null,
+                  if (items.length > 1 && !PlatformDetection.useMobileUi) ...[
+                    if (!_hideLeftNavArrowForSidebar)
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: Center(
+                          child: _NavArrow(
+                            icon: Icons.chevron_left,
+                            onTap: _currentIndex > 0
+                                ? () => _goToPage(_currentIndex - 1)
+                                : null,
+                          ),
+                        ),
+                      ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: Center(
+                        child: _NavArrow(
+                          icon: Icons.chevron_right,
+                          onTap: _currentIndex < items.length - 1
+                              ? () => _goToPage(_currentIndex + 1)
+                              : null,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
-              ],
-            ),
+              ),
             ),
           ),
         ),
@@ -1390,20 +1534,29 @@ class _MediaBarState extends State<MediaBar>
     );
   }
 
-  Widget _buildMakdSlideshow(BuildContext context, List<MediaBarSlideItem> items) {
+  Widget _buildMakdSlideshow(
+    BuildContext context,
+    List<MediaBarSlideItem> items,
+  ) {
     final currentItem = items.elementAtOrNull(_currentIndex);
     final isMobile = PlatformDetection.useMobileUi;
     final navbarAtTop =
-      isMobile &&
-      (widget.prefs.get(UserPreferences.navbarPosition) == NavbarPosition.top);
-    final toolbarInset = navbarAtTop ? MediaQuery.of(context).padding.top + 60.0 : 0.0;
+        isMobile &&
+        (widget.prefs.get(UserPreferences.navbarPosition) ==
+            NavbarPosition.top);
+    final toolbarInset = navbarAtTop
+        ? MediaQuery.of(context).padding.top + 60.0
+        : 0.0;
     final effectiveTopInset = isMobile ? 0.0 : toolbarInset;
-    final contentWidth = (MediaQuery.of(context).size.width * 0.42).clamp(280.0, 560.0);
+    final contentWidth = (MediaQuery.of(context).size.width * 0.42).clamp(
+      280.0,
+      560.0,
+    );
     final hasVisibleTrailerVideo =
-      (_activeYouTubeVideoId != null ||
-        _trailerUsingMedia3 ||
-        _trailerController != null) &&
-      _trailerVideoOpacity > 0;
+        (_activeYouTubeVideoId != null ||
+            _trailerUsingMedia3 ||
+            _trailerController != null) &&
+        _trailerVideoOpacity > 0;
 
     return MouseRegion(
       onEnter: (_) => _setPaused(true),
@@ -1457,22 +1610,22 @@ class _MediaBarState extends State<MediaBar>
                     ),
                   if (!isMobile) ..._buildVideoOverlays(),
                   if (!isMobile)
-                  Positioned.fill(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            AppColorScheme.scrim.withValues(alpha: 0.78),
-                            AppColorScheme.scrim.withValues(alpha: 0.46),
-                            AppColorScheme.scrim.withValues(alpha: 0.06),
-                          ],
-                          stops: const [0.0, 0.46, 1.0],
+                    Positioned.fill(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              AppColorScheme.scrim.withValues(alpha: 0.78),
+                              AppColorScheme.scrim.withValues(alpha: 0.46),
+                              AppColorScheme.scrim.withValues(alpha: 0.06),
+                            ],
+                            stops: const [0.0, 0.46, 1.0],
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   if (!isMobile)
                     Positioned.fill(
                       child: DecoratedBox(
@@ -1491,46 +1644,72 @@ class _MediaBarState extends State<MediaBar>
                       ),
                     ),
                   if (currentItem != null && currentItem.logoUrl != null)
-                    Builder(builder: (context) {
-                      final contentHeight = widget.height - effectiveTopInset;
-                      final screenWidth = MediaQuery.of(context).size.width;
-                      final logoTop = contentHeight * 0.22;
-                      final logoWidth = (screenWidth * 0.45).clamp(220.0, 640.0);
-                      final logoHeight = (contentHeight * 0.35).clamp(90.0, 300.0);
-                      final mobileLogoHeight = (contentHeight * 0.18).clamp(58.0, 112.0);
-                      final mobileLogoWidth = (screenWidth * 0.7).clamp(190.0, 380.0);
-                      final mobileLogoTop =
-                          (contentHeight * 0.5 - mobileLogoHeight / 2)
-                              .clamp(8.0, contentHeight * 0.56);
-                      return Positioned(
-                        left: isMobile ? null : 50,
-                        top: isMobile ? mobileLogoTop : logoTop,
-                        child: isMobile
-                            ? SizedBox(
-                                width: screenWidth,
-                                child: Center(
-                                  child: AnimatedSwitcher(
-                                    duration: const Duration(milliseconds: 300),
-                                    child: SizedBox(
-                                      key: ValueKey('makd_logo_${currentItem.itemId}'),
-                                      width: mobileLogoWidth,
-                                      height: mobileLogoHeight,
-                                      child: _buildLogoWithShadow(currentItem.logoUrl!),
+                    Builder(
+                      builder: (context) {
+                        final contentHeight = widget.height - effectiveTopInset;
+                        final screenWidth = MediaQuery.of(context).size.width;
+                        final logoTop = contentHeight * 0.22;
+                        final logoWidth = (screenWidth * 0.45).clamp(
+                          220.0,
+                          640.0,
+                        );
+                        final logoHeight = (contentHeight * 0.35).clamp(
+                          90.0,
+                          300.0,
+                        );
+                        final mobileLogoHeight = (contentHeight * 0.18).clamp(
+                          58.0,
+                          112.0,
+                        );
+                        final mobileLogoWidth = (screenWidth * 0.7).clamp(
+                          190.0,
+                          380.0,
+                        );
+                        final mobileLogoTop =
+                            (contentHeight * 0.5 - mobileLogoHeight / 2).clamp(
+                              8.0,
+                              contentHeight * 0.56,
+                            );
+                        return Positioned(
+                          left: isMobile ? null : 50,
+                          top: isMobile ? mobileLogoTop : logoTop,
+                          child: isMobile
+                              ? SizedBox(
+                                  width: screenWidth,
+                                  child: Center(
+                                    child: AnimatedSwitcher(
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      child: SizedBox(
+                                        key: ValueKey(
+                                          'makd_logo_${currentItem.itemId}',
+                                        ),
+                                        width: mobileLogoWidth,
+                                        height: mobileLogoHeight,
+                                        child: _buildLogoWithShadow(
+                                          currentItem.logoUrl!,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 300),
+                                  child: SizedBox(
+                                    key: ValueKey(
+                                      'makd_logo_${currentItem.itemId}',
+                                    ),
+                                    width: logoWidth,
+                                    height: logoHeight,
+                                    child: _buildLogoWithShadow(
+                                      currentItem.logoUrl!,
                                     ),
                                   ),
                                 ),
-                              )
-                            : AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 300),
-                                child: SizedBox(
-                                  key: ValueKey('makd_logo_${currentItem.itemId}'),
-                                  width: logoWidth,
-                                  height: logoHeight,
-                                  child: _buildLogoWithShadow(currentItem.logoUrl!),
-                                ),
-                              ),
-                      );
-                    }),
+                        );
+                      },
+                    ),
                   if (currentItem != null)
                     Positioned(
                       left: isMobile ? 0 : 50,
@@ -1545,17 +1724,28 @@ class _MediaBarState extends State<MediaBar>
                           child: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 320),
                             child: _MakdContent(
-                              key: ValueKey('makd_content_${currentItem.itemId}'),
+                              key: ValueKey(
+                                'makd_content_${currentItem.itemId}',
+                              ),
                               item: currentItem,
-                              ratings: widget.viewModel.ratingsFor(currentItem.itemId),
+                              ratings: widget.viewModel.ratingsFor(
+                                currentItem.itemId,
+                              ),
                               enableAdditionalRatings: widget.prefs.get(
                                 UserPreferences.enableAdditionalRatings,
                               ),
-                              enabledRatings: widget.prefs.get(UserPreferences.enabledRatings),
-                              showLabels: widget.prefs.get(UserPreferences.showRatingLabels),
-                              showBadges: widget.prefs.get(UserPreferences.showRatingBadges),
+                              enabledRatings: widget.prefs.get(
+                                UserPreferences.enabledRatings,
+                              ),
+                              showLabels: widget.prefs.get(
+                                UserPreferences.showRatingLabels,
+                              ),
+                              showBadges: widget.prefs.get(
+                                UserPreferences.showRatingBadges,
+                              ),
                               isMobile: isMobile,
-                              onPlay: () => _navigateToItemAndPlay(context, items),
+                              onPlay: () =>
+                                  _navigateToItemAndPlay(context, items),
                               onInfo: () => _navigateToItem(context, items),
                             ),
                           ),
@@ -1644,8 +1834,7 @@ class _MediaBarState extends State<MediaBar>
         final shouldSuppressBleedThrough =
             downTime == null &&
             focusedAt != null &&
-            now.difference(focusedAt) <
-                _focusActivationGuardDuration;
+            now.difference(focusedAt) < _focusActivationGuardDuration;
         if (shouldSuppressBleedThrough) {
           return KeyEventResult.handled;
         }
@@ -1741,7 +1930,8 @@ class _MediaBarState extends State<MediaBar>
                         loop: true,
                         onPlaybackStarted: _onYouTubePlaybackStarted,
                         onAutoplayFailed: _handleYouTubeAutoplayFailed,
-                        onEmbeddedUnavailable: _handleEmbeddedYouTubeUnavailable,
+                        onEmbeddedUnavailable:
+                            _handleEmbeddedYouTubeUnavailable,
                         autoplayTimeout: const Duration(seconds: 7),
                       ),
                     );
@@ -1754,7 +1944,10 @@ class _MediaBarState extends State<MediaBar>
     ];
   }
 
-  void _navigateToItemAndPlay(BuildContext context, List<MediaBarSlideItem> items) {
+  void _navigateToItemAndPlay(
+    BuildContext context,
+    List<MediaBarSlideItem> items,
+  ) {
     final item = items.elementAtOrNull(_currentIndex);
     if (item != null) {
       _cancelTrailerPreview();
@@ -1888,7 +2081,9 @@ class _NavArrow extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColorScheme.scrim.withValues(alpha: 0.4),
-                border: Border.fromBorderSide(ThemeRegistry.active.borders.cardBorder),
+                border: Border.fromBorderSide(
+                  ThemeRegistry.active.borders.cardBorder,
+                ),
               ),
               child: Icon(
                 icon,
@@ -1927,10 +2122,7 @@ class _SlideInfo extends StatelessWidget {
 
     final infoCard = Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 12,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         // Higher opacity on web compensates for the missing blur.
         color: AppColorScheme.scrim.withValues(alpha: kIsWeb ? 0.6 : 0.35),
@@ -1942,7 +2134,9 @@ class _SlideInfo extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _MetadataRow(item: item),
-          if (ratings.isNotEmpty || item.communityRating != null || item.criticRating != null) ...[
+          if (ratings.isNotEmpty ||
+              item.communityRating != null ||
+              item.criticRating != null) ...[
             const SizedBox(height: 6),
             RatingsRow(
               ratings: ratings,
@@ -1956,7 +2150,8 @@ class _SlideInfo extends StatelessWidget {
           ],
           const SizedBox(height: 8),
           SizedBox(
-            height: ((isMobile
+            height:
+                ((isMobile
                         ? theme.textTheme.bodySmall?.fontSize
                         : theme.textTheme.bodyMedium?.fontSize) ??
                     14) *
@@ -1964,13 +2159,14 @@ class _SlideInfo extends StatelessWidget {
                 (isMobile ? 2 : 3),
             child: Text(
               item.overview ?? '',
-              style: (isMobile
-                      ? theme.textTheme.bodySmall
-                      : theme.textTheme.bodyMedium)
-                  ?.copyWith(
-                color: AppColorScheme.onSurface.withValues(alpha: 0.9),
-                shadows: _textShadows,
-              ),
+              style:
+                  (isMobile
+                          ? theme.textTheme.bodySmall
+                          : theme.textTheme.bodyMedium)
+                      ?.copyWith(
+                        color: AppColorScheme.onSurface.withValues(alpha: 0.9),
+                        shadows: _textShadows,
+                      ),
               maxLines: isMobile ? 2 : 3,
               overflow: TextOverflow.ellipsis,
             ),
@@ -2032,13 +2228,15 @@ class _MetadataRow extends StatelessWidget {
     for (var i = 0; i < parts.length; i++) {
       separated.add(parts[i]);
       if (i < parts.length - 1) {
-        separated.add(Text(
-          ' \u2022 ',
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: AppColorScheme.onSurface.withValues(alpha: 0.5),
-            shadows: _textShadows,
+        separated.add(
+          Text(
+            ' \u2022 ',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: AppColorScheme.onSurface.withValues(alpha: 0.5),
+              shadows: _textShadows,
+            ),
           ),
-        ));
+        );
       }
     }
 
@@ -2132,10 +2330,7 @@ class _MakdDots extends StatelessWidget {
   final int count;
   final int current;
 
-  const _MakdDots({
-    required this.count,
-    required this.current,
-  });
+  const _MakdDots({required this.count, required this.current});
 
   @override
   Widget build(BuildContext context) {
@@ -2188,14 +2383,17 @@ class _MakdContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final crossAxis =
-        isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start;
+    final crossAxis = isMobile
+        ? CrossAxisAlignment.center
+        : CrossAxisAlignment.start;
     return Column(
       crossAxisAlignment: crossAxis,
       mainAxisSize: MainAxisSize.min,
       children: [
         _MetadataRow(item: item),
-        if (ratings.isNotEmpty || item.communityRating != null || item.criticRating != null) ...[
+        if (ratings.isNotEmpty ||
+            item.communityRating != null ||
+            item.criticRating != null) ...[
           const SizedBox(height: 6),
           RatingsRow(
             ratings: ratings,
@@ -2222,7 +2420,11 @@ class _MakdContent extends StatelessWidget {
         ],
         const SizedBox(height: 14),
         if (!PlatformDetection.isTV)
-          _MakdActionButtons(onPlay: onPlay, onInfo: onInfo, isMobile: isMobile),
+          _MakdActionButtons(
+            onPlay: onPlay,
+            onInfo: onInfo,
+            isMobile: isMobile,
+          ),
       ],
     );
   }

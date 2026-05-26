@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart' show debugPrint, kDebugMode, kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 
+import '../../../data/services/sponsorblock_service.dart';
 import '../../../data/services/youtube_stream_resolver.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../util/platform_detection.dart';
@@ -26,16 +27,16 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
 
   Player? _player;
   VideoController? _controller;
+  StreamSubscription<Duration>? _sponsorBlockPositionSub;
+  final _sponsorBlockService = SponsorBlockService();
+  final _sponsorBlockSession = SponsorBlockSkipSession();
   bool _loading = true;
   String? _error;
   String? _webVideoId;
   bool _useEmbeddedYouTube = false;
   bool _embedFallbackTriggered = false;
-
-  void _debugLog(String message) {
-    if (!kDebugMode) return;
-    debugPrint('[TrailerPlayerScreen] $message');
-  }
+  bool _sponsorBlockSeekInFlight = false;
+  int _sponsorBlockToken = 0;
 
   bool get _supportsEmbeddedYouTubePlatform {
     return PlatformDetection.isAndroid ||
@@ -47,7 +48,6 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
   void initState() {
     super.initState();
     final resolvedVideoId = _resolvedVideoId();
-    _debugLog('init videoId=${widget.videoId} trailerUrl=${widget.trailerUrl} resolvedVideoId=$resolvedVideoId supportsEmbedded=$_supportsEmbeddedYouTubePlatform isWeb=$kIsWeb');
 
     if (kIsWeb) {
       if (resolvedVideoId == null || resolvedVideoId.isEmpty) {
@@ -84,10 +84,7 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
   }
 
   void _startStreamPlaybackPath() {
-    _debugLog('start stream playback path');
-    _player ??= Player(
-      configuration: const PlayerConfiguration(libass: false),
-    );
+    _player ??= Player(configuration: const PlayerConfiguration(libass: false));
     _controller ??= VideoController(
       _player!,
       configuration: VideoControllerConfiguration(
@@ -98,7 +95,6 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
   }
 
   void _onEmbeddedPlaybackStarted() {
-    _debugLog('embedded playback started callback');
     if (!mounted || !_loading) {
       return;
     }
@@ -109,7 +105,6 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
     if (_embedFallbackTriggered || !_useEmbeddedYouTube) {
       return;
     }
-    _debugLog('embedded fallback triggered -> stream playback');
     _embedFallbackTriggered = true;
     setState(() {
       _useEmbeddedYouTube = false;
@@ -121,6 +116,7 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
 
   @override
   void dispose() {
+    _sponsorBlockPositionSub?.cancel();
     _player?.stop();
     _player?.dispose();
     super.dispose();
@@ -128,42 +124,38 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
 
   Future<void> _openTrailer() async {
     String? streamUrl;
+    String? sponsorBlockVideoId;
     bool useYouTubeHeaders = false;
 
     if (widget.videoId != null && widget.videoId!.isNotEmpty) {
-      _debugLog('resolving stream from videoId=${widget.videoId}');
-      streamUrl = await YouTubeStreamResolver
-          .resolve(widget.videoId!)
-          .timeout(_resolveTimeout, onTimeout: () => null);
+      sponsorBlockVideoId = widget.videoId;
+      streamUrl = await YouTubeStreamResolver.resolve(
+        widget.videoId!,
+      ).timeout(_resolveTimeout, onTimeout: () => null);
       if (streamUrl != null && streamUrl.isNotEmpty) {
         useYouTubeHeaders = true;
-        _debugLog('resolved direct videoId stream url');
       } else {
         streamUrl = 'https://www.youtube.com/watch?v=${widget.videoId!}';
         useYouTubeHeaders = false;
-        _debugLog('resolver failed for videoId, fallback to watch url');
       }
     } else if (widget.trailerUrl != null && widget.trailerUrl!.isNotEmpty) {
       final trailerUrl = widget.trailerUrl!;
       final youtubeVideoId = YouTubeStreamResolver.extractVideoId(trailerUrl);
-      _debugLog('resolving stream from trailerUrl youtubeVideoId=$youtubeVideoId');
-      streamUrl = await YouTubeStreamResolver
-          .resolveFromUrl(trailerUrl)
-          .timeout(_resolveTimeout, onTimeout: () => null);
+      sponsorBlockVideoId = youtubeVideoId;
+      streamUrl = await YouTubeStreamResolver.resolveFromUrl(
+        trailerUrl,
+      ).timeout(_resolveTimeout, onTimeout: () => null);
       if (streamUrl != null && streamUrl.isNotEmpty) {
         useYouTubeHeaders = youtubeVideoId != null;
-        _debugLog('resolved trailerUrl stream useYouTubeHeaders=$useYouTubeHeaders');
       } else {
         streamUrl = trailerUrl;
         useYouTubeHeaders = false;
-        _debugLog('resolver failed for trailerUrl, fallback to raw trailer url');
       }
     }
 
     if (!mounted) return;
 
     if (streamUrl == null || streamUrl.isEmpty) {
-      _debugLog('open trailer aborted: no stream url');
       final l10n = AppLocalizations.of(context);
       setState(() {
         _loading = false;
@@ -173,26 +165,28 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
     }
 
     try {
-      _debugLog('opening stream useYouTubeHeaders=$useYouTubeHeaders');
       final media = useYouTubeHeaders
           ? Media(streamUrl, httpHeaders: YouTubeStreamResolver.youtubeHeaders)
           : Media(streamUrl);
       await _player!.open(media).timeout(_openTimeout);
       if (!mounted) return;
-      _debugLog('stream open succeeded');
       setState(() {
         _loading = false;
       });
+
+      if (sponsorBlockVideoId != null && sponsorBlockVideoId.isNotEmpty) {
+        _startSponsorBlockTracking(sponsorBlockVideoId);
+      } else {
+        _clearSponsorBlockTracking();
+      }
     } on TimeoutException {
-      _debugLog('stream open timed out after $_openTimeout');
       if (!mounted) return;
       final l10n = AppLocalizations.of(context);
       setState(() {
         _loading = false;
         _error = l10n.trailerTimedOut;
       });
-    } catch (error) {
-      _debugLog('stream open failed: $error');
+    } catch (_) {
       if (!mounted) return;
       final l10n = AppLocalizations.of(context);
       setState(() {
@@ -200,6 +194,66 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
         _error = l10n.playbackFailedForTrailer;
       });
     }
+  }
+
+  void _clearSponsorBlockTracking() {
+    _sponsorBlockToken++;
+    _sponsorBlockPositionSub?.cancel();
+    _sponsorBlockPositionSub = null;
+    _sponsorBlockSeekInFlight = false;
+    _sponsorBlockSession.clear();
+  }
+
+  void _startSponsorBlockTracking(String videoId) {
+    final player = _player;
+    if (player == null) {
+      _clearSponsorBlockTracking();
+      return;
+    }
+
+    _clearSponsorBlockTracking();
+    final token = ++_sponsorBlockToken;
+    _sponsorBlockPositionSub = player.stream.position.listen((position) {
+      _handleSponsorBlockPosition(position);
+    });
+
+    unawaited(() async {
+      final segments = await _sponsorBlockService.fetchSegments(
+        videoId,
+        categories: sponsorBlockDefaultCategories,
+      );
+      if (!mounted || token != _sponsorBlockToken) {
+        return;
+      }
+      _sponsorBlockSession.setSegments(segments);
+    }());
+  }
+
+  void _handleSponsorBlockPosition(Duration position) {
+    final player = _player;
+    if (player == null || _sponsorBlockSeekInFlight) {
+      return;
+    }
+
+    final decision = _sponsorBlockSession.checkPosition(position);
+    if (!decision.shouldSkip || decision.skipTo == null) {
+      return;
+    }
+
+    final skipTo = decision.skipTo!;
+    if (skipTo <= position + const Duration(milliseconds: 500)) {
+      return;
+    }
+
+    _sponsorBlockSeekInFlight = true;
+    unawaited(() async {
+      try {
+        await player.seek(skipTo);
+      } catch (_) {
+      } finally {
+        _sponsorBlockSeekInFlight = false;
+      }
+    }());
   }
 
   @override
@@ -240,8 +294,7 @@ class _TrailerPlayerScreenState extends State<TrailerPlayerScreen> {
                         : const SizedBox.shrink()),
             ),
           ),
-          if (_loading)
-            const Center(child: CircularProgressIndicator()),
+          if (_loading) const Center(child: CircularProgressIndicator()),
           if (_error != null)
             Center(
               child: Padding(
