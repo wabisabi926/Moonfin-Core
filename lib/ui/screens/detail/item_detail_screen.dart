@@ -480,14 +480,34 @@ class _DetailContentState extends State<_DetailContent> {
     return _sectionFocusNode('detailHeaderOverview');
   }
 
-  Future<void> _ensureSectionVisible(BuildContext context) {
+  Future<void> _ensureSectionVisible(
+    BuildContext context, {
+    double alignment = 0.2,
+  }) {
     return Scrollable.ensureVisible(
       context,
       duration: const Duration(milliseconds: 220),
       curve: Curves.easeOut,
-      alignment: 0.2,
+      alignment: alignment,
       alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
     );
+  }
+
+  double _sectionFocusAlignment(FocusNode target) {
+    final primaryContext = FocusManager.instance.primaryFocus?.context;
+    final fromActionButtons =
+        primaryContext
+            ?.findAncestorWidgetOfExactType<_ActionButtons>() !=
+        null;
+    if (!fromActionButtons) {
+      return 0.2;
+    }
+
+    final targetInHeader =
+        target.debugLabel == 'detailHeaderOverview' ||
+        target.context?.findAncestorWidgetOfExactType<_HeaderSection>() !=
+            null;
+    return targetInHeader ? 0.2 : 0.42;
   }
 
   BuildContext? _sectionContainerContext(FocusNode target) {
@@ -498,22 +518,25 @@ class _DetailContentState extends State<_DetailContent> {
     return controller.position.context.storageContext;
   }
 
-  void _focusSectionTarget(FocusNode target) {
+  void _focusSectionTarget(FocusNode target, {double alignment = 0.2}) {
     target.requestFocus();
     final context = target.context;
     if (context != null && !_shouldSkipSectionEnsureVisible(target)) {
-      unawaited(_ensureSectionVisible(context));
+      unawaited(_ensureSectionVisible(context, alignment: alignment));
     }
   }
 
-  void _scheduleSingleSectionFocusRetry(FocusNode target) {
+  void _scheduleSingleSectionFocusRetry(
+    FocusNode target, {
+    double alignment = 0.2,
+  }) {
     if (!_pendingSectionFocusRetries.add(target)) {
       return;
     }
 
     final sectionContext = _sectionContainerContext(target);
     if (sectionContext != null && !_shouldSkipSectionEnsureVisible(target)) {
-      unawaited(_ensureSectionVisible(sectionContext));
+      unawaited(_ensureSectionVisible(sectionContext, alignment: alignment));
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -521,7 +544,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (!mounted || !_isLaidOutFocusNode(target)) {
         return;
       }
-      _focusSectionTarget(target);
+      _focusSectionTarget(target, alignment: alignment);
     });
   }
 
@@ -530,17 +553,19 @@ class _DetailContentState extends State<_DetailContent> {
       return KeyEventResult.ignored;
     }
 
+    final alignment = _sectionFocusAlignment(target);
+
     if (!target.canRequestFocus) {
       return KeyEventResult.ignored;
     }
 
     if (_isLaidOutFocusNode(target)) {
-      _focusSectionTarget(target);
+      _focusSectionTarget(target, alignment: alignment);
       return KeyEventResult.handled;
     }
 
     _resetSectionHorizontalOffset(target);
-    _scheduleSingleSectionFocusRetry(target);
+    _scheduleSingleSectionFocusRetry(target, alignment: alignment);
     return KeyEventResult.ignored;
   }
 
@@ -4003,7 +4028,7 @@ class _ActionButtonsState extends State<_ActionButtons> {
     _tryFocusSidebar();
   }
 
-  void _focusTarget(FocusNode? target) {
+  void _focusTarget(FocusNode? target, {double alignment = 0.2}) {
     if (target == null) {
       if (GetIt.instance<UserPreferences>().get(UserPreferences.navbarPosition) ==
           NavbarPosition.top) {
@@ -4042,7 +4067,7 @@ class _ActionButtonsState extends State<_ActionButtons> {
           targetContext,
           duration: const Duration(milliseconds: 220),
           curve: Curves.easeOut,
-          alignment: 0.2,
+          alignment: alignment,
           alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
         );
       });
@@ -4050,7 +4075,7 @@ class _ActionButtonsState extends State<_ActionButtons> {
   }
 
   void _focusDownTarget() {
-    _focusTarget(widget.downTarget);
+    _focusTarget(widget.downTarget, alignment: 0.42);
   }
 
   void _focusUpTarget() {
