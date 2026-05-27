@@ -44,6 +44,11 @@ class LeftSidebar extends StatefulWidget {
   final FocusNode? contentFocusNode;
   final bool showBackButton;
 
+  /// Notifier updated when the sidebar's focus state changes.
+  /// Use this instead of walking the element tree to determine if the
+  /// current focus is within the sidebar; it's resilient during teardown.
+  static final ValueNotifier<bool> isFocusedNotifier = ValueNotifier<bool>(false);
+
   const LeftSidebar({
     super.key,
     this.activeRoute,
@@ -73,7 +78,7 @@ class _LeftSidebarState extends State<LeftSidebar> {
   bool _librariesExpanded = false;
   bool _canExpandViaFocus = false;
   bool _skipExpandOnNextFocusFromNavigation = false;
-  bool _sidebarHadFocus = false;
+  bool get _sidebarHadFocus => LeftSidebar.isFocusedNotifier.value;
   Timer? _clockTimer;
   Timer? _labelTimer;
   Timer? _focusExpandGateTimer;
@@ -146,6 +151,7 @@ class _LeftSidebarState extends State<LeftSidebar> {
     } catch (_) {}
     _prefs.removeListener(_onPrefsChanged);
     _currentTime.dispose();
+    LeftSidebar.isFocusedNotifier.value = false;
     super.dispose();
   }
 
@@ -290,7 +296,7 @@ class _LeftSidebarState extends State<LeftSidebar> {
     } else if (!hasFocus && _sidebarHadFocus && _canExpandViaFocus) {
       _collapse();
     }
-    _sidebarHadFocus = hasFocus;
+    LeftSidebar.isFocusedNotifier.value = hasFocus;
   }
 
   void _markNavigationAwayFromSidebar() {
@@ -338,18 +344,8 @@ class _LeftSidebarState extends State<LeftSidebar> {
 
   void _trackPreviousFocus() {
     final primary = FocusManager.instance.primaryFocus;
-    if (primary == null) return;
-    if (_isInsideSidebarScope(primary)) return;
+    if (primary == null || _sidebarFocus.hasFocus) return;
     _previousFocus = primary;
-  }
-
-  bool _isInsideSidebarScope(FocusNode node) {
-    FocusNode? current = node;
-    while (current != null) {
-      if (identical(current, _sidebarFocus)) return true;
-      current = current.parent;
-    }
-    return false;
   }
 
   void _restoreFocusOutsideSidebar() {

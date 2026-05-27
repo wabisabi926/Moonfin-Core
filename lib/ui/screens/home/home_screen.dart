@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -566,6 +567,8 @@ class _ContentRowsState extends State<_ContentRows>
   bool _chromeFocusActive = false;
   bool _windowHasFocus = true;
   bool _holdMediaBarWhileSidebarFocused = false;
+  bool get _isSidebarFocus => LeftSidebar.isFocusedNotifier.value;
+  bool _wasSidebarFocused = false;
   FocusNode? _lastGlobalPrimaryFocus;
   String? _activePreviewKey;
   String? _mobilePressedV2Key;
@@ -598,28 +601,13 @@ class _ContentRowsState extends State<_ContentRows>
     return _activeFocusedRowIndex;
   }
 
-  bool _isSidebarFocus(FocusNode? node) {
-    final nodeContext = node?.context;
-    if (nodeContext == null) return false;
-
-    var insideSidebar = false;
-    nodeContext.visitAncestorElements((element) {
-      if (element.widget is LeftSidebar) {
-        insideSidebar = true;
-        return false;
-      }
-      return true;
-    });
-    return insideSidebar;
-  }
-
   void _onGlobalFocusChanged() {
     if (!mounted) return;
     final isMobileUi = PlatformDetection.useMobileUi;
     final primary = FocusManager.instance.primaryFocus;
     final onMediaBar = identical(primary, _mediaBarFocusNode);
-    final onSidebar = _isSidebarFocus(primary);
-    final wasOnSidebar = _isSidebarFocus(_lastGlobalPrimaryFocus);
+    final onSidebar = _isSidebarFocus;
+    final wasOnSidebar = _wasSidebarFocused;
     if (onSidebar && !wasOnSidebar) {
       _holdMediaBarWhileSidebarFocused = identical(
         _lastGlobalPrimaryFocus,
@@ -657,6 +645,7 @@ class _ContentRowsState extends State<_ContentRows>
       });
     }
 
+    _wasSidebarFocused = onSidebar;
     _lastGlobalPrimaryFocus = primary;
 
     if (chromeFocusActive && (chromeChanged || _activePreviewKey != null)) {
@@ -1918,7 +1907,7 @@ class _ContentRowsState extends State<_ContentRows>
         setState(() => _mediaBarVisible = false);
       }
     } else if (_activeFocusedRowIndex == rowIndex) {
-      if (_isSidebarFocus(FocusManager.instance.primaryFocus)) {
+      if (_isSidebarFocus) {
         return;
       }
       if (_activePreviewKey != null) {
