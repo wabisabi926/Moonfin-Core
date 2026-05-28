@@ -252,7 +252,15 @@ class PluginSyncService extends ChangeNotifier {
             _serverSyncKey(client, serverId: serverId),
           );
       if (_prefs.get(syncInitializedPref)) {
-        if (_prefs.get(UserPreferences.pluginSyncEnabled)) {
+        if (_prefs.get(UserPreferences.pluginSyncEnabled) &&
+            availability == _PluginAvailabilityStatus.available) {
+          await _refreshCustomThemes(client, serverId: serverId);
+
+          final resolved = await _fetchResolvedProfile(client, _profileName);
+          if (resolved != null) {
+            await _applyServerSettings(resolved);
+          }
+
           await _startSettingsStream(client);
         }
         return;
