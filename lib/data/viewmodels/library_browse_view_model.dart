@@ -161,7 +161,7 @@ class LibraryBrowseViewModel extends ChangeNotifier {
     _favoriteFilter = _prefs.get(
       UserPreferences.libraryFavoriteFilter(_prefKey),
     );
-    _letterFilter = _prefs.get(UserPreferences.libraryLetterFilter(_prefKey));
+    _letterFilter = '';
     _imageType = _prefs.get(UserPreferences.libraryImageType(_imagePrefKey));
     _posterSize = _readScopedPosterSize();
   }
@@ -569,7 +569,6 @@ class LibraryBrowseViewModel extends ChangeNotifier {
   Future<void> setLetterFilter(String value) async {
     if (_letterFilter == value) return;
     _letterFilter = value;
-    await _prefs.set(UserPreferences.libraryLetterFilter(_prefKey), value);
     await load();
   }
 
