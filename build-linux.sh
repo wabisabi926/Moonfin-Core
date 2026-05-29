@@ -92,19 +92,24 @@ resolve_shared_lib() {
 
   # Prefer distro packages to avoid /usr/local builds that dpkg-query cannot map.
   if command -v dpkg-query >/dev/null 2>&1; then
-    local dpkg_pkg
+    local pkg_candidates=()
     case "$soname" in
-      libmpv.so.2)      dpkg_pkg="libmpv2" ;;
-      libsecret-1.so.0) dpkg_pkg="libsecret-1-0" ;;
+      # Prefer libmpv2 where available; keep libmpv1 as distro compatibility fallback.
+      libmpv.so.2) pkg_candidates=("libmpv2" "libmpv1") ;;
+      libsecret-1.so.0) pkg_candidates=("libsecret-1-0") ;;
+      libwebkit2gtk-4.1.so.0) pkg_candidates=("libwebkit2gtk-4.1-0") ;;
+      libwebkit2gtk-4.0.so.37) pkg_candidates=("libwebkit2gtk-4.0-37") ;;
     esac
-    if [ -n "$dpkg_pkg" ]; then
+
+    local dpkg_pkg
+    for dpkg_pkg in "${pkg_candidates[@]:-}"; do
       local pkg_path
       pkg_path="$(dpkg-query -L "$dpkg_pkg" 2>/dev/null | awk -v s="$soname" 'index($0, "/" s) {print; exit}')"
       if [ -n "$pkg_path" ] && [ -f "$pkg_path" ]; then
         printf '%s\n' "$pkg_path"
         return 0
       fi
-    fi
+    done
   fi
 
   if command -v ldconfig >/dev/null 2>&1; then
@@ -144,7 +149,7 @@ runtime_seed_libs() {
 
   local libmpv_path
   if ! libmpv_path="$(resolve_shared_lib libmpv.so.2)"; then
-    echo "Error: could not resolve libmpv.so.2. Install libmpv2 on the build host." >&2
+    echo "Error: could not resolve libmpv.so.2. Install libmpv2 (preferred) or libmpv1 compatibility package on the build host." >&2
     return 1
   fi
   seed_libs="$libmpv_path"
@@ -155,6 +160,19 @@ runtime_seed_libs() {
     return 1
   fi
   seed_libs="$seed_libs"$'\n'"$libsecret_path"
+
+  local webkit_path=""
+  local webkit_soname
+  for webkit_soname in libwebkit2gtk-4.1.so.0 libwebkit2gtk-4.0.so.37; do
+    if webkit_path="$(resolve_shared_lib "$webkit_soname")"; then
+      break
+    fi
+  done
+  if [ -z "$webkit_path" ]; then
+    echo "Error: could not resolve WebKitGTK runtime library (4.1 or 4.0). Install libwebkit2gtk-4.1-0 or libwebkit2gtk-4.0-37 on the build host." >&2
+    return 1
+  fi
+  seed_libs="$seed_libs"$'\n'"$webkit_path"
 
   printf '%s\n' "$seed_libs" | grep -v '^$' || true
 }
@@ -321,8 +339,9 @@ EOF
 }
 
 ensure_flatpak_runtime() {
-  local runtime="org.freedesktop.Platform//24.08"
-  local sdk="org.freedesktop.Sdk//24.08"
+  # GNOME runtime includes WebKitGTK required by linux webview plugin.
+  local runtime="org.gnome.Platform//47"
+  local sdk="org.gnome.Sdk//47"
 
   if flatpak info --user "$runtime" >/dev/null 2>&1 && flatpak info --user "$sdk" >/dev/null 2>&1; then
     return 0
@@ -478,7 +497,7 @@ Version: ${version}
 Architecture: ${deb_arch}
 Maintainer: Moonfin Team <support@moonfin.dev>
 Installed-Size: $(du -sk "$pkg_root/usr" | cut -f1)
-Depends: libgtk-3-0, libglib2.0-0, libmpv2, libsecret-1-0, libwebkit2gtk-4.1-0
+Depends: libgtk-3-0, libglib2.0-0, libmpv2 | libmpv1, libsecret-1-0, libwebkit2gtk-4.1-0
 Description: Jellyfin & Emby media client
  Moonfin is a media client for Jellyfin and Emby servers,
  available on mobile, TV, and desktop platforms.
@@ -727,9 +746,9 @@ build_flatpak() {
 
   cat > "$flatpak_dir/${APP_ID}.yml" << EOF
 app-id: ${APP_ID}
-runtime: org.freedesktop.Platform
-runtime-version: '24.08'
-sdk: org.freedesktop.Sdk
+runtime: org.gnome.Platform
+runtime-version: '47'
+sdk: org.gnome.Sdk
 
 command: moonfin
 
