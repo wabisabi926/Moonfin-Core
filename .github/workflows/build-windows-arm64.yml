@@ -79,7 +79,14 @@ jobs:
 
           Write-Host "Using vcpkg: $vcpkg"
           & $vcpkg install libarchive:arm64-windows
+          if ($LASTEXITCODE -ne 0) { throw "vcpkg install libarchive:arm64-windows failed ($LASTEXITCODE)" }
           & $vcpkg integrate install
+
+          # The Flutter plugin CMakeLists (archive_extract, rar_fork) locate
+          # libarchive via $env:VCPKG_ROOT. `vcpkg integrate install` only wires
+          # up MSBuild, not Flutter's CMake build, so export VCPKG_ROOT for the
+          # build step.
+          "VCPKG_ROOT=$vcpkgRoot" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Build Windows release
         shell: pwsh
@@ -87,6 +94,9 @@ jobs:
           VCPKG_DEFAULT_TRIPLET: arm64-windows
           VCPKG_TARGET_TRIPLET: arm64-windows
         run: |
+          if ($env:PROCESSOR_ARCHITECTURE -ne "ARM64") {
+            throw "Host arch is $env:PROCESSOR_ARCHITECTURE; Flutter targets the host arch on Windows, so this must be ARM64 to build an arm64 app."
+          }
           flutter clean
           flutter pub get
           flutter build windows --release --dart-define=DISTRIBUTION_CHANNEL=windows
