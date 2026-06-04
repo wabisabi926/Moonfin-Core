@@ -39,6 +39,7 @@ class EmbyMediaStreamResolver implements MediaStreamResolver {
       itemId,
       requestBody: request.toJson(),
       userId: _client.userId,
+      startTimeTicks: startTimeTicks,
     );
     final info = PlaybackInfoResult.fromJson(rawInfo);
 
