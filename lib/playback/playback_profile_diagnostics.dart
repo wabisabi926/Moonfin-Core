@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
 
+import 'package:get_it/get_it.dart';
 import 'package:playback_core/playback_core.dart';
 
+import '../data/services/log_service.dart';
 import 'audio_capability_profile.dart';
 
 class PlaybackProfileDiagnostics {
@@ -66,10 +68,23 @@ class PlaybackProfileDiagnostics {
 
     _lastDecision = entry;
 
+    final json = _safeJson(entry);
     developer.log(
-      _safeJson(entry),
+      json,
       name: 'PlaybackProfileDiagnostics',
     );
+
+    if (GetIt.instance.isRegistered<LogService>()) {
+      final name = entry['itemName'] ?? entry['itemId'] ?? 'unknown';
+      GetIt.instance<LogService>().media(
+        'Playback decision for "$name": ${resolution.playMethod.name}'
+        '${resolution.transcodingReasons.isEmpty ? '' : ' '
+            '(${resolution.transcodingReasons.join(', ')})'} '
+        '— ${entry['videoCodec']}/${entry['audioCodec']} '
+        '${entry['container']} @ ${context.maxStreamingBitrate}bps\n$json',
+        level: LogLevel.info,
+      );
+    }
   }
 
   String _safeJson(Map<String, dynamic> payload) {

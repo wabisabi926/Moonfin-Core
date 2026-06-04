@@ -80,30 +80,7 @@ class SeerrRepository {
       _cookieJar.switchToUser(currentUserId);
       _lastUserId = currentUserId;
 
-      final enabled = _store.getBool(_enabledKey) ?? false;
-      final serverUrl = _store.getString(_serverUrlKey) ?? '';
-      final apiKey = _store.getString(_apiKeyKey) ?? '';
-      final authMethod = _store.getString(_authMethodKey) ?? '';
-      final moonfinMode = _store.getBool(_moonfinModeKey) ?? false;
-
-      if (moonfinMode) {
-        await _initMoonfinMode();
-        _initialized = true;
-        return;
-      }
-
-      if (enabled && serverUrl.isNotEmpty) {
-        if (apiKey.isNotEmpty) {
-          _initClient(serverUrl, apiKey);
-          _isAvailable = true;
-        } else if (authMethod == 'jellyfin' || authMethod == 'local') {
-          _initClient(serverUrl, '');
-          final valid = await isSessionValid();
-          _isAvailable = valid;
-        }
-      } else {
-        _isAvailable = false;
-      }
+      await _initMoonfinMode();
       _initialized = true;
     } catch (_) {
       _isAvailable = false;
@@ -180,83 +157,6 @@ class SeerrRepository {
   Future<SeerrUser> getCurrentUser() =>
       _withClient((c) async => SeerrUser.fromJson(await c.getCurrentUser()));
 
-  Future<SeerrUser> loginWithJellyfin({
-    required String username,
-    required String password,
-    required String jellyfinUrl,
-    required String seerrUrl,
-  }) async {
-    final userId = _session.activeUserId;
-    if (userId == null) throw StateError('No active user');
-    _cookieJar.switchToUser(userId);
-
-    await _store.setString(_authMethodKey, 'jellyfin');
-    await _store.setString(_serverUrlKey, seerrUrl);
-
-    _initClient(seerrUrl, '');
-    final data = await _httpClient!.loginJellyfin(
-      username,
-      password,
-      jellyfinUrl,
-    );
-    final user = SeerrUser.fromJson(data);
-
-    await _store.setBool(_enabledKey, true);
-    await _store.setBool(_lastConnectionSuccessKey, true);
-    _isAvailable = true;
-    _lastUserId = userId;
-
-    return user;
-  }
-
-  Future<SeerrUser> loginLocal({
-    required String email,
-    required String password,
-    required String seerrUrl,
-  }) async {
-    final userId = _session.activeUserId;
-    if (userId == null) throw StateError('No active user');
-    _cookieJar.switchToUser(userId);
-
-    await _store.setString(_authMethodKey, 'local');
-    await _store.setString(_serverUrlKey, seerrUrl);
-
-    _initClient(seerrUrl, '');
-    final data = await _httpClient!.loginLocal(email, password);
-    final user = SeerrUser.fromJson(data);
-
-    await _store.setBool(_enabledKey, true);
-    await _store.setBool(_lastConnectionSuccessKey, true);
-    _isAvailable = true;
-    _lastUserId = userId;
-
-    return user;
-  }
-
-  Future<SeerrUser> loginWithApiKey({
-    required String apiKey,
-    required String seerrUrl,
-  }) async {
-    final userId = _session.activeUserId;
-    if (userId == null) throw StateError('No active user');
-    _cookieJar.switchToUser(userId);
-
-    await _store.setString(_authMethodKey, 'apikey');
-    await _store.setString(_apiKeyKey, apiKey);
-    await _store.setString(_serverUrlKey, seerrUrl);
-
-    _initClient(seerrUrl, apiKey);
-    final data = await _httpClient!.getCurrentUser();
-    final user = SeerrUser.fromJson(data);
-
-    await _store.setBool(_enabledKey, true);
-    await _store.setBool(_lastConnectionSuccessKey, true);
-    _isAvailable = true;
-    _lastUserId = userId;
-
-    return user;
-  }
-
   Future<String> regenerateApiKey() async {
     final key = await _withClient((c) => c.regenerateApiKey());
     await _store.setString(_apiKeyKey, key);
@@ -331,22 +231,27 @@ class SeerrRepository {
     if (_store.getBool(_autoLoginFailedKey) ?? false) return;
 
     try {
-      await loginWithMoonfin(username: username, password: password);
+      await loginWithMoonbase(username: username, password: password);
       await _store.setBool(_autoLoginFailedKey, false);
     } catch (_) {
       await _store.setBool(_autoLoginFailedKey, true);
     }
   }
 
-  Future<MoonfinLoginResponse> loginWithMoonfin({
+  Future<MoonfinLoginResponse> loginWithMoonbase({
     required String username,
     required String password,
     String authType = 'jellyfin',
   }) async {
     await ensureInitialized();
+    if (_httpClient == null || _httpClient!.isProxyMode != true) {
+      await _initMoonfinMode();
+    }
     final client = _httpClient;
     if (client == null || !client.isProxyMode) {
-      throw StateError('Not in Moonfin proxy mode');
+      throw StateError(
+        'Moonfin plugin proxy unavailable (no active Jellyfin session)',
+      );
     }
 
     final response = await client.moonfinLogin(

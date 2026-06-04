@@ -65,6 +65,28 @@ class PluginSyncService extends ChangeNotifier {
   PluginSyncService(this._prefs, this._store) : _dio = Dio() {
     configureServerDio(_dio);
     _dio.interceptors.add(redirectInterceptor(_dio));
+    _dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        ServerLog.network('→ ${options.method} ${options.uri}');
+        handler.next(options);
+      },
+      onResponse: (response, handler) {
+        ServerLog.network(
+          '← ${response.statusCode} ${response.requestOptions.method} '
+          '${response.requestOptions.uri}',
+        );
+        handler.next(response);
+      },
+      onError: (error, handler) {
+        ServerLog.network(
+          '✗ ${error.requestOptions.method} ${error.requestOptions.uri} '
+          '(${error.response?.statusCode ?? error.type.name})',
+          level: ServerLogLevel.error,
+          error: error.message ?? error.toString(),
+        );
+        handler.next(error);
+      },
+    ));
   }
 
   String _serverSyncKey(MediaServerClient client, {String? serverId}) {

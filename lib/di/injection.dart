@@ -10,6 +10,8 @@ import '../data/database/database_connection.dart';
 import '../data/database/offline_database.dart';
 import '../data/repositories/offline_repository.dart';
 import '../data/services/connectivity_service.dart';
+import '../data/services/log_service.dart';
+import '../data/services/media_server_client_factory.dart';
 import '../data/services/recent_searches_store.dart';
 import '../data/services/storage_path_service.dart';
 import '../platform/web_runtime_config.dart';
@@ -384,4 +386,12 @@ Future<void> configureDependencies() async {
   await getIt<AuthenticationStore>().init();
   registerPlaybackModule();
   registerAppModule();
+
+  getIt.registerSingleton<LogService>(
+    LogService(
+      getIt<UserPreferences>(),
+      getIt<MediaServerClientFactory>(),
+      getIt<DeviceInfo>(),
+    ),
+  );
 }

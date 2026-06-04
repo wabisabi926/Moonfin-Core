@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 
+import '../log_service.dart';
 import 'seerr_cookie_jar.dart';
 import 'seerr_models.dart';
 
@@ -32,9 +34,36 @@ class SeerrHttpClient {
       validateStatus: (_) => true,
     ));
 
+    _dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        _log?.network('→ ${options.method} ${options.uri}');
+        handler.next(options);
+      },
+      onResponse: (response, handler) {
+        _log?.network(
+          '← ${response.statusCode} ${response.requestOptions.method} '
+          '${response.requestOptions.uri}',
+        );
+        handler.next(response);
+      },
+      onError: (error, handler) {
+        _log?.network(
+          '✗ ${error.requestOptions.method} ${error.requestOptions.uri} '
+          '(${error.response?.statusCode ?? error.type.name})',
+          level: LogLevel.error,
+          error: error.message ?? error.toString(),
+        );
+        handler.next(error);
+      },
+    ));
     _dio.interceptors.add(CookieManager(cookieJar));
     _dio.interceptors.add(_ProxyUnwrapInterceptor());
   }
+
+  static LogService? get _log =>
+      GetIt.instance.isRegistered<LogService>()
+          ? GetIt.instance<LogService>()
+          : null;
 
   static String _trimSlash(String path) =>
       path.startsWith('/') ? path.substring(1) : path;
@@ -81,9 +110,19 @@ class SeerrHttpClient {
         '$baseUrl$endpoint',
         options: _authOptions(),
       );
-      return cookieJar.getCsrfToken(Uri.parse(baseUrl).host);
+      final token = cookieJar.getCsrfToken(Uri.parse(baseUrl).host);
+      _log?.seerr(
+        'CSRF token ${token == null ? 'not present' : 'acquired'} '
+        'for $endpoint',
+      );
+      return token;
     } catch (e) {
       debugPrint('[Seerr] CSRF fetch failed (non-critical): $e');
+      _log?.seerr(
+        'CSRF fetch failed for $endpoint (non-critical)',
+        level: LogLevel.warning,
+        error: e,
+      );
       return null;
     }
   }
@@ -106,85 +145,6 @@ class SeerrHttpClient {
         message: '$context: HTTP ${response.statusCode}',
       );
     }
-  }
-
-  Future<Map<String, dynamic>> loginLocal(String email, String password) async {
-    await cookieJar.deleteAll();
-    final csrfToken = await _fetchCsrfToken('/api/v1/auth/local');
-
-    var url = _apiUrl('auth/local');
-    var response = await _dio.post(
-      url,
-      data: {'email': email, 'password': password},
-      options: _withCsrf(csrfToken),
-    );
-
-    if (response.statusCode == 308) {
-      final location = response.headers['location']?.first;
-      if (location != null && location.startsWith('https://') && baseUrl.startsWith('http://')) {
-        response = await _dio.post(
-          location,
-          data: {'email': email, 'password': password},
-          options: _withCsrf(csrfToken),
-        );
-      } else {
-        throw Exception('Server requires HTTPS but redirect location is invalid');
-      }
-    }
-
-    _requireSuccess(response, 'loginLocal');
-    return response.data as Map<String, dynamic>;
-  }
-
-  Future<Map<String, dynamic>> loginJellyfin(
-    String username,
-    String password,
-    String jellyfinUrl,
-  ) async {
-    await cookieJar.deleteAll();
-    final csrfToken = await _fetchCsrfToken('/api/v1/auth/jellyfin');
-
-    var url = _apiUrl('auth/jellyfin');
-    var response = await _dio.post(
-      url,
-      data: {'username': username, 'password': password},
-      options: _withCsrf(csrfToken),
-    );
-
-    if (response.statusCode == 308) {
-      final location = response.headers['location']?.first;
-      if (location != null && location.startsWith('https://') && baseUrl.startsWith('http://')) {
-        url = location;
-        response = await _dio.post(
-          url,
-          data: {'username': username, 'password': password},
-          options: _withCsrf(csrfToken),
-        );
-      } else {
-        throw Exception('Server requires HTTPS but redirect location is invalid');
-      }
-    }
-
-    if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
-      return response.data as Map<String, dynamic>;
-    }
-
-    if (response.statusCode == 401) {
-      response = await _dio.post(
-        url,
-        data: {
-          'username': username,
-          'password': password,
-          'hostname': jellyfinUrl,
-        },
-        options: _withCsrf(csrfToken),
-      );
-      _requireSuccess(response, 'loginJellyfin (with hostname)');
-      return response.data as Map<String, dynamic>;
-    }
-
-    _requireSuccess(response, 'loginJellyfin');
-    return response.data as Map<String, dynamic>;
   }
 
   Future<Map<String, dynamic>> getCurrentUser() async {

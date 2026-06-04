@@ -423,6 +423,11 @@ class UserPreferences extends ChangeNotifier {
     defaultValue: false,
   );
 
+  static final diagnosticLoggingEnabled = Preference(
+    key: 'pref_diagnostic_logging_enabled',
+    defaultValue: false,
+  );
+
   static final enableFolderView = Preference(
     key: 'enable_folder_view',
     defaultValue: false,

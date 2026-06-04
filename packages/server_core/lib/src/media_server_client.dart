@@ -25,6 +25,7 @@ import 'api/admin_live_tv_api.dart';
 import 'api/admin_items_api.dart';
 import 'api/home_screen_sections_api.dart';
 import 'api/kefin_tweaks_api.dart';
+import 'api/client_log_api.dart';
 import 'api/syncplay_api.dart';
 
 abstract class MediaServerClient {
@@ -75,6 +76,11 @@ abstract class MediaServerClient {
   /// (front-end-only plugin distributed via the JS Injector plugin). Returns
   /// null on servers that don't expose the JS Injector endpoints.
   KefinTweaksApi? get kefinTweaksApi => null;
+
+  /// Optional endpoint for uploading client-side diagnostic logs to the server
+  /// as reports. Returns null on servers that don't support it (Emby, or
+  /// Jellyfin with client log upload disabled).
+  ClientLogApi? get clientLogApi => null;
 
   void dispose();
 }

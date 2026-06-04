@@ -26,6 +26,7 @@ import 'api/jellyfin_admin_live_tv_api.dart';
 import 'api/jellyfin_admin_items_api.dart';
 import 'api/jellyfin_home_screen_sections_api.dart';
 import 'api/jellyfin_kefin_tweaks_api.dart';
+import 'api/jellyfin_client_log_api.dart';
 import 'api/jellyfin_syncplay_api.dart';
 
 class JellyfinMediaServerClient extends MediaServerClient {
@@ -61,7 +62,24 @@ class JellyfinMediaServerClient extends MediaServerClient {
           deviceInfo: deviceInfo,
           accessToken: _accessToken,
         );
+        ServerLog.network('→ ${options.method} ${options.uri}');
         handler.next(options);
+      },
+      onResponse: (response, handler) {
+        ServerLog.network(
+          '← ${response.statusCode} ${response.requestOptions.method} '
+          '${response.requestOptions.uri}',
+        );
+        handler.next(response);
+      },
+      onError: (error, handler) {
+        ServerLog.network(
+          '✗ ${error.requestOptions.method} ${error.requestOptions.uri} '
+          '(${error.response?.statusCode ?? error.type.name})',
+          level: ServerLogLevel.error,
+          error: error.message ?? error.toString(),
+        );
+        handler.next(error);
       },
     ));
   }
@@ -176,6 +194,9 @@ class JellyfinMediaServerClient extends MediaServerClient {
 
   @override
   late final KefinTweaksApi kefinTweaksApi = JellyfinKefinTweaksApi(_dio);
+
+  @override
+  late final ClientLogApi clientLogApi = JellyfinClientLogApi(_dio);
 
   @override
   void dispose() {

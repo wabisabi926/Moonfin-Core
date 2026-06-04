@@ -116,7 +116,7 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
     final l10n = AppLocalizations.of(context);
     try {
       final repo = await GetIt.instance.getAsync<SeerrRepository>();
-      final response = await repo.loginWithMoonfin(
+      final response = await repo.loginWithMoonbase(
         username: username,
         password: password,
         authType: authType,

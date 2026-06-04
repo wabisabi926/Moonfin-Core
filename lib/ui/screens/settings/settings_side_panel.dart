@@ -41,6 +41,7 @@ import '../home/home_view_model.dart';
 import 'home_screen_sections_integration_screen.dart';
 import 'kefin_tweaks_integration_screen.dart';
 import 'appearance_theme_screen.dart';
+import 'diagnostics_settings_screen.dart';
 import 'saved_themes_screen.dart';
 import 'home_sections_screen.dart';
 import 'library_settings_screen.dart';
@@ -1542,6 +1543,16 @@ class _AboutCategoryScreen extends StatelessWidget {
               url: 'https://github.com/Moonfin-Client/Mobile-Desktop/issues',
               title: l10n.settingsReportAnIssue,
             ),
+          ),
+          _TvSettingsListTile(
+            leading: const Icon(Icons.troubleshoot),
+            title: const Text('Diagnostics & Logging'),
+            subtitle: const Text(
+              'Capture media, login and network logs and send them to the '
+              'server as a report',
+            ),
+            onTap: () =>
+                context.pushSettingsScreen(const DiagnosticsSettingsScreen()),
           ),
           _TvSettingsListTile(
             leading: const Icon(Icons.forum),
