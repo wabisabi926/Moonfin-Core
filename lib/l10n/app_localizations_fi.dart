@@ -24,6 +24,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get signIn => 'Kirjaudu sisään';
 
   @override
+  String get empty => 'Empty';
+
+  @override
   String connectingToServer(String serverName) {
     return 'Yhdistetään kohteeseen $serverName';
   }

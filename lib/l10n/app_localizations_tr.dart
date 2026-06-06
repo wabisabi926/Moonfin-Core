@@ -24,6 +24,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signIn => 'Giris yap';
 
   @override
+  String get empty => 'Empty';
+
+  @override
   String connectingToServer(String serverName) {
     return 'Connecting to $serverName';
   }

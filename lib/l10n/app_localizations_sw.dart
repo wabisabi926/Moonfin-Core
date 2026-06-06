@@ -24,6 +24,9 @@ class AppLocalizationsSw extends AppLocalizations {
   String get signIn => 'Ingia';
 
   @override
+  String get empty => 'Empty';
+
+  @override
   String connectingToServer(String serverName) {
     return 'Connecting to $serverName';
   }

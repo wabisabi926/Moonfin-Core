@@ -24,6 +24,9 @@ class AppLocalizationsEo extends AppLocalizations {
   String get signIn => 'Ensalutu';
 
   @override
+  String get empty => 'Empty';
+
+  @override
   String connectingToServer(String serverName) {
     return 'Konektante al $serverName';
   }
