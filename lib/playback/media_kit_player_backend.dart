@@ -419,6 +419,8 @@ class MediaKitPlayerBackend implements PlayerBackend {
         ? AudioCapabilityProfile.fromMap(
             PlatformDetection.audioCapabilitiesSnapshot,
           )
+        : PlatformDetection.isIOS
+        ? const AudioCapabilityProfile.appleMobile()
         : const AudioCapabilityProfile.optimistic();
 
     return DeviceProfileBuilder.build(
@@ -433,8 +435,10 @@ class MediaKitPlayerBackend implements PlayerBackend {
       dtsHdPassthroughEnabled: _prefs.resolveDtsHdPassthroughEnabled(),
       dtsXPassthroughEnabled: _prefs.resolveDtsXPassthroughEnabled(),
       trueHdPassthroughEnabled: _prefs.resolveTrueHdPassthroughEnabled(),
-      trueHdAtmosPassthroughEnabled: _prefs.resolveTrueHdAtmosPassthroughEnabled(),
-      downMixAudio: _prefs.resolveAudioOutputMode() == AudioOutputMode.forceStereo,
+      trueHdAtmosPassthroughEnabled: _prefs
+          .resolveTrueHdAtmosPassthroughEnabled(),
+      downMixAudio:
+          _prefs.resolveAudioOutputMode() == AudioOutputMode.forceStereo,
       audioFallbackToStereoAac:
           _prefs.resolveAudioFallbackCodec() == AudioFallbackCodec.aacStereo,
       maxResolution: maxResolution,
@@ -638,8 +642,8 @@ class MediaKitPlayerBackend implements PlayerBackend {
         dtsHdPassthroughEnabled: _prefs.resolveDtsHdPassthroughEnabled(),
         dtsXPassthroughEnabled: _prefs.resolveDtsXPassthroughEnabled(),
         trueHdPassthroughEnabled: _prefs.resolveTrueHdPassthroughEnabled(),
-        trueHdAtmosPassthroughEnabled:
-            _prefs.resolveTrueHdAtmosPassthroughEnabled(),
+        trueHdAtmosPassthroughEnabled: _prefs
+            .resolveTrueHdAtmosPassthroughEnabled(),
         includeAudioExclusive: PlatformDetection.isDesktop,
       );
 
@@ -1096,46 +1100,44 @@ class MediaKitPlayerBackend implements PlayerBackend {
 
   @override
   Stream<Duration> get positionStream => _player.stream.position.map((pos) {
-        _updateStaleState();
-        return _isStale ? Duration.zero : pos;
-      });
+    _updateStaleState();
+    return _isStale ? Duration.zero : pos;
+  });
 
   @override
   Stream<Duration> get durationStream => _player.stream.duration.map((dur) {
-        _updateStaleState();
-        return _isStale ? Duration.zero : dur;
-      });
+    _updateStaleState();
+    return _isStale ? Duration.zero : dur;
+  });
 
   @override
   Stream<Duration> get bufferStream => _player.stream.buffer.map((buf) {
-        _updateStaleState();
-        return _isStale ? Duration.zero : buf;
-      });
+    _updateStaleState();
+    return _isStale ? Duration.zero : buf;
+  });
 
   @override
   Stream<bool> get playingStream => _player.stream.playing.map((playing) {
-        _updateStaleState();
-        return _isStale ? false : playing;
-      });
+    _updateStaleState();
+    return _isStale ? false : playing;
+  });
 
   @override
   Stream<bool> get bufferingStream => _player.stream.buffering.map((buffering) {
-        _updateStaleState();
-        return _isStale ? false : buffering;
-      });
+    _updateStaleState();
+    return _isStale ? false : buffering;
+  });
 
   @override
   Stream<bool> get completedStream => _player.stream.completed.map((completed) {
-        _updateStaleState();
-        return _isStale ? false : completed;
-      });
+    _updateStaleState();
+    return _isStale ? false : completed;
+  });
 
   @override
-  Stream<Map<String, dynamic>>? get errorStream =>
-      _player.stream.error.map((err) => <String, dynamic>{
-            'event': 'error',
-            'message': err,
-          });
+  Stream<Map<String, dynamic>>? get errorStream => _player.stream.error.map(
+    (err) => <String, dynamic>{'event': 'error', 'message': err},
+  );
 
   @override
   Future<void> setPlaybackSpeed(double speed) async {

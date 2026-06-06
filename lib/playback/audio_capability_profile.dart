@@ -1,11 +1,4 @@
-enum AudioRouteType {
-  hdmi,
-  arc,
-  earc,
-  bluetooth,
-  speaker,
-  other,
-}
+enum AudioRouteType { hdmi, arc, earc, bluetooth, speaker, other }
 
 class AudioCapabilityProfile {
   const AudioCapabilityProfile({
@@ -45,6 +38,25 @@ class AudioCapabilityProfile {
       canPassthroughTrueHdJoc = false,
       maxPcmChannels = 8,
       activeRouteType = AudioRouteType.other,
+      routeSupportsHdAudio = false;
+
+  const AudioCapabilityProfile.appleMobile()
+    : canDecodeAc3 = true,
+      canDecodeEac3 = true,
+      canDecodeDts = true,
+      canDecodeDtsHd = true,
+      canDecodeTrueHd = false,
+      canDecodeFlac = true,
+      canPassthroughAc3 = false,
+      canPassthroughEac3 = false,
+      canPassthroughEac3Joc = false,
+      canPassthroughDts = false,
+      canPassthroughDtsHd = false,
+      canPassthroughDtsX = false,
+      canPassthroughTrueHd = false,
+      canPassthroughTrueHdJoc = false,
+      maxPcmChannels = 2,
+      activeRouteType = AudioRouteType.speaker,
       routeSupportsHdAudio = false;
 
   final bool canDecodeAc3;
