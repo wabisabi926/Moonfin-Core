@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 class BoundedNetworkImage extends StatelessWidget {
   final String imageUrl;
   final BoxFit fit;
+  final Alignment alignment;
   final Duration fadeInDuration;
   final Widget Function(BuildContext context, String url, Object error)?
       errorBuilder;
@@ -27,6 +28,7 @@ class BoundedNetworkImage extends StatelessWidget {
     super.key,
     required this.imageUrl,
     this.fit = BoxFit.cover,
+    this.alignment = Alignment.center,
     this.fadeInDuration = Duration.zero,
     this.errorBuilder,
     this.scale = 1.0,
@@ -45,6 +47,7 @@ class BoundedNetworkImage extends StatelessWidget {
         return CachedNetworkImage(
           imageUrl: imageUrl,
           fit: fit,
+          alignment: alignment,
           fadeInDuration: fadeInDuration,
           memCacheWidth: cacheW,
           maxWidthDiskCache: cacheW,

@@ -14,12 +14,14 @@ class UserPreferences extends ChangeNotifier {
   static const mediaBarModeMakd = 'makd';
   static const mediaBarModeBookshelf = 'bookshelf';
   static const mediaBarModeGallery = 'gallery';
+  static const mediaBarModeBanner = 'banner';
   static const mediaBarModeOff = 'off';
   static const mediaBarModeValues = <String>{
     mediaBarModeMoonfin,
     mediaBarModeMakd,
     mediaBarModeBookshelf,
     mediaBarModeGallery,
+    mediaBarModeBanner,
     mediaBarModeOff,
   };
 

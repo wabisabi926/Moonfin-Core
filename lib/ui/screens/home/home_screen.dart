@@ -43,6 +43,7 @@ import '../../widgets/info_area.dart';
 import '../../widgets/left_sidebar.dart';
 import '../../widgets/library_row.dart';
 import '../../widgets/media_bar.dart';
+import '../../widgets/mediabar/banner_media_bar.dart';
 import '../../widgets/media_card.dart';
 import '../../widgets/navigation_layout.dart';
 import '../../widgets/responsive_layout.dart';
@@ -1412,7 +1413,13 @@ class _ContentRowsState extends State<_ContentRows>
     final size = MediaQuery.sizeOf(context);
     final screenHeight = size.height;
     final screenWidth = size.width;
-    
+
+    if (_isBannerMode()) {
+      if (PlatformDetection.isTV) return 320.0;
+      if (!PlatformDetection.useMobileUi) return 240.0;
+      return 200.0;
+    }
+
     if (!PlatformDetection.useMobileUi) {
       return screenHeight;
     }
@@ -1438,6 +1445,13 @@ class _ContentRowsState extends State<_ContentRows>
     );
     return mode == UserPreferences.mediaBarModeBookshelf ||
         mode == UserPreferences.mediaBarModeGallery;
+  }
+
+  bool _isBannerMode() {
+    final mode = UserPreferences.normalizeMediaBarMode(
+      widget.prefs.get(UserPreferences.mediaBarMode),
+    );
+    return mode == UserPreferences.mediaBarModeBanner;
   }
 
   double _pinnedInfoCollapseOffset() {
@@ -2327,6 +2341,8 @@ class _ContentRowsState extends State<_ContentRows>
     }
 
     final includeMediaBar = _isMediaBarIncluded();
+    final bannerMode = _isBannerMode();
+    final includeBigMediaBar = includeMediaBar && !bannerMode;
     final mediaBarHeight = _mediaBarHeight();
     final carouselPaused =
       widget.isHoverPaused ||
@@ -2338,7 +2354,7 @@ class _ContentRowsState extends State<_ContentRows>
     final desktopScale = _desktopUiScaleFactor();
     final navbarIsTop = widget.prefs.get(UserPreferences.navbarPosition) == NavbarPosition.top;
     final navbarIsLeft = !navbarIsTop;
-    final navbarHeight = navbarIsTop && !(PlatformDetection.isTV && includeMediaBar && !_isBookshelfMode())
+    final navbarHeight = navbarIsTop && !(PlatformDetection.isTV && includeBigMediaBar && !_isBookshelfMode())
         ? (PlatformDetection.isTV
             ? 95.0
             : PlatformDetection.useMobileUi
@@ -2370,9 +2386,12 @@ class _ContentRowsState extends State<_ContentRows>
     final infoBottomPadding = includeMediaBar ? 20.0 : 8.0;
     // Reserve the info band height up-front so revealing/hiding the InfoArea
     // overlay (a Stack child) does not shift row positions in the ListView.
-    final infoPlaceholderHeight = showInfoOverlay
+    final infoOverlayPlaceholder = showInfoOverlay
         ? infoTopPadding + infoAreaHeight + infoBottomPadding
         : 0.0;
+    final infoPlaceholderHeight = bannerMode
+        ? (_infoRevealed ? infoOverlayPlaceholder : 0.0)
+        : infoOverlayPlaceholder;
     final overlayBottom = _isHomeRowsStyleV2()
         ? navbarHeight
         : showInfoOverlay
@@ -2465,19 +2484,50 @@ class _ContentRowsState extends State<_ContentRows>
                   opacity: _mediaBarVisible ? 1.0 : 0.0,
                   child: IgnorePointer(
                     ignoring: !_mediaBarVisible,
-                    child: MediaBar(
-                      viewModel: widget.mediaBarViewModel,
-                      prefs: prefs,
-                      externallyPaused:
-                          carouselPaused ||
-                          !_mediaBarVisible ||
-                          _activePreviewKey != null,
-                      height: mediaBarHeight,
-                      onNavigateDown: _moveFocusFromMediaBarToRows,
-                      onNavigateUp: _navigateFromMediaBarToNavbar,
-                      onNavigateLeft: navbarIsLeft ? _navigateFromMediaBarToNavbar : null,
-                      focusNode: _mediaBarFocusNode,
-                    ),
+                    child: bannerMode
+                        ? BannerMediaBar(
+                            viewModel: widget.mediaBarViewModel,
+                            prefs: prefs,
+                            height: mediaBarHeight,
+                            externallyPaused:
+                                carouselPaused ||
+                                !_mediaBarVisible ||
+                                _activePreviewKey != null,
+                            focusNode: _mediaBarFocusNode,
+                            onNavigateDown: _moveFocusFromMediaBarToRows,
+                            onNavigateUp: _navigateFromMediaBarToNavbar,
+                            onNavigateLeft: navbarIsLeft
+                                ? _navigateFromMediaBarToNavbar
+                                : null,
+                            onOpen: (item) => context.push(
+                              Destinations.item(
+                                item.itemId,
+                                serverId: item.serverId,
+                              ),
+                            ),
+                            onPlay: (item) => context.push(
+                              Destinations.item(
+                                item.itemId,
+                                serverId: item.serverId,
+                                autoPlay: true,
+                              ),
+                            ),
+                          )
+                        : MediaBar(
+                            viewModel: widget.mediaBarViewModel,
+                            prefs: prefs,
+                            externallyPaused:
+                                carouselPaused ||
+                                !_mediaBarVisible ||
+                                _activePreviewKey != null,
+                            height: mediaBarHeight,
+                            onNavigateDown: _moveFocusFromMediaBarToRows,
+                            onNavigateUp: _navigateFromMediaBarToNavbar,
+                            onNavigateLeft: navbarIsLeft
+                                ? _navigateFromMediaBarToNavbar
+                                : null,
+                            focusNode: _mediaBarFocusNode,
+                          ),
                   ),
                 );
               }
