@@ -242,6 +242,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   double _verticalDragStartValue = 0.0;
   bool _verticalDragIsVolume = false;
   Offset? _doubleTapDownPosition;
+  DateTime? _lastControlButtonPressAt;
   bool _showSkipForward = false;
   bool _showSkipBackward = false;
   Timer? _skipForwardTimer;
@@ -5176,8 +5177,24 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     _doubleTapDownPosition = details.localPosition;
   }
 
+  void _handleControlButtonPress(VoidCallback onPressed) {
+    _lastControlButtonPressAt = DateTime.now();
+    onPressed();
+    _showControls();
+  }
+
+  bool _recentlyPressedControlButton() {
+    final lastPress = _lastControlButtonPressAt;
+    return lastPress != null &&
+        DateTime.now().difference(lastPress) <
+            const Duration(milliseconds: 350);
+  }
+
   void _handleDoubleTapGesture() {
     if (PlatformDetection.useDesktopUi) {
+      if (_recentlyPressedControlButton()) {
+        return;
+      }
       unawaited(_toggleDesktopFullscreen());
       _showControls();
       return;
@@ -5601,10 +5618,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         focusNode: focusNode,
         extent: extent,
         tooltip: tooltip,
-        onPressed: () {
-          onPressed();
-          _showControls();
-        },
+        onPressed: () => _handleControlButtonPress(onPressed),
         onRightBoundary: onRightBoundary,
         child: Icon(icon, color: iconColor, size: size),
       );
@@ -5614,10 +5628,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       height: extent,
       child: IconButton(
         focusNode: focusNode,
-        onPressed: () {
-          onPressed();
-          _showControls();
-        },
+        onPressed: () => _handleControlButtonPress(onPressed),
         tooltip: PlatformDetection.useDesktopUi ? tooltip : null,
         icon: Icon(icon, color: iconColor, size: size),
         padding: EdgeInsets.zero,
