@@ -7401,6 +7401,23 @@ class AppLocalizationsBn extends AppLocalizations {
   String get homeRowsSection => 'বাড়ির সারি';
 
   @override
+  String get homeRowDisplay => 'Home Row Display';
+
+  @override
+  String get homeRowSections => 'Home Row Sections';
+
+  @override
+  String get homeRowToggles => 'Home Row Toggles';
+
+  @override
+  String get homeRowTogglesSubtitle =>
+      'Enable or disable different home row categories';
+
+  @override
+  String get homeRowTogglesDescription =>
+      'Enable the following toggles to display the rows in Home Sections.';
+
+  @override
   String get rowsType => 'সারি টাইপ';
 
   @override
