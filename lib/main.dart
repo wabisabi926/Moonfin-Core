@@ -333,6 +333,9 @@ void main() async {
       ),
     ));
     await session.setActive(true);
+    session.becomingNoisyEventStream.listen((_) {
+      GetIt.instance<PlaybackManager>().pause();
+    });
   } catch (_) {}
 
   if (!GetIt.instance.isRegistered<PlaybackLifecycleHandler>()) {
