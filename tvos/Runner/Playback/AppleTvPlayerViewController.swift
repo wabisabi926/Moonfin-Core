@@ -22,13 +22,21 @@ final class AppleTvPlayerViewController: UIViewController {
     private var scrubTargetMs: Int?
     private var scrubCommitTimer: Timer?
 
+    private enum Zone { case scrubber, buttons }
+    private enum ControlId { case prev, skipBack, playPause, skipForward, next, audio, subtitles, chapters }
+    private var focusedZone: Zone = .buttons
+    private var focusedControlIndex = 0
+    private var controls: [ControlId] = []
+    private var controlViews: [ControlId: UIView] = [:]
+    private var controlIcons: [ControlId: UIImageView] = [:]
+
     private let osdContainer = UIView()
     private let gradientLayer = CAGradientLayer()
     private let scrubber = UIProgressView(progressViewStyle: .default)
     private let currentTimeLabel = UILabel()
     private let durationLabel = UILabel()
-    private let playPauseLabel = UILabel()
     private let chapterOverlay = UIView()
+    private let controlRow = UIStackView()
 
     private let topContainer = UIView()
     private let topGradientLayer = CAGradientLayer()
@@ -52,6 +60,7 @@ final class AppleTvPlayerViewController: UIViewController {
         player.attachVideoView(view)
         didAttachSurface = true
         setupOsd()
+        rebuildControls()
     }
 
     private func setupOsd() {
@@ -103,18 +112,20 @@ final class AppleTvPlayerViewController: UIViewController {
             osdContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             osdContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             osdContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            osdContainer.heightAnchor.constraint(equalToConstant: 240),
+            osdContainer.heightAnchor.constraint(equalToConstant: 320),
         ])
 
         gradientLayer.colors = [
             UIColor.clear.cgColor,
-            UIColor(white: 0, alpha: 0.85).cgColor,
+            UIColor(white: 0, alpha: 0.9).cgColor,
         ]
         osdContainer.layer.addSublayer(gradientLayer)
 
         scrubber.translatesAutoresizingMaskIntoConstraints = false
         scrubber.progressTintColor = UIColor(red: 0.9, green: 0.1, blue: 0.55, alpha: 1)
         scrubber.trackTintColor = UIColor(white: 1, alpha: 0.25)
+        scrubber.layer.cornerRadius = 3
+        scrubber.clipsToBounds = true
         osdContainer.addSubview(scrubber)
 
         chapterOverlay.translatesAutoresizingMaskIntoConstraints = false
@@ -122,46 +133,107 @@ final class AppleTvPlayerViewController: UIViewController {
         osdContainer.addSubview(chapterOverlay)
 
         currentTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentTimeLabel.font = .monospacedDigitSystemFont(ofSize: 30, weight: .medium)
+        currentTimeLabel.font = .monospacedDigitSystemFont(ofSize: 28, weight: .medium)
         currentTimeLabel.textColor = .white
         osdContainer.addSubview(currentTimeLabel)
 
         durationLabel.translatesAutoresizingMaskIntoConstraints = false
-        durationLabel.font = .monospacedDigitSystemFont(ofSize: 30, weight: .medium)
+        durationLabel.font = .monospacedDigitSystemFont(ofSize: 28, weight: .medium)
         durationLabel.textColor = UIColor(white: 1, alpha: 0.7)
         durationLabel.textAlignment = .right
         osdContainer.addSubview(durationLabel)
 
-        playPauseLabel.translatesAutoresizingMaskIntoConstraints = false
-        playPauseLabel.font = .systemFont(ofSize: 34, weight: .bold)
-        playPauseLabel.textColor = .white
-        osdContainer.addSubview(playPauseLabel)
+        controlRow.translatesAutoresizingMaskIntoConstraints = false
+        controlRow.axis = .horizontal
+        controlRow.alignment = .center
+        controlRow.distribution = .equalSpacing
+        controlRow.spacing = 28
+        osdContainer.addSubview(controlRow)
 
         NSLayoutConstraint.activate([
             scrubber.leadingAnchor.constraint(
                 equalTo: osdContainer.leadingAnchor, constant: 90),
             scrubber.trailingAnchor.constraint(
                 equalTo: osdContainer.trailingAnchor, constant: -90),
-            scrubber.bottomAnchor.constraint(
-                equalTo: osdContainer.bottomAnchor, constant: -70),
-            scrubber.heightAnchor.constraint(equalToConstant: 8),
+            scrubber.heightAnchor.constraint(equalToConstant: 6),
 
             chapterOverlay.leadingAnchor.constraint(equalTo: scrubber.leadingAnchor),
             chapterOverlay.trailingAnchor.constraint(equalTo: scrubber.trailingAnchor),
             chapterOverlay.centerYAnchor.constraint(equalTo: scrubber.centerYAnchor),
-            chapterOverlay.heightAnchor.constraint(equalToConstant: 18),
+            chapterOverlay.heightAnchor.constraint(equalToConstant: 16),
 
             currentTimeLabel.leadingAnchor.constraint(equalTo: scrubber.leadingAnchor),
             currentTimeLabel.bottomAnchor.constraint(
-                equalTo: scrubber.topAnchor, constant: -16),
+                equalTo: scrubber.topAnchor, constant: -14),
 
             durationLabel.trailingAnchor.constraint(equalTo: scrubber.trailingAnchor),
             durationLabel.bottomAnchor.constraint(
-                equalTo: scrubber.topAnchor, constant: -16),
+                equalTo: scrubber.topAnchor, constant: -14),
 
-            playPauseLabel.centerXAnchor.constraint(equalTo: osdContainer.centerXAnchor),
-            playPauseLabel.centerYAnchor.constraint(equalTo: currentTimeLabel.centerYAnchor),
+            controlRow.centerXAnchor.constraint(equalTo: osdContainer.centerXAnchor),
+            controlRow.topAnchor.constraint(equalTo: scrubber.bottomAnchor, constant: 34),
         ])
+    }
+
+    private func icon(for id: ControlId) -> String {
+        switch id {
+        case .prev: return "backward.end.fill"
+        case .skipBack: return "gobackward"
+        case .playPause: return isPaused() ? "play.fill" : "pause.fill"
+        case .skipForward: return "goforward"
+        case .next: return "forward.end.fill"
+        case .audio: return "waveform"
+        case .subtitles: return "captions.bubble"
+        case .chapters: return "list.bullet"
+        }
+    }
+
+    private func rebuildControls() {
+        controlRow.arrangedSubviews.forEach {
+            controlRow.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        }
+        controlViews.removeAll()
+        controlIcons.removeAll()
+
+        var ids: [ControlId] = []
+        if hasPrevious { ids.append(.prev) }
+        ids.append(.skipBack)
+        ids.append(.playPause)
+        ids.append(.skipForward)
+        if hasNext { ids.append(.next) }
+        if !audioTracks.isEmpty { ids.append(.audio) }
+        ids.append(.subtitles)
+        if chapters.count > 1 { ids.append(.chapters) }
+        controls = ids
+
+        for id in ids {
+            let container = UIView()
+            container.translatesAutoresizingMaskIntoConstraints = false
+            container.layer.cornerRadius = 32
+            let iconView = UIImageView()
+            iconView.translatesAutoresizingMaskIntoConstraints = false
+            iconView.contentMode = .scaleAspectFit
+            iconView.tintColor = .white
+            iconView.image = UIImage(
+                systemName: icon(for: id),
+                withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .semibold))
+            container.addSubview(iconView)
+            NSLayoutConstraint.activate([
+                container.widthAnchor.constraint(equalToConstant: 64),
+                container.heightAnchor.constraint(equalToConstant: 64),
+                iconView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+                iconView.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            ])
+            controlRow.addArrangedSubview(container)
+            controlViews[id] = container
+            controlIcons[id] = iconView
+        }
+
+        if !controls.indices.contains(focusedControlIndex) {
+            focusedControlIndex = controls.firstIndex(of: .playPause) ?? 0
+        }
+        updateFocusHighlight()
     }
 
     override func viewDidLayoutSubviews() {
@@ -198,6 +270,7 @@ final class AppleTvPlayerViewController: UIViewController {
             return (title: title, startMs: startMs)
         }
         if isViewLoaded {
+            rebuildControls()
             view.setNeedsLayout()
         }
     }
@@ -239,6 +312,9 @@ final class AppleTvPlayerViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         player.notifySurfaceReady()
+        focusedZone = .buttons
+        focusedControlIndex = controls.firstIndex(of: .playPause) ?? 0
+        updateFocusHighlight()
         showOsd()
         updateTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) {
             [weak self] _ in
@@ -266,30 +342,29 @@ final class AppleTvPlayerViewController: UIViewController {
                     return
                 }
             case .upArrow:
+                focusedZone = .scrubber
+                updateFocusHighlight()
                 showOsd()
-                presentOptionsMenu()
                 return
             case .downArrow:
-                hideOsd()
+                focusedZone = .buttons
+                updateFocusHighlight()
+                showOsd()
                 return
             case .playPause:
                 togglePlayPause()
                 showOsd()
                 return
             case .select:
-                if scrubTargetMs != nil {
-                    commitScrub()
-                } else {
-                    togglePlayPause()
-                }
+                handleSelect()
                 showOsd()
                 return
             case .leftArrow:
-                adjustScrub(byMs: -skipBackMs)
+                handleHorizontal(forward: false)
                 showOsd()
                 return
             case .rightArrow:
-                adjustScrub(byMs: skipForwardMs)
+                handleHorizontal(forward: true)
                 showOsd()
                 return
             default:
@@ -297,6 +372,70 @@ final class AppleTvPlayerViewController: UIViewController {
             }
         }
         super.pressesBegan(presses, with: event)
+    }
+
+    private func handleSelect() {
+        switch focusedZone {
+        case .scrubber:
+            if scrubTargetMs != nil {
+                commitScrub()
+            } else {
+                togglePlayPause()
+            }
+        case .buttons:
+            guard controls.indices.contains(focusedControlIndex) else { return }
+            activate(controls[focusedControlIndex])
+        }
+    }
+
+    private func handleHorizontal(forward: Bool) {
+        switch focusedZone {
+        case .scrubber:
+            adjustScrub(byMs: forward ? skipForwardMs : -skipBackMs)
+        case .buttons:
+            let next = focusedControlIndex + (forward ? 1 : -1)
+            focusedControlIndex = min(controls.count - 1, max(0, next))
+            updateFocusHighlight()
+        }
+    }
+
+    private func activate(_ id: ControlId) {
+        switch id {
+        case .prev:
+            onPrevious?()
+        case .skipBack:
+            adjustScrub(byMs: -skipBackMs)
+        case .playPause:
+            togglePlayPause()
+        case .skipForward:
+            adjustScrub(byMs: skipForwardMs)
+        case .next:
+            onNext?()
+        case .audio:
+            presentAudioMenu()
+        case .subtitles:
+            presentSubtitleMenu()
+        case .chapters:
+            presentChapterMenu()
+        }
+    }
+
+    private func updateFocusHighlight() {
+        for (id, container) in controlViews {
+            let isFocused =
+                focusedZone == .buttons && controls.indices.contains(focusedControlIndex)
+                && controls[focusedControlIndex] == id
+            container.backgroundColor =
+                isFocused ? .white : UIColor(white: 1, alpha: 0)
+            controlIcons[id]?.tintColor = isFocused ? .black : UIColor(white: 1, alpha: 0.85)
+            container.transform =
+                isFocused ? CGAffineTransform(scaleX: 1.12, y: 1.12) : .identity
+        }
+        let scrubFocused = focusedZone == .scrubber
+        scrubber.transform =
+            scrubFocused ? CGAffineTransform(scaleX: 1, y: 2.0) : .identity
+        scrubber.trackTintColor =
+            scrubFocused ? UIColor(white: 1, alpha: 0.45) : UIColor(white: 1, alpha: 0.25)
     }
 
     private func togglePlayPause() {
@@ -346,41 +485,6 @@ final class AppleTvPlayerViewController: UIViewController {
             self.osdContainer.alpha = 0
             self.topContainer.alpha = 0
         }
-    }
-
-    private func presentOptionsMenu() {
-        let sheet = UIAlertController(
-            title: nil, message: nil, preferredStyle: .actionSheet)
-        if !audioTracks.isEmpty {
-            sheet.addAction(
-                UIAlertAction(title: "Audio", style: .default) { [weak self] _ in
-                    self?.presentAudioMenu()
-                })
-        }
-        sheet.addAction(
-            UIAlertAction(title: "Subtitles", style: .default) { [weak self] _ in
-                self?.presentSubtitleMenu()
-            })
-        if chapters.count > 1 {
-            sheet.addAction(
-                UIAlertAction(title: "Chapters", style: .default) { [weak self] _ in
-                    self?.presentChapterMenu()
-                })
-        }
-        if hasNext {
-            sheet.addAction(
-                UIAlertAction(title: "Next Episode", style: .default) { [weak self] _ in
-                    self?.onNext?()
-                })
-        }
-        if hasPrevious {
-            sheet.addAction(
-                UIAlertAction(title: "Previous Episode", style: .default) { [weak self] _ in
-                    self?.onPrevious?()
-                })
-        }
-        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        present(sheet, animated: true)
     }
 
     private func trackActionTitle(
@@ -463,7 +567,9 @@ final class AppleTvPlayerViewController: UIViewController {
 
     private func updateOsd() {
         renderProgress()
-        playPauseLabel.text = isPaused() ? "❚❚" : "▶"
+        controlIcons[.playPause]?.image = UIImage(
+            systemName: isPaused() ? "play.fill" : "pause.fill",
+            withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .semibold))
 
         let shouldShow =
             isPaused() || scrubTargetMs != nil
