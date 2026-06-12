@@ -146,7 +146,7 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
             send(["event": "presented"])
             return
         }
-        let created = MpvPlayerWrapper.makePlayer()
+        let created: MpvPlayerWrapper = NativePlayerWrapper()
         player = created
         let vc = AppleTvPlayerViewController(player: created)
         vc.modalPresentationStyle = .overFullScreen
@@ -206,6 +206,23 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
         if let speed = (args["speed"] as? NSNumber)?.floatValue {
             player.setRate(speed)
         }
+
+        let dvProfile = (args["videoDvProfile"] as? NSNumber)?.intValue ?? -1
+        let nativeDvEnabled = (args["nativeDvEnabled"] as? Bool) ?? false
+        let atmosPassthrough = (args["atmosPassthrough"] as? Bool) ?? false
+        let audioCodec = (args["audioCodec"] as? String ?? "").lowercased()
+        let audioProfile = (args["audioProfile"] as? String ?? "").lowercased()
+        let audioChannels = (args["audioChannels"] as? NSNumber)?.intValue ?? 0
+        let isAtmosFamily =
+            audioCodec == "truehd" || audioCodec == "mlp"
+            || (audioCodec == "eac3" && audioProfile.contains("joc"))
+        let preferNative =
+            !audioOnly
+            && ((dvProfile == 7 && nativeDvEnabled)
+                || (atmosPassthrough && isAtmosFamily && audioChannels != 2))
+        player.configurePreferredBackendForNextPlayback(
+            preferNative ? .native : .mpv, fallbackReason: nil)
+
         Task {
             await player.play(
                 streamUrl: url, startPosition: startMs / 1000.0, audioOnly: audioOnly)

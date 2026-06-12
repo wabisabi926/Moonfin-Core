@@ -207,6 +207,17 @@ class PlaybackManager implements AudioOwnable {
         const [];
   }
 
+  Map<String, dynamic>? _defaultAudioStream(
+    List<Map<String, dynamic>> mediaStreams,
+  ) {
+    final audio = mediaStreams.where((s) => s['Type'] == 'Audio').toList();
+    if (audio.isEmpty) return null;
+    return audio.firstWhere(
+      (s) => s['IsDefault'] == true,
+      orElse: () => audio.first,
+    );
+  }
+
   Map<String, dynamic> _buildBackendMediaPayload({
     required String url,
     List<Map<String, dynamic>> mediaStreams = const [],
@@ -217,11 +228,22 @@ class PlaybackManager implements AudioOwnable {
     double? normalizationGainDb,
   }) {
     final resolvedMediaType = mediaType?.trim().toLowerCase();
+    final audioStream = _defaultAudioStream(mediaStreams);
+    final videoStream = mediaStreams
+        .where((s) => s['Type'] == 'Video')
+        .firstOrNull;
     return <String, dynamic>{
       'url': url,
       if (container != null && container.isNotEmpty) 'container': container,
       if (videoRangeType != null && videoRangeType.isNotEmpty)
         'videoRangeType': videoRangeType,
+      if (audioStream != null) ...{
+        'audioCodec': (audioStream['Codec'] ?? '').toString(),
+        'audioProfile': (audioStream['Profile'] ?? '').toString(),
+        if (audioStream['Channels'] is int) 'audioChannels': audioStream['Channels'],
+      },
+      if (videoStream != null && videoStream['DvProfile'] is int)
+        'videoDvProfile': videoStream['DvProfile'],
       if (headers.isNotEmpty) 'headers': headers,
       'mediaType':
           (resolvedMediaType == 'audio' || resolvedMediaType == 'video')

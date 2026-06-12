@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:playback_core/playback_core.dart';
 
+import '../preference/preference_constants.dart';
 import '../preference/user_preferences.dart';
 import '../util/platform_detection.dart';
 import 'audio_capability_profile.dart';
@@ -208,6 +209,14 @@ class AppleTvMpvBackend implements PlayerBackend {
       'container': payload['container']?.toString(),
       'videoRangeType': payload['videoRangeType']?.toString(),
       'videoCodec': payload['videoCodec']?.toString(),
+      'videoDvProfile': payload['videoDvProfile'],
+      'audioCodec': payload['audioCodec']?.toString(),
+      'audioProfile': payload['audioProfile']?.toString(),
+      'audioChannels': payload['audioChannels'],
+      'nativeDvEnabled': _nativeDvDecodeEnabled,
+      'atmosPassthrough':
+          _prefs.resolveEac3JocPassthroughEnabled() ||
+          _prefs.resolveTrueHdAtmosPassthroughEnabled(),
       'mediaType': payload['mediaType']?.toString() ?? 'video',
       'normalizationGainDb': (payload['normalizationGainDb'] as num?)?.toDouble(),
       'dolbyVisionFallbackBehavior':
@@ -287,6 +296,10 @@ class AppleTvMpvBackend implements PlayerBackend {
   @override
   Stream<bool> get completedStream => _completedStream.stream;
 
+  bool get _nativeDvDecodeEnabled =>
+      _prefs.get(UserPreferences.dolbyVisionProfile7DirectPlayBehavior) !=
+      DolbyVisionProfile7DirectPlayBehavior.disabled;
+
   @override
   Map<String, dynamic> getDeviceProfile({
     bool useProgressiveTranscode = false,
@@ -342,7 +355,8 @@ class AppleTvMpvBackend implements PlayerBackend {
       maxResolutionVc1Width: PlatformDetection.maxResolutionVc1Width,
       maxResolutionVc1Height: PlatformDetection.maxResolutionVc1Height,
       supportsDvProfile5: PlatformDetection.supportsDoViProfile5,
-      supportsDvProfile7: PlatformDetection.supportsDoViProfile7,
+      supportsDvProfile7:
+          PlatformDetection.supportsDoViProfile7 && _nativeDvDecodeEnabled,
       supportsDvProfile8: PlatformDetection.supportsDoViProfile8,
       knownHevcDoviHdr10PlusBug: PlatformDetection.knownHevcDoviHdr10PlusBug,
       allowDolbyVisionProfile7ElDirectPlay:

@@ -100,7 +100,7 @@ enum VideoCapabilityDetector {
             "supportsHevcHdr10": hdr10,
             "supportsHevcHdr10Plus": hdr10Plus,
             "supportsDvP5": dolbyVision,
-            "supportsDvP7": false,
+            "supportsDvP7": dolbyVision,
             "supportsDvP8": dolbyVision,
             "knownHevcDoviHdr10PlusBug": false,
             "maxResolutionAvc": ["width": width, "height": height],
