@@ -24,11 +24,9 @@ class AppDelegate: FlutterAppDelegate {
             rootViewController: flutterViewController)
         topShelfChannel = TopShelfChannel(
             messenger: flutterViewController.binaryMessenger)
-        if let engine = flutterViewController.engine {
-            previewChannel = AppleTvPreviewChannel(
-                messenger: flutterViewController.binaryMessenger,
-                textures: engine)
-        }
+        previewChannel = AppleTvPreviewChannel(
+            messenger: flutterViewController.binaryMessenger,
+            textures: flutterViewController)
 
         if let launchUrl = launchOptions?[.url] as? URL {
             topShelfChannel?.deliverDeepLink(launchUrl, isLaunch: true)
