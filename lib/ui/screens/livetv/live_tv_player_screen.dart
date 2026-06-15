@@ -149,7 +149,9 @@ class _LiveTvPlayerScreenState extends State<LiveTvPlayerScreen> {
         [item],
         enableDirectPlay: allowDirect,
         enableDirectStream: allowDirect,
-        enableTranscoding: !allowDirect,
+        // Keep transcoding available as a fallback so a failed direct-play of
+        // the upstream URL recovers to the server transcode instead of erroring.
+        enableTranscoding: true,
       );
     } catch (e) {
       if (mounted) {
@@ -1044,10 +1046,6 @@ class _LiveTvPlayerScreenState extends State<LiveTvPlayerScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-            if (!PlatformDetection.isTV) ...[
-              _buildStreamStatsRow(),
-              const SizedBox(height: AppSpacing.spaceXs),
-            ],
             _buildTimelineSection(),
             _buildPlaybackControlsRow(),
           ],
@@ -1183,114 +1181,6 @@ class _LiveTvPlayerScreenState extends State<LiveTvPlayerScreen> {
         );
       },
     );
-  }
-
-  Widget _buildStreamStatsRow() {
-    final l10n = AppLocalizations.of(context);
-    final (audioLabel, bitrateLabel, subtitleLabel) = _resolveOsdStreamStats();
-    return Wrap(
-      spacing: AppSpacing.spaceSm,
-      runSpacing: AppSpacing.spaceXs,
-      children: [
-        _buildStreamStatChip(
-          icon: Icons.audiotrack_rounded,
-          label: l10n.audio,
-          value: audioLabel,
-        ),
-        _buildStreamStatChip(
-          icon: Icons.speed_rounded,
-          label: l10n.bitrate,
-          value: bitrateLabel,
-        ),
-        _buildStreamStatChip(
-          icon: Icons.subtitles_rounded,
-          label: l10n.subtitles,
-          value: subtitleLabel,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStreamStatChip({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.10),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: Colors.white70),
-          const SizedBox(width: 6),
-          Text(
-            '$label: $value',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: AppTypography.fontSizeXs,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  (String, String, String) _resolveOsdStreamStats() {
-    final l10n = AppLocalizations.of(context);
-    final resolution = _manager.currentResolution;
-    final streams = resolution?.mediaStreams ?? const <Map<String, dynamic>>[];
-
-    Map<String, dynamic>? pickStream(String type, int? preferredIndex) {
-      if (preferredIndex != null && preferredIndex >= 0) {
-        final preferred = streams
-            .where((s) => s['Type'] == type)
-            .firstWhere(
-              (s) => s['Index'] == preferredIndex,
-              orElse: () => const <String, dynamic>{},
-            );
-        if (preferred.isNotEmpty) {
-          return preferred;
-        }
-      }
-
-      return streams
-              .where((s) => s['Type'] == type && s['IsDefault'] == true)
-              .firstOrNull ??
-          streams.where((s) => s['Type'] == type).firstOrNull;
-    }
-
-    final videoStream = streams.where((s) => s['Type'] == 'Video').firstOrNull;
-    final audioStream = pickStream('Audio', _manager.audioStreamIndex);
-    final subtitleStream = _manager.subtitleStreamIndex == -1
-        ? null
-        : pickStream('Subtitle', _manager.subtitleStreamIndex);
-
-    final audioCodec = audioStream == null ? '' : _formatAudioCodec(audioStream);
-    final audioChannels = _formatChannels(audioStream?['Channels'] as int?);
-    final audioLabel = audioStream == null
-        ? l10n.unknown
-        : audioChannels == l10n.unknown
-            ? audioCodec
-            : '$audioCodec $audioChannels';
-
-    final bitrateLabel = _formatBitrate(videoStream?['BitRate'] as int?);
-
-    final subtitleLabel = switch (subtitleStream) {
-      null => 'Off',
-      _ => (subtitleStream['DisplayTitle'] as String?)?.trim().isNotEmpty == true
-          ? (subtitleStream['DisplayTitle'] as String).trim()
-          : (subtitleStream['Language'] as String?)?.trim().isNotEmpty == true
-              ? (subtitleStream['Language'] as String).trim()
-              : l10n.unknown,
-    };
-
-    return (audioLabel, bitrateLabel, subtitleLabel);
   }
 
   String _formatDurationLabel(Duration value) {

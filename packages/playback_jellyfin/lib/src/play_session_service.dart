@@ -86,6 +86,14 @@ class PlaySessionService implements PlayerService {
     }
   }
 
+  @override
+  Future<void> closeLiveStream(String liveStreamId) async {
+    if (liveStreamId.isEmpty) return;
+    try {
+      await _client.playbackApi.closeLiveStream(liveStreamId);
+    } catch (_) {}
+  }
+
   void _armExitBeacon(
     dynamic mediaItem,
     StreamResolutionResult resolution,

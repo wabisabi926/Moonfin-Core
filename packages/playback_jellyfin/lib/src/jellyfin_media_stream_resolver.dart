@@ -90,7 +90,12 @@ class JellyfinMediaStreamResolver implements MediaStreamResolver {
     final hasVideoStream = source.mediaStreams.any((stream) => stream['Type'] == 'Video');
     final isAudioByStreams = hasKnownMediaStreams && !hasVideoStream;
     final isAudio = isAudioByStreams || _isAudioMediaItem(mediaItem);
-    var (url, playMethod) = _resolveStreamUrl(itemId, source, isAudio: isAudio);
+    var (url, playMethod) = _resolveStreamUrl(
+      itemId,
+      source,
+      isAudio: isAudio,
+      enableDirectPlay: enableDirectPlay,
+    );
 
     if (playMethod == StreamPlayMethod.transcode || playMethod == StreamPlayMethod.directStream) {
       url = MediaStreamResolver.applyStreamIndices(url, audioStreamIndex, subtitleStreamIndex);
@@ -237,6 +242,7 @@ class JellyfinMediaStreamResolver implements MediaStreamResolver {
     String itemId,
     PlaybackMediaSource source, {
     bool isAudio = false,
+    bool enableDirectPlay = true,
   }) {
     final remotePath = source.path;
     final isManagedLiveStream =
@@ -249,6 +255,20 @@ class JellyfinMediaStreamResolver implements MediaStreamResolver {
         (remotePath.startsWith('http://') ||
             remotePath.startsWith('https://'))) {
       return (remotePath, StreamPlayMethod.directPlay);
+    }
+
+    // Live TV: play the source path directly instead of the HLS transcode.
+    // Server-served path (e.g. Jellyfin LiveStreamFiles) is a remux ->
+    // directStream (keeps the live session); a remote upstream -> directPlay.
+    if (MediaStreamResolver.isLiveSourceDirectPlayEligible(
+      enableDirectPlay: enableDirectPlay,
+      isManagedLiveStream: isManagedLiveStream,
+      path: remotePath,
+    )) {
+      final method = _isServerUrl(remotePath!)
+          ? StreamPlayMethod.directStream
+          : StreamPlayMethod.directPlay;
+      return (remotePath, method);
     }
 
     if (source.supportsDirectPlay && isAudio) {

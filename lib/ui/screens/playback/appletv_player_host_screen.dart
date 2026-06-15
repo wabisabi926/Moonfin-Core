@@ -201,7 +201,7 @@ class _AppleTvPlayerHostScreenState extends State<AppleTvPlayerHostScreen> {
       case 'directPlay':
         return 'Direct Play';
       case 'directStream':
-        return 'Direct Stream';
+        return 'Direct Stream (Remux)';
       case 'transcode':
         return 'Transcode';
       default:

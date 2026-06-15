@@ -80,6 +80,14 @@ class EmbyPlaySessionService implements PlayerService {
     }
   }
 
+  @override
+  Future<void> closeLiveStream(String liveStreamId) async {
+    if (liveStreamId.isEmpty) return;
+    try {
+      await _client.playbackApi.closeLiveStream(liveStreamId);
+    } catch (_) {}
+  }
+
   static PlayMethod _toPlayMethod(StreamPlayMethod method) => switch (method) {
     StreamPlayMethod.directPlay => PlayMethod.directPlay,
     StreamPlayMethod.directStream => PlayMethod.directStream,

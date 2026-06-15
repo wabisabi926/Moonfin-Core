@@ -1,9 +1,30 @@
 import 'stream_resolution_result.dart';
+import 'web_platform.dart';
 
 abstract class MediaStreamResolver {
   static String extractItemId(dynamic mediaItem) {
     if (mediaItem is Map) return mediaItem['Id'] as String;
     return mediaItem.id as String;
+  }
+
+  /// Whether a managed live stream (Live TV) should be played directly from its
+  /// source `path` instead of the server's HLS transcode session.
+  ///
+  /// Live sources are reported by the server as transcode-only, so without this
+  /// they always transcode. The source `path` is a direct/remux feed: either the
+  /// upstream URL, or the server's own remuxed stream (e.g. Jellyfin's
+  /// `/LiveTv/LiveStreamFiles/.../stream.ts`). Playing it directly avoids the
+  /// re-encoding HLS pipeline (the manager's error -> re-resolve-with-transcode
+  /// fallback covers codecs the player can't handle). Excluded on web
+  /// (cross-origin direct play is blocked there).
+  static bool isLiveSourceDirectPlayEligible({
+    required bool enableDirectPlay,
+    required bool isManagedLiveStream,
+    required String? path,
+  }) {
+    if (!enableDirectPlay || isWebPlatform || !isManagedLiveStream) return false;
+    return path != null &&
+        (path.startsWith('http://') || path.startsWith('https://'));
   }
 
   static String applyStreamIndices(String url, int? audioStreamIndex, int? subtitleStreamIndex) {

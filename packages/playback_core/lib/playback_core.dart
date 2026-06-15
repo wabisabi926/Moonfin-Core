@@ -12,3 +12,4 @@ export 'src/queue_service.dart';
 export 'src/player_state.dart';
 export 'src/media_stream_resolver.dart';
 export 'src/stream_resolution_result.dart';
+export 'src/web_platform.dart';

@@ -157,7 +157,9 @@ class _AppleTvLiveTvPlayerHostScreenState
         [item],
         enableDirectPlay: allowDirect,
         enableDirectStream: allowDirect,
-        enableTranscoding: !allowDirect,
+        // Keep transcoding available as a fallback so a failed direct-play of
+        // the upstream URL recovers to the server transcode instead of erroring.
+        enableTranscoding: true,
       );
     } catch (_) {
       if (mounted) {
@@ -571,7 +573,7 @@ class _AppleTvLiveTvPlayerHostScreenState
       case 'directPlay':
         return 'Direct Play';
       case 'directStream':
-        return 'Direct Stream';
+        return 'Direct Stream (Remux)';
       case 'transcode':
         return 'Transcode';
       default:

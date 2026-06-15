@@ -51,7 +51,11 @@ class EmbyMediaStreamResolver implements MediaStreamResolver {
     }
 
     final source = _selectBestSource(info.mediaSources, preferredId: mediaSourceId);
-    var (url, playMethod) = _resolveStreamUrl(itemId, source);
+    var (url, playMethod) = _resolveStreamUrl(
+      itemId,
+      source,
+      enableDirectPlay: enableDirectPlay,
+    );
 
     if (playMethod == StreamPlayMethod.transcode || playMethod == StreamPlayMethod.directStream) {
       url = MediaStreamResolver.applyStreamIndices(url, audioStreamIndex, subtitleStreamIndex);
@@ -141,8 +145,9 @@ class EmbyMediaStreamResolver implements MediaStreamResolver {
 
   (String, StreamPlayMethod) _resolveStreamUrl(
     String itemId,
-    PlaybackMediaSource source,
-  ) {
+    PlaybackMediaSource source, {
+    bool enableDirectPlay = true,
+  }) {
     final remotePath = source.path;
     final isManagedLiveStream =
         source.liveStreamId != null && source.liveStreamId!.isNotEmpty;
@@ -154,6 +159,20 @@ class EmbyMediaStreamResolver implements MediaStreamResolver {
         (remotePath.startsWith('http://') ||
             remotePath.startsWith('https://'))) {
       return (remotePath, StreamPlayMethod.directPlay);
+    }
+
+    // Live TV: play the source path directly instead of the HLS transcode.
+    // Server-served path is a remux -> directStream (keeps the live session);
+    // a remote upstream -> directPlay.
+    if (MediaStreamResolver.isLiveSourceDirectPlayEligible(
+      enableDirectPlay: enableDirectPlay,
+      isManagedLiveStream: isManagedLiveStream,
+      path: remotePath,
+    )) {
+      final method = remotePath!.startsWith(_client.baseUrl)
+          ? StreamPlayMethod.directStream
+          : StreamPlayMethod.directPlay;
+      return (remotePath, method);
     }
 
     if (source.supportsDirectPlay) {
