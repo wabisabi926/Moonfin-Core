@@ -4,7 +4,7 @@
     "@appTitle": {
         "description": "The application title"
     },
-    "signIn": "Inicieu la sessió",
+    "signIn": "Iniciar sessió",
     "@signIn": {
         "description": "Sign in heading and button label"
     },
@@ -951,7 +951,7 @@
     "@moreLikeThis": {
         "description": "Section header for similar items"
     },
-    "castAndCrew": "Repartiment i tripulació",
+    "castAndCrew": "Repartiment i equip",
     "@castAndCrew": {
         "description": "Section header for cast and crew section"
     },
@@ -1079,7 +1079,7 @@
             }
         }
     },
-    "play": "Jugar",
+    "play": "Reproduir",
     "@play": {
         "description": "Action button label to play media"
     },
@@ -4438,7 +4438,7 @@
     "@appearances": {
         "description": "Section title for cast appearances"
     },
-    "crewSection": "Tripulació",
+    "crewSection": "Equip",
     "@crewSection": {
         "description": "Section title for crew credits"
     },
@@ -4758,7 +4758,7 @@
         }
     },
     "adminDeleteLibrary": "Suprimeix la biblioteca",
-    "adminLibraryDeleted": "S'ha suprimit la biblioteca \"{name}\".",
+    "adminLibraryDeleted": "S'ha suprimit la biblioteca \"{name}\"",
     "@adminLibraryDeleted": {
         "placeholders": {
             "name": {
@@ -4967,7 +4967,7 @@
             }
         }
     },
-    "adminUserDeleted": "S'ha suprimit l'usuari \"{name}\".",
+    "adminUserDeleted": "S'ha suprimit l'usuari \"{name}\"",
     "@adminUserDeleted": {
         "placeholders": {
             "name": {
@@ -6666,7 +6666,7 @@
             }
         }
     },
-    "settingsLiveTvDirect": "TV en directe directe",
+    "settingsLiveTvDirect": "TV en directe",
     "settingsLiveTvDirectSubtitle": "Activa la reproducció directa per a la televisió en directe",
     "settingsOpenGroups": "Grups oberts",
     "settingsOpenGroupsSubtitle": "Crea, uneix-te o gestiona grups de SyncPlay",
@@ -7129,7 +7129,7 @@
     "passthrough": "Passthrough",
     "supportedOnThisDevice": "Compatible amb aquest dispositiu",
     "notSupportedOnThisDevice": "No és compatible amb aquest dispositiu",
-    "settingsAudioDtsXPassthrough": "Passthrough DTS:X (DTS UHD).",
+    "settingsAudioDtsXPassthrough": "Transferència DTS:X (DTS UHD)",
     "settingsAudioBitstreamDtsXToExternalDecoder": "Bitstream DTS:X (DTS UHD) a un descodificador extern.",
     "settingsAudioTrueHdJocPassthrough": "TrueHD amb Atmos (JOC) Passthrough",
     "mediaPlayerBehavior": "Comportament del reproductor multimèdia",
@@ -7357,5 +7357,13 @@
     "autoHdrSwitchingDescription": "Activa automàticament HDR per a la reproducció de vídeo HDR i restaura el mode de visualització en sortir.",
     "whenFullscreen": "Quan a pantalla completa",
     "transcodingLimits": "Límits de transcodificació",
-    "settingsSupportMoonfinSubtitle": "Dona un cafè al desenvolupador"
+    "settingsSupportMoonfinSubtitle": "Dona un cafè al desenvolupador",
+    "enableTunnelingSubtitle": "Avançat. Envia àudio i vídeo a través d'una ruta de maquinari acoblada. Desactivat per defecte perquè causa caigudes d'àudio / vídeo en alguns dispositius.",
+    "@enableTunnelingSubtitle": {
+        "description": "Setting subtitle for enable tunneling"
+    },
+    "enableTunnelingTitle": "Habilita tunneling",
+    "@enableTunnelingTitle": {
+        "description": "Setting title: enable tunneled video playback (advanced)"
+    }
 }
