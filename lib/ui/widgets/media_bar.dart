@@ -195,6 +195,13 @@ class _MediaBarState extends State<MediaBar>
   }
 
   @override
+  void deactivate() {
+    // Stop playback if the widget is recycled before the async dispose() runs.
+    _cancelTrailerPreview(rebuild: false);
+    super.deactivate();
+  }
+
+  @override
   void dispose() {
     _audioArbiter.unregister(this);
     _autoAdvanceTimer?.cancel();
@@ -217,6 +224,16 @@ class _MediaBarState extends State<MediaBar>
 
   bool _isHomeRouteCurrent() {
     return _isHomePath(appRouter.routerDelegate.currentConfiguration.uri.path);
+  }
+
+  /// Whether a trailer may play right now. Re-checked after every await in the
+  /// reveal pipeline so a leave-event aborts the reveal even before
+  /// _cancelTrailerPreview() runs.
+  bool _trailerShouldBeActive() {
+    return mounted &&
+        !widget.externallyPaused &&
+        _isHomeRouteCurrent() &&
+        !_mainPlaybackActive;
   }
 
   bool _useMedia3TrailerEngine() {
@@ -692,23 +709,25 @@ class _MediaBarState extends State<MediaBar>
     });
   }
 
-  void _cancelTrailerPreview() {
+  void _cancelTrailerPreview({bool rebuild = true}) {
     final wasTrailerPlaying = _isTrailerPlaying;
     final wasUsingMedia3 = _trailerUsingMedia3;
+    final wasUsingAppleTv = _trailerUsingAppleTv;
     _trailerRevealTimer?.cancel();
     _youTubeRevealTimer?.cancel();
     _trailerResolveId++;
     _trailerRevealArmed = false;
     _isTrailerPlaying = false;
-    final wasUsingAppleTv = _trailerUsingAppleTv;
-    if (_trailerUsingMedia3) {
-      _trailerUsingMedia3 = false;
-      unawaited(_media3TrailerBackend!.release());
-    } else if (_trailerUsingAppleTv) {
-      _trailerUsingAppleTv = false;
-      unawaited(_appleTvTrailerPlayer?.stop());
-    } else {
-      _trailerPlayer?.stop();
+    _trailerUsingMedia3 = false;
+    _trailerUsingAppleTv = false;
+    // Stop both media-bar-owned players unconditionally: the flags can desync
+    // from what is actually playing.
+    _trailerPlayer?.stop();
+    unawaited(_appleTvTrailerPlayer?.stop());
+    // Media3 is a shared singleton (also drives row previews); only release it
+    // when the trailer owned it.
+    if (wasUsingMedia3) {
+      unawaited(_media3TrailerBackend?.release());
     }
     _activeTrailerItemId = null;
     _pendingTrailerItemId = null;
@@ -718,12 +737,12 @@ class _MediaBarState extends State<MediaBar>
         _trailerVideoOpacity != 0.0 ||
         wasUsingMedia3 ||
         wasUsingAppleTv) {
-      setState(() {
-        _activeYouTubeVideoId = null;
-        _trailerVideoOpacity = 0.0;
-      });
+      _activeYouTubeVideoId = null;
+      _trailerVideoOpacity = 0.0;
+      // deactivate() runs during the build phase, where setState() would throw.
+      if (rebuild && mounted) setState(() {});
     }
-    if (wasTrailerPlaying) {
+    if (rebuild && wasTrailerPlaying && mounted) {
       _startAutoAdvance();
     }
   }
@@ -732,7 +751,7 @@ class _MediaBarState extends State<MediaBar>
     MediaBarSlideItem item,
     int resolveId,
   ) async {
-    if (_mainPlaybackActive || !_isHomeRouteCurrent()) {
+    if (!_trailerShouldBeActive()) {
       return;
     }
     final client = _clientForServer(item.serverId);
@@ -827,9 +846,7 @@ class _MediaBarState extends State<MediaBar>
             'headers': YouTubeStreamResolver.youtubeHeaders,
         };
         await _media3TrailerBackend.play(payload).timeout(_openTimeout);
-        if (!mounted ||
-            resolveId != _trailerResolveId ||
-            !_isHomeRouteCurrent()) {
+        if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
           await _media3TrailerBackend.stop();
           return;
         }
@@ -846,9 +863,7 @@ class _MediaBarState extends State<MediaBar>
               backend: 'mpv',
             )
             .timeout(_openTimeout);
-        if (!mounted ||
-            resolveId != _trailerResolveId ||
-            !_isHomeRouteCurrent()) {
+        if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
           await player.stop();
           return;
         }
@@ -866,9 +881,7 @@ class _MediaBarState extends State<MediaBar>
               )
             : Media(streamUrl);
         await player.open(media).timeout(_openTimeout);
-        if (!mounted ||
-            resolveId != _trailerResolveId ||
-            !_isHomeRouteCurrent()) {
+        if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
           await player.stop();
           return;
         }
@@ -900,11 +913,13 @@ class _MediaBarState extends State<MediaBar>
     if (!mounted || resolveId != _trailerResolveId) return;
     if (!_trailerRevealArmed) return;
     if (_activeTrailerItemId != item.itemId) return;
-    if (widget.externallyPaused) return;
-    if (!_isHomeRouteActive) return;
+    if (!_trailerShouldBeActive()) return;
 
     await _audioArbiter.acquire(AudioProducer.mediaBarTrailer);
-    if (!mounted || resolveId != _trailerResolveId) return;
+    if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
+      _cancelTrailerPreview();
+      return;
+    }
 
     if (_pendingYouTubeVideoId != null) {
       _isTrailerPlaying = true;
@@ -932,8 +947,8 @@ class _MediaBarState extends State<MediaBar>
         if (!mounted || resolveId != _trailerResolveId) return;
 
         await _media3TrailerBackend.resume();
-        if (!mounted || resolveId != _trailerResolveId) {
-          unawaited(_media3TrailerBackend.stop());
+        if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
+          _cancelTrailerPreview();
           return;
         }
       } catch (_) {
@@ -945,8 +960,8 @@ class _MediaBarState extends State<MediaBar>
       _isTrailerPlaying = true;
       _autoAdvanceTimer?.cancel();
       await _waitForMedia3TrailerReady(resolveId);
-      if (!mounted || resolveId != _trailerResolveId) {
-        unawaited(_media3TrailerBackend.stop());
+      if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
+        _cancelTrailerPreview();
         return;
       }
 
@@ -966,8 +981,8 @@ class _MediaBarState extends State<MediaBar>
         await player.setVolume(audioEnabled ? 100 : 0);
         if (!mounted || resolveId != _trailerResolveId) return;
         await player.resume();
-        if (!mounted || resolveId != _trailerResolveId) {
-          unawaited(player.stop());
+        if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
+          _cancelTrailerPreview();
           return;
         }
       } catch (_) {
@@ -992,8 +1007,8 @@ class _MediaBarState extends State<MediaBar>
       if (!mounted || resolveId != _trailerResolveId) return;
 
       await player.play();
-      if (!mounted || resolveId != _trailerResolveId) {
-        unawaited(player.stop());
+      if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
+        _cancelTrailerPreview();
         return;
       }
     } catch (_) {
@@ -1005,8 +1020,8 @@ class _MediaBarState extends State<MediaBar>
     _isTrailerPlaying = true;
     _autoAdvanceTimer?.cancel();
     await _waitForMediaKitTrailerReady(player, resolveId);
-    if (!mounted || resolveId != _trailerResolveId) {
-      unawaited(player.stop());
+    if (resolveId != _trailerResolveId || !_trailerShouldBeActive()) {
+      _cancelTrailerPreview();
       return;
     }
 

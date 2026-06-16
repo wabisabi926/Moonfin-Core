@@ -182,7 +182,22 @@ class _WebYouTubeTrailerState extends State<WebYouTubeTrailer> {
 
     final controller = _youtubeController;
     if (controller != null) {
-      unawaited(controller.close());
+      // Pause before close so audio stops even if webview teardown lags.
+      unawaited(() async {
+        try {
+          await controller.pauseVideo();
+        } catch (_) {}
+        try {
+          await controller.close();
+        } catch (_) {}
+      }());
+    }
+
+    final desktopController = _desktopController;
+    if (desktopController != null) {
+      _desktopController = null;
+      // Otherwise the WebView keeps playing after the widget is gone.
+      unawaited(desktopController.loadRequest(Uri.parse('about:blank')));
     }
 
     super.dispose();
@@ -230,6 +245,9 @@ class _WebYouTubeTrailerState extends State<WebYouTubeTrailer> {
     final controller = _youtubeController;
     _youtubeController = null;
     if (controller != null) {
+      try {
+        await controller.pauseVideo();
+      } catch (_) {}
       await controller.close();
     }
   }

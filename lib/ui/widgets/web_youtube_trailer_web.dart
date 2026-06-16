@@ -14,6 +14,7 @@ extension type _YTPlayer._(JSObject _) implements JSObject {
   external void mute();
   external void unMute();
   external void playVideo();
+  external void pauseVideo();
   external JSObject getIframe();
 }
 
@@ -126,6 +127,10 @@ class _WebYouTubeTrailerState extends State<WebYouTubeTrailer> {
     final player = _player;
     _player = null;
     if (player != null) {
+      // Pause before destroy so audio stops even if the iframe lingers.
+      try {
+        player.pauseVideo();
+      } catch (_) {}
       try {
         player.destroy();
       } catch (_) {}
