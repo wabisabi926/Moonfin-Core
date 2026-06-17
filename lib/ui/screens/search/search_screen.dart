@@ -12,6 +12,7 @@ import 'package:server_core/server_core.dart';
 import '../../../data/models/aggregated_item.dart';
 import '../../../data/repositories/search_repository.dart';
 import '../../../data/repositories/seerr_repository.dart';
+import '../../../data/services/local_media_search_service.dart';
 import '../../../data/services/recent_searches_store.dart';
 import '../../../data/services/voice_search_controller.dart';
 import '../../../data/viewmodels/search_view_model.dart';
@@ -68,6 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
     _vm = SearchViewModel(
       _searchRepository,
       getIt<MediaServerClient>(),
+      localSearchService: getIt<LocalMediaSearchService>(),
       scopedParentId: widget.scopedLibraryId,
     );
     _vm.addListener(_onViewModelChanged);
@@ -174,8 +176,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  String _resultNodeKey(int rowIndex, int itemIndex) =>
-      '$rowIndex:$itemIndex';
+  String _resultNodeKey(int rowIndex, int itemIndex) => '$rowIndex:$itemIndex';
 
   FocusNode _resultFocusNode(int rowIndex, int itemIndex) {
     final key = _resultNodeKey(rowIndex, itemIndex);
@@ -1043,11 +1044,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       : null,
                   onKeyEvent: PlatformDetection.isTV
                       ? (node, event) => _onResultCardKeyEvent(
-                            rowIndex: rowIndex,
-                            itemIndex: itemIndex,
-                            itemCount: rowItemCount,
-                            event: event,
-                          )
+                          rowIndex: rowIndex,
+                          itemIndex: itemIndex,
+                          itemCount: rowItemCount,
+                          event: event,
+                        )
                       : null,
                   focusColor: focusColor,
                   cardFocusExpansion: cardFocusExpansion,
@@ -1140,11 +1141,11 @@ class _SearchScreenState extends State<SearchScreen> {
               : null,
           onKeyEvent: PlatformDetection.isTV
               ? (node, event) => _onResultCardKeyEvent(
-                    rowIndex: rowIndex,
-                    itemIndex: itemIndex,
-                    itemCount: rowItemCount,
-                    event: event,
-                  )
+                  rowIndex: rowIndex,
+                  itemIndex: itemIndex,
+                  itemCount: rowItemCount,
+                  event: event,
+                )
               : null,
           onFocus: () {
             if (PlatformDetection.isTV) {

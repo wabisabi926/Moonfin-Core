@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get_it/get_it.dart';
 import 'package:jellyfin_preference/jellyfin_preference.dart';
 import 'package:playback_core/playback_core.dart';
@@ -17,16 +19,21 @@ import '../../data/repositories/tmdb_repository.dart';
 import '../../data/repositories/user_views_repository.dart';
 import '../../data/repositories/search_repository.dart';
 import '../../data/repositories/item_mutation_repository.dart';
+import '../../data/database/search_database.dart';
 import '../../data/services/background_service.dart';
 import '../../data/services/app_update_service.dart';
+import '../../data/services/catalog_sync_service.dart';
+import '../../data/services/embedding_service.dart';
 import '../../data/services/cast/airplay_provider.dart';
 import '../../data/services/cast/airplay_command_bridge.dart';
 import '../../data/services/cast/cast_service.dart';
 import '../../data/services/cast/dlna_provider.dart';
+import '../../data/services/local_media_search_service.dart';
 import '../../data/services/cast/native_airplay_channel.dart';
 import '../../data/services/cast/native_dlna_channel.dart';
 import '../../data/services/cast/google_cast_provider.dart';
 import '../../data/services/cast/native_cast_channel.dart';
+import '../../data/services/query_parser.dart';
 import '../../data/services/cast/remote_session_cast_provider.dart';
 import '../../data/services/home_screen_sections_service.dart';
 import '../../data/services/kefin_tweaks_service.dart';
@@ -67,6 +74,10 @@ void resetUserScopedSingletons() {
   unregister<RowDataSource>();
   unregister<ItemMutationRepository>();
   unregister<SearchRepository>();
+  unregister<QueryParser>();
+  unregister<EmbeddingService>();
+  unregister<CatalogSyncService>();
+  unregister<LocalMediaSearchService>();
   unregister<UserViewsRepository>();
 
   _registerUserScopedSingletons();
@@ -161,7 +172,25 @@ void _registerUserScopedSingletons() {
     () => UserViewsRepository(_getIt()),
     dispose: (repository) => repository.dispose(),
   );
+  _getIt.registerLazySingleton(() => EmbeddingService());
   _getIt.registerLazySingleton(() => SearchRepository(_getIt()));
+  _getIt.registerLazySingleton(() => QueryParser());
+  _getIt.registerLazySingleton(
+    () => CatalogSyncService(
+      _getIt<SearchDatabase>(),
+      _getIt<MediaServerClient>(),
+      _getIt<EmbeddingService>(),
+    ),
+  );
+  _getIt.registerLazySingleton(
+    () => LocalMediaSearchService(
+      _getIt<SearchDatabase>(),
+      _getIt<CatalogSyncService>(),
+      _getIt<QueryParser>(),
+      _getIt<MdbListRepository>(),
+      _getIt<EmbeddingService>(),
+    ),
+  );
   _getIt.registerLazySingleton(() => ItemMutationRepository(_getIt()));
   _getIt.registerLazySingleton(
     () => RowDataSource(_getIt<MediaServerClient>()),
@@ -218,4 +247,8 @@ void _registerUserScopedSingletons() {
       _getIt<SeerrPreferences>(),
     ),
   );
+
+  if (_getIt.isRegistered<CatalogSyncService>()) {
+    unawaited(_getIt<CatalogSyncService>().syncIfStale().catchError((_) {}));
+  }
 }

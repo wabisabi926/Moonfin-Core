@@ -8,7 +8,7 @@ import 'package:sqlite3/open.dart';
 
 import '../../util/platform_detection.dart';
 
-QueryExecutor openConnection() {
+QueryExecutor openConnection({required String databaseName}) {
   return LazyDatabase(() async {
     final docs = PlatformDetection.isAppleTV
         ? await getApplicationCacheDirectory()
@@ -17,8 +17,7 @@ QueryExecutor openConnection() {
     if (!dbDir.existsSync()) {
       await dbDir.create(recursive: true);
     }
-    final file = File('${dbDir.path}/offline.db');
-
+    final file = File('${dbDir.path}/$databaseName.db');
     if (PlatformDetection.isTizen || PlatformDetection.isAppleTV) {
       open.overrideForAll(
         PlatformDetection.isAppleTV ? _openAppleSqlite : _openTizenSqlite,

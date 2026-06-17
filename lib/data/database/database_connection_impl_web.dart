@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:drift/wasm.dart';
 
-QueryExecutor openConnection() {
+QueryExecutor openConnection({required String databaseName}) {
   return LazyDatabase(() async {
     final result = await WasmDatabase.open(
-      databaseName: 'moonfin_offline',
+      databaseName: 'moonfin_$databaseName',
       sqlite3Uri: Uri.parse('sqlite3.wasm'),
       driftWorkerUri: Uri.parse('drift_worker.js'),
     );

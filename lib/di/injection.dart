@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import '../auth/store/authentication_store.dart';
 import '../data/database/database_connection.dart';
 import '../data/database/offline_database.dart';
+import '../data/database/search_database.dart';
 import '../data/repositories/offline_repository.dart';
 import '../data/services/connectivity_service.dart';
 import '../data/services/log_service.dart';
@@ -210,9 +211,7 @@ Future<void> _migrateLegacyMediaBarMode(PreferenceStore store) async {
   await store.setBool(migrationKey, true);
 }
 
-Future<void> _migrateAndroidTvPassthroughDefaults(
-  PreferenceStore store,
-) async {
+Future<void> _migrateAndroidTvPassthroughDefaults(PreferenceStore store) async {
   const migrationKey = 'pref_audio_passthrough_defaults_android_tv_v1';
 
   if (!PlatformDetection.isAndroid || !PlatformDetection.isTV) {
@@ -247,9 +246,7 @@ Future<void> _migrateAndroidMobileStereoAacFallbackDefault(
   await store.setBool(migrationKey, true);
 }
 
-Future<void> _migrateAndroidMobileAudioDefaults(
-  PreferenceStore store,
-) async {
+Future<void> _migrateAndroidMobileAudioDefaults(PreferenceStore store) async {
   const migrationKey = 'pref_audio_defaults_android_mobile_v1';
 
   if (!PlatformDetection.isAndroid || PlatformDetection.isTV) {
@@ -394,6 +391,9 @@ Future<void> configureDependencies() async {
   final offlineRepo = OfflineRepository(getIt<OfflineDatabase>());
   getIt.registerSingleton<OfflineRepository>(offlineRepo);
   await _migrateIosPaths(offlineRepo);
+  getIt.registerSingleton<SearchDatabase>(
+    SearchDatabase(openNamedConnection('search_index')),
+  );
 
   final connectivityService = ConnectivityService();
   connectivityService.initialize();
