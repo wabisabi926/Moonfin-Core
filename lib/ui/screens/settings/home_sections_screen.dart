@@ -1509,7 +1509,7 @@ class _HomeSectionsScreenState extends State<HomeSectionsScreen> {
         return _HomeSectionTile(
           key: ValueKey(section.stableId),
           focusNode: _focusNodes[sectionIndex],
-          autofocus: visibleIndex == 0 && !isEmpty,
+          autofocus: visibleIndex == 0,
           label: _labelFor(section, l10n),
           subtitle: section.isPluginDynamic
               ? _pluginSubtitle(section)
@@ -1638,7 +1638,7 @@ class _HomeSectionTileState extends State<_HomeSectionTile> {
     return Focus(
       focusNode: widget.focusNode,
       autofocus: widget.autofocus,
-      canRequestFocus: !widget.isEmpty,
+      canRequestFocus: true,
       onFocusChange: (f) {
         if (_focused != f && mounted) {
           setState(() => _focused = f);
@@ -1668,7 +1668,9 @@ class _HomeSectionTileState extends State<_HomeSectionTile> {
         }
         if (event.logicalKey == LogicalKeyboardKey.select ||
             event.logicalKey == LogicalKeyboardKey.enter) {
-          widget.onToggle(!widget.enabled);
+          if (!widget.isEmpty) {
+            widget.onToggle(!widget.enabled);
+          }
           return KeyEventResult.handled;
         }
         return KeyEventResult.ignored;
