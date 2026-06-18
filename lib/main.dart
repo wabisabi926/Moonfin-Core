@@ -12,6 +12,8 @@ import 'app.dart';
 import 'data/services/cast/airplay_command_bridge.dart';
 import 'data/services/download_notification_service.dart';
 import 'data/services/media_server_client_factory.dart';
+import 'data/services/storage_path_service.dart';
+import 'data/services/theme_store_service.dart';
 import 'di/injection.dart';
 import 'playback/appletv_audio_now_playing_feeder.dart';
 import 'playback/appletv_mpv_backend.dart';
@@ -357,6 +359,12 @@ void main() async {
   final prefs = GetIt.instance<UserPreferences>();
   WidgetsBinding.instance.addObserver(_PreferenceWriteFlushObserver(prefs));
   await _detectAndApplyAudioCapabilities(prefs);
+
+  // Register Theme Store themes before the active theme is resolved so a
+  // store-saved theme applies on launch.
+  await ThemeStoreService(
+    GetIt.instance<StoragePathService>(),
+  ).loadAndRegister();
 
   if (PlatformDetection.isDesktop) {
     await _restoreWindowGeometry();

@@ -1389,7 +1389,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _SimilarRow(
@@ -1476,7 +1476,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _CastRow(
@@ -1527,7 +1527,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _SimilarRow(
@@ -1659,7 +1659,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _SeasonsRow(
@@ -1691,7 +1691,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _CastRow(
@@ -1723,7 +1723,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _SimilarRow(
@@ -1917,7 +1917,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _EpisodesRow(
@@ -1946,7 +1946,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _CastRow(
@@ -1977,7 +1977,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _SimilarRow(
@@ -2907,7 +2907,7 @@ class _DetailContentState extends State<_DetailContent> {
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
-                : null,
+                : Colors.white,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _CastRow(

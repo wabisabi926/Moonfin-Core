@@ -7121,6 +7121,24 @@
       }
     }
   },
+  "themeStore": "Theme Store",
+  "themeStoreSubtitle": "Browse and save community themes",
+  "themeStoreDescription": "Save a theme to use it like your other saved themes.",
+  "themeStoreEmpty": "No themes are available right now.",
+  "themeStoreLoadFailed": "Couldn't load the Theme Store. Check your connection and try again.",
+  "themeStoreSave": "Save",
+  "themeStoreSaveAndApply": "Save & apply",
+  "themeStoreSaved": "Saved",
+  "themeStoreInvalidMessage": "This theme couldn't be loaded.",
+  "themeStoreSavedMessage": "Saved \"{themeName}\".",
+  "@themeStoreSavedMessage": {
+    "description": "Status message shown after saving a Theme Store theme",
+    "placeholders": {
+      "themeName": {
+        "type": "String"
+      }
+    }
+  },
   "savedThemesDeletedMessage": "Deleted \"{themeName}\" from this device.",
   "@savedThemesDeletedMessage": {
     "description": "Status message shown after deleting a saved custom theme",

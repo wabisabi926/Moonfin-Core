@@ -7435,6 +7435,40 @@ class AppLocalizationsEt extends AppLocalizations {
   }
 
   @override
+  String get themeStore => 'Theme Store';
+
+  @override
+  String get themeStoreSubtitle => 'Browse and save community themes';
+
+  @override
+  String get themeStoreDescription =>
+      'Save a theme to use it like your other saved themes.';
+
+  @override
+  String get themeStoreEmpty => 'No themes are available right now.';
+
+  @override
+  String get themeStoreLoadFailed =>
+      'Couldn\'t load the Theme Store. Check your connection and try again.';
+
+  @override
+  String get themeStoreSave => 'Save';
+
+  @override
+  String get themeStoreSaveAndApply => 'Save & apply';
+
+  @override
+  String get themeStoreSaved => 'Saved';
+
+  @override
+  String get themeStoreInvalidMessage => 'This theme couldn\'t be loaded.';
+
+  @override
+  String themeStoreSavedMessage(String themeName) {
+    return 'Saved \"$themeName\".';
+  }
+
+  @override
   String savedThemesDeletedMessage(String themeName) {
     return '\"$themeName\" on sellest seadmest kustutatud.';
   }

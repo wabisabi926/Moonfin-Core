@@ -46,6 +46,7 @@ import 'home_screen_sections_integration_screen.dart';
 import 'appearance_theme_screen.dart';
 import 'diagnostics_settings_screen.dart';
 import 'saved_themes_screen.dart';
+import 'theme_store_screen.dart';
 import 'home_sections_screen.dart';
 import 'home_row_toggles_screen.dart';
 import 'library_settings_screen.dart';
@@ -652,6 +653,13 @@ class _GeneralStyleScreenState extends State<_GeneralStyleScreen> {
               subtitle: Text(l10n.settingsAppearanceThemeSubtitle),
               onTap: () =>
                   context.pushSettingsScreen(const AppearanceThemeScreen()),
+            ),
+            _TvSettingsListTile(
+              leading: const Icon(Icons.storefront_outlined),
+              title: Text(l10n.themeStore),
+              subtitle: Text(l10n.themeStoreSubtitle),
+              onTap: () =>
+                  context.pushSettingsScreen(const ThemeStoreScreen()),
             ),
             _TvSettingsListTile(
               leading: const Icon(Icons.download_outlined),

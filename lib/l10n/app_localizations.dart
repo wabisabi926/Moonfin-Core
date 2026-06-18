@@ -13216,6 +13216,66 @@ abstract class AppLocalizations {
   /// **'Remove \"{themeName}\" from this device cache?'**
   String savedThemesDeleteDialogMessage(String themeName);
 
+  /// No description provided for @themeStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Store'**
+  String get themeStore;
+
+  /// No description provided for @themeStoreSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse and save community themes'**
+  String get themeStoreSubtitle;
+
+  /// No description provided for @themeStoreDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a theme to use it like your other saved themes.'**
+  String get themeStoreDescription;
+
+  /// No description provided for @themeStoreEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No themes are available right now.'**
+  String get themeStoreEmpty;
+
+  /// No description provided for @themeStoreLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the Theme Store. Check your connection and try again.'**
+  String get themeStoreLoadFailed;
+
+  /// No description provided for @themeStoreSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get themeStoreSave;
+
+  /// No description provided for @themeStoreSaveAndApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & apply'**
+  String get themeStoreSaveAndApply;
+
+  /// No description provided for @themeStoreSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get themeStoreSaved;
+
+  /// No description provided for @themeStoreInvalidMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This theme couldn\'t be loaded.'**
+  String get themeStoreInvalidMessage;
+
+  /// Status message shown after saving a Theme Store theme
+  ///
+  /// In en, this message translates to:
+  /// **'Saved \"{themeName}\".'**
+  String themeStoreSavedMessage(String themeName);
+
   /// Status message shown after deleting a saved custom theme
   ///
   /// In en, this message translates to:

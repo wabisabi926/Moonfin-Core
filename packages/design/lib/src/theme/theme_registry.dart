@@ -19,9 +19,15 @@ class ThemeRegistry {
 
   static final Map<String, ThemeSpec> _custom = {};
 
-  /// All themes (built-in + plugin-supplied) keyed by id.
+  /// Themes the user saved from the Theme Store. Kept separate from [_custom]
+  /// so server theme syncs (which call [replaceCustomThemes]) never clear them.
+  static final Map<String, ThemeSpec> _store = {};
+
+  /// All themes (built-in + plugin-supplied + store-saved) keyed by id.
+  /// Plugin/server themes take precedence over store themes on id clash.
   static Map<String, ThemeSpec> get availableThemes => {
         ..._builtIns,
+        ..._store,
         ..._custom,
       };
 
@@ -62,4 +68,20 @@ class ThemeRegistry {
   }
 
   static List<ThemeSpec> get customThemes => List.unmodifiable(_custom.values);
+
+  /// Register a theme saved from the Theme Store. Built-in IDs are rejected.
+  static void registerStoreTheme(ThemeSpec spec) {
+    if (builtInIds.contains(spec.id)) {
+      throw ArgumentError(
+        'Cannot register store theme with reserved id "${spec.id}".',
+      );
+    }
+    _store[spec.id] = spec;
+  }
+
+  static void removeStoreTheme(String id) {
+    _store.remove(id);
+  }
+
+  static List<ThemeSpec> get storeThemes => List.unmodifiable(_store.values);
 }
