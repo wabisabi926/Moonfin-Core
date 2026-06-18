@@ -260,6 +260,7 @@ class _GlobalShortcutScopeState extends State<_GlobalShortcutScope>
     WidgetsBinding.instance.addObserver(this);
     if (PlatformDetection.isDesktop) {
       windowManager.addListener(this);
+      unawaited(windowManager.setPreventClose(true));
     }
   }
 
@@ -619,6 +620,16 @@ class _GlobalShortcutScopeState extends State<_GlobalShortcutScope>
         eventName == 'resized') {
       _scheduleSaveGeometry();
     }
+  }
+
+  @override
+  void onWindowClose() {
+    unawaited(_handleWindowClose());
+  }
+
+  Future<void> _handleWindowClose() async {
+    await AppExit.prepareForExit();
+    await windowManager.destroy();
   }
 
   @override

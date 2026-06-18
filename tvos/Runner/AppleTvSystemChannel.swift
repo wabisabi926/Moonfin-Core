@@ -20,6 +20,9 @@ final class AppleTvSystemChannel: NSObject {
             let disabled = (call.arguments as? Bool) ?? false
             UIApplication.shared.isIdleTimerDisabled = disabled
             result(nil)
+        case "exitApp":
+            result(nil)
+            exit(0)
         default:
             result(FlutterMethodNotImplemented)
         }
