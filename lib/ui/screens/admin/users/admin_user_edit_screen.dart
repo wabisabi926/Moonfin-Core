@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:server_core/server_core.dart';
 
 import '../../../navigation/destinations.dart';
+import '../../../widgets/adaptive/adaptive_dialog.dart';
 import '../providers/admin_user_providers.dart';
 import 'admin_user_delete_dialog.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -521,11 +522,11 @@ class _AdminUserEditScreenState extends ConsumerState<AdminUserEditScreen>
                   : () async {
                       final confirmed = await showDialog<bool>(
                         context: context,
-                        builder: (ctx) => AlertDialog(
+                        builder: (ctx) => AlertDialog.adaptive(
                           title: Text(l10n.adminResetPassword),
                           content: Text(l10n.adminResetPasswordWarning),
                           actions: [
-                            TextButton(
+                            adaptiveDialogAction(
                               onPressed: () =>
                                   Navigator.of(ctx).pop(false),
                               child: Text(l10n.cancel),

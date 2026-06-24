@@ -34,6 +34,7 @@ import '../../../ui/mixins/focus_state_mixin.dart';
 import '../../../auth/repositories/user_repository.dart';
 import '../../../util/focus/key_event_utils.dart';
 import '../../navigation/destinations.dart';
+import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/add_to_playlist_dialog.dart';
 import '../../widgets/logo_view.dart';
 import '../../widgets/media_card.dart';
@@ -100,12 +101,12 @@ Future<bool> _showDeleteConfirmationDialog(
 }) async {
   final confirmed = await showFocusRestoringDialog<bool>(
     context: context,
-    builder: (ctx) => AlertDialog(
+    builder: (ctx) => AlertDialog.adaptive(
       backgroundColor: const Color(0xFF171717),
       title: Text(title, style: const TextStyle(color: Colors.white)),
       content: Text(message, style: const TextStyle(color: Colors.white70)),
       actions: [
-        TextButton(
+        adaptiveDialogAction(
           onPressed: () => Navigator.pop(ctx, false),
           child: Text(
             AppLocalizations.of(ctx).cancel,
@@ -2622,7 +2623,7 @@ class _DetailContentState extends State<_DetailContent> {
 
     final ok = await showFocusRestoringDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         backgroundColor: const Color(0xFF171717),
         title: Text(
           l10n.deleteDownloadedAlbum,
@@ -2633,7 +2634,7 @@ class _DetailContentState extends State<_DetailContent> {
           style: const TextStyle(color: Colors.white70),
         ),
         actions: [
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(
               l10n.cancel,
@@ -2704,7 +2705,7 @@ class _DetailContentState extends State<_DetailContent> {
     final controller = TextEditingController(text: item.name);
     final newName = await showFocusRestoringDialog<String>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         backgroundColor: const Color(0xFF171717),
         title: Text(
           l10n.renamePlaylist,
@@ -2718,7 +2719,7 @@ class _DetailContentState extends State<_DetailContent> {
           onSubmitted: (_) => Navigator.pop(ctx, controller.text.trim()),
         ),
         actions: [
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx),
             child: Text(
               l10n.cancel,
@@ -7245,7 +7246,7 @@ _showDolbyVisionDirectPlayStartupFailureDecisionDialog(
   final retryWithTranscode = await showFocusRestoringDialog<bool>(
     context: context,
     builder: (dialogContext) {
-      return AlertDialog(
+      return AlertDialog.adaptive(
         title: Text(l10n.dolbyVisionDirectPlayFailedTitle),
         content: Text(l10n.dolbyVisionDirectPlayFailedMessage),
         actions: [
@@ -7343,7 +7344,7 @@ Future<_DolbyVisionPlayDecision?> _showDolbyVisionFallbackDecisionDialog(
     builder: (dialogContext) {
       return StatefulBuilder(
         builder: (dialogContext, setDialogState) {
-          return AlertDialog(
+          return AlertDialog.adaptive(
             title: Text(l10n.dolbyVisionNotSupportedTitle),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -8052,7 +8053,7 @@ class _DeleteDownloadButtonState extends State<_DeleteDownloadButton> {
 
     final confirmed = await showFocusRestoringDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         backgroundColor: const Color(0xFF1E1E1E),
         title: Text(
           AppLocalizations.of(ctx).deleteDownloadedFiles,
@@ -8063,7 +8064,7 @@ class _DeleteDownloadButtonState extends State<_DeleteDownloadButton> {
           style: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
         ),
         actions: [
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(AppLocalizations.of(ctx).cancel),
           ),

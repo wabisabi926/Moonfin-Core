@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:server_core/server_core.dart';
 
 import '../../../../l10n/app_localizations.dart';
+import '../../../widgets/adaptive/adaptive_dialog.dart';
 import '../providers/admin_user_providers.dart';
 import '../widgets/filesystem_browser.dart';
 
@@ -102,11 +103,11 @@ class _AdminLibraryEditScreenState
     final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(l10n.adminRemovePath),
         content: Text(l10n.adminRemovePathConfirm(path)),
         actions: [
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.of(ctx).pop(false),
             child: Text(l10n.cancel),
           ),

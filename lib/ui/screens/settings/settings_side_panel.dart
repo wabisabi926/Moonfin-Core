@@ -33,6 +33,7 @@ import '../../../preference/preference_constants.dart';
 import '../../../preference/user_preferences.dart';
 import '../../../preference/seerr_preferences.dart';
 import '../../navigation/destinations.dart';
+import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/overlay_sheet.dart';
 import '../../widgets/settings/preference_binding.dart';
 import '../../widgets/settings/clean_settings_typography.dart';
@@ -3324,7 +3325,7 @@ class _EditableStringPreferenceTileState
     final controller = TextEditingController(text: current);
     final next = await showFocusRestoringDialog<String>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(widget.title),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -3349,11 +3350,11 @@ class _EditableStringPreferenceTileState
           ],
         ),
         actions: [
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx),
             child: Text(l10n.cancel),
           ),
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx, controller.text.trim()),
             child: Text(l10n.save),
           ),

@@ -16,6 +16,7 @@ import '../../../util/download_utils.dart';
 import '../../../util/platform_detection.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../navigation/destinations.dart';
+import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/overlay_sheet.dart';
 import '../../widgets/focus/request_initial_focus.dart';
 import '../../widgets/settings/clean_settings_typography.dart';
@@ -182,15 +183,15 @@ class DownloadSettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final confirmed = await showFocusRestoringDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(l10n.changeDownloadLocation),
         content: Text(l10n.changeDownloadLocationDescription),
         actions: [
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(l10n.cancel),
           ),
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(l10n.confirm),
           ),
@@ -230,15 +231,15 @@ class DownloadSettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final confirmed = await showFocusRestoringDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(l10n.saveToDownloadsFolderQuestion),
         content: Text(l10n.saveToDownloadsFolderDescription),
         actions: [
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(l10n.cancel),
           ),
-          TextButton(
+          adaptiveDialogAction(
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(l10n.enable),
           ),
@@ -255,11 +256,11 @@ class DownloadSettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final confirmed = await showFocusRestoringDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => AlertDialog.adaptive(
         title: Text(l10n.clearAllDownloads),
         content: Text(l10n.clearAllDownloadsWarning),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l10n.cancel)),
+          adaptiveDialogAction(onPressed: () => Navigator.pop(ctx, false), child: Text(l10n.cancel)),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: TextButton.styleFrom(

@@ -12,6 +12,7 @@ import '../../../data/services/storage_path_service.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../preference/user_preferences.dart';
 import '../../theme/app_theme_controller.dart';
+import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/settings/clean_settings_typography.dart';
 import 'settings_app_bar.dart';
 import '../../../util/platform_detection.dart';
@@ -133,13 +134,13 @@ class _SavedThemesScreenState extends State<SavedThemesScreen> {
     final shouldDelete = await showFocusRestoringDialog<bool>(
       context: context,
       builder: (dialogContext) {
-        return AlertDialog(
+        return AlertDialog.adaptive(
           title: Text(l10n.savedThemesDeleteDialogTitle),
           content: Text(
             l10n.savedThemesDeleteDialogMessage(theme.spec.displayName),
           ),
           actions: [
-            TextButton(
+            adaptiveDialogAction(
               onPressed: () => Navigator.of(dialogContext).pop(false),
               child: Text(l10n.cancel),
             ),
@@ -221,12 +222,12 @@ class _SavedThemesScreenState extends State<SavedThemesScreen> {
     await showFocusRestoringDialog<void>(
       context: context,
       builder: (dialogContext) {
-        return AlertDialog(
+        return AlertDialog.adaptive(
           backgroundColor: AppColorScheme.surface.withValues(alpha: 0.9),
           title: Text(themeSpecFile.spec.displayName),
           actions: [
             if (!isCurrent)
-              TextButton(
+              adaptiveDialogAction(
                 onPressed: () {
                   Navigator.of(dialogContext).pop();
                   unawaited(controller.applyThemeById(_prefs, themeSpecFile.spec.id));
@@ -243,7 +244,7 @@ class _SavedThemesScreenState extends State<SavedThemesScreen> {
                 style: TextStyle(color: AppColorScheme.statusRequested),
               ),
             ),
-            TextButton(
+            adaptiveDialogAction(
               onPressed: () => Navigator.of(dialogContext).pop(),
               child: Text(l10n.cancel),
             ),

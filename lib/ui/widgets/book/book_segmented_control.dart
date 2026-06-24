@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moonfin_design/moonfin_design.dart';
 
-import '../../../util/platform_detection.dart';
+import '../../../util/idiom/app_ui_idiom.dart';
 
 class BookSegmentedControl extends StatelessWidget {
   const BookSegmentedControl({
@@ -21,7 +21,7 @@ class BookSegmentedControl extends StatelessWidget {
     final accent = AppColorScheme.accent;
     final onSurface = AppColorScheme.onSurface;
 
-    if (PlatformDetection.isApple) {
+    if (AppUiIdiomResolver.isApple) {
       return Align(
         alignment: Alignment.center,
         child: CupertinoSlidingSegmentedControl<int>(

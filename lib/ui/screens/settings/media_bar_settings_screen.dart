@@ -9,6 +9,7 @@ import '../../../data/services/plugin_sync_service.dart';
 import '../../../preference/user_preferences.dart';
 import '../../../util/focus/dpad_keys.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/overlay_sheet.dart';
 import '../../widgets/settings/clean_settings_typography.dart';
 import '../../widgets/settings/preference_binding.dart';
@@ -232,7 +233,7 @@ class _MediaBarSettingsScreenState extends State<MediaBarSettingsScreen> {
               builder: (builderContext, setDialogState) =>
                   withCleanSettingsTypography(
                     builderContext,
-                    AlertDialog(
+                    AlertDialog.adaptive(
                       title: Text(title),
                       content: SizedBox(
                         width: double.maxFinite,
@@ -294,7 +295,7 @@ class _MediaBarSettingsScreenState extends State<MediaBarSettingsScreen> {
                         ),
                       ),
                       actions: [
-                        TextButton(
+                        adaptiveDialogAction(
                           onPressed: () {
                             if (popped) return;
                             popped = true;

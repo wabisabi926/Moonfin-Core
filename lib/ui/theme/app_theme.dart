@@ -61,6 +61,9 @@ class AppTheme {
     final c = spec.colors;
     return ThemeData(
       useMaterial3: true,
+      platform: AppUiIdiomResolver.current == AppUiIdiom.iosMobile
+          ? TargetPlatform.iOS
+          : null,
       brightness: Brightness.dark,
       fontFamily: spec.fontFamily,
       colorScheme: ColorScheme.dark(
