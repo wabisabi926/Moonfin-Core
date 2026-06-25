@@ -7,10 +7,12 @@ enum InterfaceStyle { automatic, apple, material }
 class AppUiIdiomResolver {
   AppUiIdiomResolver._();
 
+  static InterfaceStyle _style = InterfaceStyle.automatic;
   static AppUiIdiom _current = _resolve(InterfaceStyle.automatic);
   static AppUiIdiom get current => _current;
 
   static void setOverride(InterfaceStyle style) {
+    _style = style;
     _current = _resolve(style);
   }
 
@@ -43,4 +45,7 @@ class AppUiIdiomResolver {
 
   static bool get isApple =>
       _current == AppUiIdiom.iosMobile || _current == AppUiIdiom.macDesktop;
+
+  static bool get appleTvStyle =>
+      PlatformDetection.isAppleTV && _style == InterfaceStyle.apple;
 }

@@ -6,6 +6,7 @@ import 'package:moonfin_design/moonfin_design.dart';
 import 'package:jellyfin_preference/jellyfin_preference.dart';
 
 import '../../../util/idiom/app_ui_idiom.dart';
+import '../../../util/platform_detection.dart';
 import '../../../util/focus/dpad_keys.dart';
 import '../adaptive/adaptive_icons.dart';
 import '../adaptive/sf_symbol.dart';
@@ -89,7 +90,32 @@ Widget buildSettingsLeadingIconShell(
       ),
     );
   }
+  if (AppUiIdiomResolver.appleTvStyle) {
+    final glyph = icon is Icon ? icon.icon : null;
+    final tint = focused
+        ? Colors.white
+        : AppColorScheme.onSurface.withValues(alpha: 0.6);
+    return SizedBox(
+      width: _kSettingsIconShellSize,
+      height: _kSettingsIconShellSize,
+      child: Center(
+        child: glyph != null
+            ? SfSymbol(material: glyph, size: 24, color: tint)
+            : IconTheme(
+                data: IconThemeData(size: 24, color: tint),
+                child: icon,
+              ),
+      ),
+    );
+  }
   final borderTokens = ThemeRegistry.active.borders;
+  final glyph = icon is Icon ? icon.icon : null;
+  final leadingChild = PlatformDetection.isAppleTV && glyph != null
+      ? SfSymbol(material: glyph, size: 22, color: iconColor)
+      : IconTheme(
+          data: IconThemeData(size: 22, color: iconColor),
+          child: icon,
+        );
   return Container(
     width: _kSettingsIconShellSize,
     height: _kSettingsIconShellSize,
@@ -103,14 +129,14 @@ Widget buildSettingsLeadingIconShell(
         ),
       ),
     ),
-    child: Center(
-      child: IconTheme(
-        data: IconThemeData(size: 22, color: iconColor),
-        child: icon,
-      ),
-    ),
+    child: Center(child: leadingChild),
   );
 }
+
+Color settingsHeadlineColor() =>
+    AppUiIdiomResolver.appleTvStyle && AppColorScheme.isNeonPulse
+    ? AppColorScheme.accent
+    : AppColorScheme.onSurface;
 
 EdgeInsets _settingsTileOuterPadding(BuildContext context) {
   if (AppUiIdiomResolver.isApple) {
@@ -138,6 +164,15 @@ BoxDecoration _settingsTileDecoration(
         color: AppColorScheme.accent.withValues(alpha: 0.9),
         width: 1,
       ),
+    );
+  }
+  if (AppUiIdiomResolver.appleTvStyle) {
+    if (!focused) return const BoxDecoration();
+    return BoxDecoration(
+      color: AppColorScheme.isNeonPulse
+          ? AppColorScheme.accent.withValues(alpha: 0.38)
+          : AppColorScheme.surfaceVariant,
+      borderRadius: BorderRadius.circular(12),
     );
   }
   final colorScheme = Theme.of(context).colorScheme;
@@ -600,10 +635,10 @@ class _SliderPreferenceTileState extends State<SliderPreferenceTile> {
           curve: Curves.easeOut,
           decoration: _settingsTileDecoration(context, focused: _outerFocused),
           child: ListTileTheme.merge(
-            textColor: _outerFocused
+            textColor: _outerFocused && !AppUiIdiomResolver.appleTvStyle
                 ? AppColors.black.withValues(alpha: 0.87)
                 : AppColorScheme.onSurface,
-            iconColor: _outerFocused
+            iconColor: _outerFocused && !AppUiIdiomResolver.appleTvStyle
                 ? AppColors.black.withValues(alpha: 0.54)
                 : AppColorScheme.onSurface.withValues(alpha: 0.7),
             titleTextStyle: _kSettingsTitleTextStyle,
@@ -955,7 +990,10 @@ class _TvFocusHighlightState extends State<TvFocusHighlight> {
 
   @override
   Widget build(BuildContext context) {
-    final highlighted = _focused && !AppUiIdiomResolver.isApple;
+    final highlighted =
+        _focused &&
+        !AppUiIdiomResolver.isApple &&
+        !AppUiIdiomResolver.appleTvStyle;
     return Focus(
       focusNode: _effectiveFocusNode,
       canRequestFocus: false,
@@ -973,7 +1011,7 @@ class _TvFocusHighlightState extends State<TvFocusHighlight> {
             child: ListTileTheme.merge(
               textColor: highlighted
                   ? AppColors.black.withValues(alpha: 0.87)
-                  : AppColorScheme.onSurface,
+                  : settingsHeadlineColor(),
               iconColor: highlighted
                   ? AppColors.black.withValues(alpha: 0.54)
                   : AppColorScheme.onSurface.withValues(alpha: 0.7),

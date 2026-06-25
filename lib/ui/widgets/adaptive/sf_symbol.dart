@@ -49,7 +49,7 @@ class AdaptiveIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!AppUiIdiomResolver.isApple) {
+    if (!AppUiIdiomResolver.isApple && !PlatformDetection.isAppleTV) {
       return Icon(icon, size: size, color: color);
     }
     final iconTheme = IconTheme.of(context);
