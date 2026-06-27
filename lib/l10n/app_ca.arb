@@ -782,7 +782,7 @@
     "@readingStatus": {
         "description": "Section header for book reading status filter"
     },
-    "playedStatus": "Estat jugat",
+    "playedStatus": "Estat de reproducció",
     "@playedStatus": {
         "description": "Section header for played status filter"
     },
@@ -1095,7 +1095,7 @@
     "@readOffline": {
         "description": "Action button label to read offline"
     },
-    "playOffline": "Juga fora de línia",
+    "playOffline": "Reproducció fora de línia",
     "@playOffline": {
         "description": "Action button label to play offline"
     },
@@ -1258,7 +1258,7 @@
     "@itemDeleted": {
         "description": "Success message after deleting an item"
     },
-    "noPlayableTrailerFound": "No s'ha trobat cap tràiler jugable.",
+    "noPlayableTrailerFound": "No s'ha trobat cap tràiler.",
     "@noPlayableTrailerFound": {
         "description": "Error message when no trailer can be played"
     },
@@ -1806,11 +1806,11 @@
     "@playback": {
         "description": "Section header in stream info"
     },
-    "playMethod": "Mètode de joc",
+    "playMethod": "Mètode de reproducció",
     "@playMethod": {
         "description": "Stream info label for play method"
     },
-    "directPlay": "Joc directe",
+    "directPlay": "Reproducció nativa",
     "@directPlay": {
         "description": "Play method label"
     },
@@ -1826,7 +1826,7 @@
     "@transcodeReasons": {
         "description": "Stream info label for transcode reasons"
     },
-    "player": "Jugador",
+    "player": "Reproductor",
     "@player": {
         "description": "Stream info label for player engine"
     },
@@ -2795,7 +2795,7 @@
     "@themeMusicOnHomeRows": {
         "description": "Setting for theme music on home rows"
     },
-    "playWhenBrowsingHomeScreen": "Juga quan navegues per la pantalla d'inici",
+    "playWhenBrowsingHomeScreen": "Reprodueix quan navegues per la pantalla d'inici",
     "@playWhenBrowsingHomeScreen": {
         "description": "Description for theme music on home rows"
     },
@@ -2824,7 +2824,7 @@
     "@maxResolution": {
         "description": "Setting for max resolution"
     },
-    "playerZoomMode": "Mode de zoom del jugador",
+    "playerZoomMode": "Mode de zoom del reproductor",
     "@playerZoomMode": {
         "description": "Setting for player zoom mode"
     },
@@ -3637,7 +3637,7 @@
     "@episodePreview": {
         "description": "Setting for episode preview"
     },
-    "episodePreviewDescription": "Juga a una vista prèvia en línia de 30 segons en cartes centrades, posades al ratolí o premudes llargament",
+    "episodePreviewDescription": "Reprodueix una vista prèvia en línia de 30 segons en cartes centrades, posades al ratolí o premudes llargament",
     "@episodePreviewDescription": {
         "description": "Description for episode preview"
     },
@@ -4301,7 +4301,7 @@
     "@cancelRequest": {
         "description": "Button/dialog title to cancel a media request"
     },
-    "playInMoonfin": "Juga a Moonfin",
+    "playInMoonfin": "Reprodueix a Moonfin",
     "@playInMoonfin": {
         "description": "Button to play available media in Moonfin"
     },
@@ -4683,7 +4683,7 @@
     "sessionVolumeDown": "Vol -",
     "sessionVolumeUp": "Vol +",
     "uhd4k": "4K",
-    "nowPlaying": "Ara jugant",
+    "nowPlaying": "Reproduint",
     "volume": "Volum",
     "actions": "Accions",
     "videoCodec": "Còdec de vídeo",
@@ -6215,7 +6215,7 @@
             }
         }
     },
-    "syncPlayPlayNow": "Juga ara",
+    "syncPlayPlayNow": "Reprodueix",
     "syncPlayCreateNewGroup": "Crea un grup nou",
     "syncPlayGroupName": "Nom del grup",
     "syncPlayDefaultGroupName": "El meu grup de SyncPlay",
@@ -6228,7 +6228,7 @@
     "syncPlayStateIdle": "Inactiu",
     "syncPlayStateWaiting": "Esperant",
     "syncPlayStatePaused": "En pausa",
-    "syncPlayStatePlaying": "Jugant",
+    "syncPlayStatePlaying": "Reproduint",
     "syncPlayUserJoinedGroup": "{userName} s'ha unit al grup SyncPlay",
     "@syncPlayUserJoinedGroup": {
         "description": "Snackbar message when a user joins a SyncPlay group",
@@ -6390,7 +6390,7 @@
     "remoteStartPlayback": "Inicia la reproducció en un altre dispositiu",
     "unknownUser": "Desconegut",
     "unknownItem": "Desconegut",
-    "remoteNothingPlaying": "No es juga res en aquesta sessió",
+    "remoteNothingPlaying": "No es reprodueix res en aquesta sessió",
     "castingStarted": "L'emissió ha començat al dispositiu seleccionat",
     "castingFailed": "No s'ha pogut començar a emetre: {error}",
     "@castingFailed": {
@@ -6402,7 +6402,7 @@
     },
     "noRemoteDevices": "No hi ha cap dispositiu de reproducció remota disponible.",
     "noRemoteDevicesIos": "No hi ha cap dispositiu de reproducció remota disponible.\n\nA iOS, és possible que els objectius d'AirPlay no estiguin disponibles al simulador.",
-    "trackActionPlayNext": "Juga Següent",
+    "trackActionPlayNext": "Reproduir a continuació",
     "trackActionAddToQueue": "Afegeix a la cua",
     "trackActionAddToPlaylist": "Afegeix a la llista de reproducció",
     "trackActionCancelDownload": "Cancel·la la descàrrega",
@@ -6444,7 +6444,7 @@
     "addToPlaylist": "Afegeix a la llista de reproducció",
     "lyricsNotAvailable": "No hi ha lletra disponible",
     "upNext": "A continuació",
-    "playNext": "Juga Següent",
+    "playNext": "Reproduir a continuació",
     "stillWatchingContent": "La reproducció s'ha posat en pausa. Encara estàs mirant?",
     "stillWatchingStop": "Atureu-vos",
     "stillWatchingContinue": "Continua",
@@ -6617,13 +6617,13 @@
     "settingsAutomationAndQueueSubtitle": "Reproducció i seqüenciació automàtica",
     "settingsOfflineDownloadsSubtitle": "Qualitat de la baixada, límits d'emmagatzematge i mida de la cua",
     "settingsSyncplaySubtitle": "Lògica de sincronització per a sessions de grup",
-    "settingsAdvancedOptionsSubtitle": "Característiques especialitzades del jugador. Feu servir amb precaució, ja que algunes opcions poden causar problemes de reproducció",
+    "settingsAdvancedOptionsSubtitle": "Característiques especialitzades del reproductor. Feu servir amb precaució, ja que algunes opcions poden causar problemes de reproducció",
     "settingsSkipIntrosAndOutros": "Ometeu introduccions i altres?",
     "settingsPromptUser": "Usuari prompte",
     "settingsSkip": "Saltar",
     "settingsDoNothing": "No fer res",
     "settingsMaxBitrateDescription": "Limiteu la taxa de bits de transmissió. El contingut per sobre d'aquest llindar es transcodificarà per adaptar-se.",
-    "settingsMaxResolutionDescription": "Limiteu la resolució màxima que demanarà el jugador. El contingut de més alta resolució es transcodificarà cap avall.",
+    "settingsMaxResolutionDescription": "Limiteu la resolució màxima que demanarà el reproductor. El contingut de més alta resolució es transcodificarà cap avall.",
     "settingsPlayerZoomDescription": "Com s'ha d'escalar el vídeo per adaptar-se a la pantalla.",
     "settingsPlaybackEngineAndroidTv": "Motor de reproducció (Android TV)",
     "settingsPlaybackEngineAndroidTvDescription": "Trieu el motor de reproducció predeterminat als dispositius Android TV. Els canvis s'apliquen a la següent sessió de reproducció.",
@@ -6686,7 +6686,7 @@
     "settingsSyncplayExtraOffset": "Desplaçament addicional de SyncPlay",
     "onNow": "En Ara",
     "collections": "Col·leccions",
-    "lastPlayed": "Última jugada",
+    "lastPlayed": "Última reproducció",
     "libraryNameWithServer": "{libraryName} ({serverName})",
     "@libraryNameWithServer": {
         "description": "Library name display with server suffix for multi-server views",
@@ -6778,7 +6778,7 @@
     "@mediaPreview": {
         "description": "Setting for media preview"
     },
-    "mediaPreviewDescription": "Juga a una vista prèvia en línia de 30 segons en cartes centrades, posades al ratolí o premudes llargament",
+    "mediaPreviewDescription": "Reprodueix una vista prèvia en línia de 30 segons en cartes centrades, posades al ratolí o premudes llargament",
     "@mediaPreviewDescription": {
         "description": "Description for media preview"
     },
@@ -7133,7 +7133,7 @@
     "alwaysOn": "Sempre encès.",
     "replaceSkipOutroWithNextUpDisplay": "Substituïu Skip Outro per Next Up Display",
     "replaceSkipOutroWithNextUpDisplaySubtitle": "Mostra la superposició Next Up en lloc del botó Salta Outro.",
-    "playerRouting": "Encaminament del jugador",
+    "playerRouting": "Encaminament del reproductor",
     "preferSoftwareDecoders": "Preferiu els descodificadors de programari",
     "preferSoftwareDecodersSubtitle": "Utilitzeu FFmpeg (àudio) i libgav1 (AV1) abans dels descodificadors de maquinari. Desactiveu-lo si es trenca el pas d'àudio HDMI.",
     "useExternalPlayer": "Utilitzeu un reproductor extern",
@@ -7361,5 +7361,200 @@
     "enableTunnelingTitle": "Habilita tunneling",
     "@enableTunnelingTitle": {
         "description": "Setting title: enable tunneled video playback (advanced)"
-    }
+    },
+    "themeGlass": "Glass",
+    "@themeGlass": {
+        "description": "Display name for the Glass theme"
+    },
+    "clockModeBouncing": "Oscil·lant",
+    "@clockModeBouncing": {
+        "description": "Screensaver clock mode: bounces around the screen"
+    },
+    "themeGlassSubtitle": "Estil Liquid Glass amb un fons de gradient en moviment, superfícies esmerilades i accent blau Apple",
+    "@themeGlassSubtitle": {
+        "description": "Preview description for the Glass theme"
+    },
+    "endsIn": "Finalitza en {time}",
+    "@endsIn": {
+        "description": "Label showing remaining time for segment or timeout",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "directors": "DIRECTORS",
+    "@directors": {
+        "description": "Metadata label for directors"
+    },
+    "writer": "GUIONISTA",
+    "@writer": {
+        "description": "Metadata label for writer"
+    },
+    "settingsScrollWheelAction": "rodeta del ratolí",
+    "@settingsScrollWheelAction": {
+        "description": "Setting title for the mouse scroll wheel action during playback"
+    },
+    "settingsScrollWheelActionDescription": "Escolliu què fa la rodeta del ratolí durant la reproducció del vídeo.",
+    "@settingsScrollWheelActionDescription": {
+        "description": "Description for the mouse scroll wheel action setting"
+    },
+    "scrollWheelActionOff": "Desactivar",
+    "@scrollWheelActionOff": {
+        "description": "Scroll wheel action option: do nothing"
+    },
+    "scrollWheelActionSeek": "Salta (endavant / enrere)",
+    "@scrollWheelActionSeek": {
+        "description": "Scroll wheel action option: seek forward and back"
+    },
+    "scrollWheelActionVolume": "Volum",
+    "@scrollWheelActionVolume": {
+        "description": "Scroll wheel action option: adjust volume"
+    },
+    "playerTooltipVolume": "Volum",
+    "@playerTooltipVolume": {
+        "description": "Tooltip for the volume control button in the player OSD"
+    },
+    "settingsAudioFallbackCodecAac": "AAC\n(Predeterminat)",
+    "@settingsAudioFallbackCodecAac": {
+        "description": "Fallback codec option: AAC"
+    },
+    "settingsAudioFallbackCodecEac3": "EAC3\n(Dolby Digital Plus)",
+    "@settingsAudioFallbackCodecEac3": {
+        "description": "Fallback codec option: EAC3"
+    },
+    "empty": "Buit",
+    "@empty": {
+        "description": "Label indicating a section or category is empty"
+    },
+    "accountPreferences": "Preferències del compte",
+    "@accountPreferences": {
+        "description": "Section header for account preferences settings"
+    },
+    "interfaceLanguage": "Idioma de la interfície",
+    "@interfaceLanguage": {
+        "description": "Label for the app interface language setting"
+    },
+    "systemLanguageDefault": "Predeterminat del sistema",
+    "@systemLanguageDefault": {
+        "description": "Label for using the system default language in settings"
+    },
+    "settingsAudioFallbackCodecAc3": "AC3\n(Dolby Digital)",
+    "@settingsAudioFallbackCodecAc3": {
+        "description": "Fallback codec option: AC3"
+    },
+    "settingsAudioFallbackCodecTrueHd": "TrueHD\n(Sense perdues)",
+    "@settingsAudioFallbackCodecTrueHd": {
+        "description": "Fallback codec option: TrueHD"
+    },
+    "settingsAudioFallbackCodecFlac": "FLAC\n(Sense perdua)",
+    "@settingsAudioFallbackCodecFlac": {
+        "description": "Fallback codec option: FLAC"
+    },
+    "settingsMaxAudioChannelsDescription": "Configura el nombre màxim de canals de la teva configuració d’àudio. Els fluxos multicanal que superin aquest límit es reduiran a una versió mesclada o es transcodificaran.",
+    "@settingsMaxAudioChannelsDescription": {
+        "description": "Description for maximum audio channels setting"
+    },
+    "settingsMaxAudioChannelsMono": "1.0 Mono",
+    "@settingsMaxAudioChannelsMono": {
+        "description": "Option: Mono (1 channel)"
+    },
+    "settingsMaxAudioChannelsStereo": "2.0 Stereo",
+    "@settingsMaxAudioChannelsStereo": {
+        "description": "Option: Stereo (2 channels)"
+    },
+    "settingsMaxAudioChannels3_0": "3.0 / 2.1 Surround",
+    "@settingsMaxAudioChannels3_0": {
+        "description": "Option: 3 channels"
+    },
+    "settingsMaxAudioChannels4_0": "4.0 / 3.1 Quadraphonic",
+    "@settingsMaxAudioChannels4_0": {
+        "description": "Option: 4 channels"
+    },
+    "settingsMaxAudioChannels5_0": "5.0 / 4.1 Surround",
+    "@settingsMaxAudioChannels5_0": {
+        "description": "Option: 5 channels"
+    },
+    "settingsMaxAudioChannels5_1": "5.1 Surround",
+    "@settingsMaxAudioChannels5_1": {
+        "description": "Option: 5.1 Surround channels"
+    },
+    "settingsMaxAudioChannels6_1": "6.1 Surround",
+    "@settingsMaxAudioChannels6_1": {
+        "description": "Option: 6.1 Surround channels"
+    },
+    "settingsMaxAudioChannels7_1": "7.1 Surround",
+    "@settingsMaxAudioChannels7_1": {
+        "description": "Option: 7.1 Surround channels"
+    },
+    "showSeerrButton": "Mostra botó de Seerr",
+    "@showSeerrButton": {
+        "description": "Setting for showing Seerr button"
+    },
+    "fullScreenRows": "Files d'inici ampliades",
+    "@fullScreenRows": {
+        "description": "Setting for full screen home rows"
+    },
+    "fullScreenRowsDescription": "Limita a una sola fila per pantalla",
+    "@fullScreenRowsDescription": {
+        "description": "Description for full screen home rows"
+    },
+    "currentUser": "Usuari actual",
+    "@currentUser": {
+        "description": "Option: current user"
+    },
+    "clockModeStatic": "Estàtic",
+    "@clockModeStatic": {
+        "description": "Screensaver clock mode: fixed in a corner"
+    },
+    "seerrDiscoveryRows": "Fileres de descoberta Seerr",
+    "@seerrDiscoveryRows": {
+        "description": "Subtitle shown under Seerr discovery home rows"
+    },
+    "settingsShowSeerrButtonInNavigation": "Mostra el botó de Seerr a la barra de navegació",
+    "settingsMediaSegmentCountdown": "Compte enrere per els segments",
+    "@settingsMediaSegmentCountdown": {
+        "description": "Setting label for media segment countdown customizations"
+    },
+    "settingsProgressBar": "Barra de progrés",
+    "@settingsProgressBar": {
+        "description": "Option label to show only progress bar on media segment countdown overlay"
+    },
+    "settingsTimer": "Temporitzador",
+    "@settingsTimer": {
+        "description": "Option label to show only countdown timer on media segment countdown overlay"
+    },
+    "settingsNone": "Cap",
+    "@settingsNone": {
+        "description": "Option label to hide all decorations on media segment countdown overlay"
+    },
+    "showMediaDetailsOnLibraryPage": "Mostra els detalls del contingut multimèdia",
+    "@showMediaDetailsOnLibraryPage": {
+        "description": "Setting title to show/hide focused media details at the top of the library page"
+    },
+    "showMediaDetailsOnLibraryPageDescription": "Mostra els detalls de l'item seleccionat a dalt la pàgina de Biblioteca.",
+    "@showMediaDetailsOnLibraryPageDescription": {
+        "description": "Setting description to show/hide focused media details at the top of the library page"
+    },
+    "themeStore": "Botiga de temes",
+    "themeStoreSubtitle": "Cerca i guarda temes de la comunitat",
+    "themeStoreDescription": "Guarda un tema per a usarlo com els altres temes guardats.",
+    "themeStoreEmpty": "No hi ha temes disponibles en aquest moment.",
+    "themeStoreLoadFailed": "No s'ha pogut carregar la botiga de temes. Verifica la teva conexió i intenta-ho de nou.",
+    "themeStoreSave": "Guardar",
+    "themeStoreSaveAndApply": "Guardar i aplicar",
+    "themeStoreSaved": "Guardat",
+    "themeStoreInvalidMessage": "Aquest tema no s'ha pogut carregar.",
+    "themeStoreSavedMessage": "Guardat \"{themeName}\".",
+    "@themeStoreSavedMessage": {
+        "description": "Status message shown after saving a Theme Store theme",
+        "placeholders": {
+            "themeName": {
+                "type": "String"
+            }
+        }
+    },
+    "homeRowDisplay": "Visualització de les fileres d'inici",
+    "homeRowSections": "Seccions de les fileres d'inici",
+    "homeRowToggles": "Activació de les fileres d'inici"
 }
