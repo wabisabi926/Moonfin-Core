@@ -2656,7 +2656,7 @@
     "@themeAndAppearance": {
         "description": "Appearance settings title"
     },
-    "focusBorderColor": "Couleur de bordure du focus",
+    "focusBorderColor": "Couleur de la bordure de sélection",
     "@focusBorderColor": {
         "description": "Setting for focus border color"
     },
@@ -2696,7 +2696,7 @@
     "@showBackdropImages": {
         "description": "Description for background backdrops"
     },
-    "seriesThumbnails": "Afficher les vignettes des séries",
+    "seriesThumbnails": "Afficher le visuel de la série",
     "@seriesThumbnails": {
         "description": "Setting for series thumbnails"
     },
@@ -2744,15 +2744,15 @@
     "@fallingLeaves": {
         "description": "Seasonal effect: falling leaves"
     },
-    "themeMusic": "Musique du thème",
+    "themeMusic": "Thème musical",
     "@themeMusic": {
         "description": "Setting for theme music"
     },
-    "playThemeMusicOnDetailPages": "Lire la musique du thème sur les pages de détails",
+    "playThemeMusicOnDetailPages": "Lire le thème musical sur les pages de détail",
     "@playThemeMusicOnDetailPages": {
         "description": "Description for theme music setting"
     },
-    "themeMusicVolume": "Volume de la musique du thème",
+    "themeMusicVolume": "Volume du thème musical",
     "@themeMusicVolume": {
         "description": "Setting for theme music volume"
     },
@@ -2765,7 +2765,7 @@
             }
         }
     },
-    "themeMusicOnHomeRows": "Musique du thème sur l’accueil",
+    "themeMusicOnHomeRows": "Thème musical sur les rangées d'accueil",
     "@themeMusicOnHomeRows": {
         "description": "Setting for theme music on home rows"
     },
@@ -2798,7 +2798,7 @@
     "@maxResolution": {
         "description": "Setting for max resolution"
     },
-    "playerZoomMode": "Mode de zoom du lecteur",
+    "playerZoomMode": "Zoom du lecteur",
     "@playerZoomMode": {
         "description": "Setting for player zoom mode"
     },
@@ -2834,7 +2834,7 @@
     "@trickPlay": {
         "description": "Setting for trick play thumbnails"
     },
-    "showPreviewThumbnailsWhenSeeking": "Afficher les vignettes d’aperçu pendant la recherche",
+    "showPreviewThumbnailsWhenSeeking": "Afficher les miniatures d’aperçu pendant la recherche",
     "@showPreviewThumbnailsWhenSeeking": {
         "description": "Description for trick play"
     },
@@ -2842,7 +2842,7 @@
     "@showDescriptionOnPause": {
         "description": "Setting for showing description on pause"
     },
-    "dimVideoShowOverview": "Assombrir la vidéo et afficher le résumé en pause",
+    "dimVideoShowOverview": "Assombrir la vidéo et afficher le résumé pendant la pause",
     "@dimVideoShowOverview": {
         "description": "Description for show description on pause"
     },
@@ -2994,7 +2994,7 @@
     "@nextUpAndQueuing": {
         "description": "Section title for next up and queuing"
     },
-    "nextUpDisplay": "Comportement d’À suivre",
+    "nextUpDisplay": "Affichage du prochain épisode",
     "@nextUpDisplay": {
         "description": "Setting for next up behavior"
     },
@@ -3006,7 +3006,7 @@
     "@minimal": {
         "description": "Option: minimal"
     },
-    "nextUpTimeout": "Délai d’À suivre",
+    "nextUpTimeout": "Délai d'affichage du prochain épisode",
     "@nextUpTimeout": {
         "description": "Setting for next up timeout"
     },
@@ -3027,7 +3027,7 @@
     "@autoQueueNextEpisodes": {
         "description": "Description for media queuing"
     },
-    "stillWatchingPrompt": "Invite « Vous regardez toujours ? »",
+    "stillWatchingPrompt": "Vérification de présence",
     "@stillWatchingPrompt": {
         "description": "Setting for still watching prompt"
     },
@@ -3047,7 +3047,7 @@
     "@resumeAndSkip": {
         "description": "Section title for resume and skip settings"
     },
-    "resumeRewind": "Retour arrière à la reprise de la lecture",
+    "resumeRewind": "Retour en arrière à la reprise",
     "@resumeRewind": {
         "description": "Setting for resume rewind"
     },
@@ -3338,7 +3338,7 @@
     "@clearAll": {
         "description": "Button to clear all"
     },
-    "navigationStyle": "Style de navigation",
+    "navigationStyle": "Emplacement de la navigation",
     "@navigationStyle": {
         "description": "Setting for navigation style"
     },
@@ -3458,7 +3458,7 @@
     "@showFolderBrowsingOption": {
         "description": "Description for folder view"
     },
-    "libraryVisibility": "Visibilité de la bibliothèque",
+    "libraryVisibility": "Visibilité des bibliothèques",
     "@libraryVisibility": {
         "description": "Section title for library visibility"
     },
@@ -3503,7 +3503,7 @@
     "@mediaBarMode": {
         "description": "Setting for choosing media bar style"
     },
-    "mediaBarModeDescription": "Choisissez parmi différents styles pour la barre média ou désactivez la barre média",
+    "mediaBarModeDescription": "Choisissez parmi différents styles de barre média, ou désactivez-la",
     "@mediaBarModeDescription": {
         "description": "Description for media bar style setting"
     },
@@ -3567,7 +3567,7 @@
     "@autoAdvanceInterval": {
         "description": "Setting for auto advance interval"
     },
-    "trailerPreview": "Aperçu de bande-annonce",
+    "trailerPreview": "Aperçu de la bande-annonce",
     "@trailerPreview": {
         "description": "Setting for trailer preview"
     },
@@ -3575,11 +3575,11 @@
     "@autoPlayTrailers": {
         "description": "Description for trailer preview"
     },
-    "episodePreview": "Aperçu d’épisode",
+    "episodePreview": "Aperçu de l'épisode",
     "@episodePreview": {
         "description": "Setting for episode preview"
     },
-    "episodePreviewDescription": "Lire un aperçu intégré de 30 secondes sur les cartes ciblées, survolées ou maintenues",
+    "episodePreviewDescription": "Lire un aperçu intégré de 30 secondes lorsqu'un visuel est sélectionné, survolé ou maintenu appuyé",
     "@episodePreviewDescription": {
         "description": "Description for episode preview"
     },
@@ -3623,7 +3623,7 @@
     "@activeRecordings": {
         "description": "Home section: active recordings"
     },
-    "playlists": "Listes de lecture",
+    "playlists": "Playlists",
     "@playlists": {
         "description": "Home section: playlists"
     },
@@ -3687,11 +3687,11 @@
     "@requirePasswordWithToken": {
         "description": "Description for always authenticate"
     },
-    "confirmExit": "Confirmer la sortie",
+    "confirmExit": "Confirmer la fermeture",
     "@confirmExit": {
         "description": "Setting for confirm exit"
     },
-    "showConfirmationBeforeExiting": "Afficher une confirmation avant de quitter",
+    "showConfirmationBeforeExiting": "Afficher une confirmation avant de quitter l'app",
     "@showConfirmationBeforeExiting": {
         "description": "Description for confirm exit"
     },
@@ -3776,7 +3776,7 @@
             }
         }
     },
-    "dimmingLevel": "Niveau d’assombrissement",
+    "dimmingLevel": "Intensité de l'assombrissement",
     "@dimmingLevel": {
         "description": "Setting for dimming level"
     },
@@ -4140,7 +4140,7 @@
     "@focusColorWatchedIndicatorsBackdrops": {
         "description": "Appearance settings subtitle on desktop"
     },
-    "navbarStyleToolbarAppearance": "Style de la barre de navigation, boutons de la barre d’outils, apparence",
+    "navbarStyleToolbarAppearance": "Emplacement de la barre de navigation, boutons d'outils et apparence",
     "@navbarStyleToolbarAppearance": {
         "description": "Navigation settings subtitle"
     },
@@ -5594,10 +5594,10 @@
     "adminMetadataEditPerson": "Modifier la personne",
     "adminMetadataRole": "Rôle",
     "adminMetadataImagePrimary": "Principale",
-    "adminMetadataImageBackdrop": "Arrière-plan",
+    "adminMetadataImageBackdrop": "Vignette",
     "adminMetadataImageLogo": "Logo",
     "adminMetadataImageBanner": "Bannière",
-    "adminMetadataImageThumb": "Vignette",
+    "adminMetadataImageThumb": "Miniature",
     "adminMetadataRecursive": "Récursif",
     "adminMetadataProvider": "Fournisseur",
     "adminMetadataImageUpdated": "{imageType} image mise à jour",
@@ -5878,7 +5878,7 @@
     "adminTaskTriggerEvery12Hours": "Toutes les 12 heures",
     "adminTaskTriggerEvery24Hours": "Toutes les 24 heures",
     "adminTaskTriggerEvery2Days": "Tous les 2 jours",
-    "adminTaskTriggerHours": "{count, plural, one{1 hour} other{{count} hours}}",
+    "adminTaskTriggerHours": "{count, plural, one{1 heure} other{{count} heures}}",
     "@adminTaskTriggerHours": {
         "placeholders": {
             "count": {
@@ -6179,7 +6179,7 @@
         }
     },
     "liveTv": "TV en direct",
-    "continueWatchingAndNextUp": "Continuer de regarder et à suivre",
+    "continueWatchingAndNextUp": "Continuer de regarder & À suivre",
     "downloadingBatchProgress": "Téléchargement de {current}/{total} — {fileName}",
     "@downloadingBatchProgress": {
         "placeholders": {
@@ -6299,7 +6299,7 @@
     "@enableDtsPassthrough": {
         "description": "Description for DTS passthrough"
     },
-    "unpauseRewind": "Retour arrière après avoir mis en pause",
+    "unpauseRewind": "Retour en arrière après la pause",
     "@unpauseRewind": {
         "description": "Setting for rewinding a little when resuming from pause"
     },
@@ -6323,7 +6323,7 @@
     "@subtitlePreviewText": {
         "description": "Sample text shown in the subtitle live preview"
     },
-    "libraryVisibilityDescription": "Basculez la visibilité de la page d'accueil par bibliothèque. Redémarrez Moonfin pour que les modifications prennent effet.",
+    "libraryVisibilityDescription": "Affichez ou masquez chaque bibliothèque sur la page d'accueil. Redémarrez Moonfin pour appliquer les modifications.",
     "@libraryVisibilityDescription": {
         "description": "Explanation shown on the library visibility settings screen"
     },
@@ -6384,7 +6384,7 @@
     "@revenueLabel": {
         "description": "Stat label for revenue"
     },
-    "runtimeLabel": "Durée d'exécution",
+    "runtimeLabel": "Durée",
     "@runtimeLabel": {
         "description": "Stat label for runtime"
     },
@@ -6478,7 +6478,7 @@
     "syncPlayAvailableGroups": "Groupes disponibles",
     "syncPlayNoGroupsAvailable": "Aucun groupe disponible",
     "syncPlayJoinGroupQuestion": "Rejoindre le groupe SyncPlay ?",
-    "syncPlayJoinGroupWarning": "Rejoindre un groupe SyncPlay peut remplacer votre file d'attente de lecture actuelle. Continuer?",
+    "syncPlayJoinGroupWarning": "Rejoindre un groupe SyncPlay peut remplacer votre lecture en cours. Continuer ?",
     "syncPlayJoin": "Rejoindre",
     "syncPlayStateIdle": "Inactif",
     "syncPlayStateWaiting": "En attendant",
@@ -6537,7 +6537,7 @@
             }
         }
     },
-    "integrationRowsDiscoveredCount": "{count, plural, one {# row discovered} other {# rows discovered}}",
+    "integrationRowsDiscoveredCount": "{count, plural, one {# rangée découverte} other {# rangées découvertes}}",
     "@integrationRowsDiscoveredCount": {
         "description": "Plural label for number of rows discovered in integration status",
         "placeholders": {
@@ -6559,7 +6559,7 @@
     "settingsAccountSecurity": "Compte et sécurité",
     "settingsAccountSecuritySubtitle": "Authentification, code PIN et contrôle parental",
     "settingsPersonalization": "Personnalisation",
-    "settingsPersonalizationSubtitle": "Thème, navigation, rangées d'accueil et visibilité de la bibliothèque",
+    "settingsPersonalizationSubtitle": "Thème, navigation, rangées d'accueil et visibilité des bibliothèques",
     "settingsDynamicContent": "Contenu dynamique",
     "settingsDynamicContentSubtitle": "Barre média et superpositions visuelles",
     "settingsPlaybackSyncplay": "Lecture & SyncPlay",
@@ -6573,17 +6573,17 @@
     "settingsPrivacyAndSafetySection": "CONFIDENTIALITÉ ET SÉCURITÉ",
     "settingsBlockedRatings": "Notes bloquées",
     "settingsGeneralStyle": "Style général",
-    "settingsGeneralStyleSubtitle": "Accents de thème, arrière-plans, indicateurs regardés et musique de thème",
+    "settingsGeneralStyleSubtitle": "Couleurs d'accentuation, vignettes, indicateurs de visionnage et musique de thème",
     "settingsHomePage": "Page d'accueil",
     "settingsHomePageSubtitle": "Sections, types d'images, superpositions et aperçus multimédias",
-    "settingsLibrariesSubtitle": "Visibilité de la bibliothèque, vue des dossiers et comportement multi-serveur",
+    "settingsLibrariesSubtitle": "Visibilité des bibliothèques, vue des dossiers et gestion multi-serveur",
     "settingsTwentyFourHourClock": "Horloge 24 heures",
     "settingsTwentyFourHourClockSubtitle": "Utilisez le format d'heure sur 24 heures partout où l'horloge est affichée",
     "settingsShowShuffleButtonInNavigation": "Afficher le bouton de lecture aléatoire dans la barre de navigation",
     "settingsShowGenresButtonInNavigation": "Afficher le bouton des genres dans la barre de navigation",
     "settingsShowFavoritesButtonInNavigation": "Afficher le bouton Favoris dans la barre de navigation",
     "settingsShowLibrariesButtonInNavigation": "Afficher le bouton des bibliothèques dans la barre de navigation",
-    "settingsLibraryVisibilitySubtitle": "Basculez la visibilité de la page d'accueil par bibliothèque. Redémarrez Moonfin pour que les modifications prennent effet.",
+    "settingsLibraryVisibilitySubtitle": "Affichez ou masquez chaque bibliothèque sur la page d'accueil. Redémarrez Moonfin pour appliquer les modifications.",
     "settingsMediaBarAndLocalPreviews": "Barre multimédia et aperçus locaux",
     "settingsVisualOverlays": "Superpositions visuelles",
     "settingsSeasonalSurprise": "Surprise saisonnière",
@@ -6599,19 +6599,19 @@
     "settingsAppInfo": "INFORMATIONS SUR L'APPLICATION",
     "settingsReportAnIssue": "Signaler un problème",
     "settingsReportAnIssueSubtitle": "Ouvrez le suivi des problèmes sur GitHub",
-    "settingsJoinDiscord": "Rejoignez Discorde",
+    "settingsJoinDiscord": "Rejoignez Discord",
     "settingsJoinDiscordSubtitle": "Discutez avec la communauté",
     "settingsJoinTheDiscord": "Rejoignez le Discord",
     "settingsSupportMoonfin": "Soutenir Moonfin",
     "settingsLegal": "LÉGAL",
     "settingsLicenses": "Licences",
     "settingsOpenSourceLicenseNotices": "Avis de licence open source",
-    "settingsPrivacyPolicy": "politique de confidentialité",
+    "settingsPrivacyPolicy": "Politique de confidentialité",
     "settingsPrivacyPolicySubtitle": "Comment Moonfin gère vos données",
     "settingsCheckForUpdates": "Vérifier les mises à jour",
     "settingsCheckForUpdatesSubtitle": "Recherchez la dernière version de Moonfin",
     "settingsPoweredByFlutter": "Propulsé par Flutter",
-    "settingsLicenseNoticesCount": "{count, plural, one {# license notice} other {# license notices}}",
+    "settingsLicenseNoticesCount": "{count, plural, one {# mention de licence} other {# mentions de licence}}",
     "@settingsLicenseNoticesCount": {
         "description": "Plural label for number of license notices",
         "placeholders": {
@@ -6652,18 +6652,18 @@
     "settingsAutoAftkrtEnabled": "Auto (AFTKRT activé)",
     "settingsEnabledOnThisDevice": "Activé sur cet appareil",
     "settingsDisabledPreferTranscode": "Désactivé (préférer le transcodage)",
-    "settingsResumeRewindDescription": "Lors de la reprise de la lecture (à partir de Continuer de regarder ou d'une page d'élément multimédia), combien de secondes doivent être rembobinées ?",
-    "settingsUnpauseRewindDescription": "Lors de la reprise de la lecture après avoir appuyé sur le bouton pause, combien de secondes doivent être rembobinées ?",
-    "settingsSkipBackLengthDescription": "Combien de secondes faut-il revenir en arrière après avoir appuyé sur le bouton de rembobinage.",
+    "settingsResumeRewindDescription": "Nombre de secondes à revenir en arrière à la reprise de la lecture (depuis « Continuer à regarder » ou la fiche d'un média).",
+    "settingsUnpauseRewindDescription": "Nombre de secondes à revenir en arrière après une pause.",
+    "settingsSkipBackLengthDescription": "Nombre de secondes à revenir en arrière à chaque appui sur le bouton.",
     "settingsOneSecond": "1 seconde",
     "settingsThreeSeconds": "3 secondes",
     "settingsFortyFiveSeconds": "45 secondes",
     "settingsSixtySeconds": "60 secondes",
-    "settingsSkipForwardLengthDescription": "Combien de secondes faut-il avancer après avoir appuyé sur le bouton d'avance rapide.",
+    "settingsSkipForwardLengthDescription": "Nombre de secondes à avancer à chaque appui sur le bouton.",
     "settingsBitstreamAc3ToExternalDecoder": "Bitstream AC3 vers décodeur externe",
     "settingsCinemaMode": "Mode cinéma",
     "settingsCinemaModeSubtitle": "Lire des bandes-annonces/prerolls avant un long métrage principal",
-    "settingsNextUpDisplayDescription": "Extended affiche une carte complète avec le visuel et la description de l'épisode. Minimal montre une superposition de compte à rebours compacte. Désactivé masque entièrement l'invite.",
+    "settingsNextUpDisplayDescription": "Étendu affiche la notification détaillée, avec le visuel et la description de l'épisode. Minimal affiche une notification compacte avec compte à rebours. Désactivé masque entièrement la notification.",
     "settingsShort": "Court",
     "settingsLong": "Long",
     "settingsVeryLong": "Très longtemps",
@@ -6682,17 +6682,17 @@
     "settingsOpenGroups": "Groupes ouverts",
     "settingsOpenGroupsSubtitle": "Créer, rejoindre ou gérer des groupes SyncPlay",
     "settingsSyncplayEnabled": "SyncPlay activé",
-    "settingsSyncplayEnabledSubtitle": "Activer les fonctionnalités de surveillance de groupe",
+    "settingsSyncplayEnabledSubtitle": "Activer les fonctionnalités de visionnage en groupe",
     "settingsSyncplayButton": "Bouton SyncPlay",
     "settingsSyncplayButtonSubtitle": "Afficher le bouton SyncPlay sur la barre de navigation",
     "settingsSyncplayAdvancedCorrection": "Correction avancée",
     "settingsSyncplayAdvancedCorrectionSubtitle": "Activer une logique de synchronisation fine",
     "settingsSyncplaySyncCorrection": "Correction de synchronisation",
-    "settingsSyncplaySyncCorrectionSubtitle": "Ajustez automatiquement la lecture pour rester synchronisée",
+    "settingsSyncplaySyncCorrectionSubtitle": "Ajuster automatiquement la lecture pour rester synchronisé",
     "settingsSyncplaySpeedToSync": "Vitesse de synchronisation",
-    "settingsSyncplaySpeedToSyncSubtitle": "Utilisez le réglage de la vitesse de lecture pour synchroniser",
-    "settingsSyncplaySkipToSync": "Passer à la synchronisation",
-    "settingsSyncplaySkipToSyncSubtitle": "Utiliser la recherche de synchronisation",
+    "settingsSyncplaySpeedToSyncSubtitle": "Utiliser le réglage de la vitesse de lecture pour synchroniser",
+    "settingsSyncplaySkipToSync": "Saut pour synchroniser",
+    "settingsSyncplaySkipToSyncSubtitle": "Utiliser le saut dans la lecture pour synchroniser",
     "settingsSyncplayMinimumSpeedDelay": "Délai de vitesse minimum",
     "settingsSyncplayMaximumSpeedDelay": "Délai de vitesse maximale",
     "settingsSyncplaySpeedDuration": "Durée de la vitesse",
@@ -6722,7 +6722,7 @@
             }
         }
     },
-    "desktopUiScale": "Échelle de l'interface utilisateur",
+    "desktopUiScale": "Taille de l'interface utilisateur",
     "@desktopUiScale": {
         "description": "Setting for desktop UI scale"
     },
@@ -6778,7 +6778,7 @@
     "@mediaPreview": {
         "description": "Setting for media preview"
     },
-    "mediaPreviewDescription": "Jouez un aperçu en ligne de 30 secondes sur des cartes ciblées, survolées ou enfoncées longuement",
+    "mediaPreviewDescription": "Lire un aperçu intégré de 30 secondes lorsqu'un visuel est sélectionné, survolé ou maintenu appuyé",
     "@mediaPreviewDescription": {
         "description": "Description for media preview"
     },
@@ -6934,7 +6934,7 @@
     "@settingsAudioRouteSpeaker": {
         "description": "Audio route type speaker"
     },
-    "settingsAudioPcmChannels": "{count}ch PCM",
+    "settingsAudioPcmChannels": "{count} canaux PCM",
     "@settingsAudioPcmChannels": {
         "description": "Audio route subtitle showing max PCM channels",
         "placeholders": {
@@ -7029,7 +7029,7 @@
     "@subtitlesUseEmbeddedStyles": {
         "description": "Setting title: apply colours/positioning from the subtitle track"
     },
-    "subtitlesUseEmbeddedStylesSubtitle": "Appliquez les couleurs, les polices et le positionnement intégrés à la piste de sous-titres. Désactivez-le pour utiliser vos préférences de style de légende.",
+    "subtitlesUseEmbeddedStylesSubtitle": "Appliquer les couleurs, polices et positionnement intégrés à la piste de sous-titres. Désactiver pour utiliser plutôt vos préférences de style.",
     "@subtitlesUseEmbeddedStylesSubtitle": {
         "description": "Setting subtitle for embedded styles toggle"
     },
@@ -7037,15 +7037,15 @@
     "@subtitlesUseEmbeddedFontSizes": {
         "description": "Setting title: apply font sizes from the subtitle track"
     },
-    "subtitlesUseEmbeddedFontSizesSubtitle": "Appliquez des conseils sur la taille de la police intégrés à la piste de sous-titres. Désactivez l'utilisation de la taille des sous-titres dans vos préférences de style.",
+    "subtitlesUseEmbeddedFontSizesSubtitle": "Appliquer les indications de taille de police intégrées à la piste de sous-titres. Désactiver pour utiliser la taille définie dans vos préférences de style.",
     "@subtitlesUseEmbeddedFontSizesSubtitle": {
         "description": "Setting subtitle for embedded font sizes toggle"
     },
-    "useDetailedSubHeadings": "Utiliser des sous-titres détaillés",
+    "useDetailedSubHeadings": "Informations détaillées sous le titre",
     "@useDetailedSubHeadings": {
         "description": "Label for setting to toggle detailed or minimal subrow on library pages"
     },
-    "useDetailedSubHeadingsDescription": "Afficher la sous-rangée détaillée ou minimale sur les pages de la bibliothèque.",
+    "useDetailedSubHeadingsDescription": "Afficher des informations supplémentaire sous le titre, sur les pages de la bibliothèque.",
     "@useDetailedSubHeadingsDescription": {
         "description": "Subtitle for the use detailed sub headings setting"
     },
@@ -7093,19 +7093,19 @@
     "savedThemesManageSubtitle": "Gérer les thèmes de plugin téléchargés sur cet appareil",
     "homeScreenSectionsTitle": "Sections de l'écran d'accueil",
     "themeEditor": "Éditeur de thème",
-    "themeEditorSubtitle": "Ouvrez l'éditeur de thème Moonfin dans votre navigateur.",
+    "themeEditorSubtitle": "Ouvrez l'éditeur de thème Moonfin dans votre navigateur",
     "homeScreen": "Écran d'accueil",
     "bottomBar": "Barre inférieure",
     "homeRowsStyleClassic": "Classique",
     "homeRowsStyleModern": "Moderne",
     "homeRowsSection": "Rangées d'accueil",
     "rowsType": "Type de rangée",
-    "rowsTypeDescription": "Classic conserve le type d'image par rangée et la superposition d'informations. Modern utilise des rangées passant du portrait à l'arrière-plan.",
+    "rowsTypeDescription": "Classique conserve la disposition classique en portrait. Moderne passe du portrait à la vignette au survol.",
     "displayFavoritesRows": "Afficher les rangées de favoris",
     "displayFavoritesRowsSubtitle": "Afficher les films, séries et autres rangées préférées dans les sections d'accueil.",
     "favoritesRowSorting": "Tri des rangées de favoris",
     "favoritesRowSortingDescription": "Triez les rangées de favoris par date d'ajout, date de sortie, par ordre alphabétique, etc.",
-    "displayCollectionsRows": "Afficher les rangées de collections dans les sections d'accueil.",
+    "displayCollectionsRows": "Afficher les rangées de collections",
     "displayCollectionsRowsSubtitle": "Afficher les rangées de collections dans les sections d'accueil.",
     "collectionsRowSorting": "Tri des rangées de collections",
     "collectionsRowSortingDescription": "Triez les rangées de collections par date d'ajout, date de sortie, par ordre alphabétique, etc.",
@@ -7114,9 +7114,9 @@
     "genresRowSorting": "Tri des rangées par genre",
     "genresRowSortingDescription": "Triez les rangées de genres par date d'ajout, date de sortie, par ordre alphabétique, etc.",
     "genresRowItems": "Éléments de rangée de genres",
-    "genresRowItemsDescription": "Afficher des films, des séries ou les deux dans les rangées Genres.",
+    "genresRowItemsDescription": "Afficher des films, des séries ou les deux dans les rangées de genres.",
     "appearance": "Apparence",
-    "cardSize": "Taille des cartes des rangées d'accueil",
+    "cardSize": "Taille des visuels des rangées d'accueil",
     "externalPlayerApp": "Application de lecteur externe",
     "externalPlayerAskEachTimeSubtitle": "Afficher le sélecteur d'application lorsque la lecture démarre.",
     "loadingInstalledPlayers": "Chargement des lecteurs installés...",
@@ -7128,12 +7128,12 @@
     "settingsAudioDtsXPassthrough": "Passage DTS:X (DTS UHD)",
     "settingsAudioBitstreamDtsXToExternalDecoder": "Bitstream DTS:X (DTS UHD) vers un décodeur externe.",
     "settingsAudioTrueHdJocPassthrough": "Passthrough TrueHD avec Atmos (JOC)",
-    "mediaPlayerBehavior": "Comportement du lecteur multimédia",
+    "mediaPlayerBehavior": "Comportement du lecteur",
     "playbackEnhancements": "Améliorations de la lecture",
     "alwaysOn": "Toujours allumé.",
-    "replaceSkipOutroWithNextUpDisplay": "Remplacez Skip Outro par Next Up Display",
-    "replaceSkipOutroWithNextUpDisplaySubtitle": "Afficher la superposition Next Up au lieu du bouton Ignorer Outro.",
-    "playerRouting": "Routage des joueurs",
+    "replaceSkipOutroWithNextUpDisplay": "« Prochain épisode » au lieu du générique",
+    "replaceSkipOutroWithNextUpDisplaySubtitle": "Afficher la notification du prochain épisode au lieu du bouton « Ignorer le générique ».",
+    "playerRouting": "Routage du lecteur",
     "preferSoftwareDecoders": "Préférer les décodeurs logiciels",
     "preferSoftwareDecodersSubtitle": "Utilisez FFmpeg (audio) et libgav1 (AV1) avant les décodeurs matériels. Désactivez-le si le passage audio HDMI est interrompu.",
     "useExternalPlayer": "Toujours utiliser un lecteur externe",
@@ -7236,7 +7236,7 @@
     "analyticsTopArtists": "Meilleurs artistes",
     "analyticsTopAuthors": "Meilleurs auteurs",
     "analyticsTopContributors": "Meilleurs contributeurs",
-    "analyticsLibrariesCount": "{count, plural, =1{1 Library} other{{count} Libraries}}",
+    "analyticsLibrariesCount": "{count, plural, =1{1 Bibliothèque} other{{count} Bibliothèques}}",
     "@analyticsLibrariesCount": {
         "placeholders": {
             "count": {
@@ -7519,7 +7519,7 @@
     "@currentUser": {
         "description": "Option: current user"
     },
-    "seerrDiscoveryRows": "Rangées de découverte Seerr",
+    "seerrDiscoveryRows": "Découvertes Seerr",
     "@seerrDiscoveryRows": {
         "description": "Subtitle shown under Seerr discovery home rows"
     },
@@ -7625,7 +7625,7 @@
     },
     "yes": "Oui",
     "posterCategory": "Affiche",
-    "backdropsCategory": "Arrière-plans",
+    "backdropsCategory": "Vignettes",
     "bannerCategory": "Bannière",
     "logoCategory": "Logo",
     "thumbnailCategory": "Miniature",
@@ -7636,7 +7636,7 @@
     "boxRearCoverCategory": "Jaquette arrière",
     "menuArtCategory": "Visuel du menu",
     "confirmItemPoster": "affiche",
-    "confirmItemBackdrop": "arrière-plan",
+    "confirmItemBackdrop": "vignette",
     "confirmItemBanner": "bannière",
     "confirmItemLogo": "logo",
     "confirmItemThumbnail": "miniature",
@@ -7849,5 +7849,18 @@
     "libraryWriteAccessReactiveBody": "",
     "@libraryWriteAccessReactiveBody": {
         "description": "Reactive error warning message when artwork update fails"
-    }
+    },
+    "themeStore": "Boutique de thèmes",
+    "themeStoreSubtitle": "Parcourir et enregistrer les thèmes de la communauté",
+    "themeStoreDescription": "Enregistrez un thème pour le retrouver parmi vos thèmes enregistrés.",
+    "themeStoreEmpty": "Aucun thème n'est disponible pour le moment.",
+    "themeStoreLoadFailed": "Impossible de charger la boutique de thèmes. Vérifiez votre connexion et réessayez.",
+    "themeStoreSave": "Enregistrer",
+    "themeStoreSaveAndApply": "Enregistrer et appliquer",
+    "themeStoreSaved": "Enregistré",
+    "displayAudioRowsSubtitle": "Afficher les rangées audio dans les sections de l'accueil.",
+    "audioRowsSorting": "Tri des rangées audio",
+    "audioRowsSortingDescription": "Triez les rangées audio par date d'ajout, date de sortie, par ordre alphabétique, etc.",
+    "audioPlaylists": "Playlists audio",
+    "displayAudioRows": "Afficher les rangées audio"
 }
