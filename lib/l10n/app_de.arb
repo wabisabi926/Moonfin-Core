@@ -8,7 +8,7 @@
     "@signIn": {
         "description": "Sign in heading and button label"
     },
-    "connectingToServer": "Verbindung zu {serverName} herstellen",
+    "connectingToServer": "Verbindung zu {serverName} wird hergestellt",
     "@connectingToServer": {
         "description": "Subtitle showing which server the user is connecting to",
         "placeholders": {
@@ -17,7 +17,7 @@
             }
         }
     },
-    "quickConnect": "Schnellverbindung",
+    "quickConnect": "Quick Connect",
     "@quickConnect": {
         "description": "Quick Connect toggle button label"
     },
@@ -29,7 +29,7 @@
     "@username": {
         "description": "Username field label"
     },
-    "quickConnectInstruction": "Gib diesen Code im Web-Dashboard deines Servers ein:",
+    "quickConnectInstruction": "Gib diesen Code in einem bereits angemeldeten Client ein:",
     "@quickConnectInstruction": {
         "description": "Instruction text for Quick Connect code entry"
     },
@@ -49,7 +49,7 @@
     "@loginFailed": {
         "description": "Generic login failure message"
     },
-    "quickConnectUnavailable": "QuickConnect nicht verfügbar: {detail}",
+    "quickConnectUnavailable": "Quick Connect nicht verfügbar: {detail}",
     "@quickConnectUnavailable": {
         "description": "Quick Connect generic error message",
         "placeholders": {
@@ -58,7 +58,7 @@
             }
         }
     },
-    "quickConnectUnavailableWithStatus": "QuickConnect nicht verfügbar ({status}): {detail}",
+    "quickConnectUnavailableWithStatus": "Quick Connect nicht verfügbar ({status}): {detail}",
     "@quickConnectUnavailableWithStatus": {
         "description": "Quick Connect error message with HTTP status info",
         "placeholders": {
@@ -70,7 +70,7 @@
             }
         }
     },
-    "whosWatching": "Wer schaut zu?",
+    "whosWatching": "Wähle deinen Benutzer",
     "@whosWatching": {
         "description": "Server user selection heading"
     },
@@ -95,15 +95,15 @@
     "@savedServers": {
         "description": "Section heading for previously saved servers"
     },
-    "discoveredServers": "Erkannte Server",
+    "discoveredServers": "Gefundene Server",
     "@discoveredServers": {
         "description": "Section heading for auto-discovered local servers"
     },
-    "noneFound": "Keine gefunden",
+    "noneFound": "Keine Server automatisch gefunden",
     "@noneFound": {
         "description": "Shown when no servers are discovered on the network"
     },
-    "unableToConnectToServer": "Verbindung zum Server nicht möglich",
+    "unableToConnectToServer": "Verbindung zum Server fehlgeschlagen",
     "@unableToConnectToServer": {
         "description": "Error when a server connection attempt fails"
     },
@@ -111,7 +111,7 @@
     "@addServer": {
         "description": "Button to manually add a server address"
     },
-    "embyConnect": "Emby Verbinden",
+    "embyConnect": "Emby Connect",
     "@embyConnect": {
         "description": "Emby Connect sign-in option label"
     },
@@ -119,7 +119,7 @@
     "@removeServer": {
         "description": "Dialog title for removing a saved server"
     },
-    "removeServerConfirmation": "„{serverName}“ von Ihren Servern entfernen?",
+    "removeServerConfirmation": "„{serverName}“ von den gespeicherten Servern entfernen?",
     "@removeServerConfirmation": {
         "description": "Confirmation message when removing a saved server",
         "placeholders": {
@@ -144,7 +144,7 @@
     "@serverAddress": {
         "description": "Label for the server URL input field"
     },
-    "serverAddressHint": "https://dein-server.beispiel.de",
+    "serverAddressHint": "https://dein-server.example.com",
     "@serverAddressHint": {
         "description": "Hint text for the server URL input field"
     },
@@ -168,7 +168,7 @@
     "@settingsAppearanceTheme": {
         "description": "Title for the theme selection screen and theme settings entry"
     },
-    "settingsAppearanceThemeSubtitle": "Wechseln Sie zwischen Moonfin und Neon Pulse, ohne die App neu zu starten",
+    "settingsAppearanceThemeSubtitle": "Wechsel zwischen \"Moonfin\" und \"Neon Pulse\", ohne die App neu zu starten",
     "@settingsAppearanceThemeSubtitle": {
         "description": "Subtitle for the theme selection screen and theme settings entry"
     },
@@ -176,15 +176,15 @@
     "@themeMoonfin": {
         "description": "Display name for the Moonfin theme"
     },
-    "themeMoonfinSubtitle": "Der aktuelle Moonfin-Look, den Sie alle lieben werden",
+    "themeMoonfinSubtitle": "Aktueller Standard-Moonfin-Look",
     "@themeMoonfinSubtitle": {
         "description": "Preview description for the Moonfin theme"
     },
-    "themeNeonPulse": "Neonpuls",
+    "themeNeonPulse": "Neon Pulse",
     "@themeNeonPulse": {
         "description": "Display name for the Neon Pulse theme"
     },
-    "themeNeonPulseSubtitle": "Synthwave-Stil mit Magenta-Glühen, Cyan-Text und stärkerem Chromkontrast",
+    "themeNeonPulseSubtitle": "Synthwave-Stil mit magentafarbenem Leuchten, cyanfarbenem Text und stärkerem Chroma-Kontrast",
     "@themeNeonPulseSubtitle": {
         "description": "Preview description for the Neon Pulse theme"
     },
@@ -253,7 +253,7 @@
     "@exitApp": {
         "description": "Title of exit confirmation dialog"
     },
-    "exitAppConfirmation": "Möchtest du die App wirklich beenden?",
+    "exitAppConfirmation": "Möchtest du die App beenden?",
     "@exitAppConfirmation": {
         "description": "Body text of exit confirmation dialog"
     },
@@ -261,27 +261,27 @@
     "@exit": {
         "description": "Exit button label"
     },
-    "noHomeRowsLoaded": "Keine Startseiten-Reihen geladen",
+    "noHomeRowsLoaded": "Keine Startseiten-Zeilen konnten geladen werden",
     "@noHomeRowsLoaded": {
         "description": "Heading when home screen has no rows to display"
     },
-    "noHomeRowsHint": "Versuche zu aktualisieren oder reduziere die aktiven Bereiche.",
+    "noHomeRowsHint": "Versuche, die Seite neu zu laden, oder reduziere aktive Bereiche.",
     "@noHomeRowsHint": {
         "description": "Hint text below the no-home-rows heading"
     },
-    "retryHomeRows": "Startseiten-Reihen erneut laden",
+    "retryHomeRows": "Versuche, Startseiten-Zeilen erneut zu laden",
     "@retryHomeRows": {
         "description": "Button to retry loading home rows after failure"
     },
-    "guide": "Programmführer",
+    "guide": "TV-Programminfo",
     "@guide": {
         "description": "Live TV guide button label"
     },
-    "recordings": "Aufnahmen",
+    "recordings": "TV-Aufnahmen",
     "@recordings": {
         "description": "Live TV recordings button label"
     },
-    "schedule": "Zeitplan",
+    "schedule": "TV-Zeitplan",
     "@schedule": {
         "description": "Live TV schedule button label"
     },
@@ -289,7 +289,7 @@
     "@series": {
         "description": "Section header for TV series"
     },
-    "noItemsFound": "Keine Einträge gefunden",
+    "noItemsFound": "Keine Inhalte gefunden",
     "@noItemsFound": {
         "description": "Empty state when no items match the current view"
     },
@@ -297,7 +297,7 @@
     "@home": {
         "description": "Home navigation tooltip"
     },
-    "browseAll": "Alle durchsuchen",
+    "browseAll": "Alles durchsuchen",
     "@browseAll": {
         "description": "Button to browse all items in a library"
     },
@@ -305,11 +305,11 @@
     "@genres": {
         "description": "Genres navigation label"
     },
-    "collectionPlaceholder": "Sammlungselemente werden hier angezeigt",
+    "collectionPlaceholder": "Sammlungsinhalte werden hier angezeigt",
     "@collectionPlaceholder": {
         "description": "Placeholder text for empty collection screen"
     },
-    "browseByLetter": "Nach Buchstaben durchsuchen",
+    "browseByLetter": "Nach Alphabet durchsuchen",
     "@browseByLetter": {
         "description": "Title for alphabetical browse screen"
     },
@@ -321,7 +321,7 @@
     "@suggestions": {
         "description": "Title for suggestions screen"
     },
-    "suggestionsPlaceholder": "Vorgeschlagene Einträge werden hier angezeigt",
+    "suggestionsPlaceholder": "Vorgeschlagene Inhalte werden hier angezeigt",
     "@suggestionsPlaceholder": {
         "description": "Placeholder text for suggestions screen"
     },
@@ -362,7 +362,7 @@
     "@thisFolderIsEmpty": {
         "description": "Empty state for folder browse screen"
     },
-    "itemCountLabel": "{count} Elemente",
+    "itemCountLabel": "{count} Inhalte",
     "@itemCountLabel": {
         "description": "Subtitle showing number of items in a folder or collection",
         "placeholders": {
@@ -387,7 +387,7 @@
     "@favorites": {
         "description": "Favorites section heading and filter label"
     },
-    "totalCountItems": "{count} Elemente",
+    "totalCountItems": "{count} Inhalte",
     "@totalCountItems": {
         "description": "Header showing total item count",
         "placeholders": {
@@ -408,7 +408,7 @@
     "@sortAndFilter": {
         "description": "Dialog title for sort and filter options"
     },
-    "type": "Typ",
+    "type": "Art",
     "@type": {
         "description": "Stream info label for subtitle type"
     },
@@ -6782,11 +6782,11 @@
     "@mediaPreviewDescription": {
         "description": "Description for media preview"
     },
-    "keyboardPreferSystemIme": "Bevorzugen Sie eine Systemtastatur",
+    "keyboardPreferSystemIme": "Bevorzugen der Systemtastatur",
     "@keyboardPreferSystemIme": {
         "description": "Settings label for preferring the native system keyboard instead of the custom TV keyboard"
     },
-    "keyboardPreferSystemImeDescription": "Verwenden Sie für die Texteingabe standardmäßig die Eingabemethode Ihres Geräts",
+    "keyboardPreferSystemImeDescription": "Nutze zur Texteingabe standardmäßig die Eingabemethode des Gerätes",
     "@keyboardPreferSystemImeDescription": {
         "description": "Settings subtitle for the system keyboard preference"
     },
@@ -7353,5 +7353,49 @@
     "autoHdrSwitchingDescription": "Aktivieren Sie HDR automatisch für die HDR-Videowiedergabe und stellen Sie den Anzeigemodus beim Beenden wieder her.",
     "whenFullscreen": "Im Vollbildmodus",
     "transcodingLimits": "Transkodierungsgrenzen",
-    "settingsSupportMoonfinSubtitle": "Spenden Sie dem Entwickler einen Kaffee"
+    "settingsSupportMoonfinSubtitle": "Spenden Sie dem Entwickler einen Kaffee",
+    "interfaceStyle": "Oberflächen-Stil",
+    "@interfaceStyle": {
+        "description": "Label for the Automatic/Apple/Material interface style setting"
+    },
+    "accountPreferences": "KONTO-PRÄFERENZEN",
+    "@accountPreferences": {
+        "description": "Section header for account preferences settings"
+    },
+    "interfaceLanguage": "Sprache der App-Oberfläche",
+    "@interfaceLanguage": {
+        "description": "Label for the app interface language setting"
+    },
+    "systemLanguageDefault": "Systemstandard",
+    "@systemLanguageDefault": {
+        "description": "Label for using the system default language in settings"
+    },
+    "empty": "leer",
+    "@empty": {
+        "description": "Label indicating a section or category is empty"
+    },
+    "themeGlass": "Glass",
+    "@themeGlass": {
+        "description": "Display name for the Glass theme"
+    },
+    "themeGlassSubtitle": "Liquid-Glass-Stil mit fließendem Übergang und Apple-mäßig blauem Akzent",
+    "@themeGlassSubtitle": {
+        "description": "Preview description for the Glass theme"
+    },
+    "interfaceStyleSubtitle": "\"Automatisch\" nutzt natives Aussehen auf Apple-Geräten. Wähle \"Apple-nativ\", um dieses zu erzwingen, oder \"Material\" für das Standardaussehen.",
+    "@interfaceStyleSubtitle": {
+        "description": "Explanation under the interface style setting"
+    },
+    "interfaceStyleAutomatic": "Automatisch",
+    "@interfaceStyleAutomatic": {
+        "description": "Interface style option: follow the platform"
+    },
+    "interfaceStyleApple": "Apple-nativ",
+    "@interfaceStyleApple": {
+        "description": "Interface style option: Apple native look"
+    },
+    "interfaceStyleMaterial": "Material",
+    "@interfaceStyleMaterial": {
+        "description": "Interface style option: Material look"
+    }
 }
