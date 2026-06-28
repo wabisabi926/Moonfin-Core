@@ -6241,19 +6241,19 @@ abstract class AppLocalizations {
   /// Section title for discover rows
   ///
   /// In en, this message translates to:
-  /// **'Discover Rows'**
+  /// **'Seerr Homepage'**
   String get discoverRows;
 
   /// Description for discover rows with plugin
   ///
   /// In en, this message translates to:
-  /// **'Drag to reorder. Enable or disable rows. Enabled row order syncs with the Moonfin plugin.'**
+  /// **'Enable rows to see on Seerr mainpage. Drag to reorder. Custom order syncs with Moonbase.'**
   String get discoverRowsDescriptionPlugin;
 
   /// Description for discover rows without plugin
   ///
   /// In en, this message translates to:
-  /// **'Drag to reorder. Enable or disable rows.'**
+  /// **'Enable rows to see on Seerr mainpage. Drag to reorder. Custom order syncs with Moonbase.'**
   String get discoverRowsDescription;
 
   /// Status: enabled
@@ -6433,7 +6433,7 @@ abstract class AppLocalizations {
   /// Home sections settings subtitle
   ///
   /// In en, this message translates to:
-  /// **'Reorder and toggle home rows'**
+  /// **'Reorder and toggle both library and external-based home rows'**
   String get reorderToggleHomeRows;
 
   /// Media bar settings subtitle
@@ -13555,7 +13555,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeRowTogglesSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Enable or disable different home row categories'**
+  /// **'Enable or disable library-based home row categories'**
   String get homeRowTogglesSubtitle;
 
   /// No description provided for @homeRowTogglesDescription.
@@ -13713,18 +13713,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Audio Playlists'**
   String get audioPlaylists;
-
-  /// No description provided for @displaySeerrRows.
-  ///
-  /// In en, this message translates to:
-  /// **'Display Seerr Discovery Rows'**
-  String get displaySeerrRows;
-
-  /// No description provided for @displaySeerrRowsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Show Seerr discovery rows in Home Sections.'**
-  String get displaySeerrRowsSubtitle;
 
   /// No description provided for @appearance.
   ///
@@ -15025,7 +15013,7 @@ abstract class AppLocalizations {
   /// No description provided for @externalLists.
   ///
   /// In en, this message translates to:
-  /// **'External Lists'**
+  /// **'External Home Row Lists'**
   String get externalLists;
 
   /// No description provided for @enableImdb.
