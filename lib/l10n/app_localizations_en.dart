@@ -141,6 +141,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsAppearanceTheme => 'App Theme';
 
   @override
+  String get detailScreenStyle => 'Detail screen style';
+
+  @override
+  String get detailScreenStyleSubtitle =>
+      'Moonfin is the classic layout. Modern is a responsive cinematic layout.';
+
+  @override
+  String get detailScreenStyleMoonfin => 'Moonfin';
+
+  @override
+  String get detailScreenStyleModern => 'Modern';
+
+  @override
+  String get interfaceStyle => 'Interface style';
+
+  @override
+  String get interfaceStyleSubtitle =>
+      'Automatic uses the native look on Apple devices. Choose Apple to force it, or Material for the standard look.';
+
+  @override
+  String get interfaceStyleAutomatic => 'Automatic';
+
+  @override
+  String get interfaceStyleApple => 'Apple';
+
+  @override
+  String get interfaceStyleMaterial => 'Material';
+
+  @override
   String get settingsAppearanceThemeSubtitle =>
       'Switch between Moonfin and Neon Pulse without restarting the app';
 
@@ -826,6 +855,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String endsAt(String time) {
     return 'Ends at $time';
+  }
+
+  @override
+  String get items => 'Items';
+
+  @override
+  String get extras => 'Extras';
+
+  @override
+  String timeRemaining(String time) {
+    return '$time remaining';
   }
 
   @override
@@ -1581,6 +1621,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get liveBadge => 'LIVE';
 
   @override
+  String guideNextProgram(String time, String title) {
+    return 'Next: $time  $title';
+  }
+
+  @override
+  String guideMinutesLeft(int minutes) {
+    return '${minutes}m left';
+  }
+
+  @override
+  String guideHoursLeft(int hours) {
+    return '${hours}h left';
+  }
+
+  @override
+  String guideHoursMinutesLeft(int hours, int minutes) {
+    return '${hours}h ${minutes}m left';
+  }
+
+  @override
   String get movie => 'Movie';
 
   @override
@@ -2150,6 +2210,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get defaultAudioLanguage => 'Default Audio Language';
 
   @override
+  String get fallbackAudioLanguage => 'Fallback Audio Language';
+
+  @override
+  String get preferDefaultAudioTrack => 'Prefer Default Audio Track';
+
+  @override
+  String get preferDefaultAudioTrackDescription =>
+      'Prefer original audio track over localized dub.';
+
+  @override
+  String get preferAudioDescription => 'Prefer Audio Description Tracks';
+
+  @override
+  String get preferAudioDescriptionDescription =>
+      'Prefer audio description tracks over normal tracks.';
+
+  @override
+  String get transcodingAudio => 'Transcoding (Audio)';
+
+  @override
   String get autoServerDefault => 'Auto (Server Default)';
 
   @override
@@ -2553,6 +2633,47 @@ class AppLocalizationsEn extends AppLocalizations {
       'Customize subtitle appearance';
 
   @override
+  String get subtitleMode => 'Subtitle Mode';
+
+  @override
+  String get subtitleModeFlagged => 'Flagged';
+
+  @override
+  String get subtitleModeAlways => 'Always';
+
+  @override
+  String get subtitleModeForeign => 'Foreign';
+
+  @override
+  String get subtitleModeForced => 'Forced';
+
+  @override
+  String get subtitleModeFlaggedDescription =>
+      'Plays tracks internally flagged in the media file\'s metadata as \"default\" or \"forced\".';
+
+  @override
+  String get subtitleModeAlwaysDescription =>
+      'Automatically loads and displays subtitles every time a video starts.';
+
+  @override
+  String get subtitleModeForeignDescription =>
+      'Automatically turns on subtitles if the default audio track is in a foreign language.';
+
+  @override
+  String get subtitleModeForcedDescription =>
+      'Only loads subtitles explicitly tagged with the forced metadata flag.';
+
+  @override
+  String get subtitleModeNoneDescription =>
+      'Completely disables automatic subtitle loading.';
+
+  @override
+  String get fallbackSubtitleLanguage => 'Fallback Subtitle Language';
+
+  @override
+  String get subtitleStream => 'Subtitle Stream';
+
+  @override
   String get subtitlePreviewText =>
       'The quick brown fox jumps over the lazy dog';
 
@@ -2821,6 +2942,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get showFolderBrowsingOption => 'Show folder browsing option';
 
   @override
+  String get groupItemsIntoCollections => 'Group Items into Collections';
+
+  @override
+  String get hideCollectionAssociatedItems =>
+      'Hide Collection associated library items when browsing libraries';
+
+  @override
+  String get groupItemsIntoCollectionsDialogTitle => 'Library Grouping Notice';
+
+  @override
+  String get groupItemsIntoCollectionsDialogMessage =>
+      'To use this setting, please ensure the \"Group movies into collections\" and/or \"Group shows into collections\" Library settings are enabled under your library\'s Display settings on your Jellyfin or Emby server.';
+
+  @override
   String get libraryVisibility => 'Library Visibility';
 
   @override
@@ -2831,7 +2966,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get showInNavigation => 'Show in navigation';
 
   @override
-  String get showInLatestMedia => 'Show in latest media';
+  String get showInLatestMedia => 'Show in recently added/released media';
 
   @override
   String get sourceLibraries => 'Source Libraries';
@@ -2951,7 +3086,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enable audio for trailer and episode previews';
 
   @override
-  String get latestMedia => 'Latest Media';
+  String get latestMedia => 'Recently Added Media';
 
   @override
   String get recentlyReleased => 'Recently Released';
@@ -3301,15 +3436,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get discoverRows => 'Discover Rows';
+  String get discoverRows => 'Seerr Discovery Page';
 
   @override
   String get discoverRowsDescriptionPlugin =>
-      'Drag to reorder. Enable or disable rows. Enabled row order syncs with the Moonfin plugin.';
+      'Enable rows to see on Seerr mainpage. Drag to reorder. Custom order syncs with Moonbase.';
 
   @override
   String get discoverRowsDescription =>
-      'Drag to reorder. Enable or disable rows.';
+      'Enable rows to see on Seerr mainpage. Drag to reorder. Custom order syncs with Moonbase.';
 
   @override
   String get enabled => 'Enabled';
@@ -3414,7 +3549,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Navbar style, toolbar buttons, appearance';
 
   @override
-  String get reorderToggleHomeRows => 'Reorder and toggle home rows';
+  String get reorderToggleHomeRows =>
+      'Reorder and toggle both library and external-based home rows';
 
   @override
   String get featuredContentAppearance => 'Featured content, appearance';
@@ -6372,38 +6508,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get requestTranscode => 'Request transcode';
 
   @override
-  String get homeScreenSectionsIntegrationDescription =>
-      'Detect rows exposed by IAmParadox27\'s \"Home Screen Sections\" plugin. Rows can be enabled and reordered below.';
-
-  @override
-  String get homeScreenSectionsIntegrationNoServers =>
-      'No Jellyfin servers reporting the plugin yet.';
-
-  @override
-  String get integrationOpenHomeSections => 'Open Home Sections';
-
-  @override
-  String get integrationOpenHomeSectionsSubtitle =>
-      'Enable, disable, and reorder rows';
-
-  @override
-  String get integrationInstalledButDisabled => 'Installed but disabled';
-
-  @override
-  String get integrationNotInstalled => 'Not installed';
-
-  @override
-  String integrationSectionsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# sections',
-      one: '# section',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String integrationRowsDiscoveredCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -6413,9 +6517,6 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get jellyseerr => 'Jellyseerr';
 
   @override
   String get seeAll => 'See All';
@@ -7283,7 +7384,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String latestLibraryName(String libraryName) {
-    return 'Latest $libraryName';
+    return 'Recently Added $libraryName';
+  }
+
+  @override
+  String recentlyReleasedLibraryName(String libraryName) {
+    return 'Recently Released $libraryName';
   }
 
   @override
@@ -7432,9 +7538,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Manage downloaded plugin themes on this device';
 
   @override
-  String get homeScreenSectionsTitle => 'Home Screen Sections';
-
-  @override
   String get themeEditor => 'Theme Editor';
 
   @override
@@ -7467,7 +7570,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeRowTogglesSubtitle =>
-      'Enable or disable different home row categories';
+      'Enable or disable library-based home row categories';
 
   @override
   String get homeRowTogglesDescription =>
@@ -7557,13 +7660,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get audioPlaylists => 'Audio Playlists';
-
-  @override
-  String get displaySeerrRows => 'Display Seerr Discovery Rows';
-
-  @override
-  String get displaySeerrRowsSubtitle =>
-      'Show Seerr discovery rows in Home Sections.';
 
   @override
   String get appearance => 'Appearance';
@@ -7842,6 +7938,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appearancesSeerr => 'Appearances (Seerr)';
+
+  @override
+  String get crewContributionsSeerr => 'Crew Contributions (Seerr)';
 
   @override
   String get watchWithGroup => 'Watch with group';
@@ -8361,6 +8460,59 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get audiobookDelete => 'Delete';
+
+  @override
+  String get subtitlePreferences => 'Subtitle Preferences';
+
+  @override
+  String get subtitlePreferencesDescription =>
+      'Change subtitle modes, default languages, appearance, and rendering options.';
+
+  @override
+  String get subtitleRendering => 'Subtitle Rendering';
+
+  @override
+  String get displayOptions => 'Display Options';
+
+  @override
+  String get releaseDateAscending => 'Release Date (Ascending)';
+
+  @override
+  String get releaseDateDescending => 'Release Date (Descending)';
+
+  @override
+  String get groupContributions => 'Group Contributions';
+
+  @override
+  String get groupMultipleRoles => 'Group multiple roles';
+
+  @override
+  String get libraryWriteAccessWarningTitle => 'Library Write Access Warning';
+
+  @override
+  String get libraryWriteAccessHowToFix => 'How to fix this:';
+
+  @override
+  String get libraryWriteAccessFixSteps =>
+      '1. Grant write permissions to the Jellyfin service user (e.g., jellyfin or Docker PUID/PGID) for your media library folders on the server.\n\n2. Or, go to your Jellyfin Dashboard -> Libraries, edit this library, and disable \'Save artwork into media folders\' to store artwork in Jellyfin\'s internal database.';
+
+  @override
+  String get dismiss => 'Dismiss';
+
+  @override
+  String libraryWriteAccessProactiveBody(
+    String libraryName,
+    String failedPath,
+  ) {
+    return 'Your \'$libraryName\' library is configured to save artwork directly into the media folders (\'Save artwork into media folders\' is enabled). However, Jellyfin has tested write access and does not have permission to write files into this directory:\n\n$failedPath';
+  }
+
+  @override
+  String get libraryWriteAccessReactiveBody =>
+      'It looks like Jellyfin failed to update the artwork. Your library is configured to save artwork directly into the media folders (\'Save artwork into media folders\' is enabled). This error typically occurs when the Jellyfin server process does not have permission to write files into your media directories.';
+
+  @override
+  String get externalLists => 'External Home Row Lists';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -8498,6 +8650,21 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get settingsAppearanceTheme => 'App Theme';
+
+  @override
+  String get interfaceStyle => '';
+
+  @override
+  String get interfaceStyleSubtitle => '';
+
+  @override
+  String get interfaceStyleAutomatic => '';
+
+  @override
+  String get interfaceStyleApple => '';
+
+  @override
+  String get interfaceStyleMaterial => '';
 
   @override
   String get settingsAppearanceThemeSubtitle =>
@@ -10509,6 +10676,24 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get defaultAudioLanguage => 'Default Audio Language';
 
   @override
+  String get fallbackAudioLanguage => '';
+
+  @override
+  String get preferDefaultAudioTrack => '';
+
+  @override
+  String get preferDefaultAudioTrackDescription => '';
+
+  @override
+  String get preferAudioDescription => '';
+
+  @override
+  String get preferAudioDescriptionDescription => '';
+
+  @override
+  String get transcodingAudio => '';
+
+  @override
   String get autoServerDefault => 'Auto (Server Default)';
 
   @override
@@ -10912,6 +11097,42 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
       'Customize subtitle appearance';
 
   @override
+  String get subtitleMode => '';
+
+  @override
+  String get subtitleModeFlagged => '';
+
+  @override
+  String get subtitleModeAlways => '';
+
+  @override
+  String get subtitleModeForeign => '';
+
+  @override
+  String get subtitleModeForced => '';
+
+  @override
+  String get subtitleModeFlaggedDescription => '';
+
+  @override
+  String get subtitleModeAlwaysDescription => '';
+
+  @override
+  String get subtitleModeForeignDescription => '';
+
+  @override
+  String get subtitleModeForcedDescription => '';
+
+  @override
+  String get subtitleModeNoneDescription => '';
+
+  @override
+  String get fallbackSubtitleLanguage => '';
+
+  @override
+  String get subtitleStream => '';
+
+  @override
   String get subtitlePreviewText =>
       'The quick brown fox jumps over the lazy dog';
 
@@ -11178,6 +11399,18 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get showFolderBrowsingOption => 'Show folder browsing option';
+
+  @override
+  String get groupItemsIntoCollections => '';
+
+  @override
+  String get hideCollectionAssociatedItems => '';
+
+  @override
+  String get groupItemsIntoCollectionsDialogTitle => '';
+
+  @override
+  String get groupItemsIntoCollectionsDialogMessage => '';
 
   @override
   String get libraryVisibility => 'Library Visibility';
@@ -14731,38 +14964,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get requestTranscode => 'Request transcode';
 
   @override
-  String get homeScreenSectionsIntegrationDescription =>
-      'Detect rows exposed by IAmParadox27\'s \"Home Screen Sections\" plugin. Rows can be enabled and reordered below.';
-
-  @override
-  String get homeScreenSectionsIntegrationNoServers =>
-      'No Jellyfin servers reporting the plugin yet.';
-
-  @override
-  String get integrationOpenHomeSections => 'Open Home Sections';
-
-  @override
-  String get integrationOpenHomeSectionsSubtitle =>
-      'Enable, disable, and reorder rows';
-
-  @override
-  String get integrationInstalledButDisabled => 'Installed but disabled';
-
-  @override
-  String get integrationNotInstalled => 'Not installed';
-
-  @override
-  String integrationSectionsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# sections',
-      one: '# section',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String integrationRowsDiscoveredCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -14772,9 +14973,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
     );
     return '$_temp0';
   }
-
-  @override
-  String get jellyseerr => 'Seerr';
 
   @override
   String get seeAll => 'See All';
@@ -15646,6 +15844,11 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   }
 
   @override
+  String recentlyReleasedLibraryName(String libraryName) {
+    return 'Recently Released $libraryName';
+  }
+
+  @override
   String get autoplayNextEpisode => 'Autoplay Next Episode';
 
   @override
@@ -15791,9 +15994,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
       'Manage downloaded plugin themes on this device';
 
   @override
-  String get homeScreenSectionsTitle => 'Home Screen Sections';
-
-  @override
   String get themeEditor => 'Theme Editor';
 
   @override
@@ -15916,13 +16116,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get audioPlaylists => 'Audio Playlists';
-
-  @override
-  String get displaySeerrRows => 'Display Seerr Discovery Rows';
-
-  @override
-  String get displaySeerrRowsSubtitle =>
-      'Show Seerr discovery rows in Home Sections.';
 
   @override
   String get appearance => 'Appearance';
@@ -16201,6 +16394,9 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get appearancesSeerr => 'Appearances (Seerr)';
+
+  @override
+  String get crewContributionsSeerr => '';
 
   @override
   String get watchWithGroup => 'Watch with group';
@@ -16604,4 +16800,51 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get sources => 'Sources';
+
+  @override
+  String get subtitlePreferences => '';
+
+  @override
+  String get subtitlePreferencesDescription => '';
+
+  @override
+  String get subtitleRendering => '';
+
+  @override
+  String get displayOptions => '';
+
+  @override
+  String get releaseDateAscending => '';
+
+  @override
+  String get releaseDateDescending => '';
+
+  @override
+  String get groupContributions => '';
+
+  @override
+  String get groupMultipleRoles => '';
+
+  @override
+  String get libraryWriteAccessWarningTitle => '';
+
+  @override
+  String get libraryWriteAccessHowToFix => '';
+
+  @override
+  String get libraryWriteAccessFixSteps => '';
+
+  @override
+  String get dismiss => '';
+
+  @override
+  String libraryWriteAccessProactiveBody(
+    String libraryName,
+    String failedPath,
+  ) {
+    return '';
+  }
+
+  @override
+  String get libraryWriteAccessReactiveBody => '';
 }

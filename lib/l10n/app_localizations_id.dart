@@ -142,6 +142,34 @@ class AppLocalizationsId extends AppLocalizations {
   String get settingsAppearanceTheme => 'Tema Aplikasi';
 
   @override
+  String get detailScreenStyle => 'Detail screen style';
+
+  @override
+  String get detailScreenStyleSubtitle =>
+      'Moonfin is the classic layout. Modern is a responsive cinematic layout.';
+
+  @override
+  String get detailScreenStyleMoonfin => 'Moonfin';
+
+  @override
+  String get detailScreenStyleModern => 'Modern';
+
+  @override
+  String get interfaceStyle => '';
+
+  @override
+  String get interfaceStyleSubtitle => '';
+
+  @override
+  String get interfaceStyleAutomatic => '';
+
+  @override
+  String get interfaceStyleApple => '';
+
+  @override
+  String get interfaceStyleMaterial => '';
+
+  @override
   String get settingsAppearanceThemeSubtitle =>
       'Beralih antara Moonfin dan Neon Pulse tanpa memulai ulang aplikasi';
 
@@ -833,6 +861,17 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String endsAt(String time) {
     return 'Berakhir pada $time';
+  }
+
+  @override
+  String get items => 'Items';
+
+  @override
+  String get extras => 'Extras';
+
+  @override
+  String timeRemaining(String time) {
+    return '$time remaining';
   }
 
   @override
@@ -1590,6 +1629,26 @@ class AppLocalizationsId extends AppLocalizations {
   String get liveBadge => 'LANGSUNG';
 
   @override
+  String guideNextProgram(String time, String title) {
+    return 'Next: $time  $title';
+  }
+
+  @override
+  String guideMinutesLeft(int minutes) {
+    return '${minutes}m left';
+  }
+
+  @override
+  String guideHoursLeft(int hours) {
+    return '${hours}h left';
+  }
+
+  @override
+  String guideHoursMinutesLeft(int hours, int minutes) {
+    return '${hours}h ${minutes}m left';
+  }
+
+  @override
   String get movie => 'Film';
 
   @override
@@ -2163,6 +2222,24 @@ class AppLocalizationsId extends AppLocalizations {
   String get defaultAudioLanguage => 'Bahasa Audio Default';
 
   @override
+  String get fallbackAudioLanguage => '';
+
+  @override
+  String get preferDefaultAudioTrack => '';
+
+  @override
+  String get preferDefaultAudioTrackDescription => '';
+
+  @override
+  String get preferAudioDescription => '';
+
+  @override
+  String get preferAudioDescriptionDescription => '';
+
+  @override
+  String get transcodingAudio => '';
+
+  @override
   String get autoServerDefault => 'Otomatis (Default Server)';
 
   @override
@@ -2568,6 +2645,42 @@ class AppLocalizationsId extends AppLocalizations {
   String get subtitleCustomizationDescription => 'Sesuaikan tampilan subtitle';
 
   @override
+  String get subtitleMode => '';
+
+  @override
+  String get subtitleModeFlagged => '';
+
+  @override
+  String get subtitleModeAlways => '';
+
+  @override
+  String get subtitleModeForeign => '';
+
+  @override
+  String get subtitleModeForced => '';
+
+  @override
+  String get subtitleModeFlaggedDescription => '';
+
+  @override
+  String get subtitleModeAlwaysDescription => '';
+
+  @override
+  String get subtitleModeForeignDescription => '';
+
+  @override
+  String get subtitleModeForcedDescription => '';
+
+  @override
+  String get subtitleModeNoneDescription => '';
+
+  @override
+  String get fallbackSubtitleLanguage => '';
+
+  @override
+  String get subtitleStream => '';
+
+  @override
   String get subtitlePreviewText =>
       'The quick brown fox jumps over the lazy dog';
 
@@ -2834,6 +2947,18 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get showFolderBrowsingOption => 'Tampilkan opsi penelusuran folder';
+
+  @override
+  String get groupItemsIntoCollections => '';
+
+  @override
+  String get hideCollectionAssociatedItems => '';
+
+  @override
+  String get groupItemsIntoCollectionsDialogTitle => '';
+
+  @override
+  String get groupItemsIntoCollectionsDialogMessage => '';
 
   @override
   String get libraryVisibility => 'Visibilitas Pustaka';
@@ -6425,39 +6550,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get requestTranscode => 'Minta transcode';
 
   @override
-  String get homeScreenSectionsIntegrationDescription =>
-      'Deteksi baris yang diekspos oleh plugin \"Home Screen Sections\" milik IAmParadox27. Baris dapat diaktifkan dan diatur ulang urutannya di bawah.';
-
-  @override
-  String get homeScreenSectionsIntegrationNoServers =>
-      'Belum ada server Jellyfin yang melaporkan plugin tersebut.';
-
-  @override
-  String get integrationOpenHomeSections => 'Buka Home Sections';
-
-  @override
-  String get integrationOpenHomeSectionsSubtitle =>
-      'Aktifkan, nonaktifkan, dan atur ulang urutan baris';
-
-  @override
-  String get integrationInstalledButDisabled =>
-      'Terinstal tetapi dinonaktifkan';
-
-  @override
-  String get integrationNotInstalled => 'Tidak terinstal';
-
-  @override
-  String integrationSectionsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# bagian',
-      one: '# bagian',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String integrationRowsDiscoveredCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -6467,9 +6559,6 @@ class AppLocalizationsId extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get jellyseerr => 'Jellyseerr';
 
   @override
   String get seeAll => 'Lihat Semua';
@@ -7346,6 +7435,11 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String recentlyReleasedLibraryName(String libraryName) {
+    return '';
+  }
+
+  @override
   String get autoplayNextEpisode => 'Putar Otomatis Episode Berikutnya';
 
   @override
@@ -7492,9 +7586,6 @@ class AppLocalizationsId extends AppLocalizations {
       'Kelola tema plugin yang diunduh pada perangkat ini';
 
   @override
-  String get homeScreenSectionsTitle => 'Bagian Layar Beranda';
-
-  @override
   String get themeEditor => 'Editor Tema';
 
   @override
@@ -7618,13 +7709,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get audioPlaylists => 'Playlist Audio';
-
-  @override
-  String get displaySeerrRows => 'Tampilkan Baris Discovery Seerr';
-
-  @override
-  String get displaySeerrRowsSubtitle =>
-      'Tampilkan baris discovery Seerr di Bagian Beranda.';
 
   @override
   String get appearance => 'Tampilan';
@@ -7903,6 +7987,9 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get appearancesSeerr => 'Penampilan (Seerr)';
+
+  @override
+  String get crewContributionsSeerr => '';
 
   @override
   String get watchWithGroup => 'Tonton bersama grup';
@@ -8424,4 +8511,54 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get audiobookDelete => 'Delete';
+
+  @override
+  String get subtitlePreferences => '';
+
+  @override
+  String get subtitlePreferencesDescription => '';
+
+  @override
+  String get subtitleRendering => '';
+
+  @override
+  String get displayOptions => '';
+
+  @override
+  String get releaseDateAscending => '';
+
+  @override
+  String get releaseDateDescending => '';
+
+  @override
+  String get groupContributions => '';
+
+  @override
+  String get groupMultipleRoles => '';
+
+  @override
+  String get libraryWriteAccessWarningTitle => '';
+
+  @override
+  String get libraryWriteAccessHowToFix => '';
+
+  @override
+  String get libraryWriteAccessFixSteps => '';
+
+  @override
+  String get dismiss => '';
+
+  @override
+  String libraryWriteAccessProactiveBody(
+    String libraryName,
+    String failedPath,
+  ) {
+    return '';
+  }
+
+  @override
+  String get libraryWriteAccessReactiveBody => '';
+
+  @override
+  String get externalLists => 'External Home Row Lists';
 }

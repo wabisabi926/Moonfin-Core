@@ -141,6 +141,34 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsAppearanceTheme => 'Uygulama Teması';
 
   @override
+  String get detailScreenStyle => 'Detail screen style';
+
+  @override
+  String get detailScreenStyleSubtitle =>
+      'Moonfin is the classic layout. Modern is a responsive cinematic layout.';
+
+  @override
+  String get detailScreenStyleMoonfin => 'Moonfin';
+
+  @override
+  String get detailScreenStyleModern => 'Modern';
+
+  @override
+  String get interfaceStyle => '';
+
+  @override
+  String get interfaceStyleSubtitle => '';
+
+  @override
+  String get interfaceStyleAutomatic => '';
+
+  @override
+  String get interfaceStyleApple => '';
+
+  @override
+  String get interfaceStyleMaterial => '';
+
+  @override
   String get settingsAppearanceThemeSubtitle =>
       'Uygulamayı yeniden başlatmadan Moonfin ve Neon Pulse arasında geçiş yapın';
 
@@ -829,6 +857,17 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String endsAt(String time) {
     return 'Bitiş saati: $time';
+  }
+
+  @override
+  String get items => 'Items';
+
+  @override
+  String get extras => 'Extras';
+
+  @override
+  String timeRemaining(String time) {
+    return '$time remaining';
   }
 
   @override
@@ -1587,6 +1626,26 @@ class AppLocalizationsTr extends AppLocalizations {
   String get liveBadge => 'CANLI';
 
   @override
+  String guideNextProgram(String time, String title) {
+    return 'Next: $time  $title';
+  }
+
+  @override
+  String guideMinutesLeft(int minutes) {
+    return '${minutes}m left';
+  }
+
+  @override
+  String guideHoursLeft(int hours) {
+    return '${hours}h left';
+  }
+
+  @override
+  String guideHoursMinutesLeft(int hours, int minutes) {
+    return '${hours}h ${minutes}m left';
+  }
+
+  @override
   String get movie => 'Film';
 
   @override
@@ -2158,6 +2217,24 @@ class AppLocalizationsTr extends AppLocalizations {
   String get defaultAudioLanguage => 'Varsayılan Ses Dili';
 
   @override
+  String get fallbackAudioLanguage => '';
+
+  @override
+  String get preferDefaultAudioTrack => '';
+
+  @override
+  String get preferDefaultAudioTrackDescription => '';
+
+  @override
+  String get preferAudioDescription => '';
+
+  @override
+  String get preferAudioDescriptionDescription => '';
+
+  @override
+  String get transcodingAudio => '';
+
+  @override
   String get autoServerDefault => 'Otomatik (Sunucu Varsayılanı)';
 
   @override
@@ -2573,6 +2650,42 @@ class AppLocalizationsTr extends AppLocalizations {
       'Altyazı görünümünü özelleştirin';
 
   @override
+  String get subtitleMode => '';
+
+  @override
+  String get subtitleModeFlagged => '';
+
+  @override
+  String get subtitleModeAlways => '';
+
+  @override
+  String get subtitleModeForeign => '';
+
+  @override
+  String get subtitleModeForced => '';
+
+  @override
+  String get subtitleModeFlaggedDescription => '';
+
+  @override
+  String get subtitleModeAlwaysDescription => '';
+
+  @override
+  String get subtitleModeForeignDescription => '';
+
+  @override
+  String get subtitleModeForcedDescription => '';
+
+  @override
+  String get subtitleModeNoneDescription => '';
+
+  @override
+  String get fallbackSubtitleLanguage => '';
+
+  @override
+  String get subtitleStream => '';
+
+  @override
   String get subtitlePreviewText =>
       'Hızlı kahverengi tilki tembel köpeğin üzerinden atlıyor';
 
@@ -2842,6 +2955,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get showFolderBrowsingOption => 'Klasöre göz atma seçeneğini göster';
+
+  @override
+  String get groupItemsIntoCollections => '';
+
+  @override
+  String get hideCollectionAssociatedItems => '';
+
+  @override
+  String get groupItemsIntoCollectionsDialogTitle => '';
+
+  @override
+  String get groupItemsIntoCollectionsDialogMessage => '';
 
   @override
   String get libraryVisibility => 'Kütüphane Görünürlüğü';
@@ -6432,39 +6557,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get requestTranscode => 'Kod dönüştürme isteği';
 
   @override
-  String get homeScreenSectionsIntegrationDescription =>
-      'IAmParadox27 tarafından geliştirilen \"Home Screen Sections\" eklentisinin sunduğu satırları algıla. Satırlar aşağıdan etkinleştirilebilir ve yeniden sıralanabilir.';
-
-  @override
-  String get homeScreenSectionsIntegrationNoServers =>
-      'Henüz bu eklentiyi bildiren bir Jellyfin sunucusu olmadı.';
-
-  @override
-  String get integrationOpenHomeSections => 'Ana Sayfa Bölümlerini Aç';
-
-  @override
-  String get integrationOpenHomeSectionsSubtitle =>
-      'Satırları etkinleştirme, devre dışı bırakma ve yeniden sıralama';
-
-  @override
-  String get integrationInstalledButDisabled =>
-      'Yüklendi ancak devre dışı bırakıldı';
-
-  @override
-  String get integrationNotInstalled => 'Kurulu değil';
-
-  @override
-  String integrationSectionsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# bölüm',
-      one: '# bölüm',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String integrationRowsDiscoveredCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -6474,9 +6566,6 @@ class AppLocalizationsTr extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get jellyseerr => 'Seerr';
 
   @override
   String get seeAll => 'Tümünü Gör';
@@ -7357,6 +7446,11 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String recentlyReleasedLibraryName(String libraryName) {
+    return '';
+  }
+
+  @override
   String get autoplayNextEpisode => 'Sonraki Bölümü Otomatik Oynat';
 
   @override
@@ -7504,9 +7598,6 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu cihazdaki indirilen eklenti temalarını yönetin';
 
   @override
-  String get homeScreenSectionsTitle => 'Home Screen Sections';
-
-  @override
   String get themeEditor => 'Tema Editörü';
 
   @override
@@ -7630,13 +7721,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get audioPlaylists => 'Ses Oynatma Listeleri';
-
-  @override
-  String get displaySeerrRows => 'Seerr Keşif Satırlarını Göster';
-
-  @override
-  String get displaySeerrRowsSubtitle =>
-      'Seerr keşif satırlarını Ana Sayfa Bölümleri\'nde göster.';
 
   @override
   String get appearance => 'Görünüm';
@@ -7919,6 +8003,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get appearancesSeerr => 'Rol Aldığı Yapımlar (Seerr)';
+
+  @override
+  String get crewContributionsSeerr => '';
 
   @override
   String get watchWithGroup => 'Grupça İzle';
@@ -8439,4 +8526,54 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get audiobookDelete => 'Delete';
+
+  @override
+  String get subtitlePreferences => '';
+
+  @override
+  String get subtitlePreferencesDescription => '';
+
+  @override
+  String get subtitleRendering => '';
+
+  @override
+  String get displayOptions => '';
+
+  @override
+  String get releaseDateAscending => '';
+
+  @override
+  String get releaseDateDescending => '';
+
+  @override
+  String get groupContributions => '';
+
+  @override
+  String get groupMultipleRoles => '';
+
+  @override
+  String get libraryWriteAccessWarningTitle => '';
+
+  @override
+  String get libraryWriteAccessHowToFix => '';
+
+  @override
+  String get libraryWriteAccessFixSteps => '';
+
+  @override
+  String get dismiss => '';
+
+  @override
+  String libraryWriteAccessProactiveBody(
+    String libraryName,
+    String failedPath,
+  ) {
+    return '';
+  }
+
+  @override
+  String get libraryWriteAccessReactiveBody => '';
+
+  @override
+  String get externalLists => 'External Home Row Lists';
 }
