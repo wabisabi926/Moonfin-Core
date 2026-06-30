@@ -38,6 +38,7 @@ class UserPreferences extends ChangeNotifier {
     _migrateSeerrPreferenceKeys();
     _migrateSeerrRowsVisibility();
     _enforceMediaQueuingAlwaysOn();
+    _seedClockFormatFromSystem();
   }
 
   // Carry over the pre-rename jellyseerr* preference keys to their seerr* names.
@@ -86,6 +87,15 @@ class UserPreferences extends ChangeNotifier {
   void _enforceMediaQueuingAlwaysOn() {
     if (get(mediaQueuingEnabled) != true) {
       _setIfMissing(mediaQueuingEnabled, true);
+    }
+  }
+
+  // On first run, default the 12h/24h clock to the device's locale so users in
+  // 24h regions aren't stuck on 12h. Runs once; an explicit choice is kept.
+  void _seedClockFormatFromSystem() {
+    if (_store.containsKey(use24HourClock.key)) return;
+    if (ui.PlatformDispatcher.instance.alwaysUse24HourFormat) {
+      _store.set(use24HourClock, true);
     }
   }
 
