@@ -364,82 +364,94 @@ class _FavoritesScreenState extends State<FavoritesScreen> with GridFocusNodeMix
             ),
             contentSpacing: 0,
             showControls: !isMobile && PlatformDetection.useDesktopUi,
-            builder: (context, scrollController) => LockedFocusRow<AggregatedItem>(
-              key: _rowKeys[type],
-              items: items,
-              hubKey: 'favorites_row_${type.name}',
-              controller: scrollController,
-              height: rowHeight,
-              itemExtent: imageH * ar,
-              itemSpacing: 12 * desktopScale,
-              padding: EdgeInsets.fromLTRB(
-                20 * desktopScale,
-                5 * desktopScale,
-                20 * desktopScale,
-                5 * desktopScale,
-              ),
-              onIndexChanged: (index, item) {
-                _onItemFocused(item);
-                if (index >= items.length - 8) {
+            builder: (context, scrollController) => NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                // Page in more when a horizontal scroll gets within 600px of the end.
+                if (notification.metrics.axis == Axis.horizontal &&
+                    notification.metrics.maxScrollExtent -
+                            notification.metrics.pixels <
+                        600) {
                   _vm.loadMoreForType(type);
                 }
+                return false;
               },
-              onVerticalNavigation: (isUp) {
-                return _onRowVerticalNavigation(visibleTypes, type, isUp);
-              },
-              onLongPress: (index, item) => showContextMenu(
-                context,
-                item,
-                onChanged: () => setState(() {}),
-              ),
-              onTap: (index, item) => context.push(
-                Destinations.itemOrPhoto(
-                  item.id,
-                  serverId: item.serverId,
-                  type: item.type,
+              child: LockedFocusRow<AggregatedItem>(
+                key: _rowKeys[type],
+                items: items,
+                hubKey: 'favorites_row_${type.name}',
+                controller: scrollController,
+                height: rowHeight,
+                itemExtent: imageH * ar,
+                itemSpacing: 12 * desktopScale,
+                padding: EdgeInsets.fromLTRB(
+                  20 * desktopScale,
+                  5 * desktopScale,
+                  20 * desktopScale,
+                  5 * desktopScale,
                 ),
-              ),
-              itemBuilder: (context, item, index, isFocused) {
-                final width = imageH * ar;
-                return MediaCard(
-                  title: item.name,
-                  subtitle: _cardSubtitle(item),
-                  imageUrl: _imageUrl(
-                    item,
-                    maxWidth: width.toInt(),
-                    maxHeight: imageH.toInt(),
+                onIndexChanged: (index, item) {
+                  _onItemFocused(item);
+                  if (index >= items.length - 8) {
+                    _vm.loadMoreForType(type);
+                  }
+                },
+                onVerticalNavigation: (isUp) {
+                  return _onRowVerticalNavigation(visibleTypes, type, isUp);
+                },
+                onLongPress: (index, item) => showContextMenu(
+                  context,
+                  item,
+                  onChanged: () => setState(() {}),
+                ),
+                onTap: (index, item) => context.push(
+                  Destinations.itemOrPhoto(
+                    item.id,
+                    serverId: item.serverId,
+                    type: item.type,
                   ),
-                  width: width,
-                  aspectRatio: ar,
-                  isFavorite: item.isFavorite,
-                  isPlayed: item.isPlayed,
-                  unplayedCount: item.unplayedItemCount,
-                  playedPercentage: item.playedPercentage,
-                  watchedBehavior: watchedBehavior,
-                  itemType: item.type,
-                  focusColor: focusColor,
-                  cardFocusExpansion: cardFocusExpansion,
-                  suppressFocusGlow: suppressFocusGlow,
-                  externalIsFocused: isFocused,
-                  onFocus: isMobile
-                      ? null
-                      : () {
-                          _onItemFocused(item);
-                          if (isTopRow && PlatformDetection.isTV) {
-                            _snapRowsToTop();
-                          }
-                        },
-                  onHoverStart: isMobile ? null : () => _onItemFocused(item),
-                  onHoverEnd: isMobile ? null : () => _vm.setFocusedItem(null),
-                  onTap: () => context.push(
-                    Destinations.itemOrPhoto(
-                      item.id,
-                      serverId: item.serverId,
-                      type: item.type,
+                ),
+                itemBuilder: (context, item, index, isFocused) {
+                  final width = imageH * ar;
+                  return MediaCard(
+                    title: item.name,
+                    subtitle: _cardSubtitle(item),
+                    imageUrl: _imageUrl(
+                      item,
+                      maxWidth: width.toInt(),
+                      maxHeight: imageH.toInt(),
                     ),
-                  ),
-                );
-              },
+                    width: width,
+                    aspectRatio: ar,
+                    isFavorite: item.isFavorite,
+                    isPlayed: item.isPlayed,
+                    unplayedCount: item.unplayedItemCount,
+                    playedPercentage: item.playedPercentage,
+                    watchedBehavior: watchedBehavior,
+                    itemType: item.type,
+                    focusColor: focusColor,
+                    cardFocusExpansion: cardFocusExpansion,
+                    suppressFocusGlow: suppressFocusGlow,
+                    externalIsFocused: isFocused,
+                    onFocus: isMobile
+                        ? null
+                        : () {
+                            _onItemFocused(item);
+                            if (isTopRow && PlatformDetection.isTV) {
+                              _snapRowsToTop();
+                            }
+                          },
+                    onHoverStart: isMobile ? null : () => _onItemFocused(item),
+                    onHoverEnd: isMobile ? null : () => _vm.setFocusedItem(null),
+                    onTap: () => context.push(
+                      Destinations.itemOrPhoto(
+                        item.id,
+                        serverId: item.serverId,
+                        type: item.type,
+                      ),
+                    ),
+                  );
+                },
+              ), 
             ),
           ),
         ),
@@ -846,7 +858,7 @@ class _MetadataRow extends StatelessWidget {
             color: continuing
                 ? const Color(0xFF22C55E)
                 : const Color(0xFFEF4444),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: AppRadius.circular(4),
           ),
           child: Text(
             continuing ? AppLocalizations.of(context).continuing : AppLocalizations.of(context).ended,
@@ -866,7 +878,7 @@ class _MetadataRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: BoxDecoration(
             color: Colors.white.withAlpha(38),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: AppRadius.circular(4),
           ),
           child: Text(
             item.officialRating!,
@@ -887,7 +899,7 @@ class _MetadataRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: BoxDecoration(
             color: Colors.white.withAlpha(38),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: AppRadius.circular(4),
           ),
           child: Text(
             resolution,
@@ -1003,7 +1015,7 @@ class _SortDialogState extends State<_SortDialog> {
     return Dialog(
       backgroundColor: AppColorScheme.surface.withValues(alpha: 0.9),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: AppRadius.circular(20),
         side: ThemeRegistry.active.borders.chipBorder,
       ),
       child: SizedBox(
@@ -1127,7 +1139,7 @@ class _DisplaySettingsDialogState extends State<_DisplaySettingsDialog> {
     return Dialog(
       backgroundColor: AppColorScheme.surface.withValues(alpha: 0.9),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: AppRadius.circular(20),
         side: ThemeRegistry.active.borders.chipBorder,
       ),
       child: SizedBox(

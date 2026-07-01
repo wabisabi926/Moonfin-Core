@@ -493,16 +493,16 @@ class _CardImage extends StatelessWidget {
         children: [
           if (showGlow)
             Positioned(
-              top: -1.0,
-              bottom: -1.0,
-              left: -1.0,
-              right: -1.0,
+              top: -3.5,
+              bottom: -3.5,
+              left: -3.5,
+              right: -3.5,
               child: IgnorePointer(
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: isCircular
-                        ? BorderRadius.circular(radius + 1.0)
-                        : borders.cardRadius + BorderRadius.circular(1.0),
+                        ? AppRadius.circular(radius + 3.5)
+                        : borders.cardRadius + AppRadius.circular(3.5),
                     boxShadow: borders.focusGlow,
                   ),
                 ),
@@ -510,7 +510,7 @@ class _CardImage extends StatelessWidget {
             ),
           ClipRRect(
             borderRadius: isCircular
-                ? BorderRadius.circular(radius)
+                ? AppRadius.circular(radius)
                 : borders.cardRadius,
             child: Stack(
               fit: StackFit.expand,
@@ -573,7 +573,7 @@ class _CardImage extends StatelessWidget {
                     right: 6,
                     bottom: 6,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(3),
+                      borderRadius: AppRadius.circular(3),
                       child: LinearProgressIndicator(
                         value: playedPercentage! / 100,
                         minHeight: 6,
@@ -591,18 +591,21 @@ class _CardImage extends StatelessWidget {
           ),
           if (showBorder)
             Positioned(
-              top: -1.0,
-              bottom: -1.0,
-              left: -1.0,
-              right: -1.0,
+              top: -3.5,
+              bottom: -3.5,
+              left: -3.5,
+              right: -3.5,
               child: IgnorePointer(
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: isCircular
-                        ? BorderRadius.circular(radius + 1.0)
-                        : borders.cardRadius + BorderRadius.circular(1.0),
+                        ? AppRadius.circular(radius + 3.5)
+                        : borders.cardRadius + AppRadius.circular(3.5),
                     border: Border.fromBorderSide(
-                      borders.focusBorder.copyWith(color: borderColor),
+                      borders.focusBorder.copyWith(
+                        color: borderColor,
+                        width: 3.0,
+                      ),
                     ),
                   ),
                 ),
@@ -647,7 +650,7 @@ class _CardImage extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: badgeColor.withValues(alpha: 0.85),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: AppRadius.circular(4),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -750,7 +753,7 @@ class _CardImage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
         decoration: BoxDecoration(
           color: AppColorScheme.badgeUnplayed,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: AppRadius.circular(8),
         ),
         child: Text(
           '$unplayedCount',

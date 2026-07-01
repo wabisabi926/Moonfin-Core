@@ -467,11 +467,7 @@ class _ViewButtonState extends State<_ViewButton> with FocusStateMixin {
     final cardExpansion = GetIt.instance<UserPreferences>().get(
       UserPreferences.cardFocusExpansion,
     );
-    final focusColor = Color(
-      GetIt.instance<UserPreferences>()
-          .get(UserPreferences.focusColor)
-          .colorValue,
-    );
+    final focusColor = this.focusColor;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setHovered(true),
@@ -507,7 +503,7 @@ class _ViewButtonState extends State<_ViewButton> with FocusStateMixin {
               padding: const EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
                 color: AppColorScheme.onSurface.withAlpha(focused ? 51 : 20),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: AppRadius.circular(8),
                 border: showFocusBorder
                     ? Border.fromBorderSide(
                         ThemeRegistry.active.borders.focusBorder.copyWith(
@@ -516,7 +512,7 @@ class _ViewButtonState extends State<_ViewButton> with FocusStateMixin {
                         ),
                       )
                     : null,
-                boxShadow: showFocusBorder
+                boxShadow: showFocusBorder && ThemeRegistry.active.id != ThemeRegistry.neonPulseId
                     ? [
                         BoxShadow(
                           color: AppColorScheme.accent.withAlpha(140),
@@ -710,11 +706,18 @@ class _MusicSquareCardState extends State<_MusicSquareCard>
     final cardExpansion = GetIt.instance<UserPreferences>().get(
       UserPreferences.cardFocusExpansion,
     );
-    final focusColor = Color(
-      GetIt.instance<UserPreferences>()
-          .get(UserPreferences.focusColor)
-          .colorValue,
-    );
+    final activeTheme = ThemeRegistry.active;
+    final isNeon = activeTheme.id == ThemeRegistry.neonPulseId;
+    final focusColor = isNeon
+        ? activeTheme.borders.focusBorder.color
+        : Color(
+            GetIt.instance<UserPreferences>()
+                .get(UserPreferences.focusColor)
+                .colorValue,
+          );
+
+    final showGlow = showFocusBorder && !isNeon;
+
     return SizedBox(
       width: _cardSize,
       child: MouseRegion(
@@ -752,47 +755,73 @@ class _MusicSquareCardState extends State<_MusicSquareCard>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        border: showFocusBorder
-                            ? Border.fromBorderSide(
-                                ThemeRegistry.active.borders.focusBorder
-                                    .copyWith(color: focusColor, width: 2.4),
-                              )
-                            : null,
-                        boxShadow: showFocusBorder
-                            ? [
-                                BoxShadow(
-                                  color: AppColorScheme.accent.withAlpha(150),
-                                  blurRadius: 16,
-                                  spreadRadius: 1.4,
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        if (showGlow)
+                          Positioned(
+                            top: -3.5,
+                            bottom: -3.5,
+                            left: -3.5,
+                            right: -3.5,
+                            child: IgnorePointer(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: AppRadius.circular(9.5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColorScheme.accent.withAlpha(150),
+                                      blurRadius: 16,
+                                      spreadRadius: 1.4,
+                                    ),
+                                  ],
                                 ),
-                              ]
-                            : null,
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Container(
-                          width: _cardSize,
-                          height: _cardSize,
-                          color: AppColorScheme.onSurface.withAlpha(
-                            focused ? 36 : 15,
+                              ),
+                            ),
                           ),
-                          child: widget.imageUrl != null
-                              ? CachedNetworkImage(
-                                  imageUrl: widget.imageUrl!,
-                                  fit: BoxFit.cover,
-                                  fadeInDuration: const Duration(
-                                    milliseconds: 200,
-                                  ),
-                                  errorWidget: (_, _, _) => _albumPlaceholder(),
-                                )
-                              : _albumPlaceholder(),
+                        ClipRRect(
+                          borderRadius: AppRadius.circular(6),
+                          child: Container(
+                            width: _cardSize,
+                            height: _cardSize,
+                            color: AppColorScheme.onSurface.withAlpha(
+                              focused ? 36 : 15,
+                            ),
+                            child: widget.imageUrl != null
+                                ? CachedNetworkImage(
+                                    imageUrl: widget.imageUrl!,
+                                    fit: BoxFit.cover,
+                                    fadeInDuration: const Duration(
+                                      milliseconds: 200,
+                                    ),
+                                    errorWidget: (_, _, _) => _albumPlaceholder(),
+                                  )
+                                : _albumPlaceholder(),
+                          ),
                         ),
-                      ),
+                        if (showFocusBorder)
+                          Positioned(
+                            top: -3.5,
+                            bottom: -3.5,
+                            left: -3.5,
+                            right: -3.5,
+                            child: IgnorePointer(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: AppRadius.circular(9.5),
+                                  border: Border.fromBorderSide(
+                                    activeTheme.borders.focusBorder.copyWith(
+                                      color: focusColor,
+                                      width: isNeon ? 3.0 : 2.4,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     Text(
                       widget.title,
                       maxLines: 1,
@@ -886,7 +915,7 @@ class _MusicRowVisibilityDialogState extends State<_MusicRowVisibilityDialog> {
     return Dialog(
       backgroundColor: surfaceColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: AppRadius.circular(20),
         side: ThemeRegistry.active.borders.chipBorder.copyWith(
           color: onSurface.withValues(alpha: 0.18),
         ),
@@ -1105,7 +1134,7 @@ class _DialogCheckboxTileState extends State<_DialogCheckboxTile> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             color: _focused ? onSurface.withAlpha(36) : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: AppRadius.circular(8),
             border: _focused
                 ? Border.fromBorderSide(
                     ThemeRegistry.active.borders.focusBorder.copyWith(
@@ -1122,7 +1151,7 @@ class _DialogCheckboxTileState extends State<_DialogCheckboxTile> {
                 height: 20,
                 decoration: BoxDecoration(
                   shape: widget.isRadio ? BoxShape.circle : BoxShape.rectangle,
-                  borderRadius: widget.isRadio ? null : BorderRadius.circular(4),
+                  borderRadius: widget.isRadio ? null : AppRadius.circular(4),
                   border: Border.fromBorderSide(
                     ThemeRegistry.active.borders.chipBorder.copyWith(
                       color: widget.checked ? accent : onSurface.withAlpha(128),

@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:moonfin_design/moonfin_design.dart';
 
 import '../../../data/database/offline_database.dart';
+import '../../../data/models/aggregated_item.dart';
 import '../../../data/providers/offline_providers.dart';
 import '../../../data/repositories/offline_repository.dart';
 import '../../../data/services/download_service.dart';
@@ -161,7 +162,7 @@ class _StorageManagementScreenState extends ConsumerState<StorageManagementScree
         const SizedBox(height: 12),
         if (total > 0)
           ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: AppRadius.circular(4),
             child: SizedBox(
               height: 12,
               child: Row(
@@ -180,7 +181,7 @@ class _StorageManagementScreenState extends ConsumerState<StorageManagementScree
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Row(
                 children: [
-                  Container(width: 12, height: 12, decoration: BoxDecoration(color: b.color, borderRadius: BorderRadius.circular(2))),
+                  Container(width: 12, height: 12, decoration: BoxDecoration(color: b.color, borderRadius: AppRadius.circular(2))),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -340,19 +341,12 @@ class _StorageManagementScreenState extends ConsumerState<StorageManagementScree
     if (confirmed != true) return;
 
     final repo = GetIt.instance<OfflineRepository>();
-    final storagePath = GetIt.instance<StoragePathService>();
-    final imageDir = await storagePath.getImageCacheDir();
+    final downloadService = GetIt.instance<DownloadService>();
 
     for (final itemId in _selected) {
       final item = await repo.getItem(itemId);
       if (item == null) continue;
-      if (item.localFilePath != null) {
-        final f = File(item.localFilePath!);
-        if (await f.exists()) await f.delete();
-      }
-      final imgDir = Directory('${imageDir.path}/$itemId');
-      if (await imgDir.exists()) await imgDir.delete(recursive: true);
-      await repo.deleteItem(itemId);
+      await downloadService.deleteDownloadedFiles(AggregatedItem.fromOffline(item));
     }
 
     setState(() {

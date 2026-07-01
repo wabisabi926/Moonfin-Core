@@ -234,6 +234,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   bool _showVolumeOverlay = false;
   bool _showBrightnessOverlay = false;
   Timer? _volumeOverlayTimer;
+  Timer? _persistVolumeTimer;
   Timer? _brightnessOverlayTimer;
   Timer? _zoomModeToastTimer;
   OverlayEntry? _zoomModeToastOverlay;
@@ -809,6 +810,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       } else {
         _syncMedia3VolumeBoostLevel(resetWhenUnavailable: true);
       }
+      // Re-apply the desktop player volume whenever the backend (re)appears.
+      if (PlatformDetection.isDesktop) {
+        unawaited(backend.setVolume(_playerVolume));
+      }
       if (!mounted) return;
       setState(() {});
     });
@@ -917,6 +922,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     }
     if (_useSystemVolume) {
       _initSystemVolume();
+    } else if (PlatformDetection.isDesktop) {
+      _initDesktopVolume();
     }
   }
 
@@ -945,6 +952,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     _removeZoomModeToastOverlay();
     _skipForwardTimer?.cancel();
     _skipBackwardTimer?.cancel();
+    _persistVolumeTimer?.cancel();
+    if (PlatformDetection.isDesktop) {
+      unawaited(_prefs.set(UserPreferences.playerVolume, _playerVolume));
+    }
     if (_useSystemVolume) {
       _volumeListenerSub?.cancel();
       VolumeController.instance.removeListener();
@@ -3415,9 +3426,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                     if (_showNextUp && _nextUpItem != null)
                       NextUpOverlay(
                         nextItem: _nextUpItem!,
-                        isMinimal: _prefs.get(UserPreferences.nextUpBehavior) == NextUpBehavior.minimal,
-                        imageUrl: _nextUpItem!.primaryImageTag != null &&
-                                _prefs.get(UserPreferences.nextUpBehavior) != NextUpBehavior.minimal
+                        isMinimal:
+                            _prefs.get(UserPreferences.nextUpBehavior) ==
+                            NextUpBehavior.minimal,
+                        imageUrl:
+                            _nextUpItem!.primaryImageTag != null &&
+                                _prefs.get(UserPreferences.nextUpBehavior) !=
+                                    NextUpBehavior.minimal
                             ? _clientForItem(
                                 _nextUpItem!,
                               ).imageApi.getPrimaryImageUrl(
@@ -3690,7 +3705,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                             color: const Color(0xCC111111),
-                            borderRadius: BorderRadius.circular(18),
+                            borderRadius: AppRadius.circular(18),
                             border: Border.fromBorderSide(
                               ThemeRegistry.active.borders.cardBorder.copyWith(
                                 color: Colors.white.withValues(alpha: 0.18),
@@ -4356,13 +4371,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
           height: displayHeight,
           decoration: BoxDecoration(
             color: Colors.black,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: AppRadius.circular(10),
             border: Border.fromBorderSide(
               ThemeRegistry.active.borders.cardBorder,
             ),
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(9),
+            borderRadius: AppRadius.circular(9),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final tileW = thumbWidth * tileWidth;
@@ -4960,8 +4975,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     await backend.setVolumeBoostLevel(clampedLevel);
   }
 
-  bool get _useSystemVolume =>
-      PlatformDetection.isMobile || PlatformDetection.isDesktop;
+  // Desktop drives the player's own (mpv) volume, independent of the OS volume
+  // like mpv/vlc; only mobile attenuates the system volume.
+  bool get _useSystemVolume => PlatformDetection.isMobile;
 
   Future<void> _changeVolumeBy(double delta) async {
     final castKind = _castService.activeKind;
@@ -5003,6 +5019,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     final next = (_playerVolume + (delta * 100.0)).clamp(0.0, 100.0);
     _playerVolume = next;
     await backend.setVolume(next);
+    _persistPlayerVolume();
     _showVolumeIndicator();
   }
 
@@ -5093,6 +5110,22 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         unawaited(_setMedia3VolumeBoostLevel(0));
       }
     }, fetchInitialVolume: true);
+  }
+
+  void _initDesktopVolume() {
+    _playerVolume = _prefs
+        .get(UserPreferences.playerVolume)
+        .clamp(0.0, 100.0)
+        .toDouble();
+    unawaited(_manager.backend?.setVolume(_playerVolume));
+  }
+
+  void _persistPlayerVolume() {
+    if (!PlatformDetection.isDesktop) return;
+    _persistVolumeTimer?.cancel();
+    _persistVolumeTimer = Timer(const Duration(milliseconds: 400), () {
+      unawaited(_prefs.set(UserPreferences.playerVolume, _playerVolume));
+    });
   }
 
   Future<void> _setMobileSystemVolume(
@@ -5270,6 +5303,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
             .toDouble();
         _playerVolume = newVolume * 100.0;
         _manager.backend?.setVolume(_playerVolume);
+        _persistPlayerVolume();
       }
       _showVolumeIndicator();
     } else {
@@ -5367,7 +5401,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: AppRadius.circular(14),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -5378,7 +5412,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
             height: barHeight,
             width: 4,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: AppRadius.circular(2),
               child: Stack(
                 children: [
                   const Positioned.fill(
@@ -5429,7 +5463,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(40),
+              borderRadius: AppRadius.circular(40),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -5482,7 +5516,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                   ),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.72),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: AppRadius.circular(20),
                     border: Border.fromBorderSide(
                       ThemeRegistry.active.borders.cardBorder.copyWith(
                         color: Colors.white.withValues(alpha: 0.18),
@@ -5492,7 +5526,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const AdaptiveIcon(Icons.lock, color: Colors.white70, size: 18),
+                      const AdaptiveIcon(
+                        Icons.lock,
+                        color: Colors.white70,
+                        size: 18,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         AppLocalizations.of(context).longPressToUnlock,
@@ -5629,6 +5667,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     } else {
       setState(() => _playerVolume = clamped * 100.0);
       _manager.backend?.setVolume(_playerVolume);
+      _persistPlayerVolume();
     }
     _showControls();
   }
@@ -5653,7 +5692,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
           Colors.black.withValues(alpha: 0.85),
         ),
         shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          RoundedRectangleBorder(borderRadius: AppRadius.circular(12)),
         ),
         padding: const WidgetStatePropertyAll(EdgeInsets.zero),
       ),
@@ -5756,7 +5795,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       child: Tooltip(
         message: PlatformDetection.useDesktopUi ? (tooltip ?? '') : '',
         child: InkWell(
-          borderRadius: BorderRadius.circular(extent / 2),
+          borderRadius: AppRadius.circular(extent / 2),
           onTap: () {
             _showControls();
             _showSpeedSelector();
@@ -6071,7 +6110,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                   color: const Color(0xD91A2230),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: AppRadius.circular(10),
                   border: Border.all(color: const Color(0x668FA8CC), width: 1),
                   boxShadow: const [
                     BoxShadow(
@@ -6729,7 +6768,7 @@ class _TvFocusButtonState extends State<_TvFocusButton> {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: Colors.black.withValues(alpha: 0.78),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: AppRadius.circular(8),
                 border: Border.fromBorderSide(
                   ThemeRegistry.active.borders.focusBorder.copyWith(
                     color: Colors.white.withValues(alpha: 0.45),

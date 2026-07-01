@@ -817,7 +817,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                   height: artSize,
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: AppRadius.circular(12),
                       boxShadow: const [
                         BoxShadow(
                           color: AppColors.black,
@@ -1424,7 +1424,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
           selected: isTvFocused,
           selectedTileColor: AppColorScheme.accent.withValues(alpha: 0.26),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: AppRadius.circular(10),
             side: isTvFocused
                 ? BorderSide(color: AppColorScheme.accent, width: 2.4)
                 : BorderSide.none,
@@ -1433,7 +1433,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
             width: 48,
             height: 48,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: AppRadius.circular(4),
               child: artUrl != null
                   ? CachedNetworkImage(
                       imageUrl: artUrl,

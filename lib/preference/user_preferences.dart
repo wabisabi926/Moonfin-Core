@@ -38,6 +38,7 @@ class UserPreferences extends ChangeNotifier {
     _migrateSeerrPreferenceKeys();
     _migrateSeerrRowsVisibility();
     _enforceMediaQueuingAlwaysOn();
+    _seedClockFormatFromSystem();
   }
 
   // Carry over the pre-rename jellyseerr* preference keys to their seerr* names.
@@ -86,6 +87,15 @@ class UserPreferences extends ChangeNotifier {
   void _enforceMediaQueuingAlwaysOn() {
     if (get(mediaQueuingEnabled) != true) {
       _setIfMissing(mediaQueuingEnabled, true);
+    }
+  }
+
+  // On first run, default the 12h/24h clock to the device's locale so users in
+  // 24h regions aren't stuck on 12h. Runs once; an explicit choice is kept.
+  void _seedClockFormatFromSystem() {
+    if (_store.containsKey(use24HourClock.key)) return;
+    if (ui.PlatformDispatcher.instance.alwaysUse24HourFormat) {
+      _store.set(use24HourClock, true);
     }
   }
 
@@ -199,6 +209,7 @@ class UserPreferences extends ChangeNotifier {
     'pref_show_favorites_button',
     'pref_show_syncplay_button',
     'pref_show_libraries_in_toolbar',
+    'pref_navbar_always_expanded',
     'pref_shuffle_content_type',
     'pref_merge_continue_watching_next_up',
     'enable_multi_server_libraries',
@@ -841,7 +852,7 @@ class UserPreferences extends ChangeNotifier {
   /// server/user), so it is deliberately omitted from [_scopedPreferenceKeys].
   static final detailScreenStyle = EnumPreference(
     key: 'pref_detail_screen_style',
-    defaultValue: DetailScreenStyle.moonfin,
+    defaultValue: DetailScreenStyle.modern,
     values: DetailScreenStyle.values,
   );
 
@@ -893,6 +904,11 @@ class UserPreferences extends ChangeNotifier {
   static final showLibrariesInToolbar = Preference(
     key: 'pref_show_libraries_in_toolbar',
     defaultValue: true,
+  );
+
+  static final navbarAlwaysExpanded = Preference(
+    key: 'pref_navbar_always_expanded',
+    defaultValue: false,
   );
 
   static final showSeerrButton = Preference(
@@ -1728,6 +1744,13 @@ class UserPreferences extends ChangeNotifier {
     defaultValue: 30,
   );
 
+  // Desktop player volume (0-100), independent of the OS volume. Persisted so
+  // playback resumes at the last level instead of jumping to max.
+  static final playerVolume = Preference(
+    key: 'player_volume',
+    defaultValue: 100.0,
+  );
+
   static final themeMusicOnHomeRows = Preference(
     key: 'themeMusicOnHomeRows',
     defaultValue: false,
@@ -1932,6 +1955,13 @@ class UserPreferences extends ChangeNotifier {
 
   static final customDownloadPath = Preference(
     key: 'download_custom_path',
+    defaultValue: '',
+  );
+
+  // macOS only: base64 security-scoped bookmark for the custom download folder,
+  // so the sandboxed app can regain write access to it across launches.
+  static final customDownloadPathBookmark = Preference(
+    key: 'download_custom_path_bookmark',
     defaultValue: '',
   );
 

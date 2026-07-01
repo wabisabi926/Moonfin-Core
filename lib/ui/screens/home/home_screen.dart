@@ -27,6 +27,7 @@ import '../../../data/services/background_service.dart';
 import '../../widgets/rating_display.dart';
 import '../../../data/services/theme_music_service.dart';
 import '../../../data/services/media_server_client_factory.dart';
+import '../../../data/services/plugin_sync_service.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../playback/appletv_preview_player.dart';
 import '../../../playback/inline_preview_engine.dart';
@@ -92,6 +93,7 @@ class _HomeShellState extends State<_HomeShell>
   final _backgroundService = GetIt.instance<BackgroundService>();
   final _userPrefs = GetIt.instance<UserPreferences>();
   final _themeMusicService = GetIt.instance<ThemeMusicService>();
+  final _pluginSyncService = GetIt.instance<PluginSyncService>();
   late final HomeViewModel _viewModel;
 
   AggregatedItem? _selectedItem;
@@ -108,6 +110,7 @@ class _HomeShellState extends State<_HomeShell>
   bool _lastMultiServer = false;
   bool _lastMergeContinueWatchingNextUp = false;
   String _lastBlockedParentalRatings = '';
+  bool _lastSeerrAvailable = false;
   bool _themeMusicRegistered = false;
   String? _lastObservedPath;
   ModalRoute<dynamic>? _observedRoute;
@@ -123,7 +126,7 @@ class _HomeShellState extends State<_HomeShell>
     appRouter.routerDelegate.addListener(_onRouteChanged);
     _lastObservedPath = appRouter.routerDelegate.currentConfiguration.uri.path;
     homeRefreshBus.addListener(_onHomeRefreshRequested);
-    if (consumePendingHomeRefresh()) {
+    if (homeRefreshBus.consumePending()) {
       _viewModel.refresh(preserveExisting: true);
     }
     _backgroundSub = _backgroundService.backgroundStream.listen((url) {
@@ -147,6 +150,8 @@ class _HomeShellState extends State<_HomeShell>
     _lastBlockedParentalRatings = _userPrefs.get(
       UserPreferences.blockedParentalRatings,
     );
+    _lastSeerrAvailable = _pluginSyncService.seerrAvailable;
+    _pluginSyncService.addListener(_onPluginSyncChanged);
     _userPrefs.addListener(_onPrefsChanged);
     _maybeRegisterThemeMusic();
     _viewModel.load(preserveExisting: _viewModel.rows.isNotEmpty);
@@ -179,6 +184,7 @@ class _HomeShellState extends State<_HomeShell>
     _backgroundSub?.cancel();
     _viewModel.mediaBarViewModel.removeListener(_onMediaBarStateChanged);
     _viewModel.removeListener(_onViewModelChanged);
+    _pluginSyncService.removeListener(_onPluginSyncChanged);
     _userPrefs.removeListener(_onPrefsChanged);
     if (_themeMusicRegistered) {
       _themeMusicService.unregisterDetailScreen(this);
@@ -189,6 +195,14 @@ class _HomeShellState extends State<_HomeShell>
 
   void _onViewModelChanged() {
     if (mounted) setState(() {});
+  }
+
+  void _onPluginSyncChanged() {
+    if (!mounted) return;
+    final seerrAvailable = _pluginSyncService.seerrAvailable;
+    if (seerrAvailable == _lastSeerrAvailable) return;
+    _lastSeerrAvailable = seerrAvailable;
+    _viewModel.refresh(preserveExisting: true);
   }
 
   void _onMediaBarStateChanged() {
@@ -1936,10 +1950,21 @@ class _ContentRowsState extends State<_ContentRows>
   }
 
   ScrollController _rowHorizontalController(int rowIndex) {
-    return _rowHorizontalControllers.putIfAbsent(
-      rowIndex,
-      () => ScrollController(),
-    );
+    return _rowHorizontalControllers.putIfAbsent(rowIndex, () {
+      final controller = ScrollController();
+      controller.addListener(() => _onRowScrolled(rowIndex, controller));
+      return controller;
+    });
+  }
+
+  void _onRowScrolled(int rowIndex, ScrollController controller) {
+    if (!controller.hasClients) return;
+    const loadMoreTriggerDistance = 600.0;
+    final remaining =
+        controller.position.maxScrollExtent - controller.offset;
+    if (remaining <= loadMoreTriggerDistance) {
+      widget.viewModel.loadMoreForRow(rowIndex);
+    }
   }
 
   void _scrollHomeRowHorizontal(int rowIndex, double delta) {
@@ -2869,7 +2894,7 @@ class _ContentRowsState extends State<_ContentRows>
       UserPreferences.enableAdditionalRatings,
     );
     final hasAdditionalRatingsPadding = hasAdditionalRatings ? 8.0 : 0.0;
-    final heightBudget = 136.0 + hasAdditionalRatingsPadding;
+    final heightBudget = 165.0 + hasAdditionalRatingsPadding;
     return heightBudget;
   }
 
@@ -4937,7 +4962,7 @@ class _PreviewCardShell extends StatelessWidget {
               height: width / aspectRatio,
               child: IgnorePointer(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: AppRadius.circular(8),
                   child: ColoredBox(
                     color: AppColorScheme.background,
                     child: previewSurface,
@@ -4955,7 +4980,7 @@ class _PreviewCardShell extends StatelessWidget {
                 child: Container(
                   height: width / aspectRatio,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: AppRadius.circular(8),
                     border: Border.fromBorderSide(
                       ThemeRegistry.active.borders.focusBorder.copyWith(
                         color: focusColor,

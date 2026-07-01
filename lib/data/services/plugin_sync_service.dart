@@ -491,15 +491,15 @@ class PluginSyncService extends ChangeNotifier {
     }
   }
 
-  Future<void> configureSeerr(
+  Future<bool> configureSeerr(
     MediaServerClient client, {
     String? username,
     String? password,
   }) async {
-    if (!_pluginAvailable) return;
+    if (!_pluginAvailable) return false;
 
     final token = client.accessToken;
-    if (token == null || token.isEmpty) return;
+    if (token == null || token.isEmpty) return false;
 
     try {
       final seerrRepo = await GetIt.instance.getAsync<SeerrRepository>();
@@ -509,7 +509,11 @@ class PluginSyncService extends ChangeNotifier {
         username: username,
         password: password,
       );
-    } catch (_) {}
+      await _refreshAvailabilityStatus(client);
+      return seerrAvailable;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<void> pushSettings(MediaServerClient client) async {
@@ -538,6 +542,48 @@ class PluginSyncService extends ChangeNotifier {
         ),
       );
     } catch (_) {}
+  }
+
+  Future<List<String>?> fetchCustomCollectionOrder(
+    MediaServerClient client,
+    String collectionId,
+  ) async {
+    if (!_pluginAvailable) return null;
+    final headers = _authHeaders(client);
+    if (headers == null) return null;
+
+    try {
+      final response = await _dio.get(
+        '${client.baseUrl}/Moonfin/Collections/$collectionId/Order',
+        options: Options(headers: headers),
+      );
+      if (response.statusCode == 200 && response.data is List) {
+        return List<String>.from(response.data as List);
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  Future<bool> saveCustomCollectionOrder(
+    MediaServerClient client,
+    String collectionId,
+    List<String> itemIds,
+  ) async {
+    if (!_pluginAvailable) return false;
+    final headers = _authHeaders(client);
+    if (headers == null) return false;
+
+    try {
+      final response = await _dio.post(
+        '${client.baseUrl}/Moonfin/Collections/$collectionId/Order',
+        data: itemIds,
+        options: Options(
+          headers: {...headers, 'Content-Type': 'application/json'},
+        ),
+      );
+      return response.statusCode == 200 || response.statusCode == 204;
+    } catch (_) {}
+    return false;
   }
 
   Future<bool> pullSettingsForProfile(
@@ -868,6 +914,12 @@ class PluginSyncService extends ChangeNotifier {
         'homeRowsStyle',
         UserPreferences.homeRowsStyle,
         enumValues: prefs.HomeRowsStyle.values,
+      );
+      _applyString(
+        resolved,
+        'detailScreenStyle',
+        UserPreferences.detailScreenStyle,
+        enumValues: prefs.DetailScreenStyle.values,
       );
       _applyBool(
         resolved,
@@ -1501,6 +1553,7 @@ class PluginSyncService extends ChangeNotifier {
           .name,
       'cardFocusExpansion': _prefs.get(UserPreferences.cardFocusExpansion),
       'homeRowsStyle': _prefs.get(UserPreferences.homeRowsStyle).name,
+      'detailScreenStyle': _prefs.get(UserPreferences.detailScreenStyle).name,
       'homeImageTypeContinueWatching': _prefs
           .get(UserPreferences.homeRowImageType(prefs.HomeSectionType.resume))
           .name,

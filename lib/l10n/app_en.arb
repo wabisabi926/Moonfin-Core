@@ -192,11 +192,11 @@
   "@detailScreenStyle": {
     "description": "Label for the media detail screen layout style setting"
   },
-  "detailScreenStyleSubtitle": "Moonfin is the classic layout. Modern is a responsive cinematic layout.",
+  "detailScreenStyleSubtitle": "Classic is the original centered moonfin layout. Modern is a responsive cinematic layout.",
   "@detailScreenStyleSubtitle": {
     "description": "Explanation under the detail screen style setting"
   },
-  "detailScreenStyleMoonfin": "Moonfin",
+  "detailScreenStyleMoonfin": "Classic",
   "@detailScreenStyleMoonfin": {
     "description": "Detail screen style option: the classic centered layout"
   },
@@ -259,6 +259,14 @@
   "themeGlassSubtitle": "Liquid-glass styling with a drifting gradient backdrop, frosted surfaces, and Apple-blue accent",
   "@themeGlassSubtitle": {
     "description": "Preview description for the Glass theme"
+  },
+  "theme8BitHero": "8-bit Hero",
+  "@theme8BitHero": {
+    "description": "Display name for the 8-bit Hero theme"
+  },
+  "theme8BitHeroSubtitle": "Retro pixel-art styling with a chunky palette, blocky borders, hard drop-shadows, and a pixel font",
+  "@theme8BitHeroSubtitle": {
+    "description": "Preview description for the 8-bit Hero theme"
   },
   "embyConnectSignInSubtitle": "Sign in with your Emby Connect account",
   "@embyConnectSignInSubtitle": {
@@ -3991,6 +3999,10 @@
   "@showLibrariesInToolbar": {
     "description": "Setting for showing libraries in toolbar"
   },
+  "navbarAlwaysExpanded": "Always Expand Navbar Labels",
+  "@navbarAlwaysExpanded": {
+    "description": "Setting to keep every top navbar heading's text label visible at all times, tvOS-style"
+  },
   "showSeerrButton": "Show Seerr Button",
   "@showSeerrButton": {
     "description": "Setting for showing Seerr button"
@@ -4792,7 +4804,7 @@
   "@sourceCode": {
     "description": "Link to source code"
   },
-  "sourceCodeUrl": "https://github.com/Moonfin-Client/Mobile-Desktop",
+  "sourceCodeUrl": "https://github.com/Moonfin-Client/Moonfin-Core",
   "@sourceCodeUrl": {
     "description": "Displayed source code repository URL"
   },
@@ -7031,6 +7043,7 @@
   "settingsShowFavoritesButtonInNavigation": "Show the favorites button in the navigation bar",
   "settingsShowLibrariesButtonInNavigation": "Show the libraries button in the navigation bar",
   "settingsShowSeerrButtonInNavigation": "Show the Seerr button in the navigation bar",
+  "settingsAlwaysExpandNavbarLabels": "Always show text labels in the top navigation bar",
   "settingsLibraryVisibilitySubtitle": "Toggle home page visibility per library. Restart Moonfin for changes to take effect.",
   "settingsMediaBarAndLocalPreviews": "Media Bar & Local Previews",
   "settingsVisualOverlays": "Visual Overlays",
@@ -7828,5 +7841,49 @@
   "@libraryWriteAccessReactiveBody": {
     "description": "Reactive error warning message when artwork update fails"
   },
-  "externalLists": "External Home Row Lists"
+  "externalLists": "External Home Row Lists",
+  "replay": "Replay",
+  "fileInformation": "File Information",
+  "fileSizeFormat": "Size: {size}  •  Format: {format}",
+  "@fileSizeFormat": {
+    "placeholders": { "size": {}, "format": {} }
+  },
+  "showAllAudioTracks": "Show All ({count}) Audio Tracks",
+  "@showAllAudioTracks": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "showAllSubtitleTracks": "Show All ({count}) Subtitle Tracks",
+  "@showAllSubtitleTracks": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "checkingDirectPlay": "Checking Direct Play capability...",
+  "directPlayCapabilityLabel": "Direct Play Capability: ",
+  "forced": "Forced",
+  "transcodeContainerNotSupported": "Container format is not supported by the player.",
+  "transcodeVideoCodecNotSupported": "Video codec is not supported.",
+  "transcodeAudioCodecNotSupported": "Audio codec is not supported.",
+  "transcodeSubtitleCodecNotSupported": "Subtitle format is not supported (requires burning).",
+  "transcodeAudioProfileNotSupported": "Audio profile is not supported.",
+  "transcodeVideoProfileNotSupported": "Video profile is not supported.",
+  "transcodeVideoLevelNotSupported": "Video level is not supported.",
+  "transcodeVideoResolutionNotSupported": "Video resolution is not supported by this device.",
+  "transcodeVideoBitDepthNotSupported": "Video bit depth is not supported.",
+  "transcodeVideoFramerateNotSupported": "Video framerate is not supported.",
+  "transcodeContainerBitrateExceedsLimit": "File bitrate exceeds player streaming limit.",
+  "transcodeVideoBitrateExceedsLimit": "Video bitrate exceeds streaming limit.",
+  "transcodeAudioBitrateExceedsLimit": "Audio bitrate exceeds streaming limit.",
+  "transcodeAudioChannelsNotSupported": "Number of audio channels is not supported.",
+  "sortAlphabetical": "Alphabetical",
+  "sortReleaseAscending": "Release Order (Ascending)",
+  "sortReleaseDescending": "Release Order (Descending)",
+  "sortCustomDragDrop": "Custom (Drag-and-Drop)",
+  "playlistSortOptions": "Playlist Sort Options",
+  "resetSort": "Reset Sort",
+  "rewatchSeasonEpisode": "Rewatch S{season}:E{episode}",
+  "@rewatchSeasonEpisode": {
+    "placeholders": { "season": { "type": "int" }, "episode": { "type": "int" } }
+  },
+  "rewatchPlaylist": "Rewatch Playlist",
+  "noSubtitlesFound": "No subtitles found.",
+  "adminControls": "Admin Controls"
 }

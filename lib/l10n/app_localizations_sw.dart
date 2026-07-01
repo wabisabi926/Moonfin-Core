@@ -145,10 +145,10 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get detailScreenStyleSubtitle =>
-      'Moonfin is the classic layout. Modern is a responsive cinematic layout.';
+      'Classic is the original centered moonfin layout. Modern is a responsive cinematic layout.';
 
   @override
-  String get detailScreenStyleMoonfin => 'Moonfin';
+  String get detailScreenStyleMoonfin => 'Classic';
 
   @override
   String get detailScreenStyleModern => 'Modern';
@@ -198,6 +198,13 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get themeGlassSubtitle => '';
+
+  @override
+  String get theme8BitHero => '8-bit Hero';
+
+  @override
+  String get theme8BitHeroSubtitle =>
+      'Retro pixel-art styling with a chunky palette, blocky borders, hard drop-shadows, and a pixel font';
 
   @override
   String get embyConnectSignInSubtitle =>
@@ -2884,6 +2891,9 @@ class AppLocalizationsSw extends AppLocalizations {
   String get showLibrariesInToolbar => 'Onyesha Maktaba kwenye Upauzana';
 
   @override
+  String get navbarAlwaysExpanded => 'Always Expand Navbar Labels';
+
+  @override
   String get showSeerrButton => '';
 
   @override
@@ -3490,8 +3500,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get sourceCode => 'Msimbo wa Chanzo';
 
   @override
-  String get sourceCodeUrl =>
-      'https://github.com/Moonfin-Client/Mobile-Desktop';
+  String get sourceCodeUrl => 'https://github.com/Moonfin-Client/Moonfin-Core';
 
   @override
   String get checkForUpdatesNow => 'Angalia Sasisho Sasa';
@@ -7089,6 +7098,10 @@ class AppLocalizationsSw extends AppLocalizations {
   String get settingsShowSeerrButtonInNavigation => '';
 
   @override
+  String get settingsAlwaysExpandNavbarLabels =>
+      'Always show text labels in the top navigation bar';
+
+  @override
   String get settingsLibraryVisibilitySubtitle =>
       'Geuza mwonekano wa ukurasa wa nyumbani kwa kila maktaba. Anzisha tena Moonfin ili mabadiliko yaanze kutumika.';
 
@@ -8592,4 +8605,119 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get externalLists => 'External Home Row Lists';
+
+  @override
+  String get replay => 'Replay';
+
+  @override
+  String get fileInformation => 'File Information';
+
+  @override
+  String fileSizeFormat(Object size, Object format) {
+    return 'Size: $size  •  Format: $format';
+  }
+
+  @override
+  String showAllAudioTracks(int count) {
+    return 'Show All ($count) Audio Tracks';
+  }
+
+  @override
+  String showAllSubtitleTracks(int count) {
+    return 'Show All ($count) Subtitle Tracks';
+  }
+
+  @override
+  String get checkingDirectPlay => 'Checking Direct Play capability...';
+
+  @override
+  String get directPlayCapabilityLabel => 'Direct Play Capability: ';
+
+  @override
+  String get forced => 'Forced';
+
+  @override
+  String get transcodeContainerNotSupported =>
+      'Container format is not supported by the player.';
+
+  @override
+  String get transcodeVideoCodecNotSupported => 'Video codec is not supported.';
+
+  @override
+  String get transcodeAudioCodecNotSupported => 'Audio codec is not supported.';
+
+  @override
+  String get transcodeSubtitleCodecNotSupported =>
+      'Subtitle format is not supported (requires burning).';
+
+  @override
+  String get transcodeAudioProfileNotSupported =>
+      'Audio profile is not supported.';
+
+  @override
+  String get transcodeVideoProfileNotSupported =>
+      'Video profile is not supported.';
+
+  @override
+  String get transcodeVideoLevelNotSupported => 'Video level is not supported.';
+
+  @override
+  String get transcodeVideoResolutionNotSupported =>
+      'Video resolution is not supported by this device.';
+
+  @override
+  String get transcodeVideoBitDepthNotSupported =>
+      'Video bit depth is not supported.';
+
+  @override
+  String get transcodeVideoFramerateNotSupported =>
+      'Video framerate is not supported.';
+
+  @override
+  String get transcodeContainerBitrateExceedsLimit =>
+      'File bitrate exceeds player streaming limit.';
+
+  @override
+  String get transcodeVideoBitrateExceedsLimit =>
+      'Video bitrate exceeds streaming limit.';
+
+  @override
+  String get transcodeAudioBitrateExceedsLimit =>
+      'Audio bitrate exceeds streaming limit.';
+
+  @override
+  String get transcodeAudioChannelsNotSupported =>
+      'Number of audio channels is not supported.';
+
+  @override
+  String get sortAlphabetical => 'Alphabetical';
+
+  @override
+  String get sortReleaseAscending => 'Release Order (Ascending)';
+
+  @override
+  String get sortReleaseDescending => 'Release Order (Descending)';
+
+  @override
+  String get sortCustomDragDrop => 'Custom (Drag-and-Drop)';
+
+  @override
+  String get playlistSortOptions => 'Playlist Sort Options';
+
+  @override
+  String get resetSort => 'Reset Sort';
+
+  @override
+  String rewatchSeasonEpisode(int season, int episode) {
+    return 'Rewatch S$season:E$episode';
+  }
+
+  @override
+  String get rewatchPlaylist => 'Rewatch Playlist';
+
+  @override
+  String get noSubtitlesFound => 'No subtitles found.';
+
+  @override
+  String get adminControls => 'Admin Controls';
 }
