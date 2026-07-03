@@ -3,6 +3,7 @@ import 'dart:math' show Random;
 import 'dart:ui' show ImageFilter;
 import 'package:collection/collection.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -65,7 +66,7 @@ double _desktopUiScale({UserPreferences? prefs}) {
 class ModernDetailContent extends StatefulWidget {
   final ItemDetailViewModel viewModel;
   final UserPreferences prefs;
-  final String? backdropUrl;
+  final ValueListenable<String?> backdropUrl;
   final String? selectedMediaSourceId;
   final ValueChanged<String?> onSelectedMediaSourceChanged;
   final FocusNode? initialFocusNode;
@@ -81,7 +82,7 @@ class ModernDetailContent extends StatefulWidget {
     super.key,
     required this.viewModel,
     required this.prefs,
-    this.backdropUrl,
+    required this.backdropUrl,
     this.selectedMediaSourceId,
     required this.onSelectedMediaSourceChanged,
     this.onBackdropItemFocused,
@@ -138,6 +139,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   int? _loadedSubtitleIndex;
   List<SeerrDiscoverItem>? _seerrAppearances;
   List<SeerrDiscoverItem>? _seerrCrewCredits;
+  // Item ids these one-shot loaders already ran for, so repeated view-model
+  // notifications don't re-issue the network calls or re-roll the backdrop.
+  String? _seerrLoadedForItemId;
+  String? _randomBackdropForItemId;
   String? _randomBackdropUrl;
 
   PlaybackInfoResult? _playbackInfo;
@@ -217,6 +222,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   void _selectRandomBackdrop() {
     final item = _vm.item;
     if (item == null || item.type != 'Person') return;
+    if (_randomBackdropForItemId == item.id && _randomBackdropUrl != null) return;
     final candidates = <String>[];
 
     // 1. Local Jellyfin items
@@ -235,6 +241,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       final randIndex = Random().nextInt(candidates.length);
       setState(() {
         _randomBackdropUrl = candidates[randIndex];
+        _randomBackdropForItemId = item.id;
       });
     }
   }
@@ -247,6 +254,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     if (!GetIt.instance<PluginSyncService>().seerrAvailable) {
       return;
     }
+    // Run once per person; the view-model notifies many times as data streams
+    // in and each call would otherwise re-issue the same combined-credits fetch.
+    if (_seerrLoadedForItemId == item.id) return;
+    _seerrLoadedForItemId = item.id;
 
     try {
       final repo = await GetIt.instance.getAsync<SeerrRepository>();
@@ -3687,10 +3698,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   /// strong left-to-right gradient keeping the left content readable, a
   /// bottom-to-top gradient blending the lower UI into the background, and a
   /// subtle edge vignette. In portrait it fades from the top into the content.
-  Widget _buildBackdrop(bool landscape) {
+  Widget _buildBackdrop(bool landscape, String? backdropUrl) {
     final base = AppColorScheme.background;
     final item = _vm.item;
-    final url = widget.backdropUrl ?? (item?.type == 'Person' ? (_randomBackdropUrl ?? _imageUrl(item!)) : null);
+    final url = backdropUrl ?? (item?.type == 'Person' ? (_randomBackdropUrl ?? _imageUrl(item!)) : null);
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -3901,9 +3912,17 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       tabBarWidget = tabBar;
     }
 
-    final hero = _buildHero(context, item);
+    // Isolate hero art and backdrop into their own layers so scrolling content
+    // does not re-rasterize them; the backdrop repaints only when its URL swaps.
+    final hero = RepaintBoundary(child: _buildHero(context, item));
     final upNext = _buildUpNext(context, item);
-    final backdrop = _buildBackdrop(_landscape);
+    final backdrop = RepaintBoundary(
+      child: ValueListenableBuilder<String?>(
+        valueListenable: widget.backdropUrl,
+        builder: (context, backdropUrl, _) =>
+            _buildBackdrop(_landscape, backdropUrl),
+      ),
+    );
     final topInset = TopToolbar.heightFor(context);
 
     final isEpisode = item.type == 'Episode';
