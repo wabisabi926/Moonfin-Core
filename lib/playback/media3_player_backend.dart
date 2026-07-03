@@ -605,6 +605,10 @@ class Media3PlayerBackend extends PlayerBackend {
       trueHdAtmosPassthroughEnabled: _prefs
           .resolveTrueHdAtmosPassthroughEnabled(),
       maxAudioChannels: _prefs.resolveMaxAudioChannels(),
+      // Media3 bundles the FFmpeg audio decoder extension: every advertised
+      // codec decodes in software, so stereo routes downmix locally instead
+      // of forcing a server transcode.
+      universalAudioDecode: true,
       maxResolution: maxResolution,
       pgsDirectPlay: _prefs.get(UserPreferences.pgsDirectPlay) && canRenderBitmapSubtitles,
       assDirectPlay: _prefs.get(UserPreferences.assDirectPlay),
@@ -642,6 +646,8 @@ class Media3PlayerBackend extends PlayerBackend {
             behavior: _prefs.get(
               UserPreferences.dolbyVisionProfile7DirectPlayBehavior,
             ),
+            hasHardwareDolbyVisionDecoder:
+                PlatformDetection.supportsHevcDolbyVision,
           ),
     );
   }

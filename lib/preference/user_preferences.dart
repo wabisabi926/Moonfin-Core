@@ -5,6 +5,7 @@ import 'package:server_core/server_core.dart' hide ImageType;
 
 import '../playback/audio_capability_profile.dart';
 import '../util/idiom/app_ui_idiom.dart';
+import '../util/insecure_certificates.dart';
 import '../util/language_matching.dart';
 import '../util/platform_detection.dart';
 import 'home_section_config.dart';
@@ -39,6 +40,14 @@ class UserPreferences extends ChangeNotifier {
     _migrateSeerrRowsVisibility();
     _enforceMediaQueuingAlwaysOn();
     _seedClockFormatFromSystem();
+    _syncInsecureCertificateFlag();
+  }
+
+  // Prime the native bad-certificate override with the stored opt-in so the
+  // choice survives restarts. The toggle keeps [gAllowSelfSignedCertificates]
+  // in sync while the app runs; this covers the value at launch.
+  void _syncInsecureCertificateFlag() {
+    gAllowSelfSignedCertificates = get(allowSelfSignedCerts);
   }
 
   // Carry over the pre-rename jellyseerr* preference keys to their seerr* names.
@@ -856,6 +865,14 @@ class UserPreferences extends ChangeNotifier {
     values: DetailScreenStyle.values,
   );
 
+  /// Algorithm source for the similar items recommendation system. Global
+  /// (not scoped per server/user), so it is deliberately omitted from [_scopedPreferenceKeys].
+  static final recommendationSystemSource = EnumPreference(
+    key: 'pref_recommendation_system_source',
+    defaultValue: RecommendationSystemSource.local,
+    values: RecommendationSystemSource.values,
+  );
+
   /// Default mobile view for the Live TV guide (Now/Next list vs compact grid).
   static final epgMobileView = EnumPreference(
     key: 'pref_epg_mobile_view',
@@ -878,6 +895,13 @@ class UserPreferences extends ChangeNotifier {
 
   static final use24HourClock = Preference(
     key: 'pref_use_24_hour_clock',
+    defaultValue: false,
+  );
+
+  // Opt-in: trust self-signed / private-CA TLS certificates. Off by default so
+  // certificate validation stays on for everyone who doesn't need it.
+  static final allowSelfSignedCerts = Preference(
+    key: 'pref_allow_self_signed_certs',
     defaultValue: false,
   );
 
@@ -1113,6 +1137,13 @@ class UserPreferences extends ChangeNotifier {
     key: 'desktop_scroll_wheel_action',
     defaultValue: DesktopScrollWheelAction.volume,
     values: DesktopScrollWheelAction.values,
+  );
+
+  // Read by native Android startup code; keep the key in sync with MainActivity.
+  static final impellerMode = EnumPreference(
+    key: 'pref_impeller_mode',
+    defaultValue: ImpellerMode.auto,
+    values: ImpellerMode.values,
   );
 
   static final trickPlayEnabled = Preference(
@@ -1980,6 +2011,11 @@ class UserPreferences extends ChangeNotifier {
   static final windowX = Preference(key: 'window_x', defaultValue: 0.0);
 
   static final windowY = Preference(key: 'window_y', defaultValue: 0.0);
+
+  static final windowFullscreen = Preference(
+    key: 'window_fullscreen',
+    defaultValue: false,
+  );
 
   static final syncPlayAdvancedCorrectionEnabled = Preference(
     key: 'syncplay_advanced_correction_enabled',

@@ -23,6 +23,9 @@ import 'playback/audio_handler.dart';
 import 'playback/playback_lifecycle_handler.dart';
 import 'platform/web_runtime_config.dart';
 import 'preference/user_preferences.dart';
+import 'util/fullscreen_helper.dart';
+import 'util/http_overrides_stub.dart'
+    if (dart.library.io) 'util/http_overrides_io.dart';
 import 'util/platform_detection.dart';
 import 'util/tv_image_cache_stub.dart'
     if (dart.library.io) 'util/tv_image_cache_io.dart';
@@ -91,6 +94,7 @@ Future<void> _restoreWindowGeometry() async {
   final h = prefs.get(UserPreferences.windowHeight);
   final x = prefs.get(UserPreferences.windowX);
   final y = prefs.get(UserPreferences.windowY);
+  final startFullscreen = prefs.get(UserPreferences.windowFullscreen);
 
   const minW = 800.0;
   const minH = 500.0;
@@ -109,10 +113,18 @@ Future<void> _restoreWindowGeometry() async {
     }
     await windowManager.show();
     await windowManager.focus();
+    if (startFullscreen) {
+      // Via FullscreenHelper so its cached state matches the window.
+      await FullscreenHelper.setFullscreen(true);
+    }
   });
 }
 
 Future<void> _detectAndSetTvMode() async {
+  if (const bool.fromEnvironment('MOONFIN_FORCE_TV')) {
+    PlatformDetection.setTvMode(true);
+    return;
+  }
   if (!PlatformDetection.isAndroid) return;
   try {
     const channel = MethodChannel('org.moonfin.androidtv/platform');
@@ -290,6 +302,7 @@ class _PreferenceWriteFlushObserver with WidgetsBindingObserver {
 }
 
 void main() async {
+  configureHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
 
   if (PlatformDetection.isAppleTV) {

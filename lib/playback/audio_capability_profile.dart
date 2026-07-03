@@ -1,7 +1,7 @@
 import '../preference/preference_constants.dart';
 import '../util/platform_detection.dart';
 
-enum AudioRouteType { hdmi, arc, earc, bluetooth, speaker, other }
+enum AudioRouteType { hdmi, arc, earc, bluetooth, speaker, headphones, other }
 
 class AudioCapabilityProfile {
   const AudioCapabilityProfile({
@@ -67,7 +67,10 @@ class AudioCapabilityProfile {
   final bool canDecodeDts;
   final bool canDecodeDtsHd;
   final bool _canDecodeTrueHd;
-  bool get canDecodeTrueHd => !PlatformDetection.isAndroid && _canDecodeTrueHd;
+  // Android has no hardware TrueHD/MLP decoder, but the Media3 backend bundles
+  // an FFmpeg audio decoder that decodes it to PCM, so decode is genuine there.
+  bool get canDecodeTrueHd =>
+      PlatformDetection.isAndroid || _canDecodeTrueHd;
   final bool canDecodeFlac;
 
   final bool canPassthroughAc3;
@@ -284,6 +287,8 @@ class AudioCapabilityProfile {
         return AudioRouteType.bluetooth;
       case 'speaker':
         return AudioRouteType.speaker;
+      case 'headphones':
+        return AudioRouteType.headphones;
       default:
         return AudioRouteType.other;
     }

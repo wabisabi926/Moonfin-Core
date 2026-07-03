@@ -154,6 +154,19 @@ class AppLocalizationsSv extends AppLocalizations {
   String get detailScreenStyleModern => 'Modern';
 
   @override
+  String get recommendationSystem => 'Recommendation System';
+
+  @override
+  String get recommendationSystemSubtitle =>
+      'Use the Moonfin Recommends local-library algorithm or the online TMDb\'s Similarity Metrics. Note: Online recommendations require Seerr integration.';
+
+  @override
+  String get recommendationSystemMoonfin => 'Moonfin Recommends';
+
+  @override
+  String get recommendationSystemTmdb => 'TMDb Similarity';
+
+  @override
   String get interfaceStyle => '';
 
   @override
@@ -171,6 +184,13 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get settingsAppearanceThemeSubtitle =>
       'Växla mellan Moonfin och Neon Pulse utan att starta om appen';
+
+  @override
+  String get customThemeTitle => 'Custom Theme';
+
+  @override
+  String get customThemeSubtitle =>
+      'Custom themes alter visual elements across Moonfin. Choose one of these options to suit your style.';
 
   @override
   String get keyboardPreferSystemIme => 'Prefer system keyboard';
@@ -264,6 +284,34 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get exit => 'Utgång';
+
+  @override
+  String get gameMenu => 'Menu';
+
+  @override
+  String get gamePaused => 'Paused';
+
+  @override
+  String get gameSaveState => 'Save state';
+
+  @override
+  String get gameLoadState => 'Load state';
+
+  @override
+  String get gameFastForward => 'Fast-forward';
+
+  @override
+  String get gameEmulatorSettings => 'Emulator settings';
+
+  @override
+  String get gameNoCoreOptions => 'This core has no adjustable options.';
+
+  @override
+  String get gameHoldToOpenMenu => 'Hold to open menu';
+
+  @override
+  String get gamePlaybackUnsupported =>
+      'Game playback is not supported on this device yet.';
 
   @override
   String get noHomeRowsLoaded => 'Inga hemmarader kunde laddas';
@@ -2471,6 +2519,9 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get settingsAudioRouteSpeaker => 'Speaker';
+
+  @override
+  String get settingsAudioRouteHeadphones => 'Headphones';
 
   @override
   String settingsAudioPcmChannels(int count) {
@@ -7010,6 +7061,16 @@ class AppLocalizationsSv extends AppLocalizations {
   String get settingsAlphabetical => 'Alfabetisk';
 
   @override
+  String get settingsConnectionSection => 'CONNECTION';
+
+  @override
+  String get settingsAllowSelfSignedCerts => 'Allow self-signed certificates';
+
+  @override
+  String get settingsAllowSelfSignedCertsSubtitle =>
+      'Trust servers using self-signed or private-CA TLS certificates. Only enable for servers you control. This disables certificate validation for all connections.';
+
+  @override
   String get settingsPrivacyAndSafetySection => 'SEKRETESS OCH SÄKERHET';
 
   @override
@@ -8715,4 +8776,30 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get adminControls => 'Admin Controls';
+
+  @override
+  String get impellerRendering => 'Rendering engine (Impeller)';
+
+  @override
+  String get impellerRenderingSubtitle =>
+      'Impeller is Flutter\'s modern GPU renderer for smoother animations and less stutter. On some TV boxes and older GPUs it can cause glitches or black video; switch it Off if you see those. Automatic picks the best default for your device. Restart Moonfin to apply.';
+
+  @override
+  String get impellerAuto => 'Automatic';
+
+  @override
+  String get impellerOn => 'On';
+
+  @override
+  String get impellerOff => 'Off';
+
+  @override
+  String get impellerRestartTitle => 'Restart required';
+
+  @override
+  String get impellerRestartMessage =>
+      'Moonfin needs to restart to change the rendering engine. Close the app now, then reopen it to apply.';
+
+  @override
+  String get impellerCloseNow => 'Close app now';
 }

@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -155,7 +156,9 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
   final _backgroundService = GetIt.instance<BackgroundService>();
   final _themeMusicService = GetIt.instance<ThemeMusicService>();
   final _prefs = GetIt.instance<UserPreferences>();
-  String? _backdropUrl;
+  // Backdrop swaps (ambient service, focused-track scrubbing) are frequent;
+  // driving them through a notifier repaints only the backdrop, not the tree.
+  final ValueNotifier<String?> _backdropUrl = ValueNotifier<String?>(null);
   StreamSubscription<String?>? _backgroundSub;
   bool _themeMusicStarted = false;
   String? _selectedMediaSourceId;
@@ -196,12 +199,12 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
     GetIt.instance<PluginSyncService>().addListener(_onPrefsChanged);
     _viewModel.load();
 
-    _backdropUrl = _backgroundService.currentUrl;
+    _backdropUrl.value = _backgroundService.currentUrl;
     _backgroundSub = _backgroundService.backgroundStream.listen((url) {
       // Ignore null: a child screen clearing the shared service on its way out
       // must not blank this screen's backdrop after it has been restored.
       if (mounted && url != null) {
-        setState(() => _backdropUrl = url);
+        _backdropUrl.value = url;
       }
     });
   }
@@ -227,8 +230,8 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
       final nextUrl = _backgroundService.currentUrl;
       // Keep the last good backdrop if the service has none to give (e.g. after
       // returning from a child with no backdrop that cleared the shared service).
-      if (nextUrl != null && nextUrl != _backdropUrl) {
-        setState(() => _backdropUrl = nextUrl);
+      if (nextUrl != null && nextUrl != _backdropUrl.value) {
+        _backdropUrl.value = nextUrl;
       }
     }
     // A pushed child screen (e.g. a similar item) clears the shared play-button
@@ -267,9 +270,10 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
     _themeMusicService.unregisterDetailScreen(this);
     _backgroundSub?.cancel();
     _focusedBackdropDebounce?.cancel();
-    if (_backgroundService.currentUrl == _backdropUrl) {
+    if (_backgroundService.currentUrl == _backdropUrl.value) {
       _backgroundService.clearBackgrounds();
     }
+    _backdropUrl.dispose();
     _viewModel.removeListener(_onChanged);
     _prefs.removeListener(_onPrefsChanged);
     try {
@@ -300,7 +304,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
             ? _viewModel.tracks.first
             : item;
         _backgroundService.setBackground(target, context: BlurContext.details);
-        _backdropUrl = _backgroundService.currentUrl;
+        _backdropUrl.value = _backgroundService.currentUrl;
 
         if (item.type == 'Playlist' && _viewModel.tracks.isNotEmpty) {
           _onBackdropItemFocused(_viewModel.tracks.first);
@@ -347,12 +351,12 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
               tag: tag,
             ),
           );
-          if (url != _backdropUrl) {
+          if (url != _backdropUrl.value) {
             _backgroundService.setBackgroundUrl(
               url,
               context: BlurContext.details,
             );
-            setState(() => _backdropUrl = url);
+            _backdropUrl.value = url;
           }
           return;
         }
@@ -363,8 +367,8 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
         context: BlurContext.details,
       );
       final nextUrl = _backgroundService.currentUrl;
-      if (nextUrl != _backdropUrl) {
-        setState(() => _backdropUrl = nextUrl);
+      if (nextUrl != _backdropUrl.value) {
+        _backdropUrl.value = nextUrl;
       }
     });
   }
@@ -517,7 +521,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
 class _DetailContent extends StatefulWidget {
   final ItemDetailViewModel viewModel;
   final UserPreferences prefs;
-  final String? backdropUrl;
+  final ValueListenable<String?> backdropUrl;
   final String? selectedMediaSourceId;
   final ValueChanged<String?> onSelectedMediaSourceChanged;
   final ValueChanged<AggregatedItem>? onBackdropItemFocused;
@@ -527,7 +531,7 @@ class _DetailContent extends StatefulWidget {
   const _DetailContent({
     required this.viewModel,
     required this.prefs,
-    this.backdropUrl,
+    required this.backdropUrl,
     this.selectedMediaSourceId,
     required this.onSelectedMediaSourceChanged,
     this.onBackdropItemFocused,
@@ -1120,7 +1124,11 @@ class _DetailContentState extends State<_DetailContent> {
               ),
             ),
           if (backdropEnabled && !isReadableBook)
-            _Backdrop(url: widget.backdropUrl, blurAmount: blurAmount),
+            ValueListenableBuilder<String?>(
+              valueListenable: widget.backdropUrl,
+              builder: (context, url, _) =>
+                  _Backdrop(url: url, blurAmount: blurAmount),
+            ),
           if (isReadableBook)
             const Positioned.fill(
               child: DecoratedBox(
@@ -1134,7 +1142,7 @@ class _DetailContentState extends State<_DetailContent> {
               ),
             )
           else
-            const _GradientScrim(),
+            const RepaintBoundary(child: _GradientScrim()),
           if (useSplitLayout)
             Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -5378,18 +5386,22 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
       final playable = episodes
           .where((e) => e.downloadStatus == 2 && e.localFilePath != null)
           .toList();
-      if (mounted) {
+      final newRow = playable.isNotEmpty ? playable.first : null;
+      final newQueue = playable.isNotEmpty ? playable : null;
+      // The download service notifies on every progress tick; only rebuild the
+      // button row when the resolved offline state actually changes.
+      if (mounted &&
+          (newRow != _offlineRow || !listEquals(newQueue, _offlineQueue))) {
         setState(() {
-          _offlineRow = playable.isNotEmpty ? playable.first : null;
-          _offlineQueue = playable.isNotEmpty ? playable : null;
+          _offlineRow = newRow;
+          _offlineQueue = newQueue;
         });
       }
     } else {
       final row = await repo.getItem(item.id);
-      if (mounted) {
-        setState(() {
-          _offlineRow = (row != null && row.downloadStatus == 2) ? row : null;
-        });
+      final newRow = (row != null && row.downloadStatus == 2) ? row : null;
+      if (mounted && newRow != _offlineRow) {
+        setState(() => _offlineRow = newRow);
       }
     }
   }

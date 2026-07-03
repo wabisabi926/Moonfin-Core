@@ -3,6 +3,7 @@ import 'dart:math' show Random;
 import 'dart:ui' show ImageFilter;
 import 'package:collection/collection.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -65,7 +66,7 @@ double _desktopUiScale({UserPreferences? prefs}) {
 class ModernDetailContent extends StatefulWidget {
   final ItemDetailViewModel viewModel;
   final UserPreferences prefs;
-  final String? backdropUrl;
+  final ValueListenable<String?> backdropUrl;
   final String? selectedMediaSourceId;
   final ValueChanged<String?> onSelectedMediaSourceChanged;
   final FocusNode? initialFocusNode;
@@ -81,7 +82,7 @@ class ModernDetailContent extends StatefulWidget {
     super.key,
     required this.viewModel,
     required this.prefs,
-    this.backdropUrl,
+    required this.backdropUrl,
     this.selectedMediaSourceId,
     required this.onSelectedMediaSourceChanged,
     this.onBackdropItemFocused,
@@ -138,6 +139,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   int? _loadedSubtitleIndex;
   List<SeerrDiscoverItem>? _seerrAppearances;
   List<SeerrDiscoverItem>? _seerrCrewCredits;
+  // Item ids these one-shot loaders already ran for, so repeated view-model
+  // notifications don't re-issue the network calls or re-roll the backdrop.
+  String? _seerrLoadedForItemId;
+  String? _randomBackdropForItemId;
   String? _randomBackdropUrl;
 
   PlaybackInfoResult? _playbackInfo;
@@ -217,6 +222,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   void _selectRandomBackdrop() {
     final item = _vm.item;
     if (item == null || item.type != 'Person') return;
+    if (_randomBackdropForItemId == item.id && _randomBackdropUrl != null) return;
     final candidates = <String>[];
 
     // 1. Local Jellyfin items
@@ -235,6 +241,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       final randIndex = Random().nextInt(candidates.length);
       setState(() {
         _randomBackdropUrl = candidates[randIndex];
+        _randomBackdropForItemId = item.id;
       });
     }
   }
@@ -247,6 +254,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     if (!GetIt.instance<PluginSyncService>().seerrAvailable) {
       return;
     }
+    // Run once per person; the view-model notifies many times as data streams
+    // in and each call would otherwise re-issue the same combined-credits fetch.
+    if (_seerrLoadedForItemId == item.id) return;
+    _seerrLoadedForItemId = item.id;
 
     try {
       final repo = await GetIt.instance.getAsync<SeerrRepository>();
@@ -596,7 +607,17 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
 
   FocusNode _tabNode(int index) {
     while (_tabFocusNodes.length <= index) {
-      final node = FocusNode(debugLabel: 'tab_$index');
+      final i = _tabFocusNodes.length;
+      final node = FocusNode(debugLabel: 'tab_$i');
+      // On TV the tab content is collapsed by default
+      // Auto-expand the tab you first land on
+      if (PlatformDetection.isTV) {
+        node.addListener(() {
+          if (node.hasFocus && mounted && _selectedTab < 0) {
+            _selectTab(i);
+          }
+        });
+      }
       _tabFocusNodes.add(node);
     }
     return _tabFocusNodes[index];
@@ -606,6 +627,14 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     // On TV _selectedTab starts at -1 (no tab chosen); guard the list index.
     if (_selectedTab < 0) return;
     _tabNode(_selectedTab).requestFocus();
+  }
+
+  // Moves D-pad focus into the first track of the track list, using the same
+  // focus node the DetailTrackList attaches to that row.
+  void _focusFirstTrack() {
+    if (_vm.tracks.isEmpty) return;
+    final id = _vm.tracks.first.id;
+    _trackFocusNodes.putIfAbsent(id, () => FocusNode()).requestFocus();
   }
 
   void _onTabBarNavigateDown(int tabIndex) {
@@ -653,9 +682,13 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
           _personSeerrCrewCreditsFirstFocusNode.requestFocus();
         } else if (label == l10n.albums || label == l10n.items || label == l10n.appearances) {
           _gridFirstFocusNode.requestFocus();
+        } else if (label == l10n.trackList) {
+          _focusFirstTrack();
         } else if (label == l10n.playlist) {
           if (_vm.item?.type == 'BoxSet' && _vm.playlistItems.isNotEmpty) {
             _collectionSortFocusNode.requestFocus();
+          } else {
+            _focusFirstTrack();
           }
         }
       }
@@ -2983,7 +3016,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
         decoration: BoxDecoration(
           borderRadius: AppRadius.circular(12),
           border: Border.all(
-            color: const Color(0xFFE8DCCA).withValues(alpha: 0.8),
+            color: AppColorScheme.onSurface.withValues(alpha: 0.18),
             width: 2.0,
           ),
           boxShadow: [
@@ -3665,10 +3698,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   /// strong left-to-right gradient keeping the left content readable, a
   /// bottom-to-top gradient blending the lower UI into the background, and a
   /// subtle edge vignette. In portrait it fades from the top into the content.
-  Widget _buildBackdrop(bool landscape) {
+  Widget _buildBackdrop(bool landscape, String? backdropUrl) {
     final base = AppColorScheme.background;
     final item = _vm.item;
-    final url = widget.backdropUrl ?? (item?.type == 'Person' ? (_randomBackdropUrl ?? _imageUrl(item!)) : null);
+    final url = backdropUrl ?? (item?.type == 'Person' ? (_randomBackdropUrl ?? _imageUrl(item!)) : null);
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -3879,9 +3912,17 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       tabBarWidget = tabBar;
     }
 
-    final hero = _buildHero(context, item);
+    // Isolate hero art and backdrop into their own layers so scrolling content
+    // does not re-rasterize them; the backdrop repaints only when its URL swaps.
+    final hero = RepaintBoundary(child: _buildHero(context, item));
     final upNext = _buildUpNext(context, item);
-    final backdrop = _buildBackdrop(_landscape);
+    final backdrop = RepaintBoundary(
+      child: ValueListenableBuilder<String?>(
+        valueListenable: widget.backdropUrl,
+        builder: (context, backdropUrl, _) =>
+            _buildBackdrop(_landscape, backdropUrl),
+      ),
+    );
     final topInset = TopToolbar.heightFor(context);
 
     final isEpisode = item.type == 'Episode';

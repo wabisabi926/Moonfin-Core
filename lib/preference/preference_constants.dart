@@ -161,6 +161,11 @@ enum DesktopScrollWheelAction {
   volume,
 }
 
+/// Rendering engine selection. Read natively at Android engine startup
+/// (MainActivity.getFlutterShellArgs) via the key `flutter.pref_impeller_mode`,
+/// so these enum names must stay stable. `auto` keeps the per-device default.
+enum ImpellerMode { auto, on, off }
+
 enum AppTheme {
   white(0xFFFFFFFF),
   black(0xFF000000),
@@ -197,7 +202,13 @@ enum VisualThemeId {
 /// globally (not scoped per server/user).
 enum DetailScreenStyle {
   moonfin,
-  modern,
+  modern;
+}
+
+/// Selectable algorithm source for similarity recommendation system.
+enum RecommendationSystemSource {
+  local,
+  online;
 }
 
 /// Default mobile (portrait phone) view for the Live TV guide: a Now/Next
