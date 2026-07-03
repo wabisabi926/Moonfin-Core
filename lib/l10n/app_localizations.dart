@@ -12586,6 +12586,24 @@ abstract class AppLocalizations {
   /// **'Alphabetical'**
   String get settingsAlphabetical;
 
+  /// Section header for server connection settings
+  ///
+  /// In en, this message translates to:
+  /// **'CONNECTION'**
+  String get settingsConnectionSection;
+
+  /// Setting to trust self-signed TLS certificates
+  ///
+  /// In en, this message translates to:
+  /// **'Allow self-signed certificates'**
+  String get settingsAllowSelfSignedCerts;
+
+  /// Description for the allow self-signed certificates setting
+  ///
+  /// In en, this message translates to:
+  /// **'Trust servers using self-signed or private-CA TLS certificates. Only enable for servers you control. This disables certificate validation for all connections.'**
+  String get settingsAllowSelfSignedCertsSubtitle;
+
   /// No description provided for @settingsPrivacyAndSafetySection.
   ///
   /// In en, this message translates to:

@@ -23,6 +23,8 @@ import 'playback/audio_handler.dart';
 import 'playback/playback_lifecycle_handler.dart';
 import 'platform/web_runtime_config.dart';
 import 'preference/user_preferences.dart';
+import 'util/http_overrides_stub.dart'
+    if (dart.library.io) 'util/http_overrides_io.dart';
 import 'util/platform_detection.dart';
 import 'util/tv_image_cache_stub.dart'
     if (dart.library.io) 'util/tv_image_cache_io.dart';
@@ -294,6 +296,7 @@ class _PreferenceWriteFlushObserver with WidgetsBindingObserver {
 }
 
 void main() async {
+  configureHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
 
   if (PlatformDetection.isAppleTV) {

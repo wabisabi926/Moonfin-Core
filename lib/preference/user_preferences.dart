@@ -5,6 +5,7 @@ import 'package:server_core/server_core.dart' hide ImageType;
 
 import '../playback/audio_capability_profile.dart';
 import '../util/idiom/app_ui_idiom.dart';
+import '../util/insecure_certificates.dart';
 import '../util/language_matching.dart';
 import '../util/platform_detection.dart';
 import 'home_section_config.dart';
@@ -39,6 +40,14 @@ class UserPreferences extends ChangeNotifier {
     _migrateSeerrRowsVisibility();
     _enforceMediaQueuingAlwaysOn();
     _seedClockFormatFromSystem();
+    _syncInsecureCertificateFlag();
+  }
+
+  // Prime the native bad-certificate override with the stored opt-in so the
+  // choice survives restarts. The toggle keeps [gAllowSelfSignedCertificates]
+  // in sync while the app runs; this covers the value at launch.
+  void _syncInsecureCertificateFlag() {
+    gAllowSelfSignedCertificates = get(allowSelfSignedCerts);
   }
 
   // Carry over the pre-rename jellyseerr* preference keys to their seerr* names.
@@ -878,6 +887,13 @@ class UserPreferences extends ChangeNotifier {
 
   static final use24HourClock = Preference(
     key: 'pref_use_24_hour_clock',
+    defaultValue: false,
+  );
+
+  // Opt-in: trust self-signed / private-CA TLS certificates. Off by default so
+  // certificate validation stays on for everyone who doesn't need it.
+  static final allowSelfSignedCerts = Preference(
+    key: 'pref_allow_self_signed_certs',
     defaultValue: false,
   );
 

@@ -7049,6 +7049,16 @@ class AppLocalizationsLt extends AppLocalizations {
   String get settingsAlphabetical => 'Abėcėlinis';
 
   @override
+  String get settingsConnectionSection => 'CONNECTION';
+
+  @override
+  String get settingsAllowSelfSignedCerts => 'Allow self-signed certificates';
+
+  @override
+  String get settingsAllowSelfSignedCertsSubtitle =>
+      'Trust servers using self-signed or private-CA TLS certificates. Only enable for servers you control. This disables certificate validation for all connections.';
+
+  @override
   String get settingsPrivacyAndSafetySection => 'PRIVATUMAS IR SAUGA';
 
   @override

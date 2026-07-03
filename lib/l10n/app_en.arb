@@ -7065,6 +7065,18 @@
   "settingsSortServersBy": "Sort Servers By",
   "settingsLastUsed": "Last Used",
   "settingsAlphabetical": "Alphabetical",
+  "settingsConnectionSection": "CONNECTION",
+  "@settingsConnectionSection": {
+    "description": "Section header for server connection settings"
+  },
+  "settingsAllowSelfSignedCerts": "Allow self-signed certificates",
+  "@settingsAllowSelfSignedCerts": {
+    "description": "Setting to trust self-signed TLS certificates"
+  },
+  "settingsAllowSelfSignedCertsSubtitle": "Trust servers using self-signed or private-CA TLS certificates. Only enable for servers you control. This disables certificate validation for all connections.",
+  "@settingsAllowSelfSignedCertsSubtitle": {
+    "description": "Description for the allow self-signed certificates setting"
+  },
   "settingsPrivacyAndSafetySection": "PRIVACY & SAFETY",
   "settingsBlockedRatings": "Blocked Ratings",
   "settingsGeneralStyle": "General Style",
