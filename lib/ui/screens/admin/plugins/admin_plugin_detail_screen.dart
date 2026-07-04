@@ -10,6 +10,7 @@ import 'dart:io';
 import '../admin_plugin_version_utils.dart';
 import '../../../widgets/adaptive/adaptive_dialog.dart';
 import '../providers/admin_user_providers.dart';
+import '../widgets/admin_form_styles.dart';
 import 'plugin_web_settings_screen.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../util/platform_detection.dart';
@@ -356,8 +357,15 @@ class _AdminPluginDetailScreenState
 
     if (isWide) {
       return ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 40),
         children: [
+          adminScreenHeader(
+            context,
+            title: plugin.name,
+            subtitle: AppLocalizations.of(context)
+                .adminPluginVersion(plugin.version),
+            icon: Icons.extension_outlined,
+          ),
           if (statusBanner != null) ...[
             statusBanner,
             const SizedBox(height: 12),
@@ -370,7 +378,6 @@ class _AdminPluginDetailScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(plugin.name, style: theme.textTheme.headlineMedium),
                     if (packageInfo?.description.isNotEmpty == true ||
                         plugin.description.isNotEmpty) ...[
                       const SizedBox(height: 8),
@@ -433,11 +440,10 @@ class _AdminPluginDetailScreenState
     }
 
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 40),
       children: [
-        if (statusBanner != null) ...[statusBanner, const SizedBox(height: 12)],
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _PluginImage(
               imageUrl: plugin.hasImage
@@ -447,24 +453,20 @@ class _AdminPluginDetailScreenState
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(plugin.name, style: theme.textTheme.headlineSmall),
-                  const SizedBox(height: 4),
-                  Text(
-                    AppLocalizations.of(
-                      context,
-                    ).adminPluginVersion(plugin.version),
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
+              child: adminScreenHeader(
+                context,
+                title: plugin.name,
+                subtitle: AppLocalizations.of(
+                  context,
+                ).adminPluginVersion(plugin.version),
               ),
             ),
           ],
         ),
+        if (statusBanner != null) ...[
+          const SizedBox(height: 4),
+          statusBanner,
+        ],
 
         if (packageInfo?.description.isNotEmpty == true ||
             plugin.description.isNotEmpty) ...[
@@ -535,8 +537,12 @@ class _AdminPluginDetailScreenState
         return null;
     }
 
-    return Card(
-      color: color.withValues(alpha: 0.12),
+    return Container(
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: AppRadius.circular(18),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
@@ -619,65 +625,55 @@ class _ActionsSection extends StatelessWidget {
     final theme = Theme.of(context);
     final isRestartPending = plugin.status == PluginStatus.restart;
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SwitchListTile.adaptive(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                AppLocalizations.of(context).adminPluginDetailEnablePlugin,
-              ),
-              value: plugin.status != PluginStatus.disabled,
-              onChanged: (isRestartPending || toggling)
-                  ? null
-                  : (_) => onToggle(),
-            ),
-            const Divider(),
-            if (!PlatformDetection.isTV && onInstallUpdate != null)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: Icon(Icons.download, color: theme.colorScheme.primary),
-                title: Text(
-                  latestUpdateVersion != null
-                      ? AppLocalizations.of(
-                          context,
-                        ).adminPluginsInstallUpdateVersioned(
-                          latestUpdateVersion!,
-                        )
-                      : AppLocalizations.of(context).adminPluginsInstallUpdate,
-                ),
-                onTap: onInstallUpdate,
-              ),
-            if (!PlatformDetection.isTV && onInstallUpdate != null)
-              const Divider(),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.web, color: theme.colorScheme.primary),
-              title: Text(AppLocalizations.of(context).settings),
-              subtitle: Text(
-                AppLocalizations.of(context).adminPluginSettingsPage,
-              ),
-              onTap: onOpenHtmlSettings,
-            ),
-            const Divider(),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(
-                Icons.delete_outline,
-                color: theme.colorScheme.error,
-              ),
-              title: Text(
-                AppLocalizations.of(context).uninstall,
-                style: TextStyle(color: theme.colorScheme.error),
-              ),
-              onTap: onUninstall,
-            ),
-          ],
+    return adminGlassGroup(
+      context,
+      children: [
+        SwitchListTile.adaptive(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          title: Text(
+            AppLocalizations.of(context).adminPluginDetailEnablePlugin,
+          ),
+          value: plugin.status != PluginStatus.disabled,
+          onChanged:
+              (isRestartPending || toggling) ? null : (_) => onToggle(),
         ),
-      ),
+        if (!PlatformDetection.isTV && onInstallUpdate != null)
+          ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+            leading: Icon(Icons.download, color: theme.colorScheme.primary),
+            title: Text(
+              latestUpdateVersion != null
+                  ? AppLocalizations.of(
+                      context,
+                    ).adminPluginsInstallUpdateVersioned(
+                      latestUpdateVersion!,
+                    )
+                  : AppLocalizations.of(context).adminPluginsInstallUpdate,
+            ),
+            onTap: onInstallUpdate,
+          ),
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          leading: Icon(Icons.web, color: theme.colorScheme.primary),
+          title: Text(AppLocalizations.of(context).settings),
+          subtitle: Text(
+            AppLocalizations.of(context).adminPluginSettingsPage,
+          ),
+          onTap: onOpenHtmlSettings,
+        ),
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          leading: Icon(
+            Icons.delete_outline,
+            color: theme.colorScheme.error,
+          ),
+          title: Text(
+            AppLocalizations.of(context).uninstall,
+            style: TextStyle(color: theme.colorScheme.error),
+          ),
+          onTap: onUninstall,
+        ),
+      ],
     );
   }
 }
@@ -690,44 +686,50 @@ class _DetailsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final developer = packageInfo?.owner;
     final repoName = packageInfo?.versions.isNotEmpty == true
         ? packageInfo!.versions.first.repositoryName
         : null;
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        adminSectionLabel(
+            context, AppLocalizations.of(context).adminPluginDetailDetails,
+            icon: Icons.info_outline),
+        adminGlassGroup(
+          context,
           children: [
-            Text(
-              AppLocalizations.of(context).adminPluginDetailDetails,
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(height: 12),
-            _row(
-              context,
-              AppLocalizations.of(context).status,
-              plugin.status.label,
-            ),
-            _row(context, 'Version', plugin.version),
-            _row(
-              context,
-              AppLocalizations.of(context).adminPluginDetailDeveloper,
-              developer ?? AppLocalizations.of(context).unknown,
-            ),
-            _row(
-              context,
-              AppLocalizations.of(context).adminPluginDetailRepository,
-              plugin.canUninstall
-                  ? (repoName ?? AppLocalizations.of(context).unknown)
-                  : AppLocalizations.of(context).adminPluginDetailBundled,
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _row(
+                    context,
+                    AppLocalizations.of(context).status,
+                    plugin.status.label,
+                  ),
+                  _row(context, 'Version', plugin.version),
+                  _row(
+                    context,
+                    AppLocalizations.of(context).adminPluginDetailDeveloper,
+                    developer ?? AppLocalizations.of(context).unknown,
+                  ),
+                  _row(
+                    context,
+                    AppLocalizations.of(context).adminPluginDetailRepository,
+                    plugin.canUninstall
+                        ? (repoName ?? AppLocalizations.of(context).unknown)
+                        : AppLocalizations.of(context)
+                            .adminPluginDetailBundled,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 
@@ -766,17 +768,20 @@ class _RevisionHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        adminSectionLabel(
+            context, AppLocalizations.of(context).adminRevisionHistory,
+            icon: Icons.history),
+        adminGlassGroup(
+          context,
           children: [
-            Text(
-              AppLocalizations.of(context).adminRevisionHistory,
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
             ...versions.take(10).map((v) {
               final isInstalled = v.version == installedVersion;
               return ExpansionTile(
@@ -833,9 +838,12 @@ class _RevisionHistory extends StatelessWidget {
                 ],
               );
             }),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
+      ],
     );
   }
 }

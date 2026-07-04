@@ -8,6 +8,7 @@ import 'package:server_core/server_core.dart';
 
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/adaptive/adaptive_dialog.dart';
+import '../widgets/admin_form_styles.dart';
 
 class AdminMetadataEditScreen extends StatefulWidget {
   final String itemId;
@@ -510,10 +511,7 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
             content: TextField(
               controller: queryController,
               autofocus: true,
-              decoration: InputDecoration(
-                labelText: l10n.name,
-                border: const OutlineInputBorder(),
-              ),
+              decoration: adminInputDecoration(label: l10n.name),
               onSubmitted: (v) => Navigator.pop(ctx, v.trim()),
             ),
             actions: [
@@ -608,7 +606,7 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
             content: TextField(
               controller: controller,
               autofocus: true,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
+              decoration: adminInputDecoration(),
               onSubmitted: (v) => Navigator.pop(ctx, v.trim()),
             ),
             actions: [
@@ -653,26 +651,19 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
                 children: [
                   TextField(
                     controller: nameController,
-                    decoration: InputDecoration(
-                      labelText: l10n.name,
-                      border: const OutlineInputBorder(),
-                    ),
+                    decoration: adminInputDecoration(label: l10n.name),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: roleController,
-                    decoration: InputDecoration(
-                      labelText: l10n.adminMetadataRole,
-                      border: const OutlineInputBorder(),
-                    ),
+                    decoration:
+                        adminInputDecoration(label: l10n.adminMetadataRole),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: typeController,
-                    decoration: InputDecoration(
-                      labelText: l10n.adminMetadataType,
-                      border: const OutlineInputBorder(),
-                    ),
+                    decoration:
+                        adminInputDecoration(label: l10n.adminMetadataType),
                   ),
                 ],
               ),
@@ -736,10 +727,8 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
                   title: Text(l10n.adminUpdateContentType),
                   content: DropdownButtonFormField<String>(
                     initialValue: selectedValue,
-                    decoration: InputDecoration(
-                      labelText: l10n.adminContentType,
-                      border: const OutlineInputBorder(),
-                    ),
+                    decoration:
+                        adminInputDecoration(label: l10n.adminContentType),
                     items:
                         options.map((option) {
                           final optionValue = option['Value'] ?? '';
@@ -816,11 +805,11 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
                   ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        l10n.adminMetadataEditorTitle,
-                        style: Theme.of(context).textTheme.headlineSmall,
+                      adminScreenHeader(
+                        context,
+                        title: l10n.adminMetadataEditorTitle,
+                        icon: Icons.edit_note_outlined,
                       ),
-                      const SizedBox(height: 12),
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
@@ -854,7 +843,12 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
                       Expanded(
                         child: Text(
                           l10n.adminMetadataEditorTitle,
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.5,
+                            color: AppColorScheme.onSurface,
+                          ),
                         ),
                       ),
                       FilledButton.tonalIcon(
@@ -994,14 +988,12 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
           _studios,
           () => _addChip(l10n.adminMetadataAddStudio, _studios),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
-              child: Text(
-                l10n.adminMetadataPeople,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              child: adminSectionLabel(context, l10n.adminMetadataPeople,
+                  icon: Icons.people_outline),
             ),
             FilledButton.tonalIcon(
               onPressed: () => _editPerson(),
@@ -1145,9 +1137,11 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
     final l10n = AppLocalizations.of(context);
     final busy = _busyImageType == imageType;
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
+    return adminGlassGroup(
+      context,
+      children: [
+      Padding(
+        padding: const EdgeInsets.all(AppSpacing.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1210,6 +1204,7 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
           ],
         ),
       ),
+      ],
     );
   }
 
@@ -1362,18 +1357,17 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
       controller: controller,
       keyboardType: keyboardType,
       maxLines: maxLines,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-      ),
+      decoration: adminInputDecoration(label: label),
     );
   }
 
   Widget _chipEditor(String label, List<String> values, VoidCallback onAdd) {
     final l10n = AppLocalizations.of(context);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
+    return adminGlassGroup(
+      context,
+      children: [
+      Padding(
+        padding: const EdgeInsets.all(AppSpacing.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1416,6 +1410,7 @@ class _AdminMetadataEditScreenState extends State<AdminMetadataEditScreen>
           ],
         ),
       ),
+      ],
     );
   }
 }
@@ -1597,10 +1592,8 @@ class _RemoteImagePickerDialogState extends State<_RemoteImagePickerDialog> {
                       children: [
                         DropdownButtonFormField<String>(
                           initialValue: _providerName,
-                          decoration: InputDecoration(
-                            labelText: l10n.adminMetadataProvider,
-                            border: const OutlineInputBorder(),
-                          ),
+                          decoration: adminInputDecoration(
+                              label: l10n.adminMetadataProvider),
                           items: [
                             DropdownMenuItem<String>(
                               value: '',
@@ -1632,10 +1625,8 @@ class _RemoteImagePickerDialogState extends State<_RemoteImagePickerDialog> {
                       Expanded(
                         child: DropdownButtonFormField<String>(
                           initialValue: _providerName,
-                          decoration: InputDecoration(
-                            labelText: l10n.adminMetadataProvider,
-                            border: const OutlineInputBorder(),
-                          ),
+                          decoration: adminInputDecoration(
+                              label: l10n.adminMetadataProvider),
                           items: [
                             DropdownMenuItem<String>(
                               value: '',

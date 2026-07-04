@@ -10,6 +10,7 @@ import '../../../navigation/destinations.dart';
 import '../../../widgets/adaptive/adaptive_dialog.dart';
 import '../admin_plugin_version_utils.dart';
 import '../providers/admin_user_providers.dart';
+import '../widgets/admin_form_styles.dart';
 
 class AdminPluginsScreen extends ConsumerStatefulWidget {
   const AdminPluginsScreen({super.key});
@@ -54,14 +55,8 @@ class _AdminPluginsScreenState extends ConsumerState<AdminPluginsScreen>
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                 child: TextField(
                   controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context).adminSearchPlugins,
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: AppRadius.circular(8),
-                    ),
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: adminInputDecoration(
+                    hint: AppLocalizations.of(context).adminSearchPlugins,
                     suffixIcon: _searchQuery.isNotEmpty
                         ? IconButton(
                             icon: const Icon(Icons.clear),
@@ -70,7 +65,7 @@ class _AdminPluginsScreenState extends ConsumerState<AdminPluginsScreen>
                               setState(() => _searchQuery = '');
                             },
                           )
-                        : null,
+                        : const Icon(Icons.search),
                   ),
                   onChanged: (v) => setState(() => _searchQuery = v),
                 ),
@@ -316,32 +311,41 @@ class _InstalledTab extends ConsumerWidget {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 80),
-                itemCount: filtered.length,
-                itemBuilder: (context, index) {
-                  final plugin = filtered[index];
-                  final updateInfo =
-                      updateInfoByPluginId[plugin.id] ?? const _PluginUpdateInfo();
-                  return _InstalledPluginTile(
-                    plugin: plugin,
-                    hasUpdate: updateInfo.latestVersion != null,
-                    latestVersion: updateInfo.latestVersion,
-                    imageUrl: imageUrlsByPluginId[plugin.id],
-                    onUpdate: updateInfo.package != null &&
-                            updateInfo.latestVersionInfo != null
-                        ? () => onInstallUpdate(
-                              plugin,
-                              updateInfo.package!,
-                              updateInfo.latestVersionInfo!,
-                            )
-                        : null,
-                    onTap: () =>
-                        context.push(Destinations.adminPlugin(plugin.id)),
-                    onToggle: () => onToggle(plugin),
-                    onUninstall: () => onUninstall(plugin),
-                  );
-                },
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(12, 4, 12, 80),
+                children: [
+                  adminGlassGroup(
+                    context,
+                    children: [
+                      for (final plugin in filtered)
+                        Builder(
+                          builder: (context) {
+                            final updateInfo =
+                                updateInfoByPluginId[plugin.id] ??
+                                    const _PluginUpdateInfo();
+                            return _InstalledPluginTile(
+                              plugin: plugin,
+                              hasUpdate: updateInfo.latestVersion != null,
+                              latestVersion: updateInfo.latestVersion,
+                              imageUrl: imageUrlsByPluginId[plugin.id],
+                              onUpdate: updateInfo.package != null &&
+                                      updateInfo.latestVersionInfo != null
+                                  ? () => onInstallUpdate(
+                                        plugin,
+                                        updateInfo.package!,
+                                        updateInfo.latestVersionInfo!,
+                                      )
+                                  : null,
+                              onTap: () => context
+                                  .push(Destinations.adminPlugin(plugin.id)),
+                              onToggle: () => onToggle(plugin),
+                              onUninstall: () => onUninstall(plugin),
+                            );
+                          },
+                        ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
@@ -755,9 +759,7 @@ class _CatalogPackageTile extends StatelessWidget {
         package.name.isNotEmpty ? package.name[0].toUpperCase() : '?';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: Card(
-        elevation: 0,
-        color: theme.colorScheme.surfaceContainerLow,
+      child: adminListCard(
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
@@ -858,7 +860,7 @@ class _CatalogPackageTile extends StatelessWidget {
               ],
             ],
           ),
-        ),
+          ),
       ),
     );
   }

@@ -104,6 +104,25 @@ Widget adminSection(
   );
 }
 
+/// A solid (non-blurred) translucent rounded card. Use for rows inside a
+/// scrollable `ListView.builder` instead of [adminGlassGroup], which would add
+/// a `BackdropFilter` per row and janks long lists on glass themes.
+Widget adminListCard({required Widget child, EdgeInsetsGeometry? margin}) {
+  return Container(
+    margin: margin,
+    clipBehavior: Clip.antiAlias,
+    decoration: BoxDecoration(
+      color: AppColorScheme.onSurface.withValues(alpha: 0.04),
+      borderRadius: AppRadius.circular(18),
+      border: Border.all(
+        color: AppColorScheme.onSurface.withValues(alpha: 0.08),
+        width: 0.5,
+      ),
+    ),
+    child: child,
+  );
+}
+
 /// Groups [children] into a rounded translucent card with hairline dividers.
 Widget adminGlassGroup(
   BuildContext context, {
@@ -142,6 +161,7 @@ InputDecoration adminInputDecoration({
   String? label,
   String? hint,
   String? helper,
+  String? suffixText,
   Widget? suffixIcon,
 }) {
   final onSurface = AppColorScheme.onSurface;
@@ -166,6 +186,7 @@ InputDecoration adminInputDecoration({
     border: border(Colors.transparent, 0),
     enabledBorder: border(onSurface.withValues(alpha: 0.08), 1),
     focusedBorder: border(accent, 1.6),
+    suffixText: suffixText,
     suffixIcon: suffixIcon,
   );
 }

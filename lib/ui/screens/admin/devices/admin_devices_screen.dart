@@ -7,6 +7,7 @@ import 'package:server_core/server_core.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/adaptive/adaptive_dialog.dart';
 import '../providers/admin_user_providers.dart';
+import '../widgets/admin_form_styles.dart';
 
 class AdminDevicesScreen extends ConsumerStatefulWidget {
   const AdminDevicesScreen({super.key});
@@ -38,10 +39,7 @@ class _AdminDevicesScreenState extends ConsumerState<AdminDevicesScreen> {
         content: TextField(
           controller: controller,
           autofocus: true,
-          decoration: InputDecoration(
-            labelText: l10n.adminCustomName,
-            border: const OutlineInputBorder(),
-          ),
+          decoration: adminInputDecoration(label: l10n.adminCustomName),
           onSubmitted: (value) => Navigator.pop(ctx, value.trim()),
         ),
         actions: [
@@ -233,33 +231,16 @@ class _AdminDevicesScreenState extends ConsumerState<AdminDevicesScreen> {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) =>
-                          setState(() => _searchQuery = value.trim()),
-                      decoration: InputDecoration(
-                        hintText: l10n.adminSearchDevices,
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: _searchQuery.isEmpty
-                            ? null
-                            : IconButton(
-                                onPressed: () {
-                                  _searchController.clear();
-                                  setState(() => _searchQuery = '');
-                                },
-                                icon: const Icon(Icons.clear),
-                              ),
-                        border: OutlineInputBorder(
-                          borderRadius: AppRadius.circular(12),
-                        ),
-                      ),
+                    child: adminScreenHeader(
+                      context,
+                      title: l10n.adminDrawerDevices,
+                      icon: Icons.devices_outlined,
                     ),
                   ),
-                  const SizedBox(width: 8),
                   IconButton(
                     icon: const Icon(Icons.delete_sweep_outlined),
                     tooltip: l10n.adminDeleteAllDevices,
@@ -273,6 +254,26 @@ class _AdminDevicesScreenState extends ConsumerState<AdminDevicesScreen> {
                     },
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: TextField(
+                controller: _searchController,
+                onChanged: (value) =>
+                    setState(() => _searchQuery = value.trim()),
+                decoration: adminInputDecoration(
+                  hint: l10n.adminSearchDevices,
+                  suffixIcon: _searchQuery.isEmpty
+                      ? null
+                      : IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            setState(() => _searchQuery = '');
+                          },
+                          icon: const Icon(Icons.clear),
+                        ),
+                ).copyWith(prefixIcon: const Icon(Icons.search)),
               ),
             ),
             if (users.isNotEmpty)
@@ -326,8 +327,10 @@ class _AdminDevicesScreenState extends ConsumerState<AdminDevicesScreen> {
                     .where((v) => v != null && v.isNotEmpty)
                     .join(' ');
 
-                return Card(
-                  child: ListTile(
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: adminListCard(
+                    child: ListTile(
                     leading: Icon(
                       _deviceIcon(device.appName),
                       size: 32,
@@ -395,6 +398,7 @@ class _AdminDevicesScreenState extends ConsumerState<AdminDevicesScreen> {
                         ),
                       ],
                     ),
+                  ),
                   ),
                 );
               },

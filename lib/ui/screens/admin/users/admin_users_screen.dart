@@ -8,6 +8,7 @@ import 'package:server_core/server_core.dart';
 import '../../../navigation/destinations.dart';
 import '../../../widgets/adaptive/adaptive_dialog.dart';
 import '../providers/admin_user_providers.dart';
+import '../widgets/admin_form_styles.dart';
 import 'admin_user_delete_dialog.dart';
 import '../../../../l10n/app_localizations.dart';
 
@@ -132,13 +133,20 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+                child: adminScreenHeader(
+                  context,
+                  title: l10n.adminDrawerUsers,
+                  icon: Icons.group_outlined,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
                 child: TextField(
                   controller: _searchController,
                   onChanged: (value) => setState(() => _searchQuery = value.trim()),
-                  decoration: InputDecoration(
-                    hintText: l10n.adminSearchUsers,
-                    prefixIcon: const Icon(Icons.search),
+                  decoration: adminInputDecoration(
+                    hint: l10n.adminSearchUsers,
                     suffixIcon: _searchQuery.isEmpty
                         ? null
                         : IconButton(
@@ -148,10 +156,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                             },
                             icon: const Icon(Icons.clear),
                           ),
-                    border: OutlineInputBorder(
-                      borderRadius: AppRadius.circular(12),
-                    ),
-                  ),
+                  ).copyWith(prefixIcon: const Icon(Icons.search)),
                 ),
               ),
               Expanded(
@@ -178,9 +183,11 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                       ? '?'
                       : displayName.characters.first.toUpperCase();
 
-                  return Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: InkWell(
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: adminListCard(
+                      child: InkWell(
+                      borderRadius: AppRadius.circular(18),
                       onTap: () => context.push(Destinations.adminUser(user.id)),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
@@ -302,6 +309,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                           ],
                         ),
                       ),
+                    ),
                     ),
                   );
                 },

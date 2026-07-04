@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:moonfin_design/moonfin_design.dart';
 import 'package:server_core/server_core.dart';
 
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/adaptive/adaptive_dialog.dart';
 import '../providers/admin_user_providers.dart';
+import '../widgets/admin_form_styles.dart';
 
 class AdminRepositoriesScreen extends ConsumerStatefulWidget {
   const AdminRepositoriesScreen({super.key});
@@ -139,46 +141,51 @@ class _AdminRepositoriesScreenState
     final listBottomPadding = bottomSafe + 96;
     final fabBottom = bottomSafe + 16;
 
+    final l10n = AppLocalizations.of(context);
     return Stack(
       children: [
         if (repos.isEmpty)
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
+          ListView(
+            padding: EdgeInsets.fromLTRB(16, 20, 16, listBottomPadding),
+            children: [
+              adminScreenHeader(
+                context,
+                title: l10n.adminDrawerRepositories,
+                subtitle: l10n.adminReposEmptySubtitle,
+                icon: Icons.source_outlined,
+              ),
+              const SizedBox(height: AppSpacing.spaceXl),
+              Center(
+                child: Icon(
                   Icons.source,
                   size: 48,
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  AppLocalizations.of(context).adminReposEmpty,
-                  style: theme.textTheme.titleMedium,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  AppLocalizations.of(context).adminReposEmptySubtitle,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           )
         else
-          ListView.builder(
-            padding: EdgeInsets.only(bottom: listBottomPadding),
-            itemCount: repos.length,
-            itemBuilder: (context, index) {
-              final repo = repos[index];
-              return _RepositoryTile(
-                repo: repo,
-                onEdit: () => _editRepository(index, repo),
-                onRemove: () => _removeRepository(index, repo),
-                onToggle: () => _toggleRepository(index),
-              );
-            },
+          ListView(
+            padding: EdgeInsets.fromLTRB(16, 20, 16, listBottomPadding),
+            children: [
+              adminScreenHeader(
+                context,
+                title: l10n.adminDrawerRepositories,
+                icon: Icons.source_outlined,
+              ),
+              adminGlassGroup(
+                context,
+                children: [
+                  for (var index = 0; index < repos.length; index++)
+                    _RepositoryTile(
+                      repo: repos[index],
+                      onEdit: () => _editRepository(index, repos[index]),
+                      onRemove: () => _removeRepository(index, repos[index]),
+                      onToggle: () => _toggleRepository(index),
+                    ),
+                ],
+              ),
+            ],
           ),
         if (_saving) const Center(child: CircularProgressIndicator()),
         Positioned(
@@ -315,20 +322,17 @@ class _RepositoryDialogState extends State<_RepositoryDialog> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).name,
-                hintText: AppLocalizations.of(context).adminRepositoryNameHint,
-                border: OutlineInputBorder(),
+              decoration: adminInputDecoration(
+                label: AppLocalizations.of(context).name,
+                hint: AppLocalizations.of(context).adminRepositoryNameHint,
               ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _urlController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).adminRepositoryUrl,
-                hintText:
-                    'https://repo.jellyfin.org/files/plugin/manifest.json',
-                border: OutlineInputBorder(),
+              decoration: adminInputDecoration(
+                label: AppLocalizations.of(context).adminRepositoryUrl,
+                hint: 'https://repo.jellyfin.org/files/plugin/manifest.json',
               ),
               keyboardType: TextInputType.url,
             ),

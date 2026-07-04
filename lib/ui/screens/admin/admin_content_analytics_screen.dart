@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../l10n/app_localizations.dart';
 import 'libraries/admin_libraries_screen.dart';
 import 'providers/admin_media_analytics_provider.dart';
+import 'widgets/admin_form_styles.dart';
 import 'widgets/admin_media_summary_section.dart';
 
 class AdminContentAnalyticsScreen extends ConsumerStatefulWidget {
@@ -112,8 +113,13 @@ class _AdminContentAnalyticsScreenState
     );
 
     return ListView(
-      padding: EdgeInsets.fromLTRB(16, 16, 16, bottomInset),
+      padding: EdgeInsets.fromLTRB(16, 20, 16, bottomInset),
       children: [
+        adminScreenHeader(
+          context,
+          title: l10n.adminDrawerAnalytics,
+          icon: Icons.insights_outlined,
+        ),
         _LibraryTabGrid(
           tabs: tabs,
           selectedKey: activeTabKey,

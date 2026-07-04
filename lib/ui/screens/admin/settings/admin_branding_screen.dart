@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:moonfin_design/moonfin_design.dart';
 import 'package:server_core/server_core.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../widgets/admin_form_styles.dart';
 
 class AdminBrandingScreen extends StatefulWidget {
   const AdminBrandingScreen({super.key});
@@ -89,56 +91,54 @@ class _AdminBrandingScreenState extends State<AdminBrandingScreen> {
       );
     }
 
+    final bottomSafe = MediaQuery.of(context).padding.bottom;
+
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(16, 20, 16, bottomSafe + 40),
       children: [
-        Text(l10n.adminBrandingTitle, style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: 24),
+        adminScreenHeader(
+          context,
+          title: l10n.adminBrandingTitle,
+          icon: Icons.brush_outlined,
+        ),
+        adminSectionLabel(context, l10n.adminBrandingLoginDisclaimer,
+            icon: Icons.gavel_outlined),
         TextFormField(
           initialValue: _config!['LoginDisclaimer']?.toString() ?? '',
-          decoration: InputDecoration(
-            labelText: l10n.adminBrandingLoginDisclaimer,
-            hintText: l10n.adminBrandingLoginDisclaimerHint,
-            border: const OutlineInputBorder(),
-            alignLabelWithHint: true,
+          decoration: adminInputDecoration(
+            label: l10n.adminBrandingLoginDisclaimer,
+            hint: l10n.adminBrandingLoginDisclaimerHint,
           ),
           maxLines: 5,
           onChanged: (v) => _config!['LoginDisclaimer'] = v,
         ),
-        const SizedBox(height: 16),
+        adminSectionLabel(context, l10n.adminBrandingCustomCss,
+            icon: Icons.code),
         TextFormField(
           initialValue: _config!['CustomCss']?.toString() ?? '',
-          decoration: InputDecoration(
-            labelText: l10n.adminBrandingCustomCss,
-            hintText: l10n.adminBrandingCustomCssHint,
-            border: const OutlineInputBorder(),
-            alignLabelWithHint: true,
+          decoration: adminInputDecoration(
+            label: l10n.adminBrandingCustomCss,
+            hint: l10n.adminBrandingCustomCssHint,
           ),
           maxLines: 10,
           style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
           onChanged: (v) => _config!['CustomCss'] = v,
         ),
-        const SizedBox(height: 16),
-        SwitchListTile.adaptive(
-          title: Text(l10n.adminBrandingEnableSplash),
-          value: _config!['SplashscreenEnabled'] as bool? ?? false,
-          onChanged: (v) =>
-              setState(() => _config!['SplashscreenEnabled'] = v),
+        adminSection(
+          context,
+          title: l10n.adminBrandingEnableSplash,
+          icon: Icons.image_outlined,
+          children: [
+            adminSwitchRow(
+              title: l10n.adminBrandingEnableSplash,
+              value: _config!['SplashscreenEnabled'] as bool? ?? false,
+              onChanged: (v) =>
+                  setState(() => _config!['SplashscreenEnabled'] = v),
+            ),
+          ],
         ),
-        const SizedBox(height: 24),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: FilledButton(
-            onPressed: _saving ? null : _save,
-            child: _saving
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(l10n.save),
-          ),
-        ),
+        const SizedBox(height: AppSpacing.spaceXl),
+        adminSaveButton(label: l10n.save, saving: _saving, onPressed: _save),
       ],
     );
   }

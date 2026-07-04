@@ -10,6 +10,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../navigation/destinations.dart';
 import 'providers/admin_media_analytics_provider.dart';
 import 'providers/admin_status_providers.dart';
+import 'widgets/admin_form_styles.dart';
 import 'widgets/admin_media_summary_section.dart';
 import 'widgets/server_info_card.dart';
 import 'widgets/server_paths_card.dart';
@@ -205,6 +206,11 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           controller: _scrollController,
           padding: const EdgeInsets.all(16),
           children: [
+            adminScreenHeader(
+              context,
+              title: l10n.adminDrawerDashboard,
+              icon: Icons.dashboard,
+            ),
             if (notificationSummary.valueOrNull case final summary?
                 when summary.count > 0) ...[
               _AdminAttentionCard(summary: summary),

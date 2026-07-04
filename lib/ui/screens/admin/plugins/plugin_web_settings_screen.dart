@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:moonfin_design/moonfin_design.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../l10n/app_localizations.dart';
 import '../../../../util/platform_detection.dart';
+import '../widgets/admin_form_styles.dart';
 
 class PluginWebSettingsScreen extends StatefulWidget {
   final Uri configurationPageUri;
@@ -458,17 +458,9 @@ class _PluginWebSettingsScreenState extends State<PluginWebSettingsScreen> {
             controller: _addressController,
             textInputAction: TextInputAction.go,
             onSubmitted: (_) => _goToAddress(),
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: l10n.address,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 10,
-              ),
-              prefixIcon: const Icon(Icons.language, size: 18),
-              border: OutlineInputBorder(
-                borderRadius: AppRadius.circular(14),
-              ),
+            decoration: adminInputDecoration(
+              hint: l10n.address,
+              suffixIcon: const Icon(Icons.language, size: 18),
             ),
           );
 
