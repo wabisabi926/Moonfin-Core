@@ -190,17 +190,21 @@ class _AdminPluginDetailScreenState
     return '${client.baseUrl}/Plugins/${plugin.id}/${plugin.version}/Image';
   }
 
+  /// Server base URL without a trailing slash. String concatenation (rather
+  /// than `Uri.resolve('/...')`) preserves any reverse-proxy base path such as
+  /// `https://host/jellyfin`.
+  String get _webBaseUrl {
+    final base = GetIt.instance<MediaServerClient>().baseUrl;
+    return base.endsWith('/') ? base.substring(0, base.length - 1) : base;
+  }
+
   Uri _pluginHtmlSettingsUri(String configPageName) {
-    final client = GetIt.instance<MediaServerClient>();
-    final base = client.baseUrl.endsWith('/')
-        ? client.baseUrl.substring(0, client.baseUrl.length - 1)
-        : client.baseUrl;
     // Load the config page through the jellyfin-web app (legacy hash route) so
     // it renders inside the styled shell. The explicit index.html keeps the
     // path distinct from the bootstrap page (/web/) so the credential-priming
     // location.replace performs a real navigation instead of a hash-only change.
     final encoded = Uri.encodeComponent(configPageName);
-    return Uri.parse('$base/web/index.html#!/configurationpage?name=$encoded');
+    return Uri.parse('$_webBaseUrl/web/index.html#!/configurationpage?name=$encoded');
   }
 
   Future<String?> _resolveConfigurationPageName(PluginInfo plugin) async {
@@ -210,7 +214,7 @@ class _AdminPluginDetailScreenState
       return null;
     }
 
-    final uri = Uri.parse(client.baseUrl).resolve('/web/ConfigurationPages');
+    final uri = Uri.parse('$_webBaseUrl/web/ConfigurationPages');
     final httpClient = HttpClient();
     try {
       final request = await httpClient.getUrl(uri);
