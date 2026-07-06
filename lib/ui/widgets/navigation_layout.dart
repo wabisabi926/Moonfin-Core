@@ -53,6 +53,10 @@ class NavigationLayout extends StatefulWidget {
   );
   static final focusDetailsPlayButtonNotifier = ValueNotifier<FocusNode?>(null);
 
+  /// True while a media-bar trailer is playing; the toolbar and sidebar fade
+  /// out on TV. Focusing chrome cancels the trailer, which fades them back in.
+  static final trailerImmersiveNotifier = ValueNotifier<bool>(false);
+
   const NavigationLayout({
     super.key,
     this.activeRoute,
@@ -189,16 +193,24 @@ class _NavigationLayoutState extends State<NavigationLayout> with WidgetsBinding
       skipTraversal: true,
       child: widget.child,
     );
-    final toolbar = AnimatedOpacity(
-      opacity: widget.showNavigationChrome ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 200),
-      child: IgnorePointer(
-        ignoring: !widget.showNavigationChrome,
-        child: TopToolbar(
-          activeRoute: widget.activeRoute,
-          showBackButton: widget.showBackButton,
-          contentFocusNode: _contentFocusNode,
-        ),
+    final toolbar = ValueListenableBuilder<bool>(
+      valueListenable: NavigationLayout.trailerImmersiveNotifier,
+      builder: (context, trailerImmersive, child) {
+        final show = widget.showNavigationChrome &&
+            !(trailerImmersive && PlatformDetection.isTV);
+        return AnimatedOpacity(
+          opacity: show ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 200),
+          child: IgnorePointer(
+            ignoring: !show,
+            child: child,
+          ),
+        );
+      },
+      child: TopToolbar(
+        activeRoute: widget.activeRoute,
+        showBackButton: widget.showBackButton,
+        contentFocusNode: _contentFocusNode,
       ),
     );
     final maxTranslate = TopToolbar.heightFor(context);
@@ -278,16 +290,24 @@ class _NavigationLayoutState extends State<NavigationLayout> with WidgetsBinding
       child: widget.child,
     );
 
-    final sidebar = AnimatedOpacity(
-      opacity: widget.showNavigationChrome ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 200),
-      child: IgnorePointer(
-        ignoring: !widget.showNavigationChrome,
-        child: LeftSidebar(
-          activeRoute: widget.activeRoute,
-          contentFocusNode: _contentFocusNode,
-          showBackButton: widget.showBackButton,
-        ),
+    final sidebar = ValueListenableBuilder<bool>(
+      valueListenable: NavigationLayout.trailerImmersiveNotifier,
+      builder: (context, trailerImmersive, child) {
+        final show = widget.showNavigationChrome &&
+            !(trailerImmersive && PlatformDetection.isTV);
+        return AnimatedOpacity(
+          opacity: show ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 200),
+          child: IgnorePointer(
+            ignoring: !show,
+            child: child,
+          ),
+        );
+      },
+      child: LeftSidebar(
+        activeRoute: widget.activeRoute,
+        contentFocusNode: _contentFocusNode,
+        showBackButton: widget.showBackButton,
       ),
     );
 
