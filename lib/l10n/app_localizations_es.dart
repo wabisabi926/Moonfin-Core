@@ -950,6 +950,27 @@ class AppLocalizationsEs extends AppLocalizations {
   String get extras => 'Extras';
 
   @override
+  String get behindTheScenes => 'Behind the Scenes';
+
+  @override
+  String get deletedScenes => 'Deleted Scenes';
+
+  @override
+  String get featurettes => 'Featurettes';
+
+  @override
+  String get interviews => 'Interviews';
+
+  @override
+  String get scenes => 'Scenes';
+
+  @override
+  String get shorts => 'Shorts';
+
+  @override
+  String get trailers => 'Remolques';
+
+  @override
   String timeRemaining(String time) {
     return '$time remaining';
   }
@@ -8119,9 +8140,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get videos => 'Vídeos';
 
   @override
-  String get trailers => 'Remolques';
-
-  @override
   String get programs => 'Programas';
 
   @override
@@ -9743,6 +9761,9 @@ class AppLocalizationsEs419 extends AppLocalizationsEs {
   String endsAt(String time) {
     return 'Termina en $time';
   }
+
+  @override
+  String get trailers => 'Remolques';
 
   @override
   String endsIn(String time) {
@@ -16902,9 +16923,6 @@ class AppLocalizationsEs419 extends AppLocalizationsEs {
   String get videos => 'Vídeos';
 
   @override
-  String get trailers => 'Remolques';
-
-  @override
   String get programs => 'Programas';
 
   @override
@@ -18234,6 +18252,9 @@ class AppLocalizationsEsAr extends AppLocalizationsEs {
   String endsAt(String time) {
     return 'Termina en $time';
   }
+
+  @override
+  String get trailers => 'Remolques';
 
   @override
   String endsIn(String time) {
@@ -25382,9 +25403,6 @@ class AppLocalizationsEsAr extends AppLocalizationsEs {
 
   @override
   String get videos => 'Vídeos';
-
-  @override
-  String get trailers => 'Remolques';
 
   @override
   String get programs => 'Programas';
@@ -26718,6 +26736,9 @@ class AppLocalizationsEsDo extends AppLocalizationsEs {
   }
 
   @override
+  String get trailers => 'Remolques';
+
+  @override
   String endsIn(String time) {
     return '';
   }
@@ -33864,9 +33885,6 @@ class AppLocalizationsEsDo extends AppLocalizationsEs {
 
   @override
   String get videos => 'Vídeos';
-
-  @override
-  String get trailers => 'Remolques';
 
   @override
   String get programs => 'Programas';
@@ -35200,6 +35218,9 @@ class AppLocalizationsEsMx extends AppLocalizationsEs {
   }
 
   @override
+  String get trailers => 'Remolques';
+
+  @override
   String endsIn(String time) {
     return '';
   }
@@ -42346,9 +42367,6 @@ class AppLocalizationsEsMx extends AppLocalizationsEs {
 
   @override
   String get videos => 'Vídeos';
-
-  @override
-  String get trailers => 'Remolques';
 
   @override
   String get programs => 'Programas';

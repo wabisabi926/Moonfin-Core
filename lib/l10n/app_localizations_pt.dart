@@ -947,6 +947,27 @@ class AppLocalizationsPt extends AppLocalizations {
   String get extras => 'Extras';
 
   @override
+  String get behindTheScenes => 'Behind the Scenes';
+
+  @override
+  String get deletedScenes => 'Deleted Scenes';
+
+  @override
+  String get featurettes => 'Featurettes';
+
+  @override
+  String get interviews => 'Interviews';
+
+  @override
+  String get scenes => 'Scenes';
+
+  @override
+  String get shorts => 'Shorts';
+
+  @override
+  String get trailers => 'Reboques';
+
+  @override
   String timeRemaining(String time) {
     return '$time remaining';
   }
@@ -8098,9 +8119,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get videos => 'Vídeos';
 
   @override
-  String get trailers => 'Reboques';
-
-  @override
   String get programs => 'Programas';
 
   @override
@@ -9716,6 +9734,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String endsAt(String time) {
     return 'Termina em $time';
   }
+
+  @override
+  String get trailers => 'Trailers';
 
   @override
   String endsIn(String time) {
@@ -16818,9 +16839,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get videos => 'Videos';
 
   @override
-  String get trailers => 'Trailers';
-
-  @override
   String get programs => 'Programas';
 
   @override
@@ -18143,6 +18161,9 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   String endsAt(String time) {
     return 'Termina em $time';
   }
+
+  @override
+  String get trailers => 'Trailers';
 
   @override
   String endsIn(String time) {
@@ -25264,9 +25285,6 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
 
   @override
   String get videos => 'Vídeos';
-
-  @override
-  String get trailers => 'Trailers';
 
   @override
   String get programs => 'Programas';
