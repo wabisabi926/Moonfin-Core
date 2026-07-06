@@ -125,6 +125,20 @@ object Media3Bridge {
         }
     }
 
+    // Only drops the sink if this caller still owns it. Secondary FlutterEngines
+    // in the process, like WatchNextWorker's background engine, also register
+    // NativeVideoPlugin, and their teardown must not sever the foreground engine's
+    // event stream. That froze the player OSD while ExoPlayer kept playing. This
+    // guards clearing only; a background isolate must never register the playback
+    // module and open its own sink.
+    fun clearEventSink(sink: EventChannel.EventSink?) {
+        mainHandler.post {
+            if (eventSink === sink) {
+                eventSink = null
+            }
+        }
+    }
+
     fun emitEvent(event: Map<String, Any?>) {
         mainHandler.post {
             eventSink?.success(event)

@@ -883,6 +883,11 @@ class Media3PlayerBackend extends PlayerBackend {
   @override
   bool get nativelyHandlesStartPosition => true;
 
+  // ExoPlayer is built with setAudioAttributes(attrs, handleAudioFocus = true),
+  // so the native player owns Android audio focus for this backend.
+  @override
+  bool get managesAudioFocus => true;
+
   @override
   bool get canRenderBitmapSubtitles => true;
 

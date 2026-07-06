@@ -456,8 +456,12 @@ Future<void> _initDeferredStartupServices(UserPreferences prefs) async {
   } catch (_) {}
 
   // Audio session ownership differs per platform:
-  // - Android: the audio_session package configures and activates the session for
-  //   the foreground media notification.
+  // - Android: MoonfinAudioHandler acquires audio focus per playback, and skips
+  //   it when the backend manages focus itself like media3. We only configure
+  //   the attributes here so the becomingNoisy handler below can pause on
+  //   headphone unplug. We deliberately do not setActive(true) at startup: that
+  //   focus grab goes stale before playback begins, which left Android Auto
+  //   music muted, and it fights ExoPlayer's own focus.
   // - iOS: MoonfinAudioHandler claims a non-mixing `.playback` session when
   //   playback starts and releases it on stop, so the in-app player owns Control
   //   Center / lock-screen Now Playing and AirPods/remote controls. Here we only
@@ -471,7 +475,6 @@ Future<void> _initDeferredStartupServices(UserPreferences prefs) async {
           usage: AndroidAudioUsage.media,
         ),
       ));
-      await session.setActive(true);
       session.becomingNoisyEventStream.listen((_) {
         GetIt.instance<PlaybackManager>().pause();
       });
