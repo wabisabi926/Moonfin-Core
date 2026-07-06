@@ -3245,6 +3245,8 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       );
     }
 
+    final selectedSource = selectedMediaSourceForItem(item, widget.selectedMediaSourceId);
+
     final Column childrenCol = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: hasUpNext ? MainAxisSize.max : MainAxisSize.min,
@@ -3316,7 +3318,6 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                   if (item.mediaSources.length > 1) ...[
                     const SizedBox(width: 16),
                     () {
-                      final selectedSource = selectedMediaSourceForItem(item, widget.selectedMediaSourceId);
                       final versionName = selectedSource?['Name'] as String? ?? 'Default';
                       return Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -3356,7 +3357,6 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                 if (item.mediaSources.length > 1) ...[
                   const SizedBox(width: 16),
                   () {
-                    final selectedSource = selectedMediaSourceForItem(item, widget.selectedMediaSourceId);
                     final versionName = selectedSource?['Name'] as String? ?? 'Default';
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -3382,7 +3382,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
             ),
           ],
           const SizedBox(height: 6),
-          _metadataRow(context, item),
+          _metadataRow(context, item, selectedSource),
           if (showRatings) ...[
             const SizedBox(height: 6),
             RatingsRow(
@@ -3487,7 +3487,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     return childrenCol;
   }
 
-  Widget _metadataRow(BuildContext context, AggregatedItem item) {
+  Widget _metadataRow(BuildContext context, AggregatedItem item, Map<String, dynamic>? selectedMediaSource) {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
     final muted = AppColorScheme.onSurface.withValues(alpha: 0.75);
@@ -3543,7 +3543,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     if (item.type == 'Series' && status != null && status.isNotEmpty) {
       pieces.add(_statusBadge(context, status));
     }
-    var runtime = item.runtime;
+    var runtime = _runtimeForItem(item, selectedMediaSource);
     if (runtime == null && item.type == 'Season' && _vm.episodes.isNotEmpty) {
       var totalMs = 0;
       for (final ep in _vm.episodes) {
@@ -3569,8 +3569,13 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       if (remaining.isNegative || remaining == Duration.zero) {
         remaining = runtime;
       }
-      final end = DateTime.now().add(remaining);
-      addText(l10n.endsAt(TimeOfDay.fromDateTime(end).format(context)));
+      final use24 = GetIt.instance<UserPreferences>().get(
+        UserPreferences.use24HourClock,
+      );
+      final end = _endsAt(item, runtime, use24Hour: use24);
+      if (end != null && item.type != 'Series') {
+        addText(l10n.endsAt(end));
+      }
     }
     if (item.genres.isNotEmpty) {
       addText(item.genres.take(3).join(' · '));
@@ -3982,6 +3987,8 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
         ? false
         : (_vm.ratings.isNotEmpty || item.communityRating != null || item.criticRating != null);
 
+    final selectedSource = selectedMediaSourceForItem(item, widget.selectedMediaSourceId);
+
     final Widget? aboveHeroWidget = (_landscape && upNext != null)
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -4002,7 +4009,6 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                     if (item.mediaSources.length > 1) ...[
                       const SizedBox(width: 16),
                       () {
-                        final selectedSource = selectedMediaSourceForItem(item, widget.selectedMediaSourceId);
                         final versionName = selectedSource?['Name'] as String? ?? 'Default';
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -4039,7 +4045,6 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                     if (item.mediaSources.length > 1) ...[
                       const SizedBox(width: 16),
                       () {
-                        final selectedSource = selectedMediaSourceForItem(item, widget.selectedMediaSourceId);
                         final versionName = selectedSource?['Name'] as String? ?? 'Default';
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -4065,7 +4070,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                 ),
                 const SizedBox(height: 6),
               ],
-              _metadataRow(context, item),
+              _metadataRow(context, item, selectedSource),
               if (showRatings) ...[
                 const SizedBox(height: 6),
                 RatingsRow(
@@ -4238,6 +4243,45 @@ class _DetailsContainerState extends State<_DetailsContainer> with FocusStateMix
       ),
     );
   }
+}
+
+Duration? _runtimeForItem(
+  AggregatedItem item,
+  Map<String, dynamic>? mediaSource,
+) {
+  final ticks = mediaSource?['RunTimeTicks'];
+  if (ticks is num && ticks > 0) {
+    return Duration(microseconds: (ticks ~/ 10));
+  }
+  return item.runtime;
+}
+
+String? _endsAt(
+  AggregatedItem item,
+  Duration? runtime, {
+  required bool use24Hour,
+}) {
+  if (runtime == null) {
+    return null;
+  }
+  final percentage = item.playedPercentage;
+  final Duration left;
+  if (percentage != null && percentage > 0) {
+    left = Duration(
+      microseconds: (runtime.inMicroseconds * (1.0 - percentage / 100.0)).round(),
+    );
+  } else {
+    left = runtime;
+  }
+  final end = DateTime.now().add(left);
+  final hour = end.hour;
+  final minute = end.minute.toString().padLeft(2, '0');
+  if (use24Hour) {
+    return '${hour.toString().padLeft(2, '0')}:$minute';
+  }
+  final amPm = hour >= 12 ? 'PM' : 'AM';
+  final h12 = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
+  return '$h12:$minute $amPm';
 }
 
 const extraCategoriesOrder = [
