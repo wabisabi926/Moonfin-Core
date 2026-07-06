@@ -2565,33 +2565,38 @@ class RowDataSource {
   }
 
   bool _isSequelOrSimilarTitle(String titleA, String titleB) {
-    String normalize(String s) => s
+    const stopWords = {'the', 'and', 'with', 'from', 'under', 'over', 'about', 'chapter', 'part', 'movie', 'film'};
+
+    List<String> keyWords(String s) => s
         .toLowerCase()
         .replaceAll(RegExp(r'[^\w\s]'), ' ')
-        .replaceAll(RegExp(r'\s+'), ' ')
-        .trim();
+        .split(RegExp(r'\s+'))
+        .where((w) => w.length >= 4 && !stopWords.contains(w))
+        .toList();
 
-    final a = normalize(titleA);
-    final b = normalize(titleB);
+    final a = keyWords(titleA);
+    final b = keyWords(titleB);
     if (a.isEmpty || b.isEmpty) return false;
 
-    final shorter = a.length <= b.length ? a : b;
-    final longer = a.length <= b.length ? b : a;
+    final setA = a.toSet();
+    final setB = b.toSet();
 
-    // Real sequels tend to extend the base title, like "Iron Man" to
-    // "Iron Man 2" or "The Dark Knight" to "The Dark Knight Rises".
-    if (longer == shorter || longer.startsWith('$shorter ')) return true;
+    // If one title's meaningful words all show up in the other, call it related.
+    // That catches "Predator" and "The Predator", "Iron Man" and "Iron Man 2",
+    // or "The Dark Knight" and "The Dark Knight Rises", while a single word
+    // shared between "Dark Knight" and "Dark Waters" is not enough.
+    if (setA.containsAll(setB) || setB.containsAll(setA)) return true;
 
-    // Otherwise only count it when every meaningful word of the shorter title
-    // shows up in the longer one, so a single shared word like "dark" is not enough.
-    const stopWords = {'the', 'and', 'with', 'from', 'under', 'over', 'about', 'chapter', 'part', 'movie', 'film'};
-    Set<String> significant(String s) => s
-        .split(' ')
-        .where((w) => w.length >= 4 && !stopWords.contains(w))
-        .toSet();
+    // A single subject word that only differs by a short suffix, so pluralized
+    // sequels like "Alien" and "Aliens" or "Predator" and "Predators" still
+    // count without matching something unrelated like "Alien" and "Alienist".
+    if (setA.length == 1 && setB.length == 1) {
+      final short = a.first.length <= b.first.length ? a.first : b.first;
+      final long = a.first.length <= b.first.length ? b.first : a.first;
+      return long.startsWith(short) && long.length - short.length <= 2;
+    }
 
-    final wordsShort = significant(shorter);
-    return wordsShort.length >= 2 && significant(longer).containsAll(wordsShort);
+    return false;
   }
 }
 
