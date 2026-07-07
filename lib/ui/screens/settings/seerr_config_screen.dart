@@ -13,6 +13,7 @@ import '../../../preference/preference_constants.dart';
 import '../../../preference/seerr_preferences.dart';
 import '../../../preference/seerr_row_config.dart';
 import '../../../preference/user_preferences.dart';
+import '../../../util/extensions.dart';
 import '../../../util/focus/dpad_keys.dart';
 import '../../../util/platform_detection.dart';
 import 'package:moonfin_design/moonfin_design.dart';
@@ -51,7 +52,19 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
     super.initState();
     _syncService = GetIt.instance<PluginSyncService>();
     _seerrPrefs = GetIt.instance<SeerrPreferences>();
-    _rows = List.of(_seerrPrefs.rowsConfig);
+    _rows = List.of(_seerrPrefs.rowsConfig)..sort((a, b) => a.order.compareTo(b.order));
+    final beforeTypes = _rows.map((r) => r.type).toList();
+    _sortRowsEnabledAboveDisabled();
+    var orderChanged = false;
+    for (var i = 0; i < beforeTypes.length; i++) {
+      if (beforeTypes[i] != _rows[i].type) {
+        orderChanged = true;
+        break;
+      }
+    }
+    if (orderChanged) {
+      _saveRows();
+    }
     _rebuildFocusNodes();
     _syncService.addListener(_onSyncStateChanged);
     _loadSeerrStatus(showLoading: true);
@@ -104,7 +117,8 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
   void _onSyncStateChanged() {
     if (!mounted) return;
     setState(() {
-      _rows = List.of(_seerrPrefs.rowsConfig);
+      _rows = List.of(_seerrPrefs.rowsConfig)..sort((a, b) => a.order.compareTo(b.order));
+      _sortRowsEnabledAboveDisabled();
       _rebuildFocusNodes();
     });
     _loadSeerrStatus();
@@ -234,9 +248,68 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
     await _loadSeerrStatus(showLoading: true);
   }
 
+  void _sortRowsEnabledAboveDisabled() {
+    _rows = _rows.sortedEnabledAboveDisabled((r) => r.enabled);
+  }
+
+  void _toggleSeerrRow(int index, bool enabled) {
+    final nodeMap = <SeerrRowType, FocusNode>{};
+    for (var i = 0; i < _rows.length; i++) {
+      nodeMap[_rows[i].type] = _focusNodes[i];
+    }
+
+    setState(() {
+      _rows[index] = _rows[index].copyWith(enabled: enabled);
+      _sortRowsEnabledAboveDisabled();
+
+      final newNodes = <FocusNode>[];
+      for (final row in _rows) {
+        final node = nodeMap[row.type];
+        if (node != null) {
+          newNodes.add(node);
+        } else {
+          newNodes.add(FocusNode(debugLabel: 'seerr_row_new'));
+        }
+      }
+      _focusNodes.clear();
+      _focusNodes.addAll(newNodes);
+    });
+
+    _saveRows();
+
+    final targetIndex = index.clamp(0, _rows.length - 1);
+    _focusRowAndEnsureVisible(targetIndex);
+  }
+
+  void _focusRowAndEnsureVisible(int index, {int attempt = 0}) {
+    if (!mounted || index < 0 || index >= _focusNodes.length) return;
+    final node = _focusNodes[index];
+    if (!node.hasFocus) {
+      node.requestFocus();
+    }
+
+    final targetContext = _focusNodes[index].context;
+    if (targetContext != null) {
+      Scrollable.ensureVisible(
+        targetContext,
+        duration: const Duration(milliseconds: 140),
+        curve: Curves.easeOut,
+        alignment: 0.5,
+        alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
+      );
+      return;
+    }
+
+    if (attempt >= 3) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusRowAndEnsureVisible(index, attempt: attempt + 1);
+    });
+  }
+
   Future<void> _resetRows() async {
     setState(() {
       _rows = SeerrRowConfig.defaults();
+      _sortRowsEnabledAboveDisabled();
       _rebuildFocusNodes();
     });
     await _saveRows();
@@ -470,12 +543,7 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
                 const Icon(Icons.arrow_right, size: 18),
             ],
           ),
-          onToggle: (enabled) {
-            setState(() {
-              _rows[rowIndex] = row.copyWith(enabled: enabled);
-            });
-            _saveRows();
-          },
+          onToggle: (enabled) => _toggleSeerrRow(rowIndex, enabled),
           onMoveUp: () => _moveSeerrRowTo(rowIndex, rowIndex - 1),
           onMoveDown: () => _moveSeerrRowTo(rowIndex, rowIndex + 1),
         );
@@ -535,12 +603,7 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
                           color: colorScheme.onSurfaceVariant,
                         ),
                       ),
-                onToggle: (enabled) {
-                  setState(() {
-                    _rows[rowIndex] = row.copyWith(enabled: enabled);
-                  });
-                  _saveRows();
-                },
+                onToggle: (enabled) => _toggleSeerrRow(rowIndex, enabled),
                 onMoveUp: () => _moveSeerrRowTo(rowIndex, rowIndex - 1),
                 onMoveDown: () => _moveSeerrRowTo(rowIndex, rowIndex + 1),
               );
@@ -1535,8 +1598,8 @@ class _SeerrReorderableTileState extends State<_SeerrReorderableTile> {
         context,
         duration: const Duration(milliseconds: 120),
         curve: Curves.easeOut,
-        alignment: 0.2,
-        alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+        alignment: 0.5,
+        alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
       );
     });
   }
