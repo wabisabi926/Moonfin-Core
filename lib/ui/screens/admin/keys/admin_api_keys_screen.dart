@@ -5,6 +5,7 @@ import 'package:server_core/server_core.dart';
 
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/adaptive/adaptive_dialog.dart';
+import '../widgets/admin_form_styles.dart';
 
 class AdminApiKeysScreen extends StatefulWidget {
   const AdminApiKeysScreen({super.key});
@@ -94,10 +95,7 @@ class _AdminApiKeysScreenState extends State<AdminApiKeysScreen> {
         content: TextField(
           controller: controller,
           autofocus: true,
-          decoration: InputDecoration(
-            labelText: l10n.adminAppName,
-            border: const OutlineInputBorder(),
-          ),
+          decoration: adminInputDecoration(label: l10n.adminAppName),
           onSubmitted: (value) => Navigator.pop(ctx, value.trim()),
         ),
         actions: [
@@ -248,9 +246,10 @@ class _AdminApiKeysScreenState extends State<AdminApiKeysScreen> {
           child: Row(
             children: [
               Expanded(
-                child: Text(
-                  l10n.adminApiKeysTitle,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                child: adminScreenHeader(
+                  context,
+                  title: l10n.adminApiKeysTitle,
+                  icon: Icons.vpn_key_outlined,
                 ),
               ),
               FilledButton.icon(
@@ -261,33 +260,35 @@ class _AdminApiKeysScreenState extends State<AdminApiKeysScreen> {
             ],
           ),
         ),
-        const Divider(height: 1),
         Expanded(
           child: _keys.isEmpty
               ? Center(child: Text(l10n.adminNoApiKeys))
-              : ListView.separated(
-                  itemCount: _keys.length,
-                  separatorBuilder: (_, _) => const Divider(height: 1),
-                  itemBuilder: (context, index) {
-                    final item = _keys[index];
-                    final token = _keyToken(item);
-                    return ListTile(
-                      leading: const Icon(Icons.vpn_key),
-                      title: Text(_appName(item, l10n)),
-                      subtitle: Text(
-                        l10n.adminApiKeyTokenCreated(
-                          _masked(token),
-                          _createdAt(item, l10n),
-                        ),
-                      ),
-                      isThreeLine: true,
-                      trailing: IconButton(
-                        tooltip: l10n.revoke,
-                        icon: const Icon(Icons.delete_outline),
-                        onPressed: () => _revokeKey(item),
-                      ),
-                    );
-                  },
+              : ListView(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  children: [
+                    adminGlassGroup(
+                      context,
+                      children: [
+                        for (final item in _keys)
+                          ListTile(
+                            leading: const Icon(Icons.vpn_key),
+                            title: Text(_appName(item, l10n)),
+                            subtitle: Text(
+                              l10n.adminApiKeyTokenCreated(
+                                _masked(_keyToken(item)),
+                                _createdAt(item, l10n),
+                              ),
+                            ),
+                            isThreeLine: true,
+                            trailing: IconButton(
+                              tooltip: l10n.revoke,
+                              icon: const Icon(Icons.delete_outline),
+                              onPressed: () => _revokeKey(item),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
                 ),
         ),
       ],

@@ -4,6 +4,7 @@ import 'package:server_core/server_core.dart';
 
 import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/adaptive/adaptive_dialog.dart';
+import '../widgets/admin_form_styles.dart';
 
 Future<void> showRenameLibraryDialog(
   BuildContext context, {
@@ -18,10 +19,7 @@ Future<void> showRenameLibraryDialog(
       title: Text(l10n.adminRenameLibrary),
       content: TextField(
         controller: controller,
-        decoration: InputDecoration(
-          labelText: l10n.adminNewName,
-          border: const OutlineInputBorder(),
-        ),
+        decoration: adminInputDecoration(label: l10n.adminNewName),
         autofocus: true,
         onSubmitted: (v) => Navigator.of(ctx).pop(v.trim()),
       ),
