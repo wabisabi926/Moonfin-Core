@@ -8265,5 +8265,38 @@
   "impellerCloseNow": "Close app now",
   "@impellerCloseNow": {
     "description": "Button that closes the app so the new rendering engine takes effect on next launch."
+  },
+  "adminRefreshLibrary": "Refresh Library",
+  "@adminRefreshLibrary": {
+    "description": "Dropdown option to refresh/rescan a single library"
+  },
+  "adminRefreshAllLibraries": "Refresh All Libraries",
+  "@adminRefreshAllLibraries": {
+    "description": "Floating action button text to refresh all libraries"
+  },
+  "adminRepoSortDateOldest": "Date Added (Oldest First)",
+  "@adminRepoSortDateOldest": {
+    "description": "Repository sort option, oldest added first"
+  },
+  "adminRepoSortDateNewest": "Date Added (Newest First)",
+  "@adminRepoSortDateNewest": {
+    "description": "Repository sort option, newest added first"
+  },
+  "adminRepoSortNameAsc": "Alphabetical (A to Z)",
+  "@adminRepoSortNameAsc": {
+    "description": "Repository sort option, alphabetical ascending"
+  },
+  "adminRepoSortNameDesc": "Alphabetical (Z to A)",
+  "@adminRepoSortNameDesc": {
+    "description": "Repository sort option, alphabetical descending"
+  },
+  "adminAnalyticsLoadingProgress": "Loading Server Analytics... {percentage}%",
+  "@adminAnalyticsLoadingProgress": {
+    "description": "Progress label shown while server analytics load",
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -157,6 +157,14 @@ class AdminLibrariesScreen extends ConsumerWidget {
                                   _onAction(context, ref, value, lib),
                               itemBuilder: (_) => [
                                 PopupMenuItem(
+                                  value: 'refresh',
+                                  child: ListTile(
+                                    leading: const Icon(Icons.refresh),
+                                    title: Text(l10n.adminRefreshLibrary),
+                                    contentPadding: EdgeInsets.zero,
+                                  ),
+                                ),
+                                PopupMenuItem(
                                   value: 'edit',
                                   child: ListTile(
                                     leading: const Icon(Icons.edit),
@@ -192,18 +200,20 @@ class AdminLibrariesScreen extends ConsumerWidget {
                   },
                 ),
           Positioned(
+            left: 16,
             right: 16,
             bottom: actionsBottom,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            child: Wrap(
+              alignment: WrapAlignment.end,
+              spacing: 8,
+              runSpacing: 8,
               children: [
-                FloatingActionButton.small(
+                FloatingActionButton.extended(
                   heroTag: 'scan',
-                  tooltip: l10n.adminScanAllLibraries,
                   onPressed: () => _scanAll(context),
-                  child: const Icon(Icons.refresh),
+                  icon: const Icon(Icons.refresh),
+                  label: Text(l10n.adminRefreshAllLibraries),
                 ),
-                const SizedBox(height: 8),
                 FloatingActionButton.extended(
                   heroTag: 'add',
                   onPressed: () => context.push(Destinations.adminLibrariesAdd),
@@ -235,6 +245,8 @@ class AdminLibrariesScreen extends ConsumerWidget {
   void _onAction(
       BuildContext context, WidgetRef ref, String action, VirtualFolderInfo lib) {
     switch (action) {
+      case 'refresh':
+        _scanLibrary(context, lib);
       case 'edit':
         context.push(Destinations.adminLibrary(lib.itemId));
       case 'rename':
@@ -249,6 +261,26 @@ class AdminLibrariesScreen extends ConsumerWidget {
           libraryName: lib.name,
           onDeleted: () => ref.invalidate(adminLibrariesProvider),
         );
+    }
+  }
+
+  Future<void> _scanLibrary(BuildContext context, VirtualFolderInfo lib) async {
+    final l10n = AppLocalizations.of(context);
+    try {
+      await GetIt.instance<MediaServerClient>()
+          .adminItemsApi
+          .refreshItem(lib.itemId, recursive: true);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.adminLibraryScanStarted)),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.adminScanFailed(e.toString()))),
+        );
+      }
     }
   }
 
