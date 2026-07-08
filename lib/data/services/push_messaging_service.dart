@@ -32,7 +32,9 @@ class PushMessagingService {
 
     try {
       await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
+        options: PlatformDetection.isAndroid
+            ? null
+            : DefaultFirebaseOptions.currentPlatform,
       );
     } on FirebaseException catch (e) {
       // A duplicate-app error means Firebase was already initialized earlier in
