@@ -180,7 +180,6 @@ class MediaKitPlayerBackend extends PlayerBackend {
   final bool _hwDecodingEnabled;
   bool _didNotifyNativeHandle = false;
   bool _didConfigureAppleMobileLibassFont = false;
-  bool _didConfigureAndroidLibassFonts = false;
   Map<String, String>? _appliedAudioPassthroughProperties;
   bool _audioPassthroughApplyInProgress = false;
   bool _audioPassthroughApplyQueued = false;
@@ -331,6 +330,11 @@ class MediaKitPlayerBackend extends PlayerBackend {
       PlatformDetection.isAndroid ||
       PlatformDetection.isIOS;
 
+  // libass needs a font with CJK glyphs bundled or Asian subtitles show as
+  // tofu. The family name has to match the font's internal name.
+  static const String _libassFontAsset = 'assets/fonts/NotoSansCJK-Regular.otf';
+  static const String _libassFontFamily = 'Noto Sans CJK SC';
+
   static bool get _useNativeSurface => PlatformDetection.useNativeVideoSurface;
 
   MediaKitPlayerBackend._(
@@ -358,9 +362,11 @@ class MediaKitPlayerBackend extends PlayerBackend {
       configuration: PlayerConfiguration(
         libass: _useLibass,
         libassAndroidFont: PlatformDetection.isAndroid
-            ? 'assets/fonts/NotoSans-Regular.ttf'
+            ? _libassFontAsset
             : null,
-        libassAndroidFontName: PlatformDetection.isAndroid ? 'Noto Sans' : null,
+        libassAndroidFontName: PlatformDetection.isAndroid
+            ? _libassFontFamily
+            : null,
       ),
     );
     unawaited(player.setPlaylistMode(PlaylistMode.none));
@@ -538,7 +544,6 @@ class MediaKitPlayerBackend extends PlayerBackend {
 
     await _notifyNativeHandleReady();
     await _configureAppleMobileLibassFont();
-    await _configureAndroidLibassFonts();
     await _applyAudioPassthroughOptions();
     await _applyCustomMpvConfIfEnabled();
     await _applyAssOverrideMode();
@@ -1051,30 +1056,20 @@ class MediaKitPlayerBackend extends PlayerBackend {
       );
       await fontsDirectory.create(recursive: true);
 
-      final fontFile = File('${fontsDirectory.path}/NotoSans-Regular.ttf');
+      final fontFile = File(
+        '${fontsDirectory.path}/${_libassFontAsset.split('/').last}',
+      );
       if (!await fontFile.exists()) {
-        final data = await rootBundle.load('assets/fonts/NotoSans-Regular.ttf');
+        final data = await rootBundle.load(_libassFontAsset);
         await fontFile.writeAsBytes(data.buffer.asUint8List(), flush: true);
       }
 
       final native = _player.platform as NativePlayer;
       await _nativeSetProperty(native, 'sub-fonts-dir', fontsDirectory.path);
-      await _nativeSetProperty(native, 'sub-font', 'Noto Sans');
+      await _nativeSetProperty(native, 'sub-font', _libassFontFamily);
       await _nativeSetProperty(native, 'sub-ass', 'yes');
       await _nativeSetProperty(native, 'sub-visibility', 'yes');
       _didConfigureAppleMobileLibassFont = true;
-    } catch (_) {}
-  }
-
-  Future<void> _configureAndroidLibassFonts() async {
-    if (!PlatformDetection.isAndroid || _didConfigureAndroidLibassFonts) {
-      return;
-    }
-    if (_player.platform is! NativePlayer) return;
-    try {
-      final native = _player.platform as NativePlayer;
-      await _nativeSetProperty(native, 'sub-fonts-dir', '/system/fonts');
-      _didConfigureAndroidLibassFonts = true;
     } catch (_) {}
   }
 
