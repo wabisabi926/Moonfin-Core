@@ -2267,6 +2267,10 @@ class AppLocalizationsBe extends AppLocalizations {
   String get themeMusicVolume => 'Гучнасць тэматычнай музыкі';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8575,6 +8579,9 @@ class AppLocalizationsBe extends AppLocalizations {
 
   @override
   String get appearance => 'Знешні выгляд';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Памер карты';

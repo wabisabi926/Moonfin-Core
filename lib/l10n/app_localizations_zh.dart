@@ -2215,6 +2215,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get themeMusicVolume => '主题音乐音量';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8287,6 +8291,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get appearance => '外观';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => '首页行卡片尺寸';

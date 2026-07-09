@@ -4096,6 +4096,12 @@ abstract class AppLocalizations {
   /// **'Theme Music Volume'**
   String get themeMusicVolume;
 
+  /// Subtitle for the Theme Music settings sub-category tile
+  ///
+  /// In en, this message translates to:
+  /// **'Detail pages, home rows, and volume'**
+  String get themeMusicSettingsSubtitle;
+
   /// Percentage display
   ///
   /// In en, this message translates to:
@@ -14089,7 +14095,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsGeneralStyleSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Theme accents, backdrops, watched indicators, and theme music'**
+  /// **'Theme accents, backdrops, and watched indicators'**
   String get settingsGeneralStyleSubtitle;
 
   /// No description provided for @settingsHomePage.
@@ -15297,6 +15303,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Appearance'**
   String get appearance;
+
+  /// No description provided for @layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Layout'**
+  String get layout;
 
   /// No description provided for @cardSize.
   ///

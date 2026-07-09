@@ -2263,6 +2263,10 @@ class AppLocalizationsEo extends AppLocalizations {
   String get themeMusicVolume => 'Temo Muzika Volumo';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8535,6 +8539,9 @@ class AppLocalizationsEo extends AppLocalizations {
 
   @override
   String get appearance => 'Aspekto';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Karto Grandeco';

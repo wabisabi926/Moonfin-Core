@@ -3195,6 +3195,10 @@
   "@themeMusicVolume": {
     "description": "Setting for theme music volume"
   },
+  "themeMusicSettingsSubtitle": "Detail pages, home rows, and volume",
+  "@themeMusicSettingsSubtitle": {
+    "description": "Subtitle for the Theme Music settings sub-category tile"
+  },
   "percentValue": "{value}%",
   "@percentValue": {
     "description": "Percentage display",
@@ -7509,7 +7513,7 @@
   "settingsPrivacyAndSafetySection": "PRIVACY & SAFETY",
   "settingsBlockedRatings": "Blocked Ratings",
   "settingsGeneralStyle": "General Style",
-  "settingsGeneralStyleSubtitle": "Theme accents, backdrops, watched indicators, and theme music",
+  "settingsGeneralStyleSubtitle": "Theme accents, backdrops, and watched indicators",
   "settingsHomePage": "Home Page",
   "settingsHomePageSubtitle": "Sections, image types, overlays, and media previews",
   "settingsLibrariesSubtitle": "Library visibility, folder view, and multi-server behavior",
@@ -7877,6 +7881,7 @@
   "audioRowsSortingDescription": "Sort Audio rows by date added, release date, alphabetically, and more.",
   "audioPlaylists": "Audio Playlists",
   "appearance": "Appearance",
+  "layout": "Layout",
   "cardSize": "Home Row Card Display Size",
   "externalPlayerApp": "External player app",
   "externalPlayerAppDescription": "Set external player to enable long-press play option",

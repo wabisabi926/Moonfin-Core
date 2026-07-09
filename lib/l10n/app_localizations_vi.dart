@@ -2270,6 +2270,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get themeMusicVolume => 'Âm lượng nhạc chủ đề';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8555,6 +8559,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get appearance => 'Vẻ bề ngoài';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Kích thước thẻ';

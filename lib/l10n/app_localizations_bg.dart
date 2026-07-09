@@ -2275,6 +2275,10 @@ class AppLocalizationsBg extends AppLocalizations {
   String get themeMusicVolume => 'Сила на музиката на темата';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8618,6 +8622,9 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get appearance => 'Външен вид';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Размер на картата';

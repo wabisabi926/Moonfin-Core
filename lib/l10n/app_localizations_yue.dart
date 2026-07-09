@@ -2216,6 +2216,10 @@ class AppLocalizationsYue extends AppLocalizations {
   String get themeMusicVolume => '主題音樂音量';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8304,6 +8308,9 @@ class AppLocalizationsYue extends AppLocalizations {
 
   @override
   String get appearance => 'Appearance';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Card Size';

@@ -2280,6 +2280,10 @@ class AppLocalizationsSw extends AppLocalizations {
   String get themeMusicVolume => 'Sauti ya Muziki wa Mandhari';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8600,6 +8604,9 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get appearance => 'Appearance';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Card Size';

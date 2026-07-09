@@ -2266,6 +2266,10 @@ class AppLocalizationsCs extends AppLocalizations {
   String get themeMusicVolume => 'Téma Hudba Volume';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8556,6 +8560,9 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get appearance => 'Vzhled';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Velikost karty';

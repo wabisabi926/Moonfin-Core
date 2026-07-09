@@ -2264,6 +2264,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get themeMusicVolume => 'Tema Müziği Sesi';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '%$value';
   }
@@ -8576,6 +8580,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get appearance => 'Görünüm';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Ana Sayfa Satırı Kart Gösterim Boyutu';

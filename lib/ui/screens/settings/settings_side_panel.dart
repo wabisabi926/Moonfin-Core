@@ -82,8 +82,8 @@ part 'panel/general_style_screen.dart';
 part 'panel/navigation_category_screen.dart';
 part 'panel/home_screen_category_screen.dart';
 part 'panel/libraries_category_screen.dart';
-part 'panel/plugin_category_screen.dart';
 part 'panel/seasonal_effects_screen.dart';
+part 'panel/theme_music_screen.dart';
 part 'panel/integrations_screen.dart';
 part 'panel/external_lists_screen.dart';
 part 'panel/plugin_screen.dart';
@@ -216,12 +216,6 @@ class _SettingsSidePanelState extends ConsumerState<SettingsSidePanel> {
         subtitle: l10n.settingsPersonalizationSubtitle,
         onTap: () =>
             context.pushSettingsScreen(const _CustomizationCategoryScreen()),
-      ),
-      _PanelEntry(
-        icon: Icons.featured_play_list,
-        title: l10n.settingsDynamicContent,
-        subtitle: l10n.settingsDynamicContentSubtitle,
-        onTap: () => context.pushSettingsScreen(const _PluginCategoryScreen()),
       ),
       _PanelEntry(
         icon: Icons.play_circle,

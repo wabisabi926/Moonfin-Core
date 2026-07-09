@@ -2292,6 +2292,10 @@ class AppLocalizationsEl extends AppLocalizations {
   String get themeMusicVolume => 'Τόμος μουσικής θέματος';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8660,6 +8664,9 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get appearance => 'Εμφάνιση';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Μέγεθος κάρτας';

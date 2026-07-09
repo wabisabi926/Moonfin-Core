@@ -2265,6 +2265,10 @@ class AppLocalizationsMn extends AppLocalizations {
   String get themeMusicVolume => 'Сэдвийн хөгжмийн хэмжээ';
 
   @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
+
+  @override
   String percentValue(int value) {
     return '$value%';
   }
@@ -8574,6 +8578,9 @@ class AppLocalizationsMn extends AppLocalizations {
 
   @override
   String get appearance => 'Гадаад төрх';
+
+  @override
+  String get layout => 'Layout';
 
   @override
   String get cardSize => 'Картын хэмжээ';
