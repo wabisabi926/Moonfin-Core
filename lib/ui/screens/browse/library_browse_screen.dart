@@ -1050,7 +1050,7 @@ class _LibraryBrowseScreenState extends State<LibraryBrowseScreen>
       context: context,
       useRootNavigator: false,
       builder: (_) => _FilterSortDialog(vm: _vm),
-    );
+    ).whenComplete(_restoreGridFocusAfterDialog);
   }
 
   void _showSettingsDialog(BuildContext context) {
@@ -1058,7 +1058,16 @@ class _LibraryBrowseScreenState extends State<LibraryBrowseScreen>
       context: context,
       useRootNavigator: false,
       builder: (_) => _SettingsDialog(vm: _vm),
-    );
+    ).whenComplete(_restoreGridFocusAfterDialog);
+  }
+
+  // Sorting or filtering can rebuild the grid while the dialog is open, which
+  // disposes the row the dialog restores focus to. Once the dialog is gone,
+  // point focus back at a valid grid row.
+  void _restoreGridFocusAfterDialog() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) restoreGridFocusIfNeeded();
+    });
   }
 }
 
@@ -1883,7 +1892,7 @@ class _DialogCheckboxTileState extends State<_DialogCheckboxTile> with FocusStat
                   decoration: BoxDecoration(
                     borderRadius: AppRadius.circular(4),
                     border: Border.fromBorderSide(
-                      ThemeRegistry.active.borders.chipBorder.copyWith(
+                      ThemeRegistry.active.borders.focusBorder.copyWith(
                         color: widget.checked ? widget.accent : color.withValues(alpha: 0.5),
                         width: 2,
                       ),
