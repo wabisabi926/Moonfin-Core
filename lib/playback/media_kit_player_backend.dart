@@ -12,7 +12,6 @@ import 'package:playback_core/playback_core.dart';
 import '../preference/preference_constants.dart';
 import '../preference/user_preferences.dart';
 import '../util/platform_detection.dart';
-import '../util/subtitle_track_logic.dart';
 import 'audio_capability_profile.dart';
 import 'device_profile_builder.dart';
 import 'known_defects.dart';
@@ -1327,25 +1326,16 @@ class MediaKitPlayerBackend extends PlayerBackend {
 
       await _nativeSetProperty(native, 'secondary-sid', 'no');
 
-      // Native-surface platforms (Android TV SurfaceView) have no Flutter
-      // SubtitleView overlay, so mpv must draw every subtitle type itself.
-      final useNativeRendering = !_useLibass ||
-          _useNativeSurface ||
-          isBitmapSubtitle ||
-          shouldRenderSubtitleNatively(subtitleCodec);
-
-      if (useNativeRendering) {
-        await _nativeSetProperty(native, 'sub-visibility', 'yes');
-        await _nativeSetProperty(native, 'sub-ass', 'yes');
-        await _applyAssOverrideMode();
-      } else {
-        await _nativeSetProperty(native, 'sub-visibility', 'no');
-      }
+      // Moonfin never shows a Flutter subtitle overlay (media_kit disables its
+      // SubtitleView when libass is on, and it stays hidden otherwise), so mpv
+      // has to draw every subtitle including plain text like SRT and VTT.
+      await _nativeSetProperty(native, 'sub-visibility', 'yes');
+      await _nativeSetProperty(native, 'sub-ass', 'yes');
+      await _applyAssOverrideMode();
       _subtitleDebug(
         'set track=$mpvTrackId sid_requested=$sidToApply sid_after=$sidAfter '
         'codec=$subtitleCodec external=$isExternalSubtitle '
-        'bitmap=$isBitmapSubtitle native_render=$useNativeRendering '
-        'mpv_sub_tracks=${subtitleIds.length}',
+        'bitmap=$isBitmapSubtitle mpv_sub_tracks=${subtitleIds.length}',
       );
     } catch (e) {
       _subtitleDebug('set track=$mpvTrackId threw: $e');
