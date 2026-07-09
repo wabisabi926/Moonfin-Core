@@ -4363,7 +4363,9 @@ class _ContentRowsState extends State<_ContentRows>
                         ? _buildV2ExtendedSection(
                             ctx,
                             item,
-                            previewKey,
+                            // Ratings are cached under the global item key, so
+                            // look them up without the row index.
+                            _previewKeyFor(item),
                             cardWidth: width,
                             extendedWidth: v2ExtendedWidth,
                             isAudioRow: row.isAudio,
