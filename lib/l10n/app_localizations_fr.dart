@@ -154,6 +154,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get detailScreenStyleModern => 'Modern';
 
   @override
+  String get expandedTabs => 'Expanded Tabs';
+
+  @override
+  String get expandedTabsSubtitle =>
+      'Automatically show tab content while browsing tabs. Turn off to open and close each tab manually.';
+
+  @override
   String get recommendationSystem => 'Recommendation System';
 
   @override
@@ -2295,6 +2302,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get themeMusicVolume => 'Volume du thème musical';
+
+  @override
+  String get themeMusicSettingsSubtitle =>
+      'Detail pages, home rows, and volume';
 
   @override
   String percentValue(int value) {
@@ -7960,6 +7971,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Couleurs d\'accentuation, vignettes, indicateurs de visionnage et musique de thème';
 
   @override
+  String get settingsDetailsScreen => 'Details Screen';
+
+  @override
+  String get settingsDetailsScreenSubtitle =>
+      'Style, background blur, and tab behavior';
+
+  @override
   String get settingsHomePage => 'Page d\'accueil';
 
   @override
@@ -8672,6 +8690,24 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get appearance => 'Apparence';
+
+  @override
+  String get layout => 'Layout';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get keyboard => 'Keyboard';
+
+  @override
+  String get navButtons => 'Buttons';
+
+  @override
+  String get rendering => 'Rendering';
+
+  @override
+  String get mpvConfiguration => 'MPV configuration';
 
   @override
   String get cardSize => 'Taille des visuels des rangées d\'accueil';
