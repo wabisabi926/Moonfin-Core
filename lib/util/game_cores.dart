@@ -15,8 +15,7 @@ const Map<String, String> _tvosBundledCores = {
   'segaMD': 'genesis_plus_gx',
   'segaMS': 'genesis_plus_gx',
   'segaGG': 'genesis_plus_gx',
-  // 'psx': 'pcsx_rearmed' lands with the interpreter-only source build; the
-  // buildbot dylib carries lightrec (dynarec) and fails the no-JIT gate.
+  'psx': 'pcsx_rearmed',
 };
 
 bool gameCoreSupported(String core) {

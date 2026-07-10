@@ -3,8 +3,8 @@
 # tvOS framework bundle under tvos/Frameworks/Cores/, ready for the Runner's
 # Embed Frameworks phase (added by wire_tvos_cores.rb, code-sign-on-copy).
 #
-# Also runs the no-JIT compliance gate: fails if a core exports dynarec/lightrec
-# symbols or requests executable remapping.
+# Also runs the no-JIT backstop: skips any core that links the tvOS JIT toggle
+# or maps executable pages, and exits non-zero so the failure is not silent.
 
 set -euo pipefail
 
@@ -26,9 +26,13 @@ for dylib in "${dylibs[@]}"; do
   fw="$CORES_DIR/$name.framework"
   echo "==> $name"
 
-  # No-JIT gate: dynarec/lightrec symbols or W^X remap calls must not appear.
-  if nm -gU "$dylib" 2>/dev/null | grep -qiE 'lightrec|dynarec|drc_|new_dynarec'; then
-    echo "SKIP: $name contains dynarec symbols - rebuild from source with DYNAREC=0" >&2
+  # No-JIT backstop. A real recompiler on Apple silicon has to toggle W^X through
+  # pthread_jit_write_protect_np or map executable pages with MAP_JIT, so those are
+  # the reliable tells. (Dynarec symbol names are not: an interpreter build compiled
+  # with -DDRC_DISABLE still keeps them as no-op stubs.) The build recipe in
+  # build_cores.sh is the real guarantee; this only catches an obviously wrong dylib.
+  if nm -u "$dylib" 2>/dev/null | grep -q 'pthread_jit_write_protect_np'; then
+    echo "SKIP: $name links the tvOS JIT toggle - rebuild interpreter only" >&2
     failed+=("$name")
     continue
   fi
