@@ -1158,6 +1158,7 @@ class _SearchScreenState extends State<SearchScreen> with GridFocusNodeMixin {
       );
     }
     if (hasSeerr) {
+      final cardWidth = 108.0;
       rows.add(
         LibraryRow(
           key: _allRowKey(groups.length),
