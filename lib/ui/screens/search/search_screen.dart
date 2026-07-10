@@ -1348,7 +1348,7 @@ class _SearchScreenState extends State<SearchScreen> with GridFocusNodeMixin {
         final available = constraints.maxWidth - horizontalPadding * 2;
         final columns = ((available + spacing) / (targetWidth + spacing))
             .floor()
-            .clamp(3, 8);
+            .clamp(3, 20);
         final cellWidth = (available - (columns - 1) * spacing) / columns;
         final imageHeight = cellWidth / imageAspect;
         final childAspectRatio = cellWidth / (imageHeight + 48);
