@@ -777,6 +777,8 @@ class _SearchScreenState extends State<SearchScreen> with GridFocusNodeMixin {
       if (_tabCount > 0) RowFocusEntry.node(_tabsFocusNode),
     ];
 
+    final topbar = _userPreferences.get(UserPreferences.navbarPosition) == 'top';
+
     final scaffold = Scaffold(
       backgroundColor: AppColorScheme.background,
       body: NavigationLayout(
@@ -785,7 +787,9 @@ class _SearchScreenState extends State<SearchScreen> with GridFocusNodeMixin {
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 80),
+              const SizedBox(height: 30),
+              if (topbar | PlatformDetection.isMobile)
+                const SizedBox(height: 50),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48),
                 child: Row(
@@ -1122,6 +1126,9 @@ class _SearchScreenState extends State<SearchScreen> with GridFocusNodeMixin {
     // scale as the season/similar tabs on TV and desktop.
     final cardWidth = isMobile ? 108.0 : 150.0;
 
+    final topbar = _userPreferences.get(UserPreferences.navbarPosition) == 'top';
+
+
     final groups = _vm.results;
     final hasSeerr = _vm.seerrResults.isNotEmpty;
     final rowLens = <int>[
@@ -1176,7 +1183,7 @@ class _SearchScreenState extends State<SearchScreen> with GridFocusNodeMixin {
 
     return ListView(
       controller: _resultsScrollController,
-      padding: const EdgeInsets.only(top: 8, bottom: 32),
+      padding: EdgeInsets.fromLTRB(horizontalPadding, 8, 0, 32),
       children: rows,
     );
   }
