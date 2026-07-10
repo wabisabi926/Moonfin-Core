@@ -7640,54 +7640,6 @@
     "@libraryWriteAccessReactiveBody": {
         "description": "Reactive error warning message when artwork update fails"
     },
-    "expandedTabsSubtitle": "",
-    "@expandedTabsSubtitle": {
-        "description": "Explanation under the expanded tabs setting"
-    },
-    "directStreamRemux": "",
-    "@directStreamRemux": {
-        "description": "Play method label for direct stream with remuxing"
-    },
-    "layout": "",
-    "theme": "",
-    "keyboard": "",
-    "navButtons": "",
-    "rendering": "",
-    "expandedTabs": "",
-    "@expandedTabs": {
-        "description": "Label for the detail screen expanded tabs setting"
-    },
-    "themeMusicSettingsSubtitle": "",
-    "@themeMusicSettingsSubtitle": {
-        "description": "Subtitle for the Theme Music settings sub-category tile"
-    },
-    "transcodingBitrateOrResolution": "",
-    "@transcodingBitrateOrResolution": {
-        "description": "Play method label for transcoding due to bitrate or resolution"
-    },
-    "transcodingVideoAndAudio": "",
-    "@transcodingVideoAndAudio": {
-        "description": "Play method label for transcoding both video and audio"
-    },
-    "transcodingVideo": "",
-    "@transcodingVideo": {
-        "description": "Play method label for transcoding video"
-    },
-    "contextMenuHideFromContinueWatching": "",
-    "@contextMenuHideFromContinueWatching": {
-        "description": "Context menu action to hide an item from the Continue Watching section"
-    },
-    "contextMenuHideFromNextUp": "",
-    "@contextMenuHideFromNextUp": {
-        "description": "Context menu action to hide a show from the Next Up section"
-    },
-    "contextMenuAddToCollection": "",
-    "@contextMenuAddToCollection": {
-        "description": "Context menu action to add an item to a collection"
-    },
-    "settingsDetailsScreen": "",
-    "settingsDetailsScreenSubtitle": "",
-    "mpvConfiguration": "",
     "customThemeTitle": "自定义主题",
     "@customThemeTitle": {
         "description": "Title for the custom theme settings section"
