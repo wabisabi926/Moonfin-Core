@@ -5985,22 +5985,12 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
             icon: Icons.audiotrack,
             onPressed: () => _showAudioSelector(context, audioStreams),
           ),
-        _DetailActionButton(
-          label: l10n.subtitles,
-          icon: Icons.subtitles,
-          onPressed: () {
-            if (subtitleStreams.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(l10n.noSubtitlesFound),
-                  duration: const Duration(seconds: 2),
-                ),
-              );
-            } else {
-              _openSubtitleSelector(context, item);
-            }
-          },
-        ),
+        if (subtitleStreams.isNotEmpty || _canDownloadRemoteSubtitles(item))
+          _DetailActionButton(
+            label: l10n.subtitles,
+            icon: Icons.subtitles,
+            onPressed: () => _openSubtitleSelector(context, item),
+          ),
       ],
       if (isPlayableMedia && item.mediaSources.length > 1)
         _DetailActionButton(
