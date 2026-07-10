@@ -50,6 +50,7 @@ ios/Flutter/Generated.xcconfig
 ios/Flutter/flutter_export_environment.sh
 ios/Flutter/ephemeral/
 # tvos - needs some things tracked but not these
+tvos/Frameworks/Cores/staging/
 tvos/Flutter/Generated.xcconfig
 tvos/Flutter/flutter_export_environment.sh
 tvos/Flutter/ephemeral/
