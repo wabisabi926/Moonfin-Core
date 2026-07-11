@@ -141,87 +141,88 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsAppearanceTheme => 'Uygulama Teması';
 
   @override
-  String get detailScreenStyle => 'Detail screen style';
+  String get detailScreenStyle => 'Detay Görüntüleme Stili';
 
   @override
   String get detailScreenStyleSubtitle =>
-      'Classic is the original centered moonfin layout. Modern is a responsive cinematic layout.';
+      'Klasik, orijinal ortalanmış Moonfin düzenidir. Modern ise duyarlı sinematik bir düzendir.';
 
   @override
-  String get detailScreenStyleMoonfin => 'Classic';
+  String get detailScreenStyleMoonfin => 'Klasik';
 
   @override
   String get detailScreenStyleModern => 'Modern';
 
   @override
-  String get expandedTabs => 'Expanded Tabs';
+  String get expandedTabs => 'Genişletilmiş Sekmeler';
 
   @override
   String get expandedTabsSubtitle =>
-      'Automatically show tab content while browsing tabs. Turn off to open and close each tab manually.';
+      'Sekmeler arasında gezinirken sekme içeriğini otomatik olarak göster. Her sekmeyi manuel olarak açıp kapatmak için bu seçeneği kapatın.';
 
   @override
-  String get recommendationSystem => 'Recommendation System';
+  String get recommendationSystem => 'Öneri Sistemi';
 
   @override
   String get recommendationSystemSubtitle =>
-      'Use the Moonfin Recommends local-library algorithm or the online TMDb\'s Similarity Metrics. Note: Online recommendations require Seerr integration.';
+      'Moonfin Önerileri yerel kütüphane algoritmasını veya çevrimiçi TMDb Benzerlik Metriklerini kullanın. Not: Çevrimiçi öneriler Seerr entegrasyonu gerektirir.';
 
   @override
-  String get recommendationSystemMoonfin => 'Moonfin Recommends';
+  String get recommendationSystemMoonfin => 'Moonfin Önerileri';
 
   @override
-  String get recommendationSystemTmdb => 'TMDb Similarity';
+  String get recommendationSystemTmdb => 'TMDb Benzerliği';
 
   @override
   String get recommendationsApplyParentalRatingCap =>
-      'Apply Parental Rating Cap?';
+      'Ebeveyn Reyting Sınırı Uygulansın mı?';
 
   @override
   String get recommendationsApplyParentalRatingCapSubtitle =>
-      'Limit Moonfin Recommends suggestions by parental rating of target media';
+      'Moonfin Önerileri\'ni hedef medyanın ebeveyn yaş sınırına göre kısıtla';
 
   @override
-  String get interfaceStyle => '';
+  String get interfaceStyle => 'Arayüz Tarzı';
 
   @override
-  String get interfaceStyleSubtitle => '';
+  String get interfaceStyleSubtitle =>
+      'Cihazınızla otomatik olarak eşleşir. Belirli bir görünümü zorlamak için Apple veya Material seçeneğini belirleyin.';
 
   @override
-  String get interfaceStyleAutomatic => '';
+  String get interfaceStyleAutomatic => 'Otomatik';
 
   @override
-  String get interfaceStyleApple => '';
+  String get interfaceStyleApple => 'Apple';
 
   @override
-  String get interfaceStyleMaterial => '';
+  String get interfaceStyleMaterial => 'Material';
 
   @override
-  String get glassQuality => 'Glass Quality';
+  String get glassQuality => 'Cam Efekti Kalitesi';
 
   @override
   String get glassQualitySubtitle =>
-      'Auto picks the best glass effect for this device. Full forces real blur; Reduced uses a lightweight glass that saves GPU power.';
+      'Bu cihaz için en iyi cam efektini otomatik seçer. Tam, gerçek bulanıklaştırma efektini zorlar; Azaltılmış ise GPU (grafik işlemci) gücünden tasarruf sağlayan hafif bir cam efekti kullanır.';
 
   @override
-  String get glassQualityAuto => 'Auto';
+  String get glassQualityAuto => 'Otomatik';
 
   @override
-  String get glassQualityFull => 'Full';
+  String get glassQualityFull => 'Tam';
 
   @override
-  String get glassQualityReduced => 'Reduced';
+  String get glassQualityReduced => 'Azaltılmış';
 
   @override
   String get settingsAppearanceThemeSubtitle =>
-      'Uygulamayı yeniden başlatmadan Moonfin ve Neon Pulse arasında geçiş yapın';
+      'Tamamen özel bir tema uygulayın ve Apple veya Material esintili kullanıcı arayüzleri arasında geçiş yapın.';
 
   @override
-  String get customThemeTitle => 'Custom Theme';
+  String get customThemeTitle => 'Özel Tema';
 
   @override
   String get customThemeSubtitle =>
-      'Custom themes alter visual elements across Moonfin. Choose one of these options to suit your style.';
+      'Özel temalar, Moonfin genelindeki görsel ögeleri değiştirir. Tarzınıza uygun seçeneklerden birini belirleyin.';
 
   @override
   String get keyboardPreferSystemIme => 'Sistem klavyesini tercih et';
@@ -234,8 +235,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get themeMoonfin => 'Moonfin';
 
   @override
-  String get themeMoonfinSubtitle =>
-      'Hepinizin çok sevdiği mevcut Moonfin görünümü';
+  String get themeMoonfinSubtitle => 'Orijinal, sade Moonfin varsayılanı.';
 
   @override
   String get themeNeonPulse => 'Neon Pulse';
@@ -256,7 +256,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get theme8BitHeroSubtitle =>
-      'Retro pixel-art styling with a chunky palette, blocky borders, hard drop-shadows, and a pixel font';
+      'Bloklu renk paleti, kalın kenarlıkları, sert düşen gölgeleri ve piksel yazı tipiyle retro piksel sanatı stili';
 
   @override
   String get embyConnectSignInSubtitle =>
@@ -318,32 +318,33 @@ class AppLocalizationsTr extends AppLocalizations {
   String get exit => 'Çıkış';
 
   @override
-  String get gameMenu => 'Menu';
+  String get gameMenu => 'Menü';
 
   @override
-  String get gamePaused => 'Paused';
+  String get gamePaused => 'Duraklatıldı';
 
   @override
-  String get gameSaveState => 'Save state';
+  String get gameSaveState => 'Durumu Kaydet';
 
   @override
-  String get gameLoadState => 'Load state';
+  String get gameLoadState => 'Durumu Yükle';
 
   @override
-  String get gameFastForward => 'Fast-forward';
+  String get gameFastForward => 'İleri Sar';
 
   @override
-  String get gameEmulatorSettings => 'Emulator settings';
+  String get gameEmulatorSettings => 'Emülatör ayarları';
 
   @override
-  String get gameNoCoreOptions => 'This core has no adjustable options.';
+  String get gameNoCoreOptions =>
+      'Bu çekirdeğin ayarlanabilir bir seçeneği yok.';
 
   @override
-  String get gameHoldToOpenMenu => 'Hold to open menu';
+  String get gameHoldToOpenMenu => 'Menüyü açmak için basılı tutun';
 
   @override
   String get gamePlaybackUnsupported =>
-      'Game playback is not supported on this device yet.';
+      'Bu cihazda henüz oyun oynatma desteklenmiyor.';
 
   @override
   String get noHomeRowsLoaded => 'Ana sayfa satırları yüklenemedi';
@@ -753,43 +754,43 @@ class AppLocalizationsTr extends AppLocalizations {
   String get books => 'Kitaplar';
 
   @override
-  String get latestBooks => 'Latest Books';
+  String get latestBooks => 'Son Eklenen Kitaplar';
 
   @override
-  String get latestAudiobooks => 'Latest Audiobooks';
+  String get latestAudiobooks => 'Son Eklenen Sesli Kitaplar';
 
   @override
   String bookSeriesItemCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count books',
-      one: '1 book',
+      other: '$count kitap',
+      one: '1 kitap',
     );
     return '$_temp0';
   }
 
   @override
-  String get bookFormatBook => 'Book';
+  String get bookFormatBook => 'Kitap';
 
   @override
-  String get bookFormatAudiobook => 'Audiobook';
+  String get bookFormatAudiobook => 'Sesli Kitap';
 
   @override
   String bookPercentRead(int percent) {
-    return '$percent% read';
+    return '%$percent okundu';
   }
 
   @override
   String bookTimeLeft(String time) {
-    return '$time left';
+    return '$time kaldı';
   }
 
   @override
-  String get bookHeroRead => 'Read';
+  String get bookHeroRead => 'Oku';
 
   @override
-  String get bookHeroListen => 'Listen';
+  String get bookHeroListen => 'Dinle';
 
   @override
   String get author => 'Yazar';
@@ -985,35 +986,35 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get items => 'Items';
+  String get items => 'Ögeler';
 
   @override
-  String get extras => 'Extras';
+  String get extras => 'Özel Özellikler';
 
   @override
-  String get behindTheScenes => 'Behind the Scenes';
+  String get behindTheScenes => 'Kamera Arkası';
 
   @override
-  String get deletedScenes => 'Deleted Scenes';
+  String get deletedScenes => 'Silinmiş Sahneler';
 
   @override
-  String get featurettes => 'Featurettes';
+  String get featurettes => 'Özel Özellikler';
 
   @override
-  String get interviews => 'Interviews';
+  String get interviews => 'Röportaj';
 
   @override
-  String get scenes => 'Scenes';
+  String get scenes => 'Sahneler';
 
   @override
-  String get shorts => 'Shorts';
+  String get shorts => 'Kısa Videolar';
 
   @override
   String get trailers => 'Fragmanlar';
 
   @override
   String timeRemaining(String time) {
-    return '$time remaining';
+    return '$time kaldı';
   }
 
   @override
@@ -1339,13 +1340,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get shuffle => 'Karıştır';
 
   @override
-  String get shuffleAllMusic => 'Shuffle all music';
+  String get shuffleAllMusic => 'Tüm müzikleri karıştır';
 
   @override
-  String get carSignInPrompt => 'Sign in to Moonfin on your phone';
+  String get carSignInPrompt => 'Moonfin\'e telefon üzerinden giriş yap';
 
   @override
-  String get carServerUnreachable => 'Can\'t reach your server';
+  String get carServerUnreachable => 'Sunucuya erişilemiyor';
 
   @override
   String downloadsCount(int count) {
@@ -1782,22 +1783,22 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String guideNextProgram(String time, String title) {
-    return 'Next: $time  $title';
+    return 'Sıradaki: $time  $title';
   }
 
   @override
   String guideMinutesLeft(int minutes) {
-    return '${minutes}m left';
+    return '$minutes dk kaldı';
   }
 
   @override
   String guideHoursLeft(int hours) {
-    return '${hours}h left';
+    return '$hours sa kaldı';
   }
 
   @override
   String guideHoursMinutesLeft(int hours, int minutes) {
-    return '${hours}h ${minutes}m left';
+    return '$hours sa $minutes dk kaldı';
   }
 
   @override
@@ -2272,7 +2273,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get themeMusicSettingsSubtitle =>
-      'Detail pages, home rows, and volume';
+      'Detay sayfaları, ana sayfa satırları ve ses seviyesi';
 
   @override
   String percentValue(int value) {
@@ -2383,35 +2384,38 @@ class AppLocalizationsTr extends AppLocalizations {
   String get defaultAudioLanguage => 'Varsayılan Ses Dili';
 
   @override
-  String get fallbackAudioLanguage => '';
+  String get fallbackAudioLanguage => 'Yedek Ses Dili';
 
   @override
-  String get preferDefaultAudioTrack => '';
+  String get preferDefaultAudioTrack => 'Varsayılan Ses Parçasına Öncelik Ver';
 
   @override
-  String get preferDefaultAudioTrackDescription => '';
+  String get preferDefaultAudioTrackDescription =>
+      'Yerel dublaj yerine orijinal ses parçasına öncelik ver.';
 
   @override
-  String get preferAudioDescription => '';
+  String get preferAudioDescription =>
+      'Sesli Betimlemeli Parçalara Öncelik Ver';
 
   @override
-  String get preferAudioDescriptionDescription => '';
+  String get preferAudioDescriptionDescription =>
+      'Normal ses yerine sesli betimlemeli parçalara öncelik ver.';
 
   @override
-  String get transcodingAudio => '';
+  String get transcodingAudio => 'Anlık Dönüştürme (Ses)';
 
   @override
   String get directStreamRemux => 'Direct Stream (Remux)';
 
   @override
   String get transcodingBitrateOrResolution =>
-      'Transcoding (Bitrate or Resolution)';
+      'Dönüştürme (Bit hızı veya Çözünürlük)';
 
   @override
-  String get transcodingVideoAndAudio => 'Transcoding (Video & Audio)';
+  String get transcodingVideoAndAudio => 'Dönüştürme (Video ve Ses)';
 
   @override
-  String get transcodingVideo => 'Transcoding (Video)';
+  String get transcodingVideo => 'Dönüştürme (Video)';
 
   @override
   String get autoServerDefault => 'Otomatik (Sunucu Varsayılanı)';
@@ -2651,7 +2655,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsAudioRouteSpeaker => 'Hoparlör';
 
   @override
-  String get settingsAudioRouteHeadphones => 'Headphones';
+  String get settingsAudioRouteHeadphones => 'Kulaklık';
 
   @override
   String settingsAudioPcmChannels(int count) {
@@ -2832,40 +2836,45 @@ class AppLocalizationsTr extends AppLocalizations {
       'Altyazı görünümünü özelleştirin';
 
   @override
-  String get subtitleMode => '';
+  String get subtitleMode => 'Altyazı Modu';
 
   @override
-  String get subtitleModeFlagged => '';
+  String get subtitleModeFlagged => 'İşaretli';
 
   @override
-  String get subtitleModeAlways => '';
+  String get subtitleModeAlways => 'Her zaman';
 
   @override
-  String get subtitleModeForeign => '';
+  String get subtitleModeForeign => 'Yabancı Diller';
 
   @override
-  String get subtitleModeForced => '';
+  String get subtitleModeForced => 'Zorunlu';
 
   @override
-  String get subtitleModeFlaggedDescription => '';
+  String get subtitleModeFlaggedDescription =>
+      'Medya dosyasının meta verilerinde \'varsayılan\' veya \'zorunlu\' olarak işaretlenmiş parçaları oynatır.';
 
   @override
-  String get subtitleModeAlwaysDescription => '';
+  String get subtitleModeAlwaysDescription =>
+      'Her video başladığında altyazıları otomatik olarak yükler ve görüntüler.';
 
   @override
-  String get subtitleModeForeignDescription => '';
+  String get subtitleModeForeignDescription =>
+      'Varsayılan ses parçası yabancı bir dildeyse altyazıları otomatik olarak açar.';
 
   @override
-  String get subtitleModeForcedDescription => '';
+  String get subtitleModeForcedDescription =>
+      'Yalnızca meta verilerinde açıkça zorunlu olarak işaretlenmiş altyazıları yükler.';
 
   @override
-  String get subtitleModeNoneDescription => '';
+  String get subtitleModeNoneDescription =>
+      'Otomatik altyazı yüklemeyi tamamen devre dışı bırakır.';
 
   @override
-  String get fallbackSubtitleLanguage => '';
+  String get fallbackSubtitleLanguage => 'Yedek Altyazı Dili';
 
   @override
-  String get subtitleStream => '';
+  String get subtitleStream => 'Altyazı Parçası';
 
   @override
   String get subtitlePreviewText =>
@@ -3064,7 +3073,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get showLibrariesInToolbar => 'Kitaplıkları Araç Çubuğunda Göster';
 
   @override
-  String get navbarAlwaysExpanded => 'Always Expand Navbar Labels';
+  String get navbarAlwaysExpanded =>
+      'Gezinti Çubuğu Etiketlerini Her Zaman Göster';
 
   @override
   String get showSeerrButton => 'Seerr Butonunu Göster';
@@ -3142,16 +3152,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get showFolderBrowsingOption => 'Klasöre göz atma seçeneğini göster';
 
   @override
-  String get groupItemsIntoCollections => '';
+  String get groupItemsIntoCollections =>
+      'Ögeleri Koleksiyonlar Halinde Grupla';
 
   @override
-  String get hideCollectionAssociatedItems => '';
+  String get hideCollectionAssociatedItems =>
+      'Kitaplıklarda gezinirken koleksiyona dahil olan ögeleri gizle';
 
   @override
-  String get groupItemsIntoCollectionsDialogTitle => '';
+  String get groupItemsIntoCollectionsDialogTitle =>
+      'Kitaplık Gruplandırma Bildirimi';
 
   @override
-  String get groupItemsIntoCollectionsDialogMessage => '';
+  String get groupItemsIntoCollectionsDialogMessage =>
+      'Bu özellikten yararlanabilmek için Jellyfin veya Emby sunucunuzun Kitaplık > Görüntüleme ayarları altındaki \'Filmleri koleksiyonlar halinde grupla\' ve/veya \'Dizileri koleksiyonlar halinde grupla\' seçeneklerinin açık olduğundan emin olun.';
 
   @override
   String get libraryVisibility => 'Kütüphane Görünürlüğü';
@@ -3164,7 +3178,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get showInNavigation => 'Menüde Göster';
 
   @override
-  String get showInLatestMedia => 'Son Eklenenlerde Göster';
+  String get showInLatestMedia => 'Son eklenen/yayınlanan medyalarda göster';
 
   @override
   String get sourceLibraries => 'Kaynak Kütüphaneler';
@@ -3290,7 +3304,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Fragman ve bölüm önizlemeleri için sesi etkinleştirin';
 
   @override
-  String get latestMedia => 'En Son Medya';
+  String get latestMedia => 'En Son Eklenen Medya';
 
   @override
   String get recentlyReleased => 'Son Çıkanlar';
@@ -3642,21 +3656,21 @@ class AppLocalizationsTr extends AppLocalizations {
       'Sonuçlardaki yetişkinlere uygun içeriği gizle';
 
   @override
-  String get seerrNotificationsSection => 'Notifications';
+  String get seerrNotificationsSection => 'Bildirimler';
 
   @override
-  String get seerrNotifyNewRequestsTitle => 'New request notifications';
+  String get seerrNotifyNewRequestsTitle => 'Yeni keşfet bildirimleri';
 
   @override
   String get seerrNotifyNewRequestsSubtitle =>
-      'Alert me when someone submits a request';
+      'Birisi talep gönderdiğinde bana bildirim gönder';
 
   @override
-  String get seerrNotifyLibraryAddedTitle => 'Request updates';
+  String get seerrNotifyLibraryAddedTitle => 'İstek güncellemeleri';
 
   @override
   String get seerrNotifyLibraryAddedSubtitle =>
-      'Approved, declined, and added to your library';
+      'Onaylandı, reddedildi ve kütüphanenize eklendi';
 
   @override
   String get seerrNotifyIssuesTitle => 'Issue updates';
@@ -3671,15 +3685,15 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get discoverRows => 'Keşfet Satırları';
+  String get discoverRows => 'Seerr Keşfet Sayfaları';
 
   @override
   String get discoverRowsDescriptionPlugin =>
-      'Yeniden sıralamak için sürükleyin. Satırları etkinleştirin veya devre dışı bırakın. Etkinleştirilen satır sırası, Moonfin eklentisiyle senkronize edilir.';
+      'Seerr ana sayfasında görmek istediğiniz satırları etkinleştirin. Yeniden sıralamak için sürükleyin. Özel sıralama Moonbase ile senkronize edilir.';
 
   @override
   String get discoverRowsDescription =>
-      'Yeniden sıralamak için sürükleyin. Satırları etkinleştirin veya devre dışı bırakın.';
+      'Seerr ana sayfasında görmek istediğiniz satırları etkinleştirin. Yeniden sıralamak için sürükleyin. Özel sıralama Moonbase ile senkronize edilir.';
 
   @override
   String get enabled => 'Etkinleştirildi';
@@ -3786,7 +3800,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reorderToggleHomeRows =>
-      'Ana satırları yeniden sıralayın ve değiştirin';
+      'Hem kütüphane hem de harici kaynaklı ana sayfa satırlarını yeniden sıralayın ve açıp kapatın';
 
   @override
   String get featuredContentAppearance => 'Öne çıkan içerik, görünüm';
@@ -4312,13 +4326,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminDrawerLibraries => 'Kütüphaneler';
 
   @override
-  String get adminDrawerDisplay => 'Display';
+  String get adminDrawerDisplay => 'Görünüm';
 
   @override
-  String get adminDrawerMetadata => 'Metadata';
+  String get adminDrawerMetadata => 'Meta Veri';
 
   @override
-  String get adminDrawerNfo => 'NFO Settings';
+  String get adminDrawerNfo => 'NFO Ayarları';
 
   @override
   String get adminDrawerTranscoding => 'Kod dönüştür';
@@ -4546,10 +4560,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminClearDates => 'Tarihleri temizle';
 
   @override
-  String get adminActivitySeverityAll => 'All severities';
+  String get adminActivitySeverityAll => 'Tüm Dereceler';
 
   @override
-  String get adminActivityDateRange => 'Date range';
+  String get adminActivityDateRange => 'Zaman Aralığı';
 
   @override
   String adminActivityLoadFailed(String error) {
@@ -4586,23 +4600,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String adminRemoveDeviceConfirm(String name) {
-    return 'Remove device \'$name\'? The user will need to sign in again on this device.';
+    return '\'$name\' cihazı kaldırılsın mı? Kullanıcının bu cihazda tekrar oturum açması gerekecektir.';
   }
 
   @override
-  String get adminDeleteAllDevices => 'Delete all devices';
+  String get adminDeleteAllDevices => 'Tüm cihazları sil';
 
   @override
   String adminDeleteAllDevicesConfirm(int count) {
-    return 'Remove $count devices? Affected users will need to sign in again. Your current device is not affected.';
+    return '$count cihaz kaldırılsın mı? Etkilenen kullanıcıların tekrar oturum açması gerekecektir. Mevcut cihazınız bu durumdan etkilenmez.';
   }
 
   @override
-  String get adminDevicesDeletedAll => 'Devices removed';
+  String get adminDevicesDeletedAll => 'Cihazlar silindi';
 
   @override
   String adminDevicesDeletedPartial(int count) {
-    return 'Removed some devices; $count could not be removed.';
+    return 'Bazı cihazlar kaldırıldı; $count cihaz kaldırılamadı.';
   }
 
   @override
@@ -4717,244 +4731,251 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminMetadataCountryHint => 'Örn. US, DE, FR';
 
   @override
-  String get adminLibraryTabPaths => 'Paths';
+  String get adminLibraryTabPaths => 'Yollar';
 
   @override
-  String get adminLibraryTabOptions => 'Options';
+  String get adminLibraryTabOptions => 'Seçenekler';
 
   @override
-  String get adminLibraryTabDownloaders => 'Downloaders';
+  String get adminLibraryTabDownloaders => 'İndiriciler';
 
   @override
-  String get adminLibMetadataSavers => 'Metadata savers';
+  String get adminLibMetadataSavers => 'Meta Veri Kaydediciler';
 
   @override
-  String get adminLibSubtitleDownloaders => 'Subtitle downloaders';
+  String get adminLibSubtitleDownloaders => 'Altyazı indiriciler';
 
   @override
-  String get adminLibLyricDownloaders => 'Lyric downloaders';
+  String get adminLibLyricDownloaders => 'Şarkı sözü indiriciler';
 
   @override
   String adminLibMetadataDownloadersFor(String type) {
-    return 'Metadata downloaders: $type';
+    return 'Meta Veri İndiriciler: $type';
   }
 
   @override
   String adminLibImageFetchersFor(String type) {
-    return 'Image fetchers: $type';
+    return 'Görsel İndiriciler: $type';
   }
 
   @override
   String get adminLibNoDownloaders =>
-      'This server exposes no downloaders for this library type.';
+      'Bu sunucu, bu kütüphane türü için hiçbir indirici sunmuyor.';
 
   @override
-  String get adminLibrarySectionGeneral => 'General';
+  String get adminLibrarySectionGeneral => 'Genel';
 
   @override
-  String get adminLibrarySectionMetadata => 'Metadata';
+  String get adminLibrarySectionMetadata => 'Meta Veri';
 
   @override
-  String get adminLibrarySectionEmbedded => 'Embedded Info';
+  String get adminLibrarySectionEmbedded => 'Gömülü bilgi';
 
   @override
-  String get adminLibrarySectionSubtitles => 'Subtitles';
+  String get adminLibrarySectionSubtitles => 'Altyazılar';
 
   @override
-  String get adminLibrarySectionImages => 'Images';
+  String get adminLibrarySectionImages => 'Görseller';
 
   @override
-  String get adminLibrarySectionSeries => 'Series';
+  String get adminLibrarySectionSeries => 'Diziler';
 
   @override
-  String get adminLibrarySectionMusic => 'Music';
+  String get adminLibrarySectionMusic => 'Müzik';
 
   @override
-  String get adminLibrarySectionMovies => 'Movies';
+  String get adminLibrarySectionMovies => 'Filmler';
 
   @override
-  String get adminLibRealtimeMonitor => 'Enable real-time monitoring';
+  String get adminLibRealtimeMonitor => 'Gerçek zamanlı izlemeyi etkinleştir';
 
   @override
   String get adminLibRealtimeMonitorHint =>
-      'Detect file changes and process them automatically.';
+      'Dosya değişikliklerini algıla ve otomatik olarak işle.';
 
   @override
-  String get adminLibArchiveMediaFiles => 'Treat archives as media files';
+  String get adminLibArchiveMediaFiles => 'Arşivleri medya dosyası olarak işle';
 
   @override
-  String get adminLibEnablePhotos => 'Display photos';
+  String get adminLibEnablePhotos => 'Görselleri görüntüle';
 
   @override
-  String get adminLibSaveLocalMetadata => 'Save artwork into media folders';
+  String get adminLibSaveLocalMetadata =>
+      'Görselleri medya klasörlerine kaydet';
 
   @override
-  String get adminLibRefreshInterval => 'Automatic metadata refresh';
+  String get adminLibRefreshInterval => 'Otomatik Meta Veri Yenileme';
 
   @override
-  String get adminLibRefreshNever => 'Never';
+  String get adminLibRefreshNever => 'Asla';
 
   @override
-  String get adminLibDefault => 'Default';
+  String get adminLibDefault => 'Varsayılan';
 
   @override
-  String get adminLibDisplayTitle => 'Display';
+  String get adminLibDisplayTitle => 'Görünüm';
 
   @override
-  String get adminLibDisplaySection => 'Library display';
+  String get adminLibDisplaySection => 'Kütüphane görünümü';
 
   @override
   String get adminLibFolderView =>
-      'Display a folder view to show plain media folders';
+      'Medya klasörlerini olduğu gibi görmek için bir klasör görünümü görüntüle';
 
   @override
   String get adminLibSpecialsInSeasons =>
-      'Display specials within seasons they aired in';
+      'Özel bölümleri yayınlandıkları sezonların içinde göster';
 
   @override
-  String get adminLibGroupMovies => 'Group movies into collections';
+  String get adminLibGroupMovies => 'Filmleri koleksiyonlar halinde grupla';
 
   @override
-  String get adminLibGroupShows => 'Group shows into collections';
+  String get adminLibGroupShows => 'Dizileri koleksiyonlar halinde grupla';
 
   @override
   String get adminLibExternalSuggestions =>
-      'Show external content in suggestions';
+      'Önerilerde harici içerikleri göster';
 
   @override
-  String get adminLibDateAddedSection => 'Date added behavior';
+  String get adminLibDateAddedSection => 'Eklenme Tarihi Davranışı';
 
   @override
-  String get adminLibDateAddedLabel => 'Use date added from';
+  String get adminLibDateAddedLabel => 'Eklenme tarihini şuradan al';
 
   @override
-  String get adminLibDateAddedImport => 'Date scanned into the library';
+  String get adminLibDateAddedImport => 'Kütüphaneye taranma tarihi';
 
   @override
-  String get adminLibDateAddedFile => 'Date the file was created';
+  String get adminLibDateAddedFile => 'Dosyanın oluşturulma tarihi';
 
   @override
-  String get adminLibMetadataTitle => 'Metadata and Images';
+  String get adminLibMetadataTitle => 'Meta Veri ve Görseller';
 
   @override
-  String get adminLibMetadataLangSection => 'Preferred metadata language';
+  String get adminLibMetadataLangSection => 'Tercih edilen meta veri dili';
 
   @override
-  String get adminLibChaptersSection => 'Chapters';
+  String get adminLibChaptersSection => 'Bölümler';
 
   @override
-  String get adminLibDummyChapterDuration => 'Dummy chapter duration (seconds)';
+  String get adminLibDummyChapterDuration => 'Yapay bölüm süresi (saniye)';
 
   @override
   String get adminLibDummyChapterDurationHint =>
-      'Length of chapters generated for media that has none. Set to 0 to disable.';
+      'Bölüm bilgisi olmayan medyalar için oluşturulacak bölümlerin süresi. Devre dışı bırakmak için 0 olarak ayarlayın.';
 
   @override
-  String get adminLibChapterImageResolution => 'Chapter image resolution';
+  String get adminLibChapterImageResolution => 'Bölüm görsel çözünürlüğü';
 
   @override
-  String get adminLibNfoTitle => 'NFO Settings';
+  String get adminLibNfoTitle => 'NFO Ayarları';
 
   @override
   String get adminLibNfoHelp =>
-      'NFO metadata is compatible with Kodi and similar clients. Settings apply to all libraries that save NFO metadata.';
+      'NFO meta verileri Kodi ve benzeri istemcilerle uyumludur. Ayarlar, NFO meta verilerini kaydeden tüm kütüphaneler için geçerlidir.';
 
   @override
-  String get adminLibKodiUser => 'User to store watch data for in NFO files';
+  String get adminLibKodiUser =>
+      'İzlenme verileri NFO dosyalarına kaydedilecek kullanıcı';
 
   @override
-  String get adminLibSaveImagePaths => 'Save image paths within NFO files';
+  String get adminLibSaveImagePaths =>
+      'Görsel yollarını NFO dosyalarının içine kaydet';
 
   @override
   String get adminLibPathSubstitution =>
-      'Enable path substitution for NFO image paths';
+      'NFO görsel yolları için yol değiştirmeyi etkinleştir';
 
   @override
   String get adminLibExtraThumbs =>
-      'Copy extrafanart images into an extrathumbs folder';
+      'Extrafanart görsellerini bir extrathumbs klasörüne kopyala';
 
   @override
-  String get adminLibNone => 'None';
+  String get adminLibNone => 'Hiçbiri';
 
   @override
   String adminLibRefreshDays(int days) {
-    return '$days days';
+    return '$days gün';
   }
 
   @override
-  String get adminLibEmbeddedTitles => 'Use embedded titles';
+  String get adminLibEmbeddedTitles => 'Gömülü başlıkları kullan';
 
   @override
-  String get adminLibEmbeddedExtrasTitles => 'Use embedded titles for extras';
+  String get adminLibEmbeddedExtrasTitles =>
+      'Ekstralar için gömülü başlıkları kullan';
 
   @override
-  String get adminLibEmbeddedEpisodeInfos => 'Use embedded episode information';
+  String get adminLibEmbeddedEpisodeInfos => 'Gömülü bölüm bilgilerini kullan';
 
   @override
-  String get adminLibAllowEmbeddedSubtitles => 'Allow embedded subtitles';
+  String get adminLibAllowEmbeddedSubtitles => 'Gömülü altyazılara izin ver';
 
   @override
-  String get adminLibEmbeddedAllowAll => 'Allow all';
+  String get adminLibEmbeddedAllowAll => 'Tümüne izin ver';
 
   @override
-  String get adminLibEmbeddedAllowText => 'Text only';
+  String get adminLibEmbeddedAllowText => 'Sadece yazı';
 
   @override
-  String get adminLibEmbeddedAllowImage => 'Image only';
+  String get adminLibEmbeddedAllowImage => 'Sadece görsel';
 
   @override
-  String get adminLibEmbeddedAllowNone => 'None';
+  String get adminLibEmbeddedAllowNone => 'Hiçbiri';
 
   @override
   String get adminLibSkipIfEmbeddedSubs =>
-      'Skip download if embedded subtitles are present';
+      'Gömülü altyazı varsa indirmeyi atla';
 
   @override
   String get adminLibSkipIfAudioMatches =>
-      'Skip download if the audio track matches the download language';
+      'Ses izi indirme diliyle eşleşiyorsa indirmeyi atla';
 
   @override
-  String get adminLibRequirePerfectMatch => 'Require a perfect subtitle match';
+  String get adminLibRequirePerfectMatch =>
+      'Birebir altyazı eşleşmesi zorunlu olsun';
 
   @override
   String get adminLibSaveSubtitlesWithMedia =>
-      'Save subtitles into media folders';
+      'Altyazıları medya klasörlerine kaydet';
 
   @override
-  String get adminLibChapterImageExtraction => 'Extract chapter images';
+  String get adminLibChapterImageExtraction => 'Bölüm görsellerini ayıkla';
 
   @override
   String get adminLibChapterImagesDuringScan =>
-      'Extract chapter images during the library scan';
+      'Kütüphane taraması sırasında bölüm görsellerini ayıkla';
 
   @override
-  String get adminLibTrickplayExtraction => 'Enable trickplay image extraction';
+  String get adminLibTrickplayExtraction =>
+      'Trickplay görsel ayıklamayı etkinleştir';
 
   @override
   String get adminLibTrickplayDuringScan =>
-      'Extract trickplay images during the library scan';
+      'Kütüphane taraması sırasında trickplay görsellerini ayıkla';
 
   @override
   String get adminLibSaveTrickplayWithMedia =>
-      'Save trickplay images into media folders';
+      'Trickplay görsellerini medya klasörlerine kaydet';
 
   @override
   String get adminLibAutomaticSeriesGrouping =>
-      'Automatically merge series that are spread across multiple folders';
+      'Birden fazla klasöre dağılmış dizileri otomatik olarak birleştir';
 
   @override
-  String get adminLibSeasonZeroName => 'Season zero display name';
+  String get adminLibSeasonZeroName => '0. Sezon görünen adı';
 
   @override
-  String get adminLibLufsScan => 'Enable LUFS scan for audio normalization';
+  String get adminLibLufsScan =>
+      'Ses normalleştirme için LUFS taramasını etkinleştir';
 
   @override
   String get adminLibPreferNonstandardArtist =>
-      'Prefer non-standard artists tag';
+      'Standart dışı sanatçı etiketlerini tercih et';
 
   @override
   String get adminLibAutoAddToCollection =>
-      'Automatically add movies to collections';
+      'Filmleri koleksiyonlara otomatik olarak ekle';
 
   @override
   String get adminLibraryNameRequired => 'Kitaplık adı gerekli';
@@ -5190,143 +5211,146 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminEnableAllChannels => 'Tüm kanallara erişimi etkinleştir';
 
   @override
-  String get adminParentalControl => 'Parental Control';
+  String get adminParentalControl => 'Ebeveyn Kontrolü';
 
   @override
-  String get adminMaxParentalRating => 'Maximum allowed parental rating';
+  String get adminMaxParentalRating =>
+      'İzin verilen en yüksek ebeveyn derecelendirmesi';
 
   @override
   String get adminMaxParentalRatingHint =>
-      'Content with a higher rating will be hidden from this user.';
+      'Bu derecelendirmenin üzerindeki içerikler bu kullanıcıdan gizlenecektir.';
 
   @override
-  String get adminParentalRatingNone => 'None';
+  String get adminParentalRatingNone => 'Hiçbiri';
 
   @override
   String get adminBlockUnratedItems =>
-      'Block items with no or unrecognized rating information';
+      'Derecelendirme bilgisi olmayan veya tanınmayan içerikleri engelle';
 
   @override
-  String get adminUnratedBook => 'Books';
+  String get adminUnratedBook => 'Kitaplar';
 
   @override
-  String get adminUnratedChannelContent => 'Channels';
+  String get adminUnratedChannelContent => 'Kanallar';
 
   @override
-  String get adminUnratedLiveTvChannel => 'Live TV';
+  String get adminUnratedLiveTvChannel => 'Canlı TV';
 
   @override
-  String get adminUnratedMovie => 'Movies';
+  String get adminUnratedMovie => 'Filmler';
 
   @override
-  String get adminUnratedMusic => 'Music';
+  String get adminUnratedMusic => 'Müzik';
 
   @override
-  String get adminUnratedTrailer => 'Trailers';
+  String get adminUnratedTrailer => 'Fragmanlar';
 
   @override
-  String get adminUnratedSeries => 'Shows';
+  String get adminUnratedSeries => 'Diziler';
 
   @override
-  String get adminAccessSchedules => 'Access Schedules';
+  String get adminAccessSchedules => 'Erişim Programları';
 
   @override
   String get adminAccessSchedulesHint =>
-      'Allow access only during the scheduled times below. Access is allowed all day when no schedule is set.';
+      'Erişime yalnızca aşağıdaki programlanan saatlerde izin verilir. Herhangi bir program ayarlanmadığında erişim tüm gün serbesttir.';
 
   @override
-  String get adminAddSchedule => 'Add Schedule';
+  String get adminAddSchedule => 'Program Ekle';
 
   @override
-  String get adminScheduleDay => 'Day';
+  String get adminScheduleDay => 'Gün';
 
   @override
-  String get adminScheduleStart => 'Start';
+  String get adminScheduleStart => 'Başlangıç';
 
   @override
-  String get adminScheduleEnd => 'End';
+  String get adminScheduleEnd => 'Bitiş';
 
   @override
-  String get adminDayEveryday => 'Every day';
+  String get adminDayEveryday => 'Her Gün';
 
   @override
-  String get adminDayWeekday => 'Weekday';
+  String get adminDayWeekday => 'Hafta içi';
 
   @override
-  String get adminDayWeekend => 'Weekend';
+  String get adminDayWeekend => 'Hafta Sonu';
 
   @override
-  String get adminDaySunday => 'Sunday';
+  String get adminDaySunday => 'Pazar';
 
   @override
-  String get adminDayMonday => 'Monday';
+  String get adminDayMonday => 'Pazartesi';
 
   @override
-  String get adminDayTuesday => 'Tuesday';
+  String get adminDayTuesday => 'Salı';
 
   @override
-  String get adminDayWednesday => 'Wednesday';
+  String get adminDayWednesday => 'Çarşamba';
 
   @override
-  String get adminDayThursday => 'Thursday';
+  String get adminDayThursday => 'Perşembe';
 
   @override
-  String get adminDayFriday => 'Friday';
+  String get adminDayFriday => 'Cuma';
 
   @override
-  String get adminDaySaturday => 'Saturday';
+  String get adminDaySaturday => 'Cumartesi';
 
   @override
-  String get adminAllowedTags => 'Allowed tags';
+  String get adminAllowedTags => 'Etiketlere izin ver';
 
   @override
   String get adminAllowedTagsHint =>
-      'Only content with these tags is shown. Leave empty to allow all.';
+      'Yalnızca bu etiketlere sahip içerikler gösterilir. Tümüne izin vermek için boş bırakın.';
 
   @override
-  String get adminBlockedTags => 'Blocked tags';
+  String get adminBlockedTags => 'Engellenen Etiketler';
 
   @override
   String get adminBlockedTagsHint =>
-      'Content with these tags is hidden from this user.';
+      'Bu etiketlere sahip içerikler bu kullanıcıdan gizlenir.';
 
   @override
-  String get adminAddTag => 'Add tag';
+  String get adminAddTag => 'Etiket ekle';
 
   @override
-  String get adminEnabledDevices => 'Enabled devices';
+  String get adminEnabledDevices => 'Aktif edilen cihazlar';
 
   @override
-  String get adminEnabledChannels => 'Enabled channels';
+  String get adminEnabledChannels => 'Aktif edilen kanallar';
 
   @override
-  String get adminAuthProvider => 'Authentication provider';
+  String get adminAuthProvider => 'Kimlik doğrulama sağlayıcısı';
 
   @override
-  String get adminPasswordResetProvider => 'Password reset provider';
+  String get adminPasswordResetProvider => 'Parola sıfırlama sağlayıcısı';
 
   @override
   String get adminLoginAttemptsBeforeLockout =>
-      'Maximum failed login attempts before lockout';
+      'Kilitlenme öncesi maksimum hatalı giriş denemesi';
 
   @override
   String get adminLoginAttemptsHint =>
-      'Set to 0 for the default, or -1 to disable lockout.';
+      'Varsayılan değer için 0, kilitlenmeyi devre dışı bırakmak için -1 yazın.';
 
   @override
-  String get adminSyncPlayAccess => 'SyncPlay access';
+  String get adminSyncPlayAccess => 'SyncPlay erişimi';
 
   @override
-  String get adminSyncPlayCreateAndJoin => 'Allow creating and joining groups';
+  String get adminSyncPlayCreateAndJoin =>
+      'Grup oluşturulmasına ve katılımına izin ver';
 
   @override
-  String get adminSyncPlayJoin => 'Allow joining groups';
+  String get adminSyncPlayJoin => 'Gruplara katılmaya izin ver';
 
   @override
-  String get adminSyncPlayNone => 'No access';
+  String get adminSyncPlayNone => 'İzin yok';
 
   @override
-  String get adminContentDeletionFolders => 'Allow content deletion from';
+  String get adminContentDeletionFolders =>
+      'İçerik silme izni verilecek kaynaklar';
 
   @override
   String get adminResetPasswordWarning =>
@@ -5413,25 +5437,25 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get adminBackupOptionsTitle => 'Create Backup';
+  String get adminBackupOptionsTitle => 'Yedek Oluştur';
 
   @override
-  String get adminBackupInclude => 'Choose what to include in the backup.';
+  String get adminBackupInclude => 'Yedeğe nelerin dahil edileceğini seçin.';
 
   @override
-  String get adminBackupDatabase => 'Database';
+  String get adminBackupDatabase => 'Veri tabanı';
 
   @override
-  String get adminBackupDatabaseAlways => 'Always included';
+  String get adminBackupDatabaseAlways => 'Her zaman dahil edilenler';
 
   @override
-  String get adminBackupMetadata => 'Metadata';
+  String get adminBackupMetadata => 'Meta Veri';
 
   @override
-  String get adminBackupSubtitles => 'Subtitles';
+  String get adminBackupSubtitles => 'Altyazılar';
 
   @override
-  String get adminBackupTrickplay => 'Trickplay images';
+  String get adminBackupTrickplay => 'Trickplay görselleri';
 
   @override
   String get adminCreatingBackup => 'Yedek oluşturuluyor...';
@@ -6189,7 +6213,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get adminTunerResetNotSupported =>
-      'This tuner type does not support resetting.';
+      'Bu alıcı türü sıfırlamayı desteklemiyor.';
 
   @override
   String adminProviderRemoveFailed(String error) {
@@ -6212,43 +6236,43 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminSeriesRecordingPath => 'Dizi kayıt yolu';
 
   @override
-  String get adminMovieRecordingPath => 'Movie recording path';
+  String get adminMovieRecordingPath => 'Film kayıt yolu';
 
   @override
-  String get adminGuideDays => 'Guide data days';
+  String get adminGuideDays => 'Rehber verisi gün sayısı';
 
   @override
-  String get adminGuideDaysAuto => 'Automatic';
+  String get adminGuideDaysAuto => 'Otomatik';
 
   @override
   String adminGuideDaysValue(int days) {
-    return '$days days';
+    return '$days gün';
   }
 
   @override
-  String get adminRecordingPostProcessor => 'Post-processing application path';
+  String get adminRecordingPostProcessor => 'Son işleme uygulaması yolu';
 
   @override
-  String get adminRecordingPostProcessorArgs => 'Post-processor arguments';
+  String get adminRecordingPostProcessorArgs => 'Son işleme argümanları';
 
   @override
-  String get adminSaveRecordingNfo => 'Save recording NFO metadata';
+  String get adminSaveRecordingNfo => 'Kayıt NFO meta verilerini kaydet';
 
   @override
-  String get adminSaveRecordingImages => 'Save recording images';
+  String get adminSaveRecordingImages => 'Kayıt görsellerini kaydet';
 
   @override
-  String get adminLiveTvSectionTiming => 'Timing';
+  String get adminLiveTvSectionTiming => 'Zamanlama';
 
   @override
-  String get adminLiveTvSectionPaths => 'Recording paths';
+  String get adminLiveTvSectionPaths => 'Kayıt yolları';
 
   @override
-  String get adminLiveTvSectionPostProcessing => 'Post-processing';
+  String get adminLiveTvSectionPostProcessing => 'Son işleme';
 
   @override
   String adminGuideDaysDisplay(String value) {
-    return 'Guide data: $value';
+    return 'Rehber verisi: $value';
   }
 
   @override
@@ -6290,14 +6314,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminGuideProviders => 'Rehber Sağlayıcılar';
 
   @override
-  String get adminRefreshGuideData => 'Refresh Guide Data';
+  String get adminRefreshGuideData => 'Rehber Verisini Yenile';
 
   @override
-  String get adminGuideRefreshStarted => 'Guide data refresh started';
+  String get adminGuideRefreshStarted =>
+      'Rehber verisi yenileme işlemi başladı';
 
   @override
   String get adminGuideRefreshUnavailable =>
-      'Guide refresh task is not available on this server.';
+      'Rehber yenileme görevi bu sunucuda mevcut değil.';
 
   @override
   String get adminAddProvider => 'Sağlayıcı Ekle';
@@ -6432,7 +6457,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminMetadataEditorTitle => 'Meta Veri Düzenleyici';
 
   @override
-  String get adminMetadataIdentify => 'Identify';
+  String get adminMetadataIdentify => 'Tanımla';
 
   @override
   String get adminMetadataType => 'Tür';
@@ -6845,19 +6870,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminBrandingEnableSplash => 'Açılış ekranını etkinleştir';
 
   @override
-  String get adminBrandingSplashUpload => 'Upload image';
+  String get adminBrandingSplashUpload => 'Görsel Yükle';
 
   @override
-  String get adminBrandingSplashUploaded => 'Splashscreen updated';
+  String get adminBrandingSplashUploaded => 'Açılış ekranı güncellendi';
 
   @override
-  String get adminBrandingSplashUploadFailed => 'Failed to upload splashscreen';
+  String get adminBrandingSplashUploadFailed => 'Açılış ekranı yüklenemedi';
 
   @override
-  String get adminBrandingSplashDeleted => 'Splashscreen removed';
+  String get adminBrandingSplashDeleted => 'Açılış ekranı silindi';
 
   @override
-  String get adminBrandingNoSplash => 'No custom splashscreen';
+  String get adminBrandingNoSplash => 'Özel açılış ekranı yok';
 
   @override
   String get adminPlaybackHwAccel => 'Donanım Hızlandırma';
@@ -6873,110 +6898,112 @@ class AppLocalizationsTr extends AppLocalizations {
       'Aşağıdakiler için donanım kod çözmeyi etkinleştirin:';
 
   @override
-  String get adminPlaybackQsvDevice => 'QSV device';
+  String get adminPlaybackQsvDevice => 'QSV cihazı';
 
   @override
-  String get adminPlaybackEnhancedNvdec => 'Enable enhanced NVDEC decoder';
+  String get adminPlaybackEnhancedNvdec =>
+      'Gelişmiş NVDEC kod çözücüyü etkinleştir';
 
   @override
   String get adminPlaybackPreferNativeDecoder =>
-      'Prefer system native hardware decoder';
+      'Sistemin yerel donanım kod çözücüsünü tercih et';
 
   @override
-  String get adminPlaybackColorDepth => 'Hardware decoding color depth';
+  String get adminPlaybackColorDepth => 'Donanım kod çözme renk derinliği';
 
   @override
-  String get adminPlaybackColorDepth10Hevc => '10-bit HEVC decoding';
+  String get adminPlaybackColorDepth10Hevc => '10-bit HEVC kod çözme';
 
   @override
-  String get adminPlaybackColorDepth10Vp9 => '10-bit VP9 decoding';
+  String get adminPlaybackColorDepth10Vp9 => '10-bit VP9 kod çözme';
 
   @override
-  String get adminPlaybackColorDepth10HevcRext => 'HEVC RExt 8/10-bit decoding';
+  String get adminPlaybackColorDepth10HevcRext =>
+      'HEVC RExt 8/10-bit kod çözme';
 
   @override
-  String get adminPlaybackColorDepth12HevcRext => 'HEVC RExt 12-bit decoding';
+  String get adminPlaybackColorDepth12HevcRext => 'HEVC RExt 12-bit kod çözme';
 
   @override
-  String get adminPlaybackHwEncodingSection => 'Hardware encoding';
+  String get adminPlaybackHwEncodingSection => 'Donanım kodlama';
 
   @override
-  String get adminPlaybackAllowHevcEncoding => 'Allow HEVC encoding';
+  String get adminPlaybackAllowHevcEncoding => 'HEVC kodlamaya izin ver';
 
   @override
-  String get adminPlaybackAllowAv1Encoding => 'Allow AV1 encoding';
+  String get adminPlaybackAllowAv1Encoding => 'AV1 kodlamaya izin ver';
 
   @override
   String get adminPlaybackIntelLowPowerH264 =>
-      'Enable Intel low-power H.264 encoder';
+      'Intel düşük güç tüketimli H.264 kodlayıcıyı etkinleştir';
 
   @override
   String get adminPlaybackIntelLowPowerHevc =>
-      'Enable Intel low-power HEVC encoder';
+      'Intel düşük güç tüketimli HEVC kodlayıcıyı etkinleştir';
 
   @override
-  String get adminPlaybackToneMapping => 'Tone Mapping';
+  String get adminPlaybackToneMapping => 'Ton Eşleme';
 
   @override
-  String get adminPlaybackEnableTonemapping => 'Enable tone mapping';
+  String get adminPlaybackEnableTonemapping => 'Ton eşlemeyi aktif et';
 
   @override
-  String get adminPlaybackEnableVppTonemapping => 'Enable VPP tone mapping';
+  String get adminPlaybackEnableVppTonemapping => 'VPP ton eşlemeyi aktif et';
 
   @override
   String get adminPlaybackEnableVtTonemapping =>
-      'Enable VideoToolbox tone mapping';
+      'VideoToolbox ton eşlemeyi aktif et';
 
   @override
-  String get adminPlaybackTonemappingAlgorithm => 'Tone mapping algorithm';
+  String get adminPlaybackTonemappingAlgorithm => 'Ton Eşleme Algoritması';
 
   @override
-  String get adminPlaybackTonemappingMode => 'Tone mapping mode';
+  String get adminPlaybackTonemappingMode => 'Ton eşleme modu';
 
   @override
-  String get adminPlaybackTonemappingRange => 'Tone mapping range';
+  String get adminPlaybackTonemappingRange => 'Ton eşleme aralığı';
 
   @override
-  String get adminPlaybackTonemappingDesat => 'Tone mapping desaturation';
+  String get adminPlaybackTonemappingDesat => 'Ton eşleme doygunluk azaltma';
 
   @override
-  String get adminPlaybackTonemappingPeak => 'Tone mapping peak';
+  String get adminPlaybackTonemappingPeak => 'Ton eşleme tepe değeri';
 
   @override
-  String get adminPlaybackTonemappingParam => 'Tone mapping parameter';
+  String get adminPlaybackTonemappingParam => 'Ton eşleme parametresi';
 
   @override
-  String get adminPlaybackPresetsQuality => 'Presets & Quality';
+  String get adminPlaybackPresetsQuality => 'Ön Ayar & Kalite';
 
   @override
-  String get adminPlaybackEncoderPreset => 'Encoder preset';
+  String get adminPlaybackEncoderPreset => 'Kodlama ön ayarı';
 
   @override
-  String get adminPlaybackH264Crf => 'H.264 encoding CRF';
+  String get adminPlaybackH264Crf => 'H.264 kodlama CRF';
 
   @override
-  String get adminPlaybackH265Crf => 'H.265 (HEVC) encoding CRF';
+  String get adminPlaybackH265Crf => 'H.265 (HEVC) kodlama CRF';
 
   @override
-  String get adminPlaybackDeinterlaceMethod => 'Deinterlace method';
+  String get adminPlaybackDeinterlaceMethod => 'Tarama giderme yöntemi';
 
   @override
-  String get adminPlaybackAudioSection => 'Audio';
+  String get adminPlaybackAudioSection => 'Ses';
 
   @override
-  String get adminPlaybackEnableAudioVbr => 'Enable audio VBR encoding';
+  String get adminPlaybackEnableAudioVbr => 'Ses VBR kodlamasını etkinleştir';
 
   @override
-  String get adminPlaybackDownmixBoost => 'Audio downmix boost';
+  String get adminPlaybackDownmixBoost => 'Ses downmix artışı';
 
   @override
-  String get adminPlaybackDownmixAlgorithm => 'Stereo downmix algorithm';
+  String get adminPlaybackDownmixAlgorithm => 'Stereo downmix algoritması';
 
   @override
-  String get adminPlaybackMaxMuxingQueue => 'Max muxing queue size';
+  String get adminPlaybackMaxMuxingQueue => 'Maksimum muxing kuyruk boyutu';
 
   @override
-  String get adminPlaybackAutoOption => 'Auto';
+  String get adminPlaybackAutoOption => 'Otomatik';
 
   @override
   String get adminPlaybackEncoding => 'Kodlama';
@@ -7099,7 +7126,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminTaskStop => 'Dur';
 
   @override
-  String get adminRunningTasks => 'Running Tasks';
+  String get adminRunningTasks => 'Çalışan Görevler';
 
   @override
   String get adminTaskRun => 'Çalıştır';
@@ -7251,43 +7278,44 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminNetworkingHttps => 'HTTPS';
 
   @override
-  String get adminNetworkingPublicHttpPort => 'Public HTTP port';
+  String get adminNetworkingPublicHttpPort => 'Genel HTTP bağlantı noktası';
 
   @override
-  String get adminNetworkingRequireHttps => 'Require HTTPS';
+  String get adminNetworkingRequireHttps => 'HTTPS Gerekli';
 
   @override
   String get adminNetworkingRequireHttpsHint =>
-      'Redirect all remote requests to HTTPS. Has no effect if the server has no valid certificate.';
+      'Tüm uzak istekleri HTTPS\'e yönlendir. Sunucunun geçerli bir sertifikası yoksa hiçbir etkisi olmaz.';
 
   @override
-  String get adminNetworkingCertPassword => 'Certificate password';
+  String get adminNetworkingCertPassword => 'Sertifika şifresi';
 
   @override
-  String get adminNetworkingIpSettings => 'IP Settings';
+  String get adminNetworkingIpSettings => 'IP Ayarları';
 
   @override
-  String get adminNetworkingEnableIpv4 => 'Enable IPv4';
+  String get adminNetworkingEnableIpv4 => 'IPv4 Etkinleştir';
 
   @override
-  String get adminNetworkingEnableIpv6 => 'Enable IPv6';
+  String get adminNetworkingEnableIpv6 => 'IPv6 Etkinleştir';
 
   @override
-  String get adminNetworkingAutoDiscovery => 'Enable automatic port mapping';
+  String get adminNetworkingAutoDiscovery =>
+      'Otomatik port eşlemeyi etkinleştir';
 
   @override
-  String get adminNetworkingLocalSubnets => 'LAN networks';
+  String get adminNetworkingLocalSubnets => 'Yerel Ağlar';
 
   @override
   String get adminNetworkingLocalSubnetsHint =>
-      'Comma or line separated list of IP addresses or CIDR subnets treated as being on the local network.';
+      'Yerel ağda kabul edilecek IP adreslerinin veya CIDR alt ağlarının virgül veya yeni satırla ayrılmış listesi.';
 
   @override
-  String get adminNetworkingPublishedUris => 'Published server URIs';
+  String get adminNetworkingPublishedUris => 'Yayınlanan Sunucu URI\'leri';
 
   @override
   String get adminNetworkingPublishedUriHint =>
-      'Map a subnet or address to a published URL, e.g. all=https://example.com';
+      'Bir alt ağı veya adresi yayınlanan bir URL ile eşleyin, örn. all=https://example.com';
 
   @override
   String get adminNetworkingCertPath => 'Sertifika yolu';
@@ -7370,22 +7398,23 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminGeneralSlowResponseThreshold => 'Yavaş yanıt eşiği (ms)';
 
   @override
-  String get adminGeneralEnableSlowResponse => 'Enable slow response warnings';
+  String get adminGeneralEnableSlowResponse =>
+      'Yavaş yanıt uyarılarını etkinleştir';
 
   @override
-  String get adminGeneralQuickConnect => 'Enable Quick Connect';
+  String get adminGeneralQuickConnect => 'Hızlı Bağlantıyı Etkinleştir';
 
   @override
-  String get adminGeneralSectionServer => 'Server';
+  String get adminGeneralSectionServer => 'Sunucu';
 
   @override
-  String get adminGeneralSectionMetadata => 'Metadata';
+  String get adminGeneralSectionMetadata => 'Meta Veri';
 
   @override
-  String get adminGeneralSectionPaths => 'Paths';
+  String get adminGeneralSectionPaths => 'Yollar';
 
   @override
-  String get adminGeneralSectionPerformance => 'Performance';
+  String get adminGeneralSectionPerformance => 'Performans';
 
   @override
   String get adminGeneralCachePath => 'Önbellek yolu';
@@ -8009,13 +8038,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get contextMenuHideFromContinueWatching =>
-      'Hide from Continue Watching';
+      'İzlemeye Devam Et\'ten Gizle';
 
   @override
-  String get contextMenuHideFromNextUp => 'Hide from Next Up';
+  String get contextMenuHideFromNextUp => 'Sıradaki Bölümlerden Gizle';
 
   @override
-  String get contextMenuAddToCollection => 'Add to Collection';
+  String get contextMenuAddToCollection => 'Koleksiyona ekle';
 
   @override
   String get settingsAdministrationSubtitle => 'Sunucu yönetim paneline erişin';
@@ -8069,14 +8098,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsAlphabetical => 'Alfabetik';
 
   @override
-  String get settingsConnectionSection => 'CONNECTION';
+  String get settingsConnectionSection => 'BAĞLANTI';
 
   @override
-  String get settingsAllowSelfSignedCerts => 'Allow self-signed certificates';
+  String get settingsAllowSelfSignedCerts =>
+      'Kendinden imzalı sertifikalara izin ver';
 
   @override
   String get settingsAllowSelfSignedCertsSubtitle =>
-      'Trust servers using self-signed or private-CA TLS certificates. Only enable for servers you control. This disables certificate validation for all connections.';
+      'Kendinden imzalı veya özel CA (Sertifika Yetkilisi) TLS sertifikaları kullanan sunuculara güvenin. Bunu yalnızca kontrolünüz altındaki sunucular için etkinleştirin. Bu işlem, tüm bağlantılar için sertifika doğrulamasını devre dışı bırakır.';
 
   @override
   String get settingsPrivacyAndSafetySection => 'GİZLİLİK & GÜVENLİK';
@@ -8089,14 +8119,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsGeneralStyleSubtitle =>
-      'Tema vurguları, arka planlar, izlenen göstergeler ve tema müziği';
+      'Tema vurguları, arka planlar ve izlendi göstergeleri';
 
   @override
-  String get settingsDetailsScreen => 'Details Screen';
+  String get settingsDetailsScreen => 'Detay Ekranı';
 
   @override
   String get settingsDetailsScreenSubtitle =>
-      'Style, background blur, and tab behavior';
+      'Stil, arka plan bulanıklığı ve sekme davranışı';
 
   @override
   String get settingsHomePage => 'Ana Sayfa';
@@ -8138,7 +8168,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsAlwaysExpandNavbarLabels =>
-      'Always show text labels in the top navigation bar';
+      'Üst gezinti çubuğundaki metin etiketlerini her zaman göster';
 
   @override
   String get settingsLibraryVisibilitySubtitle =>
@@ -8523,12 +8553,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String latestLibraryName(String libraryName) {
-    return 'Son Eklenen $libraryName';
+    return 'En Son Eklenen $libraryName';
   }
 
   @override
   String recentlyReleasedLibraryName(String libraryName) {
-    return '';
+    return 'Yeni Çıkan $libraryName';
   }
 
   @override
@@ -8710,7 +8740,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get homeRowTogglesSubtitle =>
-      'Farklı ana sayfa satır kategorilerini etkinleştirin veya devre dışı bırakın';
+      'Kütüphane kaynaklı ana sayfa satır kategorilerini etkinleştirin veya devre dışı bırakın';
 
   @override
   String get homeRowTogglesDescription =>
@@ -8807,22 +8837,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appearance => 'Görünüm';
 
   @override
-  String get layout => 'Layout';
+  String get layout => 'Düzen';
 
   @override
-  String get theme => 'Theme';
+  String get theme => 'Tema';
 
   @override
-  String get keyboard => 'Keyboard';
+  String get keyboard => 'Klavye';
 
   @override
-  String get navButtons => 'Buttons';
+  String get navButtons => 'Butonlar';
 
   @override
-  String get rendering => 'Rendering';
+  String get rendering => 'Render Etme';
 
   @override
-  String get mpvConfiguration => 'MPV configuration';
+  String get mpvConfiguration => 'MPV ayarı';
 
   @override
   String get cardSize => 'Ana Sayfa Satırı Kart Gösterim Boyutu';
@@ -9101,7 +9131,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appearancesSeerr => 'Rol Aldığı Yapımlar (Seerr)';
 
   @override
-  String get crewContributionsSeerr => '';
+  String get crewContributionsSeerr => 'Ekip Katkıları (Seerr)';
 
   @override
   String get watchWithGroup => 'Grupça İzle';
@@ -9508,78 +9538,78 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sources => 'Kaynaklar';
 
   @override
-  String get audiobookChapters => 'Chapters';
+  String get audiobookChapters => 'Bölümler';
 
   @override
-  String get audiobookBookmarks => 'Bookmarks';
+  String get audiobookBookmarks => 'Yer İmleri';
 
   @override
-  String get audiobookNotes => 'Notes';
+  String get audiobookNotes => 'Notlar';
 
   @override
-  String get audiobookQueue => 'Queue';
+  String get audiobookQueue => 'Sıra';
 
   @override
-  String get audiobookTimeline => 'Timeline';
+  String get audiobookTimeline => 'Zaman Çizelgesi';
 
   @override
-  String get audiobookTimelineEmpty => 'Timeline is empty';
+  String get audiobookTimelineEmpty => 'Zaman Çizelgesi boş';
 
   @override
-  String get audiobookWholeBook => 'Whole Book';
+  String get audiobookWholeBook => 'Tüm Kitap';
 
   @override
-  String get audiobookFocusedTimeline => 'Focused Timeline';
+  String get audiobookFocusedTimeline => 'Odaklanmış Zaman Çizelgesi';
 
   @override
-  String get audiobookExportBookmarks => 'Export Bookmarks';
+  String get audiobookExportBookmarks => 'Yer İmlerini Dışarı Aktar';
 
   @override
-  String get audiobookExportNotes => 'Export Notes';
+  String get audiobookExportNotes => 'Notları Dışarı Aktar';
 
   @override
-  String get audiobookExportAll => 'Export All';
+  String get audiobookExportAll => 'Hepsini Dışarı Aktar';
 
   @override
   String audiobookExportSuccess(String path) {
-    return 'Exported to $path';
+    return '$path konumuna aktarıldı';
   }
 
   @override
   String audiobookExportFailed(String error) {
-    return 'Export failed: $error';
+    return 'Dışarı aktarma başarısız: $error';
   }
 
   @override
-  String get audiobookLyrics => 'Lyrics';
+  String get audiobookLyrics => 'Şarkı Sözleri';
 
   @override
-  String get audiobookAddBookmark => 'Add bookmark';
+  String get audiobookAddBookmark => 'Yer İmi Ekle';
 
   @override
-  String get audiobookAddNote => 'Add note';
+  String get audiobookAddNote => 'Not Ekle';
 
   @override
-  String get audiobookEditNote => 'Edit note';
+  String get audiobookEditNote => 'Notu Düzenle';
 
   @override
-  String get audiobookNoteHint => 'Write a note for this moment';
+  String get audiobookNoteHint => 'Bu ana not ekle';
 
   @override
-  String get audiobookSleepTimer => 'Sleep timer';
+  String get audiobookSleepTimer => 'Uyku Zamanlayıcısı';
 
   @override
-  String get audiobookSleepOff => 'Off';
+  String get audiobookSleepOff => 'Kapalı';
 
   @override
-  String get audiobookSleepEndOfChapter => 'End of chapter';
+  String get audiobookSleepEndOfChapter => 'Bölüm sonunda';
 
   @override
-  String get audiobookSleepCustom => 'Custom';
+  String get audiobookSleepCustom => 'Özel';
 
   @override
   String audiobookSleepRemaining(String remaining) {
-    return '$remaining left';
+    return '$remaining kaldı';
   }
 
   @override
@@ -9587,58 +9617,58 @@ class AppLocalizationsTr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count min',
-      one: '1 min',
+      other: '$count dk',
+      one: '1 dk',
     );
     return '$_temp0';
   }
 
   @override
-  String get audiobookPlaybackSpeed => 'Playback speed';
+  String get audiobookPlaybackSpeed => 'Oynatma Hızı';
 
   @override
-  String get audiobookRemainingTime => 'Remaining';
+  String get audiobookRemainingTime => 'Kalan Süre';
 
   @override
-  String get audiobookElapsedTime => 'Elapsed';
+  String get audiobookElapsedTime => 'Geçen Süre';
 
   @override
   String audiobookSkipBackSeconds(int seconds) {
-    return 'Back ${seconds}s';
+    return '$seconds sn geri';
   }
 
   @override
   String audiobookSkipForwardSeconds(int seconds) {
-    return 'Forward ${seconds}s';
+    return '$seconds sn ileri';
   }
 
   @override
-  String get audiobookPreviousChapter => 'Previous chapter';
+  String get audiobookPreviousChapter => 'Bir Önceki Bölüm';
 
   @override
-  String get audiobookNextChapter => 'Next chapter';
+  String get audiobookNextChapter => 'Bir Sonraki Bölüm';
 
   @override
   String audiobookChapterIndicator(int current, int total) {
-    return 'Chapter $current of $total';
+    return 'Bölüm: $current / $total';
   }
 
   @override
-  String get audiobookNoChapters => 'No chapters';
+  String get audiobookNoChapters => 'Bölüm bulunamadı';
 
   @override
-  String get audiobookNoBookmarks => 'No bookmarks yet';
+  String get audiobookNoBookmarks => 'Henüz yer işareti yok';
 
   @override
-  String get audiobookNoNotes => 'No notes yet';
+  String get audiobookNoNotes => 'Henüz not yok';
 
   @override
   String audiobookBookmarkAdded(String position) {
-    return 'Bookmark added at $position';
+    return 'Yer işareti $position konumuna eklendi';
   }
 
   @override
-  String get audiobookSpeedReset => 'Reset to 1.0x';
+  String get audiobookSpeedReset => '1.0x hızına sıfırla';
 
   @override
   String audiobookSpeedCustomLabel(String value) {
@@ -9646,230 +9676,234 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get audiobookSave => 'Save';
+  String get audiobookSave => 'Kaydet';
 
   @override
-  String get audiobookCancel => 'Cancel';
+  String get audiobookCancel => 'İptal Et';
 
   @override
-  String get audiobookDelete => 'Delete';
+  String get audiobookDelete => 'Sil';
 
   @override
-  String get subtitlePreferences => '';
+  String get subtitlePreferences => 'Altyazı Ayarları';
 
   @override
-  String get subtitlePreferencesDescription => '';
+  String get subtitlePreferencesDescription =>
+      'Altyazı modlarını, varsayılan dilleri, görünümü ve oluşturma seçeneklerini değiştirin.';
 
   @override
-  String get subtitleRendering => '';
+  String get subtitleRendering => 'Altyazı Oluşturma';
 
   @override
-  String get displayOptions => '';
+  String get displayOptions => 'Görüntüleme Seçenekleri';
 
   @override
-  String get releaseDateAscending => '';
+  String get releaseDateAscending => 'Çıkış Tarihi (Eskiden Yeniye)';
 
   @override
-  String get releaseDateDescending => '';
+  String get releaseDateDescending => 'Çıkış Tarihi (Yeniden Eskiye)';
 
   @override
-  String get groupContributions => '';
+  String get groupContributions => 'Grup Katkıları';
 
   @override
-  String get groupMultipleRoles => '';
+  String get groupMultipleRoles => 'Birden Fazla Rolü Grupla';
 
   @override
-  String get libraryWriteAccessWarningTitle => '';
+  String get libraryWriteAccessWarningTitle => 'Kitaplık Yazma İzni Uyarısı';
 
   @override
-  String get libraryWriteAccessHowToFix => '';
+  String get libraryWriteAccessHowToFix => 'Bu sorun nasıl çözülür:';
 
   @override
-  String get libraryWriteAccessFixSteps => '';
+  String get libraryWriteAccessFixSteps =>
+      '1. Sunucudaki medya kitaplığı klasörleriniz için Jellyfin hizmet kullanıcısına (örn. jellyfin veya Docker PUID/PGID) yazma izinleri tanımlayın.\n\n2. Veya Jellyfin Kontrol Paneli -> Kitaplıklar bölümüne gidin, bu kitaplığı düzenleyin ve görselleri Jellyfin\'in dahili veritabanında saklamak için \'Görselleri medya klasörlerine kaydet\' seçeneğini devre dışı bırakın.';
 
   @override
-  String get dismiss => '';
+  String get dismiss => 'Yoksay';
 
   @override
   String libraryWriteAccessProactiveBody(
     String libraryName,
     String failedPath,
   ) {
-    return '';
+    return '\'$libraryName\' kütüphaneniz, görselleri doğrudan medya klasörlerine kaydedecek şekilde yapılandırılmış (\'Görselleri medya klasörlerine kaydet\' seçeneği etkin). Ancak Jellyfin yazma erişimini test etti ve bu dizine dosya yazma izni olmadığını belirledi:\n\n$failedPath';
   }
 
   @override
-  String get libraryWriteAccessReactiveBody => '';
+  String get libraryWriteAccessReactiveBody =>
+      'Jellyfin görselleri güncelleyemedi. Kütüphaneniz, görselleri doğrudan medya klasörlerine kaydedecek şekilde yapılandırılmış (\'Görselleri medya klasörlerine kaydet\' seçeneği etkin). Bu hata genellikle Jellyfin sunucu işleminin, medya dizinlerinize dosya yazma izni olmadığında meydana gelir.';
 
   @override
-  String get externalLists => 'External Lists';
+  String get externalLists => 'Harici Ana Sayfa Satır Listeleri';
 
   @override
-  String get replay => 'Replay';
+  String get replay => 'Tekrar';
 
   @override
-  String get fileInformation => 'File Information';
+  String get fileInformation => 'Dosya Bilgisi';
 
   @override
   String fileSizeFormat(Object size, Object format) {
-    return 'Size: $size  •  Format: $format';
+    return 'Boyut: $size  •  Format: $format';
   }
 
   @override
   String showAllAudioTracks(int count) {
-    return 'Show All ($count) Audio Tracks';
+    return 'Tüm Ses Parçalarını Göster ($count)';
   }
 
   @override
   String showAllSubtitleTracks(int count) {
-    return 'Show All ($count) Subtitle Tracks';
+    return 'Tüm Altyazıları Göster ($count)';
   }
 
   @override
-  String get checkingDirectPlay => 'Checking Direct Play capability...';
+  String get checkingDirectPlay =>
+      'Doğrudan Oynatma uyumluluğu kontrol ediliyor...';
 
   @override
-  String get directPlayCapabilityLabel => 'Direct Play Capability: ';
+  String get directPlayCapabilityLabel => 'Doğrudan Oynatma Uyumluluğu: ';
 
   @override
-  String get forced => 'Forced';
+  String get forced => 'Zorunlu';
 
   @override
   String get transcodeContainerNotSupported =>
-      'Container format is not supported by the player.';
+      'Kapsayıcı biçimi oynatıcı tarafından desteklenmiyor.';
 
   @override
-  String get transcodeVideoCodecNotSupported => 'Video codec is not supported.';
+  String get transcodeVideoCodecNotSupported => 'Video kodeki desteklenmiyor.';
 
   @override
-  String get transcodeAudioCodecNotSupported => 'Audio codec is not supported.';
+  String get transcodeAudioCodecNotSupported => 'Ses kodeki desteklenmiyor.';
 
   @override
   String get transcodeSubtitleCodecNotSupported =>
-      'Subtitle format is not supported (requires burning).';
+      'Altyazı biçimi desteklenmiyor (videoya gömülmesi gerekiyor).';
 
   @override
-  String get transcodeAudioProfileNotSupported =>
-      'Audio profile is not supported.';
+  String get transcodeAudioProfileNotSupported => 'Ses profili desteklenmiyor.';
 
   @override
   String get transcodeVideoProfileNotSupported =>
-      'Video profile is not supported.';
+      'Video profili desteklenmiyor.';
 
   @override
-  String get transcodeVideoLevelNotSupported => 'Video level is not supported.';
+  String get transcodeVideoLevelNotSupported =>
+      'Video seviyesi desteklenmiyor.';
 
   @override
   String get transcodeVideoResolutionNotSupported =>
-      'Video resolution is not supported by this device.';
+      'Video çözünürlüğü bu cihaz tarafından desteklenmiyor.';
 
   @override
   String get transcodeVideoBitDepthNotSupported =>
-      'Video bit depth is not supported.';
+      'Video bit derinliği desteklenmiyor.';
 
   @override
   String get transcodeVideoFramerateNotSupported =>
-      'Video framerate is not supported.';
+      'Video kare hızı desteklenmiyor.';
 
   @override
   String get transcodeContainerBitrateExceedsLimit =>
-      'File bitrate exceeds player streaming limit.';
+      'Dosya bit hızı, oynatıcının akış sınırını aşıyor.';
 
   @override
   String get transcodeVideoBitrateExceedsLimit =>
-      'Video bitrate exceeds streaming limit.';
+      'Video bit hızı, akış sınırını aşıyor.';
 
   @override
   String get transcodeAudioBitrateExceedsLimit =>
-      'Audio bitrate exceeds streaming limit.';
+      'Ses bit hızı, akış sınırını aşıyor.';
 
   @override
   String get transcodeAudioChannelsNotSupported =>
-      'Number of audio channels is not supported.';
+      'Ses kanalı sayısı desteklenmiyor.';
 
   @override
-  String get sortAlphabetical => 'Alphabetical';
+  String get sortAlphabetical => 'Alfabetik';
 
   @override
-  String get sortReleaseAscending => 'Release Order (Ascending)';
+  String get sortReleaseAscending => 'Yayın Tarihine Göre (Eskiden Yeniye)';
 
   @override
-  String get sortReleaseDescending => 'Release Order (Descending)';
+  String get sortReleaseDescending => 'Yayın Tarihine Göre (Yeniden Eskiye)';
 
   @override
-  String get sortCustomDragDrop => 'Custom (Drag-and-Drop)';
+  String get sortCustomDragDrop => 'Özel (Sürükle-Bırak)';
 
   @override
-  String get playlistSortOptions => 'Playlist Sort Options';
+  String get playlistSortOptions => 'Oynatma Listesi Sıralama Seçenekleri';
 
   @override
-  String get resetSort => 'Reset Sort';
+  String get resetSort => 'Sıralamayı Sıfırla';
 
   @override
   String rewatchSeasonEpisode(int season, int episode) {
-    return 'Rewatch S$season:E$episode';
+    return 'S$season:E$episode Bölümünü Yeniden İzle';
   }
 
   @override
-  String get rewatchPlaylist => 'Rewatch Playlist';
+  String get rewatchPlaylist => 'Oynatma Listesini Yeniden İzle';
 
   @override
-  String get noSubtitlesFound => 'No subtitles found.';
+  String get noSubtitlesFound => 'Altyazı bulunamadı.';
 
   @override
-  String get adminControls => 'Admin Controls';
+  String get adminControls => 'Yönetici Kontrolleri';
 
   @override
-  String get impellerRendering => 'Rendering engine (Impeller)';
+  String get impellerRendering => 'İşleme motoru (Impeller)';
 
   @override
   String get impellerRenderingSubtitle =>
-      'Impeller is Flutter\'s modern GPU renderer for smoother animations and less stutter. On some TV boxes and older GPUs it can cause glitches or black video; switch it Off if you see those. Automatic picks the best default for your device. Restart Moonfin to apply.';
+      'Impeller, daha akıcı animasyonlar ve daha az takılma sağlayan Flutter\'ın modern GPU işleme motorudur. Bazı TV kutularında (TV Box) ve eski grafik işlemcilerde (GPU) ekran bozulmalarına veya siyah ekrana neden olabilir; bu gibi durumlarla karşılaşırsanız özelliği Kapatın. Otomatik seçeneği, cihazınız için en iyi varsayılanı belirler. Değişiklikleri uygulamak için Moonfin\'i yeniden başlatın.';
 
   @override
-  String get impellerAuto => 'Automatic';
+  String get impellerAuto => 'Otomatik';
 
   @override
-  String get impellerOn => 'On';
+  String get impellerOn => 'Açık';
 
   @override
-  String get impellerOff => 'Off';
+  String get impellerOff => 'Kapalı';
 
   @override
-  String get impellerRestartTitle => 'Restart required';
+  String get impellerRestartTitle => 'Yeniden Başlatma Gerekiyor';
 
   @override
   String get impellerRestartMessage =>
-      'Moonfin needs to restart to change the rendering engine. Close the app now, then reopen it to apply.';
+      'İşleme motorunu değiştirmek için Moonfin\'in yeniden başlatılması gerekiyor. Değişiklikleri uygulamak için uygulamayı şimdi kapatın ve ardından tekrar açın.';
 
   @override
-  String get impellerCloseNow => 'Close app now';
+  String get impellerCloseNow => 'Uygulamayı Şimdi Kapat';
 
   @override
-  String get adminRefreshLibrary => 'Refresh Library';
+  String get adminRefreshLibrary => 'Kütüphaneyi Yenile';
 
   @override
-  String get adminRefreshAllLibraries => 'Refresh All Libraries';
+  String get adminRefreshAllLibraries => 'Bütün Kütüphaneleri Yenile';
 
   @override
-  String get adminRepoSortDateOldest => 'Date Added (Oldest First)';
+  String get adminRepoSortDateOldest => 'Ekleme Tarihi (Önce En Eski)';
 
   @override
-  String get adminRepoSortDateNewest => 'Date Added (Newest First)';
+  String get adminRepoSortDateNewest => 'Ekleme Tarihi (Önce En Yeni)';
 
   @override
-  String get adminRepoSortNameAsc => 'Alphabetical (A to Z)';
+  String get adminRepoSortNameAsc => 'Alfabetik (A\'dan Z\'ye)';
 
   @override
-  String get adminRepoSortNameDesc => 'Alphabetical (Z to A)';
+  String get adminRepoSortNameDesc => 'Alfabetik (Z\'den A\'ya)';
 
   @override
   String adminAnalyticsLoadingProgress(int percentage) {
-    return 'Loading Server Analytics... $percentage%';
+    return 'Sunucu Analizleri Yükleniyor... %$percentage';
   }
 
   @override
-  String get adminLibChapterImageResolutionMatchSource => 'Match source';
+  String get adminLibChapterImageResolutionMatchSource => 'Kaynağa göre eşle';
 
   @override
   String get imdbTop250Movies => 'IMDb Top 250 Movies';

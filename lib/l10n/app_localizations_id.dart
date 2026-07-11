@@ -183,19 +183,20 @@ class AppLocalizationsId extends AppLocalizations {
       'Limit Moonfin Recommends suggestions by parental rating of target media';
 
   @override
-  String get interfaceStyle => '';
+  String get interfaceStyle => 'Interface Style';
 
   @override
-  String get interfaceStyleSubtitle => '';
+  String get interfaceStyleSubtitle =>
+      'Automatic matches your device. Choose Apple or Material to force a look.';
 
   @override
-  String get interfaceStyleAutomatic => '';
+  String get interfaceStyleAutomatic => 'Automatic';
 
   @override
-  String get interfaceStyleApple => '';
+  String get interfaceStyleApple => 'Apple';
 
   @override
-  String get interfaceStyleMaterial => '';
+  String get interfaceStyleMaterial => 'Material';
 
   @override
   String get glassQuality => 'Glass Quality';
@@ -2388,22 +2389,24 @@ class AppLocalizationsId extends AppLocalizations {
   String get defaultAudioLanguage => 'Bahasa Audio Default';
 
   @override
-  String get fallbackAudioLanguage => '';
+  String get fallbackAudioLanguage => 'Fallback Audio Language';
 
   @override
-  String get preferDefaultAudioTrack => '';
+  String get preferDefaultAudioTrack => 'Prefer Default Audio Track';
 
   @override
-  String get preferDefaultAudioTrackDescription => '';
+  String get preferDefaultAudioTrackDescription =>
+      'Prefer original audio track over localized dub.';
 
   @override
-  String get preferAudioDescription => '';
+  String get preferAudioDescription => 'Prefer Audio Description Tracks';
 
   @override
-  String get preferAudioDescriptionDescription => '';
+  String get preferAudioDescriptionDescription =>
+      'Prefer audio description tracks over normal tracks.';
 
   @override
-  String get transcodingAudio => '';
+  String get transcodingAudio => 'Transcoding (Audio)';
 
   @override
   String get directStreamRemux => 'Direct Stream (Remux)';
@@ -2827,40 +2830,45 @@ class AppLocalizationsId extends AppLocalizations {
   String get subtitleCustomizationDescription => 'Sesuaikan tampilan subtitle';
 
   @override
-  String get subtitleMode => '';
+  String get subtitleMode => 'Subtitle Mode';
 
   @override
-  String get subtitleModeFlagged => '';
+  String get subtitleModeFlagged => 'Flagged';
 
   @override
-  String get subtitleModeAlways => '';
+  String get subtitleModeAlways => 'Always';
 
   @override
-  String get subtitleModeForeign => '';
+  String get subtitleModeForeign => 'Foreign';
 
   @override
-  String get subtitleModeForced => '';
+  String get subtitleModeForced => 'Forced';
 
   @override
-  String get subtitleModeFlaggedDescription => '';
+  String get subtitleModeFlaggedDescription =>
+      'Plays tracks internally flagged in the media file\'s metadata as \"default\" or \"forced\".';
 
   @override
-  String get subtitleModeAlwaysDescription => '';
+  String get subtitleModeAlwaysDescription =>
+      'Automatically loads and displays subtitles every time a video starts.';
 
   @override
-  String get subtitleModeForeignDescription => '';
+  String get subtitleModeForeignDescription =>
+      'Automatically turns on subtitles if the default audio track is in a foreign language.';
 
   @override
-  String get subtitleModeForcedDescription => '';
+  String get subtitleModeForcedDescription =>
+      'Only loads subtitles explicitly tagged with the forced metadata flag.';
 
   @override
-  String get subtitleModeNoneDescription => '';
+  String get subtitleModeNoneDescription =>
+      'Completely disables automatic subtitle loading.';
 
   @override
-  String get fallbackSubtitleLanguage => '';
+  String get fallbackSubtitleLanguage => 'Fallback Subtitle Language';
 
   @override
-  String get subtitleStream => '';
+  String get subtitleStream => 'Subtitle Stream';
 
   @override
   String get subtitlePreviewText =>
@@ -3134,16 +3142,18 @@ class AppLocalizationsId extends AppLocalizations {
   String get showFolderBrowsingOption => 'Tampilkan opsi penelusuran folder';
 
   @override
-  String get groupItemsIntoCollections => '';
+  String get groupItemsIntoCollections => 'Group Items into Collections';
 
   @override
-  String get hideCollectionAssociatedItems => '';
+  String get hideCollectionAssociatedItems =>
+      'Hide Collection associated library items when browsing libraries';
 
   @override
-  String get groupItemsIntoCollectionsDialogTitle => '';
+  String get groupItemsIntoCollectionsDialogTitle => 'Library Grouping Notice';
 
   @override
-  String get groupItemsIntoCollectionsDialogMessage => '';
+  String get groupItemsIntoCollectionsDialogMessage =>
+      'To use this setting, please ensure the \"Group movies into collections\" and/or \"Group shows into collections\" Library settings are enabled under your library\'s Display settings on your Jellyfin or Emby server.';
 
   @override
   String get libraryVisibility => 'Visibilitas Pustaka';
@@ -8518,7 +8528,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String recentlyReleasedLibraryName(String libraryName) {
-    return '';
+    return 'Recently Released $libraryName';
   }
 
   @override
@@ -9086,7 +9096,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get appearancesSeerr => 'Penampilan (Seerr)';
 
   @override
-  String get crewContributionsSeerr => '';
+  String get crewContributionsSeerr => 'Crew Contributions (Seerr)';
 
   @override
   String get watchWithGroup => 'Tonton bersama grup';
@@ -9641,51 +9651,54 @@ class AppLocalizationsId extends AppLocalizations {
   String get audiobookDelete => 'Delete';
 
   @override
-  String get subtitlePreferences => '';
+  String get subtitlePreferences => 'Subtitle Preferences';
 
   @override
-  String get subtitlePreferencesDescription => '';
+  String get subtitlePreferencesDescription =>
+      'Change subtitle modes, default languages, appearance, and rendering options.';
 
   @override
-  String get subtitleRendering => '';
+  String get subtitleRendering => 'Subtitle Rendering';
 
   @override
-  String get displayOptions => '';
+  String get displayOptions => 'Display Options';
 
   @override
-  String get releaseDateAscending => '';
+  String get releaseDateAscending => 'Release Date (Ascending)';
 
   @override
-  String get releaseDateDescending => '';
+  String get releaseDateDescending => 'Release Date (Descending)';
 
   @override
-  String get groupContributions => '';
+  String get groupContributions => 'Group Contributions';
 
   @override
-  String get groupMultipleRoles => '';
+  String get groupMultipleRoles => 'Group multiple roles';
 
   @override
-  String get libraryWriteAccessWarningTitle => '';
+  String get libraryWriteAccessWarningTitle => 'Library Write Access Warning';
 
   @override
-  String get libraryWriteAccessHowToFix => '';
+  String get libraryWriteAccessHowToFix => 'How to fix this:';
 
   @override
-  String get libraryWriteAccessFixSteps => '';
+  String get libraryWriteAccessFixSteps =>
+      '1. Grant write permissions to the Jellyfin service user (e.g., jellyfin or Docker PUID/PGID) for your media library folders on the server.\n\n2. Or, go to your Jellyfin Dashboard -> Libraries, edit this library, and disable \'Save artwork into media folders\' to store artwork in Jellyfin\'s internal database.';
 
   @override
-  String get dismiss => '';
+  String get dismiss => 'Dismiss';
 
   @override
   String libraryWriteAccessProactiveBody(
     String libraryName,
     String failedPath,
   ) {
-    return '';
+    return 'Your \'$libraryName\' library is configured to save artwork directly into the media folders (\'Save artwork into media folders\' is enabled). However, Jellyfin has tested write access and does not have permission to write files into this directory:\n\n$failedPath';
   }
 
   @override
-  String get libraryWriteAccessReactiveBody => '';
+  String get libraryWriteAccessReactiveBody =>
+      'It looks like Jellyfin failed to update the artwork. Your library is configured to save artwork directly into the media folders (\'Save artwork into media folders\' is enabled). This error typically occurs when the Jellyfin server process does not have permission to write files into your media directories.';
 
   @override
   String get externalLists => 'External Lists';

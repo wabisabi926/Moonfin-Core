@@ -148,10 +148,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Classic is the original centered moonfin layout. Modern is a responsive cinematic layout.';
 
   @override
-  String get detailScreenStyleMoonfin => 'Classic';
+  String get detailScreenStyleMoonfin => 'Classique';
 
   @override
-  String get detailScreenStyleModern => 'Modern';
+  String get detailScreenStyleModern => 'Moderne';
 
   @override
   String get expandedTabs => 'Expanded Tabs';
@@ -161,14 +161,14 @@ class AppLocalizationsFr extends AppLocalizations {
       'Automatically show tab content while browsing tabs. Turn off to open and close each tab manually.';
 
   @override
-  String get recommendationSystem => 'Recommendation System';
+  String get recommendationSystem => 'Système de recommandation';
 
   @override
   String get recommendationSystemSubtitle =>
       'Use the Moonfin Recommends local-library algorithm or the online TMDb\'s Similarity Metrics. Note: Online recommendations require Seerr integration.';
 
   @override
-  String get recommendationSystemMoonfin => 'Moonfin Recommends';
+  String get recommendationSystemMoonfin => 'Moonfin recommande';
 
   @override
   String get recommendationSystemTmdb => 'TMDb Similarity';
@@ -208,17 +208,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get glassQualityAuto => 'Auto';
 
   @override
-  String get glassQualityFull => 'Full';
+  String get glassQualityFull => 'Complet';
 
   @override
-  String get glassQualityReduced => 'Reduced';
+  String get glassQualityReduced => 'Réduite';
 
   @override
   String get settingsAppearanceThemeSubtitle =>
       'Basculez entre Moonfin et Neon Pulse sans redémarrer l\'application';
 
   @override
-  String get customThemeTitle => 'Custom Theme';
+  String get customThemeTitle => 'Thème personnalisé';
 
   @override
   String get customThemeSubtitle =>
@@ -236,7 +236,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get themeMoonfinSubtitle =>
-      'Le look actuel de Moonfin que vous aimez tous';
+      'Le look actuel de Moonfin que vous aimez tous.';
 
   @override
   String get themeNeonPulse => 'Neon Pulse';
@@ -322,25 +322,25 @@ class AppLocalizationsFr extends AppLocalizations {
   String get gameMenu => 'Menu';
 
   @override
-  String get gamePaused => 'Paused';
+  String get gamePaused => 'En pause';
 
   @override
-  String get gameSaveState => 'Save state';
+  String get gameSaveState => 'Sauvegarder';
 
   @override
-  String get gameLoadState => 'Load state';
+  String get gameLoadState => 'Charger une sauvegarde';
 
   @override
-  String get gameFastForward => 'Fast-forward';
+  String get gameFastForward => 'Avance rapide';
 
   @override
-  String get gameEmulatorSettings => 'Emulator settings';
+  String get gameEmulatorSettings => 'Paramètres d\'émulateur';
 
   @override
   String get gameNoCoreOptions => 'This core has no adjustable options.';
 
   @override
-  String get gameHoldToOpenMenu => 'Hold to open menu';
+  String get gameHoldToOpenMenu => 'Gardez appuyé pour ouvrir le menu';
 
   @override
   String get gamePlaybackUnsupported =>
@@ -995,7 +995,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get items => 'Items';
+  String get items => 'Objets';
 
   @override
   String get extras => 'Extras';
@@ -1023,7 +1023,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String timeRemaining(String time) {
-    return '$time remaining';
+    return '$time restante';
   }
 
   @override
@@ -1806,22 +1806,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String guideNextProgram(String time, String title) {
-    return 'Next: $time  $title';
+    return 'A suivre : $time   $title';
   }
 
   @override
   String guideMinutesLeft(int minutes) {
-    return '${minutes}m left';
+    return '${minutes}min restantes';
   }
 
   @override
   String guideHoursLeft(int hours) {
-    return '${hours}h left';
+    return '${hours}h restantes';
   }
 
   @override
   String guideHoursMinutesLeft(int hours, int minutes) {
-    return '${hours}h ${minutes}m left';
+    return '${hours}h ${minutes}min restantes';
   }
 
   @override
@@ -2682,7 +2682,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsAudioRouteSpeaker => 'Enceintes';
 
   @override
-  String get settingsAudioRouteHeadphones => 'Headphones';
+  String get settingsAudioRouteHeadphones => 'Écouteurs';
 
   @override
   String settingsAudioPcmChannels(int count) {
@@ -3716,15 +3716,15 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get discoverRows => 'Rangées de découverte';
+  String get discoverRows => 'Page d\'acceuil Seerr';
 
   @override
   String get discoverRowsDescriptionPlugin =>
-      'Faites glisser pour réorganiser. Activez ou désactivez les rangées. L\'ordre des rangées activées se synchronise avec le plugin Moonfin.';
+      'Activez les rangées à afficher sur la page d\'accueil de Seerr. Faites glisser pour réorganiser. L\'ordre personnalisé se synchronise avec Moonbase.';
 
   @override
   String get discoverRowsDescription =>
-      'Faites glisser pour réorganiser. Activez ou désactivez les rangées.';
+      'Activez les rangées à afficher sur la page d\'accueil de Seerr. Faites glisser pour réorganiser. L\'ordre personnalisé se synchronise avec Moonbase.';
 
   @override
   String get enabled => 'Activé';
@@ -3832,7 +3832,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get reorderToggleHomeRows =>
-      'Réorganiser et afficher/masquer les rangées d\'accueil';
+      'Réorganiser et afficher/masquer les rangées d\'accueil (locales et externes)';
 
   @override
   String get featuredContentAppearance => 'Contenu à la une, apparence';
@@ -8159,10 +8159,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsAlphabetical => 'Alphabétique';
 
   @override
-  String get settingsConnectionSection => 'CONNECTION';
+  String get settingsConnectionSection => 'CONNEXION';
 
   @override
-  String get settingsAllowSelfSignedCerts => 'Allow self-signed certificates';
+  String get settingsAllowSelfSignedCerts =>
+      'Autoriser les certificats auto-signés';
 
   @override
   String get settingsAllowSelfSignedCertsSubtitle =>
@@ -8806,7 +8807,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get homeRowTogglesSubtitle =>
-      'Activer ou désactiver les différentes catégories de rangées d\'accueil';
+      'Activer ou désactiver les catégories de rangées d\'accueil basées sur la bibliothèque';
 
   @override
   String get homeRowTogglesDescription =>
@@ -9626,60 +9627,60 @@ class AppLocalizationsFr extends AppLocalizations {
   String get audiobookTimelineEmpty => 'Timeline is empty';
 
   @override
-  String get audiobookWholeBook => 'Whole Book';
+  String get audiobookWholeBook => 'Livre entier';
 
   @override
   String get audiobookFocusedTimeline => 'Focused Timeline';
 
   @override
-  String get audiobookExportBookmarks => 'Export Bookmarks';
+  String get audiobookExportBookmarks => 'Exporter les marque-pages';
 
   @override
-  String get audiobookExportNotes => 'Export Notes';
+  String get audiobookExportNotes => 'Exporter les notes';
 
   @override
-  String get audiobookExportAll => 'Export All';
+  String get audiobookExportAll => 'Toute exporter';
 
   @override
   String audiobookExportSuccess(String path) {
-    return 'Exported to $path';
+    return 'Exporter vers $path';
   }
 
   @override
   String audiobookExportFailed(String error) {
-    return 'Export failed: $error';
+    return 'Export échoué : $error';
   }
 
   @override
-  String get audiobookLyrics => 'Lyrics';
+  String get audiobookLyrics => 'Paroles';
 
   @override
-  String get audiobookAddBookmark => 'Add bookmark';
+  String get audiobookAddBookmark => 'Ajouter un marque-page';
 
   @override
-  String get audiobookAddNote => 'Add note';
+  String get audiobookAddNote => 'Ajouter une note';
 
   @override
-  String get audiobookEditNote => 'Edit note';
+  String get audiobookEditNote => 'Modifier une note';
 
   @override
-  String get audiobookNoteHint => 'Write a note for this moment';
+  String get audiobookNoteHint => 'Écrire une note pour ce passage';
 
   @override
-  String get audiobookSleepTimer => 'Sleep timer';
+  String get audiobookSleepTimer => 'Minuteur de sommeil';
 
   @override
-  String get audiobookSleepOff => 'Off';
+  String get audiobookSleepOff => 'Désactivé';
 
   @override
-  String get audiobookSleepEndOfChapter => 'End of chapter';
+  String get audiobookSleepEndOfChapter => 'Fin du chapitre';
 
   @override
-  String get audiobookSleepCustom => 'Custom';
+  String get audiobookSleepCustom => 'Personalisé';
 
   @override
   String audiobookSleepRemaining(String remaining) {
-    return '$remaining left';
+    return '$remaining restant';
   }
 
   @override
@@ -9694,13 +9695,13 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get audiobookPlaybackSpeed => 'Playback speed';
+  String get audiobookPlaybackSpeed => 'Vitesse de lecture';
 
   @override
-  String get audiobookRemainingTime => 'Remaining';
+  String get audiobookRemainingTime => 'Restant';
 
   @override
-  String get audiobookElapsedTime => 'Elapsed';
+  String get audiobookElapsedTime => 'Écoulé';
 
   @override
   String audiobookSkipBackSeconds(int seconds) {
@@ -9713,32 +9714,32 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get audiobookPreviousChapter => 'Previous chapter';
+  String get audiobookPreviousChapter => 'Chapitre précédent';
 
   @override
-  String get audiobookNextChapter => 'Next chapter';
+  String get audiobookNextChapter => 'Chapitre suivant';
 
   @override
   String audiobookChapterIndicator(int current, int total) {
-    return 'Chapter $current of $total';
+    return 'Chapitre $current sur $total';
   }
 
   @override
-  String get audiobookNoChapters => 'No chapters';
+  String get audiobookNoChapters => 'Pas de chapitre';
 
   @override
-  String get audiobookNoBookmarks => 'No bookmarks yet';
+  String get audiobookNoBookmarks => 'Pas encore de marque-pages';
 
   @override
-  String get audiobookNoNotes => 'No notes yet';
+  String get audiobookNoNotes => 'Pas encore de notes';
 
   @override
   String audiobookBookmarkAdded(String position) {
-    return 'Bookmark added at $position';
+    return 'Marque-page ajoutée à $position';
   }
 
   @override
-  String get audiobookSpeedReset => 'Reset to 1.0x';
+  String get audiobookSpeedReset => 'Réinitialiser a 1.0x';
 
   @override
   String audiobookSpeedCustomLabel(String value) {
@@ -9746,13 +9747,13 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get audiobookSave => 'Save';
+  String get audiobookSave => 'Sauvegarder';
 
   @override
-  String get audiobookCancel => 'Cancel';
+  String get audiobookCancel => 'Annuler';
 
   @override
-  String get audiobookDelete => 'Delete';
+  String get audiobookDelete => 'Supprimer';
 
   @override
   String get subtitlePreferences => 'Préférences de sous-titres';
@@ -9806,66 +9807,69 @@ class AppLocalizationsFr extends AppLocalizations {
       'Il semble que Jellyfin n\'ait pas réussi à mettre à jour le visuel. Votre bibliothèque est configurée pour enregistrer les visuels directement dans les dossiers multimédias (l\'option « Enregistrer les illustrations dans les dossiers multimédias » est activée). Cette erreur survient généralement lorsque le serveur Jellyfin n\'a pas la permission d\'écrire dans vos répertoires multimédias.';
 
   @override
-  String get externalLists => 'External Lists';
+  String get externalLists => 'Listes de rangées d\'accueil externes';
 
   @override
-  String get replay => 'Replay';
+  String get replay => 'Rejouer';
 
   @override
-  String get fileInformation => 'File Information';
+  String get fileInformation => 'Informations du fichier';
 
   @override
   String fileSizeFormat(Object size, Object format) {
-    return 'Size: $size  •  Format: $format';
+    return 'Taille : $size  •  Format : $format';
   }
 
   @override
   String showAllAudioTracks(int count) {
-    return 'Show All ($count) Audio Tracks';
+    return 'Afficher les ($count) pistes audios';
   }
 
   @override
   String showAllSubtitleTracks(int count) {
-    return 'Show All ($count) Subtitle Tracks';
+    return 'Afficher les ($count) pistes sous-titre';
   }
 
   @override
-  String get checkingDirectPlay => 'Checking Direct Play capability...';
+  String get checkingDirectPlay =>
+      'Vérification de la possibilité de lecture directe...';
 
   @override
-  String get directPlayCapabilityLabel => 'Direct Play Capability: ';
+  String get directPlayCapabilityLabel => 'Possibilité de lecture directe : ';
 
   @override
-  String get forced => 'Forced';
+  String get forced => 'Forcé';
 
   @override
   String get transcodeContainerNotSupported =>
-      'Container format is not supported by the player.';
+      'Le format du conteneur n\'est pas supporté par le lecteur.';
 
   @override
-  String get transcodeVideoCodecNotSupported => 'Video codec is not supported.';
+  String get transcodeVideoCodecNotSupported =>
+      'Le codec vidéo n\'est pas supporté.';
 
   @override
-  String get transcodeAudioCodecNotSupported => 'Audio codec is not supported.';
+  String get transcodeAudioCodecNotSupported =>
+      'Le codec audio n\'est pas supporté.';
 
   @override
   String get transcodeSubtitleCodecNotSupported =>
-      'Subtitle format is not supported (requires burning).';
+      'Le format de sous-titre n\'est pas supporté (burn-in requis).';
 
   @override
   String get transcodeAudioProfileNotSupported =>
-      'Audio profile is not supported.';
+      'Le profil audio n\'est pas supporté.';
 
   @override
   String get transcodeVideoProfileNotSupported =>
-      'Video profile is not supported.';
+      'Le profil vidéo n\'est pas supporté.';
 
   @override
   String get transcodeVideoLevelNotSupported => 'Video level is not supported.';
 
   @override
   String get transcodeVideoResolutionNotSupported =>
-      'Video resolution is not supported by this device.';
+      'Cette résolution n\'est pas supportée par cet appareil.';
 
   @override
   String get transcodeVideoBitDepthNotSupported =>
@@ -9873,35 +9877,35 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get transcodeVideoFramerateNotSupported =>
-      'Video framerate is not supported.';
+      'La fréquence vidéo n\'est pas supporté.';
 
   @override
   String get transcodeContainerBitrateExceedsLimit =>
-      'File bitrate exceeds player streaming limit.';
+      'Le débit du fichier dépasse la limite de streaming du lecteur.';
 
   @override
   String get transcodeVideoBitrateExceedsLimit =>
-      'Video bitrate exceeds streaming limit.';
+      'Le débit vidéo dépasse la limite de streaming.';
 
   @override
   String get transcodeAudioBitrateExceedsLimit =>
-      'Audio bitrate exceeds streaming limit.';
+      'Le débit audio dépasse la limite de streaming.';
 
   @override
   String get transcodeAudioChannelsNotSupported =>
-      'Number of audio channels is not supported.';
+      'Ce nombre de canaux audio n\'est pas supporté.';
 
   @override
-  String get sortAlphabetical => 'Alphabetical';
+  String get sortAlphabetical => 'Alphabétique';
 
   @override
-  String get sortReleaseAscending => 'Release Order (Ascending)';
+  String get sortReleaseAscending => 'Ordre de sortie (Ascendant)';
 
   @override
-  String get sortReleaseDescending => 'Release Order (Descending)';
+  String get sortReleaseDescending => 'Ordre de sortie (Descendant)';
 
   @override
-  String get sortCustomDragDrop => 'Custom (Drag-and-Drop)';
+  String get sortCustomDragDrop => 'Personnalisé (Drag-and-Drop)';
 
   @override
   String get playlistSortOptions => 'Playlist Sort Options';
@@ -9947,7 +9951,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Moonfin needs to restart to change the rendering engine. Close the app now, then reopen it to apply.';
 
   @override
-  String get impellerCloseNow => 'Close app now';
+  String get impellerCloseNow => 'Fermer l\'application immédiatement';
 
   @override
   String get adminRefreshLibrary => 'Refresh Library';

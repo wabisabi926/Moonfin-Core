@@ -9962,21 +9962,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get settingsAppearanceTheme => 'App Theme';
 
   @override
-  String get interfaceStyle => '';
-
-  @override
-  String get interfaceStyleSubtitle => '';
-
-  @override
-  String get interfaceStyleAutomatic => '';
-
-  @override
-  String get interfaceStyleApple => '';
-
-  @override
-  String get interfaceStyleMaterial => '';
-
-  @override
   String get settingsAppearanceThemeSubtitle =>
       'Switch between Moonfin and Neon Pulse without restarting the app';
 
@@ -11989,24 +11974,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get defaultAudioLanguage => 'Default Audio Language';
 
   @override
-  String get fallbackAudioLanguage => '';
-
-  @override
-  String get preferDefaultAudioTrack => '';
-
-  @override
-  String get preferDefaultAudioTrackDescription => '';
-
-  @override
-  String get preferAudioDescription => '';
-
-  @override
-  String get preferAudioDescriptionDescription => '';
-
-  @override
-  String get transcodingAudio => '';
-
-  @override
   String get autoServerDefault => 'Auto (Server Default)';
 
   @override
@@ -12410,42 +12377,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
       'Customize subtitle appearance';
 
   @override
-  String get subtitleMode => '';
-
-  @override
-  String get subtitleModeFlagged => '';
-
-  @override
-  String get subtitleModeAlways => '';
-
-  @override
-  String get subtitleModeForeign => '';
-
-  @override
-  String get subtitleModeForced => '';
-
-  @override
-  String get subtitleModeFlaggedDescription => '';
-
-  @override
-  String get subtitleModeAlwaysDescription => '';
-
-  @override
-  String get subtitleModeForeignDescription => '';
-
-  @override
-  String get subtitleModeForcedDescription => '';
-
-  @override
-  String get subtitleModeNoneDescription => '';
-
-  @override
-  String get fallbackSubtitleLanguage => '';
-
-  @override
-  String get subtitleStream => '';
-
-  @override
   String get subtitlePreviewText =>
       'The quick brown fox jumps over the lazy dog';
 
@@ -12712,18 +12643,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get showFolderBrowsingOption => 'Show folder browsing option';
-
-  @override
-  String get groupItemsIntoCollections => '';
-
-  @override
-  String get hideCollectionAssociatedItems => '';
-
-  @override
-  String get groupItemsIntoCollectionsDialogTitle => '';
-
-  @override
-  String get groupItemsIntoCollectionsDialogMessage => '';
 
   @override
   String get libraryVisibility => 'Library Visibility';
@@ -17699,9 +17618,6 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get appearancesSeerr => 'Appearances (Seerr)';
 
   @override
-  String get crewContributionsSeerr => '';
-
-  @override
   String get watchWithGroup => 'Watch with group';
 
   @override
@@ -18103,51 +18019,4 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get sources => 'Sources';
-
-  @override
-  String get subtitlePreferences => '';
-
-  @override
-  String get subtitlePreferencesDescription => '';
-
-  @override
-  String get subtitleRendering => '';
-
-  @override
-  String get displayOptions => '';
-
-  @override
-  String get releaseDateAscending => '';
-
-  @override
-  String get releaseDateDescending => '';
-
-  @override
-  String get groupContributions => '';
-
-  @override
-  String get groupMultipleRoles => '';
-
-  @override
-  String get libraryWriteAccessWarningTitle => '';
-
-  @override
-  String get libraryWriteAccessHowToFix => '';
-
-  @override
-  String get libraryWriteAccessFixSteps => '';
-
-  @override
-  String get dismiss => '';
-
-  @override
-  String libraryWriteAccessProactiveBody(
-    String libraryName,
-    String failedPath,
-  ) {
-    return '';
-  }
-
-  @override
-  String get libraryWriteAccessReactiveBody => '';
 }
