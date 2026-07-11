@@ -37,6 +37,7 @@ import '../../../preference/user_preferences.dart';
 import '../../../ui/mixins/focus_state_mixin.dart';
 import '../../../auth/repositories/user_repository.dart';
 import '../../../util/focus/key_event_utils.dart';
+import '../../../util/overview_text.dart';
 import '../../navigation/destinations.dart';
 import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/adaptive/sf_symbol.dart';
@@ -11354,7 +11355,7 @@ class _OverviewText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isNeon = ThemeRegistry.active.id == ThemeRegistry.neonPulseId;
-    final prunedText = text.replaceAll(RegExp(r'<\/?([a-z][a-z0-9]*)\b[^>]*>'), '');
+    final prunedText = cleanOverview(text);
     return ExpandableBiography(
       text: prunedText,
       toggleFocusNode: focusNode,

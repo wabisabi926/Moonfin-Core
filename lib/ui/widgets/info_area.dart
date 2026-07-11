@@ -9,6 +9,7 @@ import '../../data/services/media_server_client_factory.dart';
 import '../../l10n/app_localizations.dart';
 import '../../l10n/current_app_localizations.dart';
 import '../../preference/user_preferences.dart';
+import '../../util/overview_text.dart';
 import '../../util/platform_detection.dart';
 import 'rating_display.dart';
 import 'simple_info_row.dart';
@@ -623,7 +624,7 @@ class _InfoAreaContentState extends State<_InfoAreaContent> {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                item.overview ?? '',
+                cleanOverview(item.overview),
                 style: overviewStyle,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,

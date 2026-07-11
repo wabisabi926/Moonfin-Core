@@ -1166,13 +1166,6 @@ class UserPreferences extends ChangeNotifier {
     values: DesktopScrollWheelAction.values,
   );
 
-  // Read by native Android startup code; keep the key in sync with MainActivity.
-  static final impellerMode = EnumPreference(
-    key: 'pref_impeller_mode',
-    defaultValue: ImpellerMode.auto,
-    values: ImpellerMode.values,
-  );
-
   static final trickPlayEnabled = Preference(
     key: 'trick_play_enabled',
     defaultValue: false,
@@ -1652,6 +1645,37 @@ class UserPreferences extends ChangeNotifier {
     key: 'last_external_rows_refresh_time',
     defaultValue: 0,
   );
+
+  static final imdbTop250MoviesEnabled = Preference(
+    key: 'imdb_top_250_movies_enabled',
+    defaultValue: false,
+  );
+
+  static final imdbTop250TvShowsEnabled = Preference(
+    key: 'imdb_top_250_tv_shows_enabled',
+    defaultValue: false,
+  );
+
+  static final imdbMostPopularMoviesEnabled = Preference(
+    key: 'imdb_most_popular_movies_enabled',
+    defaultValue: false,
+  );
+
+  static final imdbMostPopularTvShowsEnabled = Preference(
+    key: 'imdb_most_popular_tv_shows_enabled',
+    defaultValue: false,
+  );
+
+  static final imdbLowestRatedMoviesEnabled = Preference(
+    key: 'imdb_lowest_rated_movies_enabled',
+    defaultValue: false,
+  );
+
+  static final imdbTopEnglishMoviesEnabled = Preference(
+    key: 'imdb_top_english_movies_enabled',
+    defaultValue: false,
+  );
+
   static final tmdbPopularMoviesEnabled = Preference(
     key: 'tmdb_popular_movies_enabled',
     defaultValue: false,
