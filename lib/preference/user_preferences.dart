@@ -844,7 +844,9 @@ class UserPreferences extends ChangeNotifier {
 
   static final preferSystemImeKeyboard = Preference(
     key: 'pref_prefer_system_ime_keyboard',
-    defaultValue: PlatformDetection.useMobileUi || PlatformDetection.isDesktop,
+    defaultValue: PlatformDetection.useMobileUi ||
+        PlatformDetection.isDesktop ||
+        PlatformDetection.isAppleTV,
   );
 
   static final visualTheme = EnumPreference(
