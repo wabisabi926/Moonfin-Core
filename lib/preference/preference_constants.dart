@@ -161,11 +161,6 @@ enum DesktopScrollWheelAction {
   volume,
 }
 
-/// Rendering engine selection. Read natively at Android engine startup
-/// (MainActivity.getFlutterShellArgs) via the key `flutter.pref_impeller_mode`,
-/// so these enum names must stay stable. `auto` keeps the per-device default.
-enum ImpellerMode { auto, on, off }
-
 /// Glass rendering budget. `auto` picks per-device (real blur on capable
 /// hardware, zero-blur sheen on TV boxes/web); `full` forces real blur;
 /// `reduced` forces the zero-blur sheen everywhere.
