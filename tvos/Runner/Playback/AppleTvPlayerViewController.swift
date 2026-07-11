@@ -795,7 +795,7 @@ final class AppleTvPlayerViewController: UIViewController {
             if canFavorite { ids.append(.favorite) }
             ids.append(.speed)
             if chapters.count > 1 { ids.append(.chapters) }
-            if !subtitleTracks.isEmpty { ids.append(.subtitles) }
+            if !subtitleTracks.isEmpty || canDownloadSubtitles { ids.append(.subtitles) }
             if audioTracks.count > 1 { ids.append(.audio) }
             if hasCast { ids.append(.cast) }
             if syncPlayEnabled { ids.append(.syncplay) }

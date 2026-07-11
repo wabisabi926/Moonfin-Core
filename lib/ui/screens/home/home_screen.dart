@@ -108,6 +108,8 @@ class _HomeShellState extends State<_HomeShell>
   String _lastSectionsJson = '';
   bool _lastMultiServer = false;
   bool _lastMergeContinueWatchingNextUp = false;
+  String _lastHiddenCW = '{}';
+  String _lastHiddenNU = '{}';
   String _lastBlockedParentalRatings = '';
   bool _lastSeerrAvailable = false;
   bool _themeMusicRegistered = false;
@@ -150,6 +152,8 @@ class _HomeShellState extends State<_HomeShell>
     _lastMergeContinueWatchingNextUp = _userPrefs.get(
       UserPreferences.mergeContinueWatchingNextUp,
     );
+    _lastHiddenCW = _userPrefs.get(UserPreferences.hiddenContinueWatchingItems);
+    _lastHiddenNU = _userPrefs.get(UserPreferences.hiddenNextUpSeries);
     _lastBlockedParentalRatings = _userPrefs.get(
       UserPreferences.blockedParentalRatings,
     );
@@ -247,6 +251,8 @@ class _HomeShellState extends State<_HomeShell>
     final currentBlocked = _userPrefs.get(
       UserPreferences.blockedParentalRatings,
     );
+    final currentHiddenCW = _userPrefs.get(UserPreferences.hiddenContinueWatchingItems);
+    final currentHiddenNU = _userPrefs.get(UserPreferences.hiddenNextUpSeries);
     final currentEnableRadarr = _userPrefs.get(UserPreferences.enableRadarrCalendar);
     final currentEnableSonarr = _userPrefs.get(UserPreferences.enableSonarrCalendar);
     final currentMerge = _userPrefs.get(UserPreferences.mergeRadarrSonarrCalendars);
@@ -261,6 +267,8 @@ class _HomeShellState extends State<_HomeShell>
         currentMultiServer != _lastMultiServer ||
         currentMergeContinueWatchingNextUp != _lastMergeContinueWatchingNextUp ||
         currentBlocked != _lastBlockedParentalRatings ||
+        currentHiddenCW != _lastHiddenCW ||
+        currentHiddenNU != _lastHiddenNU ||
         currentEnableRadarr != _lastEnableRadarrCalendar ||
         currentEnableSonarr != _lastEnableSonarrCalendar ||
         currentMerge != _lastMergeRadarrSonarrCalendars ||
@@ -274,6 +282,8 @@ class _HomeShellState extends State<_HomeShell>
       _lastMultiServer = currentMultiServer;
       _lastMergeContinueWatchingNextUp = currentMergeContinueWatchingNextUp;
       _lastBlockedParentalRatings = currentBlocked;
+      _lastHiddenCW = currentHiddenCW;
+      _lastHiddenNU = currentHiddenNU;
       _lastEnableRadarrCalendar = currentEnableRadarr;
       _lastEnableSonarrCalendar = currentEnableSonarr;
       _lastMergeRadarrSonarrCalendars = currentMerge;
@@ -757,6 +767,7 @@ class _ContentRowsState extends State<_ContentRows>
   List<double> _cachedRowTargetOffsets = [];
   double _cachedRowTargetMaxScrollExtent = -1.0;
   bool _cachedRowTargetFullScreenRows = false;
+  double _cachedRowTargetFocusTop = -1.0;
   double _overlayBottom = 0;
   static const _previewScrollThreshold = 150.0;
   static const _previewOpenTimeout = Duration(seconds: 10);
@@ -792,15 +803,34 @@ class _ContentRowsState extends State<_ContentRows>
     _cachedRowTargetOffsets = [];
     _cachedRowTargetMaxScrollExtent = -1.0;
     _cachedRowTargetFullScreenRows = false;
+    _cachedRowTargetFocusTop = -1.0;
+  }
+
+  double _desktopRowFocusTargetTop() {
+    if (!_scrollController.hasClients) return 0.0;
+    final viewportHeight = _scrollController.position.viewportDimension;
+    if (viewportHeight <= 0.0) return 0.0;
+    if (_showHomeRowInfoOverlay()) {
+      return _overlayBottom.clamp(0.0, viewportHeight * 0.85);
+    }
+    final safeTop = MediaQuery.of(context).padding.top;
+    final navbarIsTop =
+        widget.prefs.get(UserPreferences.navbarPosition) == NavbarPosition.top;
+    final navbarHeight = navbarIsTop
+        ? (PlatformDetection.useMobileUi ? 60.0 : 80.0)
+        : 0.0;
+    return (safeTop + navbarHeight + 8.0).clamp(0.0, viewportHeight * 0.85);
   }
 
   List<double> _rowTargetOffsetsForScroll({required bool fullScreenRows}) {
     final maxScrollExtent = _scrollController.hasClients
         ? _scrollController.position.maxScrollExtent
         : double.infinity;
+    final focusTargetTop = fullScreenRows ? 0.0 : _desktopRowFocusTargetTop();
     if (_cachedRowTargetOffsets.length == _rowTopOffsets.length &&
         _cachedRowTargetFullScreenRows == fullScreenRows &&
-        _cachedRowTargetMaxScrollExtent == maxScrollExtent) {
+        _cachedRowTargetMaxScrollExtent == maxScrollExtent &&
+        _cachedRowTargetFocusTop == focusTargetTop) {
       return _cachedRowTargetOffsets;
     }
 
@@ -812,17 +842,21 @@ class _ContentRowsState extends State<_ContentRows>
                 0.0,
                 maxScrollExtent,
               )
-            : _rowTopOffsets[i].clamp(0.0, maxScrollExtent),
+            : (_rowTopOffsets[i] - focusTargetTop).clamp(0.0, maxScrollExtent),
       );
     }
 
     _cachedRowTargetOffsets = targets;
     _cachedRowTargetMaxScrollExtent = maxScrollExtent;
     _cachedRowTargetFullScreenRows = fullScreenRows;
+    _cachedRowTargetFocusTop = focusTargetTop;
     return targets;
   }
 
   int? _focusedRowIndex(FocusNode? node) {
+    if (OverlaySheetController.hasOpenSheet || SettingsPanel.isOpenNotifier.value) {
+      return _activeFocusedRowIndex;
+    }
     if (node == null) return null;
     if (identical(node, _mediaBarFocusNode)) return null;
     return _activeFocusedRowIndex;
@@ -906,7 +940,7 @@ class _ContentRowsState extends State<_ContentRows>
   }
 
   bool _useMedia3InlinePreview() {
-    return usesMedia3ForInlinePreview(widget.prefs);
+    return usesMedia3ForInlinePreview();
   }
 
   void _onPreviewPrefsChanged() {
@@ -2358,16 +2392,8 @@ class _ContentRowsState extends State<_ContentRows>
     }
 
     if (isRowsV2) {
-      final safeBottomMargin = 40.0 * desktopScale;
-      final remainingHeight = viewportHeight - defaultTop;
-      if (rowHeight + safeBottomMargin > remainingHeight) {
-        double targetTop = viewportHeight - rowHeight - safeBottomMargin;
-        const minTargetTop = 8.0;
-        if (targetTop < minTargetTop) {
-          targetTop = minTargetTop;
-        }
-        return targetTop;
-      }
+      final targetTop = (viewportHeight - rowHeight) / 2.0;
+      return targetTop.clamp(defaultTop, double.infinity);
     }
     return defaultTop;
   }
@@ -2551,11 +2577,6 @@ class _ContentRowsState extends State<_ContentRows>
               return;
             }
 
-            final viewportHeight = _scrollController.hasClients
-                ? _scrollController.position.viewportDimension
-                : 768.0;
-            final overlayEnabled = _showHomeRowInfoOverlay();
-
             final fullScreenRows =
                 !PlatformDetection.useMobileUi &&
                 widget.prefs.get(UserPreferences.fullScreenRows);
@@ -2583,13 +2604,64 @@ class _ContentRowsState extends State<_ContentRows>
               return;
             }
 
-            final alignment = overlayEnabled
-                ? ((_overlayBottom + 120) / viewportHeight).clamp(0.05, 0.85)
-                : 0.12;
+            if (_showHomeRowInfoOverlay() &&
+                _scrollController.hasClients &&
+                target < _rowTopOffsets.length) {
+              final targetOffset =
+                  (_rowTopOffsets[target] - _desktopRowFocusTargetTop()).clamp(
+                    0.0,
+                    _scrollController.position.maxScrollExtent,
+                  );
+              _scrollController
+                  .animateTo(
+                    targetOffset,
+                    duration: _focusHandoffDuration,
+                    curve: _focusHandoffCurve,
+                  )
+                  .whenComplete(() {
+                    if (!navComplete.isCompleted) navComplete.complete();
+                  });
+              return;
+            }
+
+            // Other desktop rows (classic without overlay, modern) aren't
+            // height-locked, so the estimate can drift and mis-scroll a row off
+            // screen or under the navbar. Measure the row's ACTUAL top relative
+            // to the viewport and scroll it to the target (just below the
+            // navbar) — drift-free.
+            if (_scrollController.hasClients) {
+              final rowObj = _rowContainerKey(
+                target,
+              ).currentContext?.findRenderObject();
+              final viewportObj = context.findRenderObject();
+              if (rowObj is RenderBox &&
+                  rowObj.attached &&
+                  viewportObj is RenderBox &&
+                  viewportObj.attached) {
+                final rowTopInViewport = rowObj
+                    .localToGlobal(Offset.zero, ancestor: viewportObj)
+                    .dy;
+                final targetOffset =
+                    (_scrollController.offset +
+                            rowTopInViewport -
+                            _desktopRowFocusTargetTop())
+                        .clamp(0.0, _scrollController.position.maxScrollExtent);
+                _scrollController
+                    .animateTo(
+                      targetOffset,
+                      duration: _focusHandoffDuration,
+                      curve: _focusHandoffCurve,
+                    )
+                    .whenComplete(() {
+                      if (!navComplete.isCompleted) navComplete.complete();
+                    });
+                return;
+              }
+            }
 
             Scrollable.ensureVisible(
               rowCtx,
-              alignment: alignment,
+              alignment: 0.12,
               duration: _focusHandoffDuration,
               curve: _focusHandoffCurve,
             ).whenComplete(() {
@@ -2677,6 +2749,9 @@ class _ContentRowsState extends State<_ContentRows>
       }
     } else if (_activeFocusedRowIndex == rowIndex) {
       if (_isSidebarFocus) {
+        return;
+      }
+      if (OverlaySheetController.hasOpenSheet || SettingsPanel.isOpenNotifier.value) {
         return;
       }
       if (_activePreviewKey != null) {
@@ -3194,6 +3269,18 @@ class _ContentRowsState extends State<_ContentRows>
     // Get viewport height from scroll controller
     final viewportHeight = _scrollController.position.viewportDimension;
 
+    if (!fullScreenRows && !isRowsV2) {
+      final clipTop =
+          (overlayBottom - rowViewportTop).clamp(0.0, rowExtents[rowIndex]);
+      if (clipTop <= 0.0) {
+        return child;
+      }
+      return ClipRect(
+        clipper: _OverlayTopClipper(clipTop),
+        child: child,
+      );
+    }
+
     // Classifier inputs
     final isVisibleOnScreen = rowViewportBottom > 0 && rowViewportTop < viewportHeight;
     final isUnderOverlay = rowViewportBottom <= overlayBottom + 8;
@@ -3597,6 +3684,11 @@ class _ContentRowsState extends State<_ContentRows>
                           )
                         : rowChild;
 
+                    final bool lockRowHeight = fullScreenRows ||
+                        (!PlatformDetection.isTV &&
+                            !PlatformDetection.useMobileUi &&
+                            showInfoOverlay);
+
                     if (row.isLoading) {
                       final itemWidget = Padding(
                         padding: EdgeInsets.only(left: rowLeftInset),
@@ -3614,7 +3706,7 @@ class _ContentRowsState extends State<_ContentRows>
                           },
                         ),
                       );
-                      if (fullScreenRows) {
+                      if (lockRowHeight) {
                         return SizedBox(
                           height: rowExtents[rowIndex],
                           child: itemWidget,
@@ -3655,7 +3747,7 @@ class _ContentRowsState extends State<_ContentRows>
                         },
                       ),
                     );
-                    if (fullScreenRows) {
+                    if (lockRowHeight) {
                       return SizedBox(
                         height: rowExtents[rowIndex],
                         child: itemWidget,
@@ -4274,6 +4366,11 @@ class _ContentRowsState extends State<_ContentRows>
                     itemType: item.type,
                     seerrMediaType: item.seerrMediaType,
                     seerrStatus: item.seerrStatus,
+                    isGenreFallback: (row.rowType == HomeRowType.genres && row.id == 'genres') &&
+                        (() {
+                          final primaryAr = item.rawData['PrimaryImageAspectRatio'] as num?;
+                          return primaryAr == null || primaryAr >= 1.0;
+                        })(),
                     focusColor: (row.rowType == HomeRowType.genres && row.id == 'genres')
                         ? ThemeRegistry.active.borders.focusBorder.color
                         : focusColor,
@@ -4552,11 +4649,14 @@ class _ContentRowsState extends State<_ContentRows>
     final showHeaderControls =
         hasItems && PlatformDetection.useDesktopUi && !PlatformDetection.isTV;
     return RepaintBoundary(
-      child: Column(
-        key: key,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        clipBehavior: Clip.none,
+        child: Column(
+          key: key,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
           Padding(
             padding: EdgeInsets.fromLTRB(
               _kHomeRowLabelInset,
@@ -4619,6 +4719,7 @@ class _ContentRowsState extends State<_ContentRows>
           ),
           child,
         ],
+      ),
       ),
     );
   }
@@ -4734,6 +4835,14 @@ class _ContentRowsState extends State<_ContentRows>
       );
     }
 
+    if (item.type == 'Genre' || item.type == 'MusicGenre') {
+      final primaryAr = item.rawData['PrimaryImageAspectRatio'] as num?;
+      if (primaryAr == null || primaryAr >= 1.0) {
+        final repUrl = primary(item.primaryImageItemId, item.primaryImageTagField);
+        if (repUrl != null) return repUrl;
+      }
+    }
+
     return primary(item.id, item.primaryImageTag) ??
         primary(item.primaryImageItemId, item.primaryImageTagField) ??
         primary(item.parentPrimaryImageItemId, item.parentPrimaryImageTag);
@@ -4818,6 +4927,19 @@ class _ContentRowsState extends State<_ContentRows>
     double requestScale, {
     bool isPrefetch = false,
   }) {
+    if (item.type == 'Genre' || item.type == 'MusicGenre') {
+      final parentBackdropItemId = item.parentBackdropItemId;
+      final parentBackdropTags = item.parentBackdropImageTags;
+      final maxW = (height * 16 / 9 * requestScale).toInt();
+      if (parentBackdropItemId != null && parentBackdropTags.isNotEmpty) {
+        return imageApi.getBackdropImageUrl(
+          parentBackdropItemId,
+          maxWidth: maxW,
+          tag: parentBackdropTags.first,
+        );
+      }
+    }
+
     if (item.serverId == 'seerr') {
       if (!isPrefetch) {
         _fetchBackdropIfNeeded(item);
@@ -5259,6 +5381,19 @@ class _LiveTvAction {
   final String destination;
 
   const _LiveTvAction(this.icon, this.label, this.destination);
+}
+
+class _OverlayTopClipper extends CustomClipper<Rect> {
+  const _OverlayTopClipper(this.top);
+
+  final double top;
+
+  @override
+  Rect getClip(Size size) =>
+      Rect.fromLTRB(0, top.clamp(0.0, size.height), size.width, size.height);
+
+  @override
+  bool shouldReclip(_OverlayTopClipper oldClipper) => oldClipper.top != top;
 }
 
 class _PreviewCardShell extends StatelessWidget {

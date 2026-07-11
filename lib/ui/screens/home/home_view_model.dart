@@ -11,6 +11,7 @@ import 'package:server_core/server_core.dart';
 import '../../../data/models/aggregated_item.dart';
 import '../../../data/models/home_row.dart';
 import '../../../data/repositories/multi_server_repository.dart';
+import '../../../data/services/connectivity_service.dart';
 import '../../../data/services/home_row_cache_store.dart';
 import '../../../data/services/row_data_source.dart';
 import '../../../data/services/topshelf_service.dart';
@@ -25,9 +26,9 @@ import '../../../data/repositories/seerr_repository.dart';
 import '../../../data/services/plugin_sync_service.dart';
 import '../../../data/services/seerr/seerr_api_models.dart';
 import '../../../data/utils/bounded_concurrency.dart';
+import '../../../util/platform_detection.dart';
 import '../../../preference/seerr_preferences.dart';
 import '../../../data/viewmodels/seerr_discover_view_model.dart';
-import '../../../data/repositories/mdblist_repository.dart';
 import 'package:dio/dio.dart';
 import '../../../data/services/custom_external_lists_service.dart';
 
@@ -58,8 +59,15 @@ class HomeViewModel extends ChangeNotifier {
   String get _serverId => _client.baseUrl;
   MediaBarViewModel get mediaBarViewModel => _mediaBarViewModel;
 
+  // TV can't download, so it never enters offline browsing mode and keeps
+  // rendering its cached rows instead.
+  bool get _isOffline =>
+      !PlatformDetection.isTV &&
+      GetIt.instance.isRegistered<ConnectivityService>() &&
+      !GetIt.instance<ConnectivityService>().canReachServer;
+
   bool get _multiServerEnabled =>
-      _prefs.get(UserPreferences.enableMultiServerLibraries);
+      !_isOffline && _prefs.get(UserPreferences.enableMultiServerLibraries);
 
   String _homeCacheKey() {
     final userId = _ownerUserId;
@@ -67,7 +75,10 @@ class HomeViewModel extends ChangeNotifier {
     final multiServer = _prefs.get(UserPreferences.enableMultiServerLibraries);
     final merge = _prefs.get(UserPreferences.mergeContinueWatchingNextUp);
     final blocked = _prefs.get(UserPreferences.blockedParentalRatings);
-    return '$_serverId|$userId|$sections|$multiServer|$merge|$blocked';
+    // Offline rows are cached separately so cached online rows never hydrate
+    // an offline home (and vice versa).
+    final offline = _isOffline;
+    return '$_serverId|$userId|$sections|$multiServer|$merge|$blocked|offline:$offline';
   }
 
   static bool _isFavoriteSectionType(HomeSectionType type) {
@@ -102,6 +113,24 @@ class HomeViewModel extends ChangeNotifier {
       HomeSectionType.audioAlbums ||
       HomeSectionType.audioPlaylists => true,
       _ => false,
+    };
+  }
+
+  /// Sections the offline downloads catalog can answer. Everything else
+  /// (live TV, seerr/tmdb/arr externals, server plugin rows) is skipped when
+  /// the server is unreachable.
+  static bool _isOfflineCapableSection(HomeSectionConfig c) {
+    if (!c.isBuiltin) return false;
+    return switch (c.type) {
+      HomeSectionType.liveTv ||
+      HomeSectionType.activeRecordings ||
+      HomeSectionType.playlists ||
+      HomeSectionType.audioPlaylists ||
+      HomeSectionType.radarrCalendar ||
+      HomeSectionType.sonarrCalendar =>
+        false,
+      final t when _isSeerrSectionType(t) || _isTmdbSectionType(t) => false,
+      _ => true,
     };
   }
 
@@ -285,9 +314,13 @@ class HomeViewModel extends ChangeNotifier {
       final showRewatch = _prefs.get(UserPreferences.displayRewatchRow);
 
       // Plugin-dynamic sections only make sense on the active server.
+      final offline = _isOffline;
       final visibleConfigsRaw = configs
           .where(
             (c) =>
+                // When offline, only sections the downloads catalog can
+                // answer are shown.
+                (!offline || _isOfflineCapableSection(c)) &&
                 (c.isBuiltin ||
                     c.pluginSource == HomeSectionPluginSource.custom ||
                     (c.serverId != null && c.serverId == _serverId)) &&
@@ -864,23 +897,20 @@ class HomeViewModel extends ChangeNotifier {
     const sortOrder = 'Ascending';
     switch (section) {
       case HomeSectionType.resume:
-        return [
-          _multiServerEnabled
-              ? await _multiServerRepo.getAggregatedResume()
-              : await _dataSource.loadResume(_serverId),
-        ];
+        final row = _multiServerEnabled
+            ? await _multiServerRepo.getAggregatedResume()
+            : await _dataSource.loadResume(_serverId);
+        return [row.copyWith(items: _prefs.filterContinueWatching(row.items))];
       case HomeSectionType.resumeAudio:
-        return [
-          _multiServerEnabled
-              ? await _multiServerRepo.getAggregatedResumeAudio()
-              : await _dataSource.loadResumeAudio(_serverId),
-        ];
+        final row = _multiServerEnabled
+            ? await _multiServerRepo.getAggregatedResumeAudio()
+            : await _dataSource.loadResumeAudio(_serverId);
+        return [row.copyWith(items: _prefs.filterContinueWatching(row.items))];
       case HomeSectionType.nextUp:
-        return [
-          _multiServerEnabled
-              ? await _multiServerRepo.getAggregatedNextUp()
-              : await _dataSource.loadNextUp(_serverId),
-        ];
+        final row = _multiServerEnabled
+            ? await _multiServerRepo.getAggregatedNextUp()
+            : await _dataSource.loadNextUp(_serverId);
+        return [row.copyWith(items: _prefs.filterNextUp(row.items))];
       case HomeSectionType.latestMedia:
         return _multiServerEnabled
             ? await _multiServerRepo.getAggregatedLatestMediaRows()
@@ -1634,11 +1664,13 @@ class HomeViewModel extends ChangeNotifier {
           }();
           final resumeRow = await resumeFuture;
           final nextUpRow = await nextUpFuture;
+          final filteredResume = _prefs.filterContinueWatching(resumeRow.items);
+          final filteredNextUp = _prefs.filterNextUp(nextUpRow?.items ?? []);
           final mergedItemsMap = <String, AggregatedItem>{};
-          for (final item in resumeRow.items) {
+          for (final item in filteredResume) {
             mergedItemsMap[item.id] = item;
           }
-          for (final item in nextUpRow?.items ?? []) {
+          for (final item in filteredNextUp) {
             mergedItemsMap.putIfAbsent(item.id, () => item);
           }
           int byLastPlayedDate(AggregatedItem a, AggregatedItem b) {
@@ -1656,11 +1688,13 @@ class HomeViewModel extends ChangeNotifier {
             _dataSource.loadResume(_serverId),
             _dataSource.loadNextUp(_serverId),
           ]);
+          final filteredResume = _prefs.filterContinueWatching(results[0].items);
+          final filteredNextUp = _prefs.filterNextUp(results[1].items);
           final mergedItemsMap = <String, AggregatedItem>{};
-          for (final item in results[0].items) {
+          for (final item in filteredResume) {
             mergedItemsMap[item.id] = item;
           }
-          for (final item in results[1].items) {
+          for (final item in filteredNextUp) {
             mergedItemsMap.putIfAbsent(item.id, () => item);
           }
           int byLastPlayedDate(AggregatedItem a, AggregatedItem b) {
@@ -2003,59 +2037,6 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
-  Future<List<HomeRow>> _loadMdbListRow(
-    HomeSectionType type,
-    String title,
-    String rowId,
-    String slug,
-    String mediatype,
-  ) async {
-    try {
-      final mdbListRepo = GetIt.instance<MdbListRepository>();
-      final items = await mdbListRepo.getListItems(slug, mediaType: mediatype);
-      if (items == null || items.isEmpty) {
-        return const [];
-      }
-
-      final aggregatedItems = items.map((item) {
-        final imdbId = item.providerIds.imdb ?? '';
-        final tmdbId = item.providerIds.tmdb ?? item.id?.toString() ?? '';
-        final type = item.type; // 'movie' or 'show'
-        final displayType = type == 'show' ? 'Series' : 'Movie';
-        final seerrMediaType = type == 'show' ? 'tv' : 'movie';
-
-        return AggregatedItem(
-          id: imdbId.isNotEmpty ? imdbId : tmdbId,
-          serverId: 'seerr',
-          rawData: {
-            'Name': item.name,
-            'Type': displayType,
-            'Overview': '',
-            'PosterPath': item.poster ?? '',
-            'BackdropPath': '',
-            'ProductionYear': item.productionYear,
-            'SeerrMediaType': seerrMediaType,
-            'ProviderIds': {
-              if (imdbId.isNotEmpty) 'Imdb': imdbId,
-              if (tmdbId.isNotEmpty) 'Tmdb': tmdbId,
-            },
-          },
-        );
-      }).toList();
-
-      return [
-        HomeRow(
-          id: rowId,
-          title: title,
-          rowType: HomeRowType.pluginDynamic,
-          items: aggregatedItems,
-        )
-      ];
-    } catch (e) {
-      debugPrint('[MdbListHomeRow] Failed to load MdbList row $type ($slug): $e');
-      return const [];
-    }
-  }
 
   Future<List<HomeRow>> _loadTmdbChartRow(
     HomeSectionType sectionType,
@@ -2085,8 +2066,9 @@ class HomeViewModel extends ChangeNotifier {
       }
 
       final aggregatedItems = items.map((item) {
+        final itemId = item.imdbId.isNotEmpty ? item.imdbId : item.tmdbId;
         return AggregatedItem(
-          id: item.imdbId,
+          id: itemId,
           serverId: 'seerr',
           rawData: {
             'Name': item.title,
@@ -2096,6 +2078,10 @@ class HomeViewModel extends ChangeNotifier {
             'BackdropPath': item.backdropUrl ?? item.posterUrl ?? '',
             'ProductionYear': item.year,
             'SeerrMediaType': item.type == 'Series' ? 'tv' : 'movie',
+            'ProviderIds': {
+              if (item.imdbId.isNotEmpty) 'Imdb': item.imdbId,
+              if (item.tmdbId.isNotEmpty) 'Tmdb': item.tmdbId,
+            },
           },
         );
       }).toList();

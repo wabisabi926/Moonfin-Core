@@ -4132,6 +4132,18 @@ abstract class AppLocalizations {
   /// **'Play when browsing home screen'**
   String get playWhenBrowsingHomeScreen;
 
+  /// Setting to loop the theme music
+  ///
+  /// In en, this message translates to:
+  /// **'Loop Theme Music'**
+  String get loopThemeMusic;
+
+  /// Description for the loop theme music setting
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat the track instead of playing it once'**
+  String get loopThemeMusicSubtitle;
+
   /// Setting for details background blur
   ///
   /// In en, this message translates to:
@@ -4335,6 +4347,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Transcoding (Audio)'**
   String get transcodingAudio;
+
+  /// Play method label for direct stream with remuxing
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Stream (Remux)'**
+  String get directStreamRemux;
+
+  /// Play method label for transcoding due to bitrate or resolution
+  ///
+  /// In en, this message translates to:
+  /// **'Transcoding (Bitrate or Resolution)'**
+  String get transcodingBitrateOrResolution;
+
+  /// Play method label for transcoding both video and audio
+  ///
+  /// In en, this message translates to:
+  /// **'Transcoding (Video & Audio)'**
+  String get transcodingVideoAndAudio;
+
+  /// Play method label for transcoding video
+  ///
+  /// In en, this message translates to:
+  /// **'Transcoding (Video)'**
+  String get transcodingVideo;
 
   /// Option: auto server default
   ///
@@ -6616,6 +6652,18 @@ abstract class AppLocalizations {
   /// **'Approved, declined, and added to your library'**
   String get seerrNotifyLibraryAddedSubtitle;
 
+  /// Title for the issue notifications toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Issue updates'**
+  String get seerrNotifyIssuesTitle;
+
+  /// Subtitle for the issue notifications toggle
+  ///
+  /// In en, this message translates to:
+  /// **'New issues, replies, and resolutions'**
+  String get seerrNotifyIssuesSubtitle;
+
   /// Label showing logged in username
   ///
   /// In en, this message translates to:
@@ -6874,6 +6922,18 @@ abstract class AppLocalizations {
   /// **'Requested'**
   String get seerrRequestedStatus;
 
+  /// Label above the Seerr download progress bar
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading · {percent}%'**
+  String seerrDownloadingPercent(int percent);
+
+  /// Label when a Seerr download has finished and is importing
+  ///
+  /// In en, this message translates to:
+  /// **'Importing'**
+  String get seerrImportingStatus;
+
   /// Status bar item count
   ///
   /// In en, this message translates to:
@@ -7113,6 +7173,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deleted'**
   String get deletedStatus;
+
+  /// Request status label when the request failed to send to Radarr/Sonarr
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get failedStatus;
+
+  /// Filter label for approved requests being processed
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get processingStatus;
+
+  /// Label showing which manager acted on a request
+  ///
+  /// In en, this message translates to:
+  /// **'Modified by {name}'**
+  String modifiedByName(String name);
+
+  /// Request status label when the request finished
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completedStatus;
+
+  /// Error when creating a request that already exists
+  ///
+  /// In en, this message translates to:
+  /// **'This title was already requested'**
+  String get requestErrorDuplicate;
+
+  /// Error when the user is out of request quota
+  ///
+  /// In en, this message translates to:
+  /// **'Request limit reached'**
+  String get requestErrorQuota;
+
+  /// Error when requesting blocklisted media
+  ///
+  /// In en, this message translates to:
+  /// **'This title is blocklisted'**
+  String get requestErrorBlocklisted;
+
+  /// Error when every season is already requested or available
+  ///
+  /// In en, this message translates to:
+  /// **'No seasons left to request'**
+  String get requestErrorNoSeasons;
+
+  /// Error when the user lacks request permission
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to make this request'**
+  String get requestErrorPermission;
+
+  /// Requests tab and screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get seerrRequestsTitle;
+
+  /// Issues tab title on the requests hub
+  ///
+  /// In en, this message translates to:
+  /// **'Issues'**
+  String get seerrIssuesTitle;
+
+  /// Request sort option, most recently added first
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get sortNewest;
+
+  /// Request sort option, most recently updated first
+  ///
+  /// In en, this message translates to:
+  /// **'Last Modified'**
+  String get sortLastModified;
+
+  /// Shown when the issue list is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No issues'**
+  String get noIssues;
+
+  /// Quota line in the request dialog
+  ///
+  /// In en, this message translates to:
+  /// **'{remaining} of {limit} movie requests remaining'**
+  String movieQuotaRemaining(int remaining, int limit);
+
+  /// Quota line in the request dialog for series
+  ///
+  /// In en, this message translates to:
+  /// **'{remaining} of {limit} season requests remaining'**
+  String seasonQuotaRemaining(int remaining, int limit);
+
+  /// Banner on a movie that belongs to a collection
+  ///
+  /// In en, this message translates to:
+  /// **'Part of {name}'**
+  String partOfCollectionName(String name);
+
+  /// Link to open the collection screen
+  ///
+  /// In en, this message translates to:
+  /// **'View Collection'**
+  String get viewCollection;
+
+  /// Button to request movies from a collection
+  ///
+  /// In en, this message translates to:
+  /// **'Request Collection'**
+  String get requestCollection;
+
+  /// Collection header summary line
+  ///
+  /// In en, this message translates to:
+  /// **'{total} movies · {available} available'**
+  String collectionMoviesSummary(int total, int available);
+
+  /// Submit button on the collection request sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Request {count} movies'**
+  String requestMoviesCount(int count);
+
+  /// Progress label while collection requests are submitted
+  ///
+  /// In en, this message translates to:
+  /// **'Requesting {current} of {total}...'**
+  String requestingProgress(int current, int total);
+
+  /// Snackbar after a collection request succeeds
+  ///
+  /// In en, this message translates to:
+  /// **'Requested {count} movies'**
+  String requestedMoviesCount(int count);
+
+  /// Snackbar when some collection requests failed
+  ///
+  /// In en, this message translates to:
+  /// **'Requested {ok} of {total} movies'**
+  String requestedMoviesPartial(int ok, int total);
+
+  /// Shown instead of the request button when nothing is requestable
+  ///
+  /// In en, this message translates to:
+  /// **'All movies are already available or requested'**
+  String get collectionAllRequested;
+
+  /// Button on the seerr detail screen to report a media issue
+  ///
+  /// In en, this message translates to:
+  /// **'Report Issue'**
+  String get reportIssue;
+
+  /// Issue type option
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get issueTypeVideo;
+
+  /// Issue type option
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get issueTypeAudio;
+
+  /// Label for the issue description field
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s wrong?'**
+  String get whatsWrong;
+
+  /// Episode dropdown option covering the whole season
+  ///
+  /// In en, this message translates to:
+  /// **'All Episodes'**
+  String get allEpisodes;
+
+  /// Episode dropdown label
+  ///
+  /// In en, this message translates to:
+  /// **'Episode'**
+  String get episode;
+
+  /// Issue status label
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openStatus;
+
+  /// Issue status label
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get resolvedStatus;
+
+  /// Button to resolve an issue
+  ///
+  /// In en, this message translates to:
+  /// **'Resolve'**
+  String get resolveAction;
+
+  /// Button to reopen a resolved issue
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen'**
+  String get reopenAction;
+
+  /// Label showing who reported an issue
+  ///
+  /// In en, this message translates to:
+  /// **'Reported by {name}'**
+  String reportedByName(String name);
+
+  /// Number of comments on an issue
+  ///
+  /// In en, this message translates to:
+  /// **'{count} comments'**
+  String commentsCount(int count);
+
+  /// Hint for the issue comment field
+  ///
+  /// In en, this message translates to:
+  /// **'Add a comment'**
+  String get addComment;
+
+  /// Confirmation before deleting an issue
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this issue?'**
+  String get deleteIssueConfirm;
+
+  /// Button to submit an issue report
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Report'**
+  String get submitReport;
 
   /// Stat label for TMDB user score
   ///
@@ -13336,6 +13636,36 @@ abstract class AppLocalizations {
   /// **'Saved Media'**
   String get offlineSavedMedia;
 
+  /// No description provided for @offlineBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline'**
+  String get offlineBannerTitle;
+
+  /// No description provided for @offlineBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing your downloads'**
+  String get offlineBannerSubtitle;
+
+  /// No description provided for @offlineBannerAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads'**
+  String get offlineBannerAction;
+
+  /// No description provided for @serverUnreachableBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t reach your server'**
+  String get serverUnreachableBannerTitle;
+
+  /// No description provided for @serverUnreachableBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing from downloads until it\'s back'**
+  String get serverUnreachableBannerSubtitle;
+
   /// No description provided for @castGoogleCast.
   ///
   /// In en, this message translates to:
@@ -13977,6 +14307,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to Series'**
   String get contextMenuGoToSeries;
+
+  /// Context menu action to hide an item from the Continue Watching section
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from Continue Watching'**
+  String get contextMenuHideFromContinueWatching;
+
+  /// Context menu action to hide a show from the Next Up section
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from Next Up'**
+  String get contextMenuHideFromNextUp;
+
+  /// Context menu action to add an item to a collection
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Collection'**
+  String get contextMenuAddToCollection;
 
   /// No description provided for @settingsAdministrationSubtitle.
   ///

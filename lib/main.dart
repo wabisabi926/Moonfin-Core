@@ -11,6 +11,7 @@ import 'package:playback_core/playback_core.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'app.dart';
+import 'data/models/aggregated_item.dart';
 import 'background/watch_next_background.dart' as watch_next_bg;
 import 'data/services/carplay_service.dart';
 import 'data/services/cast/airplay_command_bridge.dart';
@@ -37,6 +38,7 @@ import 'preference/user_preferences.dart';
 import 'util/fullscreen_helper.dart';
 import 'util/http_overrides_stub.dart'
     if (dart.library.io) 'util/http_overrides_io.dart';
+import 'util/game_core_licenses.dart';
 import 'util/platform_detection.dart';
 import 'util/tv_image_cache_stub.dart'
     if (dart.library.io) 'util/tv_image_cache_io.dart';
@@ -319,6 +321,10 @@ void main() async {
   configureHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
 
+  if (PlatformDetection.isAppleTV) {
+    registerGameCoreLicenses();
+  }
+
   if (!PlatformDetection.isWeb && PlatformDetection.isWindows) {
     try {
       final appDataDir = await getApplicationSupportDirectory();
@@ -414,6 +420,17 @@ void main() async {
 
   final prefs = GetIt.instance<UserPreferences>();
   WidgetsBinding.instance.addObserver(_PreferenceWriteFlushObserver(prefs));
+
+  GetIt.instance<PlaybackManager>().queueService.queueChangedStream.listen((_) {
+    final activeItem = GetIt.instance<PlaybackManager>().queueService.currentItem;
+    if (activeItem is AggregatedItem) {
+      prefs.unhideFromContinueWatching(activeItem.id);
+      if (activeItem.seriesId != null && activeItem.seriesId!.isNotEmpty) {
+        prefs.unhideFromContinueWatching(activeItem.seriesId!);
+        prefs.unhideFromNextUp(activeItem.seriesId!);
+      }
+    }
+  });
 
   // Register Theme Store themes before the active theme is resolved so a
   // store-saved theme applies on launch.

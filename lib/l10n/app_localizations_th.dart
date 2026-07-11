@@ -2272,6 +2272,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get playWhenBrowsingHomeScreen => 'เล่นเมื่อเรียกดูหน้าจอหลัก';
 
   @override
+  String get loopThemeMusic => 'Loop Theme Music';
+
+  @override
+  String get loopThemeMusicSubtitle =>
+      'Repeat the track instead of playing it once';
+
+  @override
   String get detailsBackgroundBlur => 'รายละเอียด พื้นหลังเบลอ';
 
   @override
@@ -2376,6 +2383,19 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get transcodingAudio => '';
+
+  @override
+  String get directStreamRemux => 'Direct Stream (Remux)';
+
+  @override
+  String get transcodingBitrateOrResolution =>
+      'Transcoding (Bitrate or Resolution)';
+
+  @override
+  String get transcodingVideoAndAudio => 'Transcoding (Video & Audio)';
+
+  @override
+  String get transcodingVideo => 'Transcoding (Video)';
 
   @override
   String get autoServerDefault => 'อัตโนมัติ (ค่าเริ่มต้นของเซิร์ฟเวอร์)';
@@ -3588,6 +3608,13 @@ class AppLocalizationsTh extends AppLocalizations {
       'Approved, declined, and added to your library';
 
   @override
+  String get seerrNotifyIssuesTitle => 'Issue updates';
+
+  @override
+  String get seerrNotifyIssuesSubtitle =>
+      'New issues, replies, and resolutions';
+
+  @override
   String loggedInAs(String username) {
     return 'เข้าสู่ระบบด้วย: $username';
   }
@@ -3737,6 +3764,14 @@ class AppLocalizationsTh extends AppLocalizations {
   String get seerrRequestedStatus => 'ร้องขอ';
 
   @override
+  String seerrDownloadingPercent(int percent) {
+    return 'Downloading · $percent%';
+  }
+
+  @override
+  String get seerrImportingStatus => 'Importing';
+
+  @override
   String itemsCount(int count) {
     return '$count รายการ';
   }
@@ -3873,6 +3908,150 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get deletedStatus => 'ลบแล้ว';
+
+  @override
+  String get failedStatus => 'Failed';
+
+  @override
+  String get processingStatus => 'Processing';
+
+  @override
+  String modifiedByName(String name) {
+    return 'Modified by $name';
+  }
+
+  @override
+  String get completedStatus => 'Completed';
+
+  @override
+  String get requestErrorDuplicate => 'This title was already requested';
+
+  @override
+  String get requestErrorQuota => 'Request limit reached';
+
+  @override
+  String get requestErrorBlocklisted => 'This title is blocklisted';
+
+  @override
+  String get requestErrorNoSeasons => 'No seasons left to request';
+
+  @override
+  String get requestErrorPermission =>
+      'You don\'t have permission to make this request';
+
+  @override
+  String get seerrRequestsTitle => 'Requests';
+
+  @override
+  String get seerrIssuesTitle => 'Issues';
+
+  @override
+  String get sortNewest => 'Newest';
+
+  @override
+  String get sortLastModified => 'Last Modified';
+
+  @override
+  String get noIssues => 'No issues';
+
+  @override
+  String movieQuotaRemaining(int remaining, int limit) {
+    return '$remaining of $limit movie requests remaining';
+  }
+
+  @override
+  String seasonQuotaRemaining(int remaining, int limit) {
+    return '$remaining of $limit season requests remaining';
+  }
+
+  @override
+  String partOfCollectionName(String name) {
+    return 'Part of $name';
+  }
+
+  @override
+  String get viewCollection => 'View Collection';
+
+  @override
+  String get requestCollection => 'Request Collection';
+
+  @override
+  String collectionMoviesSummary(int total, int available) {
+    return '$total movies · $available available';
+  }
+
+  @override
+  String requestMoviesCount(int count) {
+    return 'Request $count movies';
+  }
+
+  @override
+  String requestingProgress(int current, int total) {
+    return 'Requesting $current of $total...';
+  }
+
+  @override
+  String requestedMoviesCount(int count) {
+    return 'Requested $count movies';
+  }
+
+  @override
+  String requestedMoviesPartial(int ok, int total) {
+    return 'Requested $ok of $total movies';
+  }
+
+  @override
+  String get collectionAllRequested =>
+      'All movies are already available or requested';
+
+  @override
+  String get reportIssue => 'Report Issue';
+
+  @override
+  String get issueTypeVideo => 'Video';
+
+  @override
+  String get issueTypeAudio => 'Audio';
+
+  @override
+  String get whatsWrong => 'What\'s wrong?';
+
+  @override
+  String get allEpisodes => 'All Episodes';
+
+  @override
+  String get episode => 'Episode';
+
+  @override
+  String get openStatus => 'Open';
+
+  @override
+  String get resolvedStatus => 'Resolved';
+
+  @override
+  String get resolveAction => 'Resolve';
+
+  @override
+  String get reopenAction => 'Reopen';
+
+  @override
+  String reportedByName(String name) {
+    return 'Reported by $name';
+  }
+
+  @override
+  String commentsCount(int count) {
+    return '$count comments';
+  }
+
+  @override
+  String get addComment => 'Add a comment';
+
+  @override
+  String get deleteIssueConfirm => 'Delete this issue?';
+
+  @override
+  String get submitReport => 'Submit Report';
 
   @override
   String get tmdbScore => 'คะแนน TMDB';
@@ -7399,6 +7578,22 @@ class AppLocalizationsTh extends AppLocalizations {
   String get offlineSavedMedia => 'สื่อที่บันทึกไว้';
 
   @override
+  String get offlineBannerTitle => 'You\'re offline';
+
+  @override
+  String get offlineBannerSubtitle => 'Showing your downloads';
+
+  @override
+  String get offlineBannerAction => 'Downloads';
+
+  @override
+  String get serverUnreachableBannerTitle => 'Can\'t reach your server';
+
+  @override
+  String get serverUnreachableBannerSubtitle =>
+      'Playing from downloads until it\'s back';
+
+  @override
   String get castGoogleCast => 'Google Cast';
 
   @override
@@ -7748,6 +7943,16 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get contextMenuGoToSeries => 'ไปที่ซีรีส์';
+
+  @override
+  String get contextMenuHideFromContinueWatching =>
+      'Hide from Continue Watching';
+
+  @override
+  String get contextMenuHideFromNextUp => 'Hide from Next Up';
+
+  @override
+  String get contextMenuAddToCollection => 'Add to Collection';
 
   @override
   String get settingsAdministrationSubtitle =>

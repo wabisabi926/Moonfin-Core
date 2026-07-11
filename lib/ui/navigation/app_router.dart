@@ -33,10 +33,12 @@ import '../screens/detail/item_detail_screen.dart';
 import '../screens/games/game_library_screen.dart';
 import '../screens/games/game_detail_screen.dart';
 import '../screens/playback/game_emulator_screen.dart';
+import '../screens/playback/native_game_player_screen.dart';
 import '../screens/detail/item_list_screen.dart';
 import '../screens/detail/music_favorites_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/seerr/seerr_browse_screen.dart';
+import '../screens/seerr/seerr_collection_screen.dart';
 import '../screens/seerr/seerr_discover_screen.dart';
 import '../screens/seerr/seerr_media_detail_screen.dart';
 import '../screens/seerr/seerr_person_screen.dart';
@@ -92,11 +94,6 @@ import '../screens/admin/logs/admin_logs_screen.dart';
 import '../screens/admin/logs/admin_log_viewer_screen.dart';
 import '../screens/admin/livetv/admin_live_tv_screen.dart';
 import '../screens/admin/metadata/admin_metadata_edit_screen.dart';
-import '../screens/downloads/saved_media_screen.dart';
-import '../screens/downloads/saved_album_screen.dart';
-import '../screens/downloads/saved_season_screen.dart';
-import '../screens/downloads/saved_series_screen.dart';
-import '../screens/downloads/storage_management_screen.dart';
 import 'destinations.dart';
 import 'focus_route_observer.dart';
 import 'route_lifecycle_observer.dart';
@@ -110,23 +107,13 @@ const _authRoutes = {
   Destinations.login,
 };
 
-/// Remembers that the router forced the user onto the Saved Media screen
-/// because the device was offline, so the app can return them to home when
-/// connectivity comes back. Deliberate visits never set this.
-class OfflineRedirect {
-  OfflineRedirect._();
-
-  static bool wasAutomatic = false;
-}
-
-bool _isOfflineAllowed(String path) {
-  if (path.startsWith('/settings')) return true;
-  if (path == Destinations.videoPlayer ||
-      path == Destinations.externalPlayer ||
-      path == Destinations.audioPlayer) {
-    return true;
-  }
-  return false;
+/// Surfaces that genuinely need the server. Everything else works offline
+/// against the downloads catalog.
+bool _isOfflineBlocked(String path) {
+  return path.startsWith('/live-tv') ||
+      path.startsWith('/seerr') ||
+      path.startsWith('/admin') ||
+      path.startsWith('/games');
 }
 
 bool _shouldRedirectVideoToExternalPlayer(String path) {
@@ -188,8 +175,6 @@ final appRouter = GoRouter(
     final path = state.uri.path;
     if (_authRoutes.contains(path)) return null;
 
-    if (path.startsWith('/downloads')) return null;
-
     final session = GetIt.instance<SessionRepository>();
     if (session.activeUserId == null) {
       return Destinations.startup;
@@ -202,18 +187,10 @@ final appRouter = GoRouter(
       }
     }
 
-    // TV is exempt: home renders from the persisted row cache with the
-    // offline banner, which beats stranding the user on the mobile-styled
-    // Saved Media screen after a cold boot where Wi-Fi is still connecting.
     final connectivity = GetIt.instance<ConnectivityService>();
-    if (!connectivity.isOnline &&
-        !PlatformDetection.isTV &&
-        !_isOfflineAllowed(path)) {
-      OfflineRedirect.wasAutomatic = true;
-      return Destinations.downloads;
+    if (!connectivity.canReachServer && _isOfflineBlocked(path)) {
+      return Destinations.home;
     }
-
-    OfflineRedirect.wasAutomatic = false;
 
     if (_shouldRedirectVideoToExternalPlayer(path)) {
       return Destinations.externalPlayer;
@@ -444,17 +421,32 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: Destinations.gamePlayer,
-      pageBuilder: (context, state) => _opaqueFullScreenPage<void>(
-        state: state,
-        child: GameEmulatorScreen(
-          libraryId: state.pathParameters['libraryId']!,
-          gameId: state.pathParameters['gameId']!,
-          core: state.uri.queryParameters['core'] ?? 'nes',
-          biosId: state.uri.queryParameters['bios'],
-          gameName: state.uri.queryParameters['name'],
-          startFresh: state.uri.queryParameters['fresh'] == '1',
-        ),
-      ),
+      pageBuilder: (context, state) {
+        final libraryId = state.pathParameters['libraryId']!;
+        final gameId = state.pathParameters['gameId']!;
+        final core = state.uri.queryParameters['core'] ?? 'nes';
+        final startFresh = state.uri.queryParameters['fresh'] == '1';
+        return _opaqueFullScreenPage<void>(
+          state: state,
+          // tvOS has no WebView; games run on the native libretro bridge there.
+          child: PlatformDetection.isAppleTV
+              ? NativeGamePlayerScreen(
+                  libraryId: libraryId,
+                  gameId: gameId,
+                  core: core,
+                  gameName: state.uri.queryParameters['name'],
+                  startFresh: startFresh,
+                )
+              : GameEmulatorScreen(
+                  libraryId: libraryId,
+                  gameId: gameId,
+                  core: core,
+                  biosId: state.uri.queryParameters['bios'],
+                  gameName: state.uri.queryParameters['name'],
+                  startFresh: startFresh,
+                ),
+        );
+      },
     ),
 
     // Live TV
@@ -729,7 +721,9 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: Destinations.seerrRequests,
-      builder: (context, state) => const SeerrRequestsScreen(),
+      builder: (context, state) => SeerrRequestsScreen(
+        initialTab: state.uri.queryParameters['tab'] == 'issues' ? 1 : 0,
+      ),
     ),
     GoRoute(
       path: Destinations.seerrBrowse,
@@ -754,6 +748,13 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: Destinations.seerrCollectionDetail,
+      builder: (context, state) {
+        final collectionId = state.pathParameters['collectionId']!;
+        return SeerrCollectionScreen(collectionId: collectionId);
+      },
+    ),
+    GoRoute(
       path: Destinations.seerrPersonDetail,
       builder: (context, state) {
         final personId = state.pathParameters['personId']!;
@@ -768,37 +769,6 @@ final appRouter = GoRouter(
       },
     ),
 
-    // Downloads / Saved Media
-    GoRoute(
-      path: Destinations.downloads,
-      builder: (context, state) => const SavedMediaScreen(),
-      routes: [
-        GoRoute(
-          path: 'music/:albumId',
-          builder: (context, state) => SavedAlbumScreen(
-            albumId: state.pathParameters['albumId']!,
-            albumName: state.uri.queryParameters['name'],
-          ),
-        ),
-        GoRoute(
-          path: 'series/:seriesId',
-          builder: (context, state) =>
-              SavedSeriesScreen(seriesId: state.pathParameters['seriesId']!),
-          routes: [
-            GoRoute(
-              path: 'season/:seasonId',
-              builder: (context, state) => SavedSeasonScreen(
-                seasonId: state.pathParameters['seasonId']!,
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-    GoRoute(
-      path: Destinations.storageManagement,
-      builder: (context, state) => const StorageManagementScreen(),
-    ),
   ],
 );
 
