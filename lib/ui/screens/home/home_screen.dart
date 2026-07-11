@@ -940,7 +940,7 @@ class _ContentRowsState extends State<_ContentRows>
   }
 
   bool _useMedia3InlinePreview() {
-    return usesMedia3ForInlinePreview(widget.prefs);
+    return usesMedia3ForInlinePreview();
   }
 
   void _onPreviewPrefsChanged() {

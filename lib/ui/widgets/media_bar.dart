@@ -34,7 +34,6 @@ import '../../util/overlay_color_palette.dart';
 import '../../util/platform_detection.dart';
 import '../../l10n/app_localizations.dart';
 import '../../playback/appletv_preview_player.dart';
-import '../../playback/device_profile_builder.dart';
 import '../../playback/html_video_backend_profile.dart';
 import '../../playback/inline_preview_engine.dart';
 import '../../playback/media3_player_backend.dart';
@@ -292,7 +291,7 @@ class _MediaBarState extends State<MediaBar>
   }
 
   bool _useMedia3TrailerEngine() {
-    return usesMedia3ForInlinePreview(widget.prefs);
+    return usesMedia3ForInlinePreview();
   }
 
   /// Whether the Media3 platform view stays mounted between trailers so each
@@ -1628,7 +1627,10 @@ class _MediaBarState extends State<MediaBar>
     if (PlatformDetection.isWeb) {
       return buildHtmlVideoBackendDeviceProfile(widget.prefs);
     }
-    return DeviceProfileBuilder.build();
+    // Reuse the real profile from the active backend so the preview advertises
+    // the codecs, resolution, and bitrate the device supports instead of a bare
+    // profile that makes the server fall back to a tiny transcode.
+    return GetIt.instance<PlayerBackend>().getDeviceProfile();
   }
 
   List<Map<String, dynamic>> _audioStreamsFromRawTrailer(
