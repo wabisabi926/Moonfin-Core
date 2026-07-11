@@ -12,19 +12,19 @@ class AppLocalizationsCs extends AppLocalizations {
   String get appTitle => 'Měsíční ploutev';
 
   @override
-  String get accountPreferences => '';
+  String get accountPreferences => 'ACCOUNT PREFERENCES';
 
   @override
-  String get interfaceLanguage => '';
+  String get interfaceLanguage => 'Interface Language';
 
   @override
-  String get systemLanguageDefault => '';
+  String get systemLanguageDefault => 'System Default';
 
   @override
   String get signIn => 'Přihlaste se';
 
   @override
-  String get empty => '';
+  String get empty => 'Empty';
 
   @override
   String connectingToServer(String serverName) {
@@ -183,19 +183,20 @@ class AppLocalizationsCs extends AppLocalizations {
       'Limit Moonfin Recommends suggestions by parental rating of target media';
 
   @override
-  String get interfaceStyle => '';
+  String get interfaceStyle => 'Interface Style';
 
   @override
-  String get interfaceStyleSubtitle => '';
+  String get interfaceStyleSubtitle =>
+      'Automatic matches your device. Choose Apple or Material to force a look.';
 
   @override
-  String get interfaceStyleAutomatic => '';
+  String get interfaceStyleAutomatic => 'Automatic';
 
   @override
-  String get interfaceStyleApple => '';
+  String get interfaceStyleApple => 'Apple';
 
   @override
-  String get interfaceStyleMaterial => '';
+  String get interfaceStyleMaterial => 'Material';
 
   @override
   String get glassQuality => 'Glass Quality';
@@ -246,10 +247,11 @@ class AppLocalizationsCs extends AppLocalizations {
       'Styl Synthwave s purpurovou září, azurovým textem a silnějším kontrastem chromu';
 
   @override
-  String get themeGlass => '';
+  String get themeGlass => 'Glass';
 
   @override
-  String get themeGlassSubtitle => '';
+  String get themeGlassSubtitle =>
+      'Liquid-glass styling with a drifting gradient backdrop, frosted surfaces, and Apple-blue accent';
 
   @override
   String get theme8BitHero => '8-bit Hero';
@@ -1019,7 +1021,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String endsIn(String time) {
-    return '';
+    return 'Ends in $time';
   }
 
   @override
@@ -1255,10 +1257,10 @@ class AppLocalizationsCs extends AppLocalizations {
   String get director => 'ŘEDITEL';
 
   @override
-  String get directors => '';
+  String get directors => 'DIRECTORS';
 
   @override
-  String get writer => '';
+  String get writer => 'WRITER';
 
   @override
   String get writers => 'SPISOVATELÉ';
@@ -2316,22 +2318,23 @@ class AppLocalizationsCs extends AppLocalizations {
   String get playerZoomMode => 'Režim zvětšení přehrávače';
 
   @override
-  String get settingsScrollWheelAction => '';
+  String get settingsScrollWheelAction => 'Mouse scroll wheel';
 
   @override
-  String get settingsScrollWheelActionDescription => '';
+  String get settingsScrollWheelActionDescription =>
+      'Choose what scrolling the mouse wheel over the video does during playback.';
 
   @override
-  String get scrollWheelActionOff => '';
+  String get scrollWheelActionOff => 'Off';
 
   @override
-  String get scrollWheelActionSeek => '';
+  String get scrollWheelActionSeek => 'Seek (forward / back)';
 
   @override
-  String get scrollWheelActionVolume => '';
+  String get scrollWheelActionVolume => 'Volume';
 
   @override
-  String get playerTooltipVolume => '';
+  String get playerTooltipVolume => 'Volume';
 
   @override
   String get fit => 'Fit';
@@ -2385,22 +2388,24 @@ class AppLocalizationsCs extends AppLocalizations {
   String get defaultAudioLanguage => 'Výchozí jazyk zvuku';
 
   @override
-  String get fallbackAudioLanguage => '';
+  String get fallbackAudioLanguage => 'Fallback Audio Language';
 
   @override
-  String get preferDefaultAudioTrack => '';
+  String get preferDefaultAudioTrack => 'Prefer Default Audio Track';
 
   @override
-  String get preferDefaultAudioTrackDescription => '';
+  String get preferDefaultAudioTrackDescription =>
+      'Prefer original audio track over localized dub.';
 
   @override
-  String get preferAudioDescription => '';
+  String get preferAudioDescription => 'Prefer Audio Description Tracks';
 
   @override
-  String get preferAudioDescriptionDescription => '';
+  String get preferAudioDescriptionDescription =>
+      'Prefer audio description tracks over normal tracks.';
 
   @override
-  String get transcodingAudio => '';
+  String get transcodingAudio => 'Transcoding (Audio)';
 
   @override
   String get directStreamRemux => 'Direct Stream (Remux)';
@@ -2493,7 +2498,8 @@ class AppLocalizationsCs extends AppLocalizations {
   String get settingsAudioOutputMode => 'Režim zvukového výstupu';
 
   @override
-  String get settingsAudioOutputModeDescription => '';
+  String get settingsAudioOutputModeDescription =>
+      'Choose how audio is decoded. AVR Passthrough sends raw Dolby/DTS streams to your receiver; Auto or Downmix decodes locally.';
 
   @override
   String get settingsAudioOutputModeAvrPassthrough => 'Průchod AVR';
@@ -2502,64 +2508,66 @@ class AppLocalizationsCs extends AppLocalizations {
   String get settingsAudioFallbackCodec => 'Zvukový záložní kodek';
 
   @override
-  String get settingsAudioFallbackCodecDescription => '';
+  String get settingsAudioFallbackCodecDescription =>
+      'Select the target format to transcode multi-channel audio when the source stream cannot be direct-played or passed through.';
 
   @override
-  String get settingsAudioFallbackCodecAuto => '';
+  String get settingsAudioFallbackCodecAuto => 'Auto Detect\n(Recommended)';
 
   @override
-  String get settingsAudioFallbackCodecAac => '';
+  String get settingsAudioFallbackCodecAac => 'AAC\n(Default)';
 
   @override
-  String get settingsAudioFallbackCodecAc3 => '';
+  String get settingsAudioFallbackCodecAc3 => 'AC3\n(Dolby Digital)';
 
   @override
-  String get settingsAudioFallbackCodecEac3 => '';
+  String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
 
   @override
-  String get settingsAudioFallbackCodecTrueHd => '';
+  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(Lossless)';
 
   @override
-  String get settingsAudioFallbackCodecMp3 => '';
+  String get settingsAudioFallbackCodecMp3 => 'MP3\n(Stereo Only)';
 
   @override
-  String get settingsAudioFallbackCodecOpus => '';
+  String get settingsAudioFallbackCodecOpus => 'Opus\n(Efficient)';
 
   @override
-  String get settingsAudioFallbackCodecFlac => '';
+  String get settingsAudioFallbackCodecFlac => 'FLAC\n(Lossless)';
 
   @override
-  String get settingsMaxAudioChannels => '';
+  String get settingsMaxAudioChannels => 'Max Audio Channels';
 
   @override
-  String get settingsMaxAudioChannelsDescription => '';
+  String get settingsMaxAudioChannelsDescription =>
+      'Configure the maximum channels of your audio setup. Multichannel streams exceeding this limit will downmix or transcode.';
 
   @override
-  String get settingsMaxAudioChannelsAuto => '';
+  String get settingsMaxAudioChannelsAuto => 'Auto Detect\n(Hardware Default)';
 
   @override
-  String get settingsMaxAudioChannelsMono => '';
+  String get settingsMaxAudioChannelsMono => '1.0 Mono';
 
   @override
-  String get settingsMaxAudioChannelsStereo => '';
+  String get settingsMaxAudioChannelsStereo => '2.0 Stereo';
 
   @override
-  String get settingsMaxAudioChannels3_0 => '';
+  String get settingsMaxAudioChannels3_0 => '3.0 / 2.1 Surround';
 
   @override
-  String get settingsMaxAudioChannels4_0 => '';
+  String get settingsMaxAudioChannels4_0 => '4.0 / 3.1 Quadraphonic';
 
   @override
-  String get settingsMaxAudioChannels5_0 => '';
+  String get settingsMaxAudioChannels5_0 => '5.0 / 4.1 Surround';
 
   @override
-  String get settingsMaxAudioChannels5_1 => '';
+  String get settingsMaxAudioChannels5_1 => '5.1 Surround';
 
   @override
-  String get settingsMaxAudioChannels6_1 => '';
+  String get settingsMaxAudioChannels6_1 => '6.1 Surround';
 
   @override
-  String get settingsMaxAudioChannels7_1 => '';
+  String get settingsMaxAudioChannels7_1 => '7.1 Surround';
 
   @override
   String get settingsAudioPassthroughAdvanced => 'Průchod (pokročilé)';
@@ -2820,40 +2828,45 @@ class AppLocalizationsCs extends AppLocalizations {
   String get subtitleCustomizationDescription => 'Přizpůsobte vzhled titulků';
 
   @override
-  String get subtitleMode => '';
+  String get subtitleMode => 'Subtitle Mode';
 
   @override
-  String get subtitleModeFlagged => '';
+  String get subtitleModeFlagged => 'Flagged';
 
   @override
-  String get subtitleModeAlways => '';
+  String get subtitleModeAlways => 'Always';
 
   @override
-  String get subtitleModeForeign => '';
+  String get subtitleModeForeign => 'Foreign';
 
   @override
-  String get subtitleModeForced => '';
+  String get subtitleModeForced => 'Forced';
 
   @override
-  String get subtitleModeFlaggedDescription => '';
+  String get subtitleModeFlaggedDescription =>
+      'Plays tracks internally flagged in the media file\'s metadata as \"default\" or \"forced\".';
 
   @override
-  String get subtitleModeAlwaysDescription => '';
+  String get subtitleModeAlwaysDescription =>
+      'Automatically loads and displays subtitles every time a video starts.';
 
   @override
-  String get subtitleModeForeignDescription => '';
+  String get subtitleModeForeignDescription =>
+      'Automatically turns on subtitles if the default audio track is in a foreign language.';
 
   @override
-  String get subtitleModeForcedDescription => '';
+  String get subtitleModeForcedDescription =>
+      'Only loads subtitles explicitly tagged with the forced metadata flag.';
 
   @override
-  String get subtitleModeNoneDescription => '';
+  String get subtitleModeNoneDescription =>
+      'Completely disables automatic subtitle loading.';
 
   @override
-  String get fallbackSubtitleLanguage => '';
+  String get fallbackSubtitleLanguage => 'Fallback Subtitle Language';
 
   @override
-  String get subtitleStream => '';
+  String get subtitleStream => 'Subtitle Stream';
 
   @override
   String get subtitlePreviewText => 'Rychlá hnědá liška přeskakuje líného psa';
@@ -3053,7 +3066,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get navbarAlwaysExpanded => 'Always Expand Navbar Labels';
 
   @override
-  String get showSeerrButton => '';
+  String get showSeerrButton => 'Show Seerr Button';
 
   @override
   String get navbarOpacity => 'Neprůhlednost navigační lišty';
@@ -3127,16 +3140,18 @@ class AppLocalizationsCs extends AppLocalizations {
   String get showFolderBrowsingOption => 'Zobrazit možnost procházení složek';
 
   @override
-  String get groupItemsIntoCollections => '';
+  String get groupItemsIntoCollections => 'Group Items into Collections';
 
   @override
-  String get hideCollectionAssociatedItems => '';
+  String get hideCollectionAssociatedItems =>
+      'Hide Collection associated library items when browsing libraries';
 
   @override
-  String get groupItemsIntoCollectionsDialogTitle => '';
+  String get groupItemsIntoCollectionsDialogTitle => 'Library Grouping Notice';
 
   @override
-  String get groupItemsIntoCollectionsDialogMessage => '';
+  String get groupItemsIntoCollectionsDialogMessage =>
+      'To use this setting, please ensure the \"Group movies into collections\" and/or \"Group shows into collections\" Library settings are enabled under your library\'s Display settings on your Jellyfin or Emby server.';
 
   @override
   String get libraryVisibility => 'Viditelnost knihovny';
@@ -3248,6 +3263,12 @@ class AppLocalizationsCs extends AppLocalizations {
       'Automatické přehrávání upoutávek na liště médií po 3 sekundách';
 
   @override
+  String get trailerAudio => 'Trailer Audio';
+
+  @override
+  String get enableTrailerAudio => 'Enable audio for trailers in media bar';
+
+  @override
   String get episodePreview => 'Náhled epizody';
 
   @override
@@ -3321,10 +3342,10 @@ class AppLocalizationsCs extends AppLocalizations {
   String get combineBothRows => 'Spojte oba řádky do jedné domovské sekce';
 
   @override
-  String get fullScreenRows => '';
+  String get fullScreenRows => 'Expanded Home Rows';
 
   @override
-  String get fullScreenRowsDescription => '';
+  String get fullScreenRowsDescription => 'Limit home rows to 1 row per screen';
 
   @override
   String get perRowImageType => 'Typ obrázku na řádek';
@@ -3339,7 +3360,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get lastUser => 'Poslední uživatel';
 
   @override
-  String get currentUser => '';
+  String get currentUser => 'Current User';
 
   @override
   String get alwaysAuthenticate => 'Vždy ověřit';
@@ -3444,10 +3465,10 @@ class AppLocalizationsCs extends AppLocalizations {
       'Zobrazení hodin během spořiče obrazovky';
 
   @override
-  String get clockModeStatic => '';
+  String get clockModeStatic => 'Static';
 
   @override
-  String get clockModeBouncing => '';
+  String get clockModeBouncing => 'Bouncing';
 
   @override
   String get rottenTomatoesCritics => 'Rotten Tomatoes (Kritici)';
@@ -3590,7 +3611,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get networks => 'sítě';
 
   @override
-  String get seerrDiscoveryRows => '';
+  String get seerrDiscoveryRows => 'Seerr Discovery Rows';
 
   @override
   String get resetRowsToDefaults => 'Resetovat řádky na výchozí hodnoty';
@@ -8117,7 +8138,8 @@ class AppLocalizationsCs extends AppLocalizations {
       'Zobrazit tlačítko knihoven v navigační liště';
 
   @override
-  String get settingsShowSeerrButtonInNavigation => '';
+  String get settingsShowSeerrButtonInNavigation =>
+      'Show the Seerr button in the navigation bar';
 
   @override
   String get settingsAlwaysExpandNavbarLabels =>
@@ -8272,16 +8294,16 @@ class AppLocalizationsCs extends AppLocalizations {
   String get settingsSkipIntrosAndOutros => 'Přeskočit úvody a závěry?';
 
   @override
-  String get settingsMediaSegmentCountdown => '';
+  String get settingsMediaSegmentCountdown => 'Media Segment Countdown';
 
   @override
-  String get settingsProgressBar => '';
+  String get settingsProgressBar => 'Progress Bar';
 
   @override
-  String get settingsTimer => '';
+  String get settingsTimer => 'Timer';
 
   @override
-  String get settingsNone => '';
+  String get settingsNone => 'None';
 
   @override
   String get settingsPromptUser => 'Vyzvat uživatele';
@@ -8512,7 +8534,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String recentlyReleasedLibraryName(String libraryName) {
-    return '';
+    return 'Recently Released $libraryName';
   }
 
   @override
@@ -8544,10 +8566,11 @@ class AppLocalizationsCs extends AppLocalizations {
       'Vynutit netunelované přehrávání. Užitečné na zařízeních s tunelováním audio/video diskontinuit.';
 
   @override
-  String get enableTunnelingTitle => '';
+  String get enableTunnelingTitle => 'Enable tunneling';
 
   @override
-  String get enableTunnelingSubtitle => '';
+  String get enableTunnelingSubtitle =>
+      'Advanced. Routes audio and video through a coupled hardware path. Off by default because it causes audio/video dropouts on some devices.';
 
   @override
   String get mapDolbyVisionP7Title => 'Namapujte Dolby Vision profil 7 na HEVC';
@@ -8572,10 +8595,11 @@ class AppLocalizationsCs extends AppLocalizations {
       'Použijte rady pro velikost písma vložené do stopy titulků. Zakažte použití velikosti titulků z vašich předvoleb stylu.';
 
   @override
-  String get showMediaDetailsOnLibraryPage => '';
+  String get showMediaDetailsOnLibraryPage => 'Show Media Details';
 
   @override
-  String get showMediaDetailsOnLibraryPageDescription => '';
+  String get showMediaDetailsOnLibraryPageDescription =>
+      'Show details of the selected item at the top of Library pages.';
 
   @override
   String get useDetailedSubHeadings => 'Použijte podrobné podnadpisy';
@@ -8593,35 +8617,37 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
-  String get themeStore => '';
+  String get themeStore => 'Theme Store';
 
   @override
-  String get themeStoreSubtitle => '';
+  String get themeStoreSubtitle => 'Browse and save community themes';
 
   @override
-  String get themeStoreDescription => '';
+  String get themeStoreDescription =>
+      'Save a theme to use it like your other saved themes.';
 
   @override
-  String get themeStoreEmpty => '';
+  String get themeStoreEmpty => 'No themes are available right now.';
 
   @override
-  String get themeStoreLoadFailed => '';
+  String get themeStoreLoadFailed =>
+      'Couldn\'t load the Theme Store. Check your connection and try again.';
 
   @override
-  String get themeStoreSave => '';
+  String get themeStoreSave => 'Save';
 
   @override
-  String get themeStoreSaveAndApply => '';
+  String get themeStoreSaveAndApply => 'Save & apply';
 
   @override
-  String get themeStoreSaved => '';
+  String get themeStoreSaved => 'Saved';
 
   @override
-  String get themeStoreInvalidMessage => '';
+  String get themeStoreInvalidMessage => 'This theme couldn\'t be loaded.';
 
   @override
   String themeStoreSavedMessage(String themeName) {
-    return '';
+    return 'Saved \"$themeName\".';
   }
 
   @override
@@ -8680,19 +8706,21 @@ class AppLocalizationsCs extends AppLocalizations {
   String get homeRowsSection => 'Domácí řádky';
 
   @override
-  String get homeRowDisplay => '';
+  String get homeRowDisplay => 'Home Row Display';
 
   @override
-  String get homeRowSections => '';
+  String get homeRowSections => 'Home Row Sections';
 
   @override
-  String get homeRowToggles => '';
+  String get homeRowToggles => 'Home Row Toggles';
 
   @override
-  String get homeRowTogglesSubtitle => '';
+  String get homeRowTogglesSubtitle =>
+      'Enable or disable library-based home row categories';
 
   @override
-  String get homeRowTogglesDescription => '';
+  String get homeRowTogglesDescription =>
+      'Enable the following toggles to display the rows in Home Sections.';
 
   @override
   String get rowsType => 'Typ řádků';
@@ -8751,31 +8779,34 @@ class AppLocalizationsCs extends AppLocalizations {
       'Zobrazit filmy, seriály nebo obojí v řádcích Žánry.';
 
   @override
-  String get displayPlaylistsRows => '';
+  String get displayPlaylistsRows => 'Display Playlist Rows';
 
   @override
-  String get displayPlaylistsRowsSubtitle => '';
+  String get displayPlaylistsRowsSubtitle =>
+      'Show Playlist rows in Home Sections.';
 
   @override
-  String get playlistsRowSorting => '';
+  String get playlistsRowSorting => 'Playlist Row Sorting';
 
   @override
-  String get playlistsRowSortingDescription => '';
+  String get playlistsRowSortingDescription =>
+      'Sort Playlist rows by date added, release date, alphabetically, and more.';
 
   @override
-  String get displayAudioRows => '';
+  String get displayAudioRows => 'Display Audio Rows';
 
   @override
-  String get displayAudioRowsSubtitle => '';
+  String get displayAudioRowsSubtitle => 'Show Audio rows in Home Sections.';
 
   @override
-  String get audioRowsSorting => '';
+  String get audioRowsSorting => 'Audio Rows sorting';
 
   @override
-  String get audioRowsSortingDescription => '';
+  String get audioRowsSortingDescription =>
+      'Sort Audio rows by date added, release date, alphabetically, and more.';
 
   @override
-  String get audioPlaylists => '';
+  String get audioPlaylists => 'Audio Playlists';
 
   @override
   String get appearance => 'Vzhled';
@@ -8805,7 +8836,8 @@ class AppLocalizationsCs extends AppLocalizations {
   String get externalPlayerApp => 'Aplikace pro externí přehrávač';
 
   @override
-  String get externalPlayerAppDescription => '';
+  String get externalPlayerAppDescription =>
+      'Set external player to enable long-press play option';
 
   @override
   String get externalPlayerAskEachTimeSubtitle =>
@@ -9073,7 +9105,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get appearancesSeerr => 'Vzhled (Seerr)';
 
   @override
-  String get crewContributionsSeerr => '';
+  String get crewContributionsSeerr => 'Crew Contributions (Seerr)';
 
   @override
   String get watchWithGroup => 'Sledujte se skupinou';
@@ -9339,146 +9371,148 @@ class AppLocalizationsCs extends AppLocalizations {
   String get whenFullscreen => 'Při zobrazení na celou obrazovku';
 
   @override
-  String get changeArtwork => '';
+  String get changeArtwork => 'Change Artwork';
 
   @override
-  String get missing => '';
+  String get missing => 'Missing';
 
   @override
   String get transcodingLimits => 'Limity překódování';
 
   @override
-  String get clearAllArtworkButton => '';
+  String get clearAllArtworkButton => 'Clear all artwork?';
 
   @override
-  String get clearAllArtworkWarning => '';
+  String get clearAllArtworkWarning =>
+      'Are you sure you want to clear all downloaded artwork?';
 
   @override
-  String get confirmClear => '';
+  String get confirmClear => 'Confirm Clear';
 
   @override
   String confirmClearMessage(String itemType) {
-    return '';
+    return 'Are you sure you would like to clear this $itemType?';
   }
 
   @override
-  String get uploadButton => '';
+  String get uploadButton => 'Upload?';
 
   @override
-  String get resolutionLabel => '';
+  String get resolutionLabel => 'Resolution: ';
 
   @override
-  String get onlyShowInterfaceLanguage => '';
+  String get onlyShowInterfaceLanguage =>
+      'Only show artwork in interface language';
 
   @override
-  String get confirmClearAll => '';
+  String get confirmClearAll => 'Confirm Clear All';
 
   @override
-  String get imageUploadSuccess => '';
+  String get imageUploadSuccess => 'Image uploaded successfully!';
 
   @override
   String imageUploadFailed(String error) {
-    return '';
+    return 'Failed to upload image: $error';
   }
 
   @override
   String imageDownloadFailed(String error) {
-    return '';
+    return 'Failed to set image: $error';
   }
 
   @override
   String imageDeleteFailed(String error) {
-    return '';
+    return 'Failed to delete image: $error';
   }
 
   @override
   String clearAllArtworkFailed(String error) {
-    return '';
+    return 'Failed to clear all artwork: $error';
   }
 
   @override
-  String get yes => '';
+  String get yes => 'Yes';
 
   @override
-  String get posterCategory => '';
+  String get posterCategory => 'Poster';
 
   @override
-  String get backdropsCategory => '';
+  String get backdropsCategory => 'Backdrops';
 
   @override
-  String get bannerCategory => '';
+  String get bannerCategory => 'Banner';
 
   @override
-  String get logoCategory => '';
+  String get logoCategory => 'Logo';
 
   @override
-  String get thumbnailCategory => '';
+  String get thumbnailCategory => 'Thumbnail';
 
   @override
-  String get artCategory => '';
+  String get artCategory => 'Art';
 
   @override
-  String get discArtCategory => '';
+  String get discArtCategory => 'Disc Art';
 
   @override
-  String get screenshotCategory => '';
+  String get screenshotCategory => 'Screenshot';
 
   @override
-  String get boxCoverCategory => '';
+  String get boxCoverCategory => 'Box Cover';
 
   @override
-  String get boxRearCoverCategory => '';
+  String get boxRearCoverCategory => 'Box Rear Cover';
 
   @override
-  String get menuArtCategory => '';
+  String get menuArtCategory => 'Menu Art';
 
   @override
-  String get confirmItemPoster => '';
+  String get confirmItemPoster => 'poster';
 
   @override
-  String get confirmItemBackdrop => '';
+  String get confirmItemBackdrop => 'backdrop';
 
   @override
-  String get confirmItemBanner => '';
+  String get confirmItemBanner => 'banner';
 
   @override
-  String get confirmItemLogo => '';
+  String get confirmItemLogo => 'logo';
 
   @override
-  String get confirmItemThumbnail => '';
+  String get confirmItemThumbnail => 'thumbnail';
 
   @override
-  String get confirmItemArt => '';
+  String get confirmItemArt => 'art';
 
   @override
-  String get confirmItemDiscArt => '';
+  String get confirmItemDiscArt => 'disc art';
 
   @override
-  String get confirmItemScreenshot => '';
+  String get confirmItemScreenshot => 'screenshot';
 
   @override
-  String get confirmItemBoxCover => '';
+  String get confirmItemBoxCover => 'box cover';
 
   @override
-  String get confirmItemBoxRearCover => '';
+  String get confirmItemBoxRearCover => 'box rear cover';
 
   @override
-  String get confirmItemMenuArt => '';
+  String get confirmItemMenuArt => 'menu art';
 
   @override
-  String get resolutionAll => '';
+  String get resolutionAll => 'All';
 
   @override
-  String get resolutionHigh => '';
+  String get resolutionHigh => 'High (1080p+)';
 
   @override
-  String get resolutionMedium => '';
+  String get resolutionMedium => 'Medium (720p)';
 
   @override
-  String get resolutionLow => '';
+  String get resolutionLow => 'Low (<720p)';
 
   @override
-  String get sources => '';
+  String get sources => 'Sources';
 
   @override
   String get audiobookChapters => 'Chapters';
@@ -9628,51 +9662,54 @@ class AppLocalizationsCs extends AppLocalizations {
   String get audiobookDelete => 'Delete';
 
   @override
-  String get subtitlePreferences => '';
+  String get subtitlePreferences => 'Subtitle Preferences';
 
   @override
-  String get subtitlePreferencesDescription => '';
+  String get subtitlePreferencesDescription =>
+      'Change subtitle modes, default languages, appearance, and rendering options.';
 
   @override
-  String get subtitleRendering => '';
+  String get subtitleRendering => 'Subtitle Rendering';
 
   @override
-  String get displayOptions => '';
+  String get displayOptions => 'Display Options';
 
   @override
-  String get releaseDateAscending => '';
+  String get releaseDateAscending => 'Release Date (Ascending)';
 
   @override
-  String get releaseDateDescending => '';
+  String get releaseDateDescending => 'Release Date (Descending)';
 
   @override
-  String get groupContributions => '';
+  String get groupContributions => 'Group Contributions';
 
   @override
-  String get groupMultipleRoles => '';
+  String get groupMultipleRoles => 'Group multiple roles';
 
   @override
-  String get libraryWriteAccessWarningTitle => '';
+  String get libraryWriteAccessWarningTitle => 'Library Write Access Warning';
 
   @override
-  String get libraryWriteAccessHowToFix => '';
+  String get libraryWriteAccessHowToFix => 'How to fix this:';
 
   @override
-  String get libraryWriteAccessFixSteps => '';
+  String get libraryWriteAccessFixSteps =>
+      '1. Grant write permissions to the Jellyfin service user (e.g., jellyfin or Docker PUID/PGID) for your media library folders on the server.\n\n2. Or, go to your Jellyfin Dashboard -> Libraries, edit this library, and disable \'Save artwork into media folders\' to store artwork in Jellyfin\'s internal database.';
 
   @override
-  String get dismiss => '';
+  String get dismiss => 'Dismiss';
 
   @override
   String libraryWriteAccessProactiveBody(
     String libraryName,
     String failedPath,
   ) {
-    return '';
+    return 'Your \'$libraryName\' library is configured to save artwork directly into the media folders (\'Save artwork into media folders\' is enabled). However, Jellyfin has tested write access and does not have permission to write files into this directory:\n\n$failedPath';
   }
 
   @override
-  String get libraryWriteAccessReactiveBody => '';
+  String get libraryWriteAccessReactiveBody =>
+      'It looks like Jellyfin failed to update the artwork. Your library is configured to save artwork directly into the media folders (\'Save artwork into media folders\' is enabled). This error typically occurs when the Jellyfin server process does not have permission to write files into your media directories.';
 
   @override
   String get externalLists => 'External Lists';

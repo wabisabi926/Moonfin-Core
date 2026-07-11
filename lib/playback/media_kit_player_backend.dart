@@ -283,6 +283,19 @@ class MediaKitPlayerBackend extends PlayerBackend {
     }
   }
 
+  // Whether an mpv external track was sub-added from the requested URL. mpv can
+  // re-encode the URL it reports in `external-filename`, so an exact compare
+  // misses. Jellyfin external subtitle URLs carry the unique subtitle stream
+  // index in the path, so a decoded-path match still identifies the sub.
+  static bool _externalFilenameMatches(String? mpvFilename, String requestedUrl) {
+    if (mpvFilename == null || mpvFilename.isEmpty) return false;
+    if (mpvFilename == requestedUrl) return true;
+    final a = Uri.tryParse(mpvFilename);
+    final b = Uri.tryParse(requestedUrl);
+    if (a == null || b == null) return false;
+    return Uri.decodeFull(a.path) == Uri.decodeFull(b.path);
+  }
+
   static Future<void> _nativeSetProperty(
     Object native,
     String key,
@@ -378,6 +391,11 @@ class MediaKitPlayerBackend extends PlayerBackend {
     final platform = player.platform;
     if (platform is NativePlayer) {
       _nativeSetProperty(platform, 'network-timeout', '120');
+      _nativeSetProperty(
+        platform,
+        'stream-lavf-o',
+        'reconnect=1,reconnect_on_network_error=1,reconnect_streamed=1,reconnect_delay_max=5',
+      );
 
       final maxChannels = prefs.get(UserPreferences.maxAudioChannels);
       final audioChannelsLayout = (maxChannels == 0 || _passthroughActive(prefs))
@@ -1022,6 +1040,12 @@ class MediaKitPlayerBackend extends PlayerBackend {
     'audio-spdif',
     'audio-channels',
     'audio-normalize-downmix',
+    'volume-gain',
+    'volume-max',
+    'replaygain',
+    'replaygain-preamp',
+    'replaygain-clip',
+    'replaygain-fallback',
     'deinterlace',
     'keep-open',
   };
@@ -1196,10 +1220,35 @@ class MediaKitPlayerBackend extends PlayerBackend {
     return _isStale ? false : completed;
   });
 
+  // Some errors are just the socket dropping mid-stream, like a connection
+  // reset or a broken pipe. The reconnect options quietly re-open the stream
+  // and playback keeps going, so we don't want these popping up as a fatal
+  // "playback failed". Real trouble reaching the stream (connection refused,
+  // timed out, 403/404, a TLS error) reads differently and still gets through.
+  static bool _isTransientReconnectError(String message) {
+    final lower = message.toLowerCase();
+    // ffmpeg's socket read or write dropped mid-stream.
+    if (lower.contains('ffurl_read') || lower.contains('ffurl_write')) {
+      return true;
+    }
+    // How most platforms word a dropped connection.
+    if (lower.contains('connection reset') ||
+        lower.contains('connection abort') ||
+        lower.contains('broken pipe')) {
+      return true;
+    }
+    // Windows reports the same drops as hex codes. 0xffffd8ba is WSAECONNRESET
+    // (10054) and 0xffffd8bb is WSAECONNABORTED (10053).
+    if (lower.contains('0xffffd8ba') || lower.contains('0xffffd8bb')) {
+      return true;
+    }
+    return false;
+  }
+
   @override
-  Stream<Map<String, dynamic>>? get errorStream => _player.stream.error.map(
-    (err) => <String, dynamic>{'event': 'error', 'message': err},
-  );
+  Stream<Map<String, dynamic>>? get errorStream => _player.stream.error
+      .where((err) => !_isTransientReconnectError(err))
+      .map((err) => <String, dynamic>{'event': 'error', 'message': err});
 
   @override
   Future<void> setPlaybackSpeed(double speed) async {
@@ -1318,9 +1367,22 @@ class MediaKitPlayerBackend extends PlayerBackend {
       String? resolvedSid;
       if (isExternalSubtitle && externalSubtitleUrl != null) {
         for (final entry in subEntries) {
-          if (entry.external && entry.externalFilename == externalSubtitleUrl) {
+          if (entry.external &&
+              _externalFilenameMatches(
+                  entry.externalFilename, externalSubtitleUrl)) {
             resolvedSid = entry.id.toString();
             break;
+          }
+        }
+        // If the URL match missed, pick among external tracks only, using the
+        // live demuxed embedded count so a miscounted ordinal can't shift into
+        // or across embedded tracks.
+        if (resolvedSid == null) {
+          final liveEmbedded = subEntries.where((e) => !e.external).length;
+          final externals = subEntries.where((e) => e.external).toList();
+          final externalPos = mpvTrackId - 1 - liveEmbedded;
+          if (externalPos >= 0 && externalPos < externals.length) {
+            resolvedSid = externals[externalPos].id.toString();
           }
         }
       } else if (!isExternalSubtitle) {

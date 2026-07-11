@@ -132,7 +132,7 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get secureStorageUnavailableMessage =>
-      'Moonfin no ha pogut accedir al teu anell de claus del sistema. L\'inici de sessió pot continuar, però és possible que l\'emmagatzematge de testimoni segur no estigui disponible fins que no es desbloquegi l\'anell de claus.';
+      'Moonfin no ha pogut accedir al teu gestor de claus del sistema. L\'inici de sessió pot continuar, però és possible que l\'emmagatzematge de testimoni segur no estigui disponible fins que no es desbloquegi el gestor de claus.';
 
   @override
   String get ok => 'D\'acord';
@@ -141,14 +141,14 @@ class AppLocalizationsCa extends AppLocalizations {
   String get settingsAppearanceTheme => 'Tema de l\'aplicació';
 
   @override
-  String get detailScreenStyle => 'Detail screen style';
+  String get detailScreenStyle => 'Estil de la secció de detalls';
 
   @override
   String get detailScreenStyleSubtitle =>
-      'Classic is the original centered moonfin layout. Modern is a responsive cinematic layout.';
+      'Clàssic es el disseny original de moonfin centrat. Modern es el disseny cinemàtic interactiu.';
 
   @override
-  String get detailScreenStyleMoonfin => 'Classic';
+  String get detailScreenStyleMoonfin => 'Clàssic';
 
   @override
   String get detailScreenStyleModern => 'Modern';
@@ -161,14 +161,14 @@ class AppLocalizationsCa extends AppLocalizations {
       'Automatically show tab content while browsing tabs. Turn off to open and close each tab manually.';
 
   @override
-  String get recommendationSystem => 'Recommendation System';
+  String get recommendationSystem => 'Sistema de recomanacions';
 
   @override
   String get recommendationSystemSubtitle =>
-      'Use the Moonfin Recommends local-library algorithm or the online TMDb\'s Similarity Metrics. Note: Online recommendations require Seerr integration.';
+      'Utilitza l\'algorisme local de recomanacions de Moonfin (Moonfin Recommends) o les mètriques de similitud en línia de TMDb. Nota: Les recomanacions en línia requereixen la integració amb Seerr.';
 
   @override
-  String get recommendationSystemMoonfin => 'Moonfin Recommends';
+  String get recommendationSystemMoonfin => 'Recomanacions Moonfin';
 
   @override
   String get recommendationSystemTmdb => 'TMDb Similarity';
@@ -182,19 +182,20 @@ class AppLocalizationsCa extends AppLocalizations {
       'Limit Moonfin Recommends suggestions by parental rating of target media';
 
   @override
-  String get interfaceStyle => '';
+  String get interfaceStyle => 'Estil de l\'interfaç';
 
   @override
-  String get interfaceStyleSubtitle => '';
+  String get interfaceStyleSubtitle =>
+      'Automatic matches your device. Choose Apple or Material to force a look.';
 
   @override
-  String get interfaceStyleAutomatic => '';
+  String get interfaceStyleAutomatic => 'Automàtic';
 
   @override
-  String get interfaceStyleApple => '';
+  String get interfaceStyleApple => 'Apple';
 
   @override
-  String get interfaceStyleMaterial => '';
+  String get interfaceStyleMaterial => 'Material';
 
   @override
   String get glassQuality => 'Glass Quality';
@@ -207,10 +208,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get glassQualityAuto => 'Auto';
 
   @override
-  String get glassQualityFull => 'Full';
+  String get glassQualityFull => 'Complet';
 
   @override
-  String get glassQualityReduced => 'Reduced';
+  String get glassQualityReduced => 'Reduït';
 
   @override
   String get settingsAppearanceThemeSubtitle =>
@@ -234,8 +235,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get themeMoonfin => 'Moonfin';
 
   @override
-  String get themeMoonfinSubtitle =>
-      'L\'aspecte actual de Moonfin que tots us heu encantat';
+  String get themeMoonfinSubtitle => 'L\'aspecte original de Moonfin.';
 
   @override
   String get themeNeonPulse => 'pols de neó';
@@ -321,22 +321,22 @@ class AppLocalizationsCa extends AppLocalizations {
   String get exit => 'Sortida';
 
   @override
-  String get gameMenu => 'Menu';
+  String get gameMenu => 'Menú';
 
   @override
-  String get gamePaused => 'Paused';
+  String get gamePaused => 'En pausa';
 
   @override
-  String get gameSaveState => 'Save state';
+  String get gameSaveState => 'Desa l’estat actual';
 
   @override
-  String get gameLoadState => 'Load state';
+  String get gameLoadState => 'Carregar estat';
 
   @override
-  String get gameFastForward => 'Fast-forward';
+  String get gameFastForward => 'Avançar';
 
   @override
-  String get gameEmulatorSettings => 'Emulator settings';
+  String get gameEmulatorSettings => 'Paràmetres de l\'emulador';
 
   @override
   String get gameNoCoreOptions => 'This core has no adjustable options.';
@@ -374,7 +374,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get noItemsFound => 'No s\'han trobat elements';
 
   @override
-  String get home => 'a casa';
+  String get home => 'Inici';
 
   @override
   String get browseAll => 'Exploreu-ho tot';
@@ -439,7 +439,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get retry => 'Torna-ho a provar';
 
   @override
-  String get noFavoritesYet => 'Encara no hi ha cap favorit';
+  String get noFavoritesYet => 'Encara no hi ha cap preferit';
 
   @override
   String get favorites => 'Preferits';
@@ -510,7 +510,7 @@ class AppLocalizationsCa extends AppLocalizations {
       'Encara no hi ha cap marcador desat per a aquest títol.';
 
   @override
-  String get openBook => 'Llibre Obert';
+  String get openBook => 'Obrir llibre';
 
   @override
   String get chapter => 'Capítol';
@@ -588,7 +588,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get continueReading => 'Continuar llegint';
 
   @override
-  String get savedHighlights => 'Destacats destacats';
+  String get savedHighlights => 'Destacats';
 
   @override
   String get continueListening => 'Continuar escoltant';
@@ -597,19 +597,19 @@ class AppLocalizationsCa extends AppLocalizations {
   String get listen => 'Escolta';
 
   @override
-  String get resume => 'Currículum';
+  String get resume => 'Reprendre';
 
   @override
   String get failedToLoadLibrary => 'No s\'ha pogut carregar la biblioteca';
 
   @override
-  String get popularNow => 'Popular ara';
+  String get popularNow => 'Populars ara';
 
   @override
   String get savedForLater => 'Guardat per a més tard';
 
   @override
-  String get topListens => 'Les millors escoltes';
+  String get topListens => 'Àudiollibres populars';
 
   @override
   String get unreadDiscoveries => 'Descobriments no llegits';
@@ -760,10 +760,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get books => 'Llibres';
 
   @override
-  String get latestBooks => 'Latest Books';
+  String get latestBooks => 'Llibres afegits recentment';
 
   @override
-  String get latestAudiobooks => 'Latest Audiobooks';
+  String get latestAudiobooks => 'Audiollibres afegits recentment';
 
   @override
   String bookSeriesItemCount(int count) {
@@ -1079,10 +1079,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get finished => 'Acabat';
 
   @override
-  String get favorited => 'Favorit';
+  String get favorited => 'Preferit';
 
   @override
-  String get favorite => 'Favorit';
+  String get favorite => 'Preferit';
 
   @override
   String get playlist => 'Llista de reproducció';
@@ -1100,7 +1100,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get deleteDownloaded => 'Suprimeix els descarregats';
 
   @override
-  String get goToSeries => 'Vés a Sèrie';
+  String get goToSeries => 'Ves a la sèrie';
 
   @override
   String get editMetadata => 'Edita les metadades';
@@ -1264,7 +1264,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get deleteFiles => 'Suprimeix fitxers';
 
   @override
-  String get director => 'DIRECTORA';
+  String get director => 'DIRECTOR';
 
   @override
   String get directors => 'DIRECTORS';
@@ -1273,7 +1273,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get writer => 'GUIONISTA';
 
   @override
-  String get writers => 'ESCRITORS';
+  String get writers => 'ESCRIPTORS';
 
   @override
   String get studio => 'ESTUDI';
@@ -1364,7 +1364,7 @@ class AppLocalizationsCa extends AppLocalizations {
   }
 
   @override
-  String get perfectMatch => 'Partit perfecte';
+  String get perfectMatch => 'Coincidència perfecte';
 
   @override
   String channelsCount(int count) {
@@ -1492,7 +1492,7 @@ class AppLocalizationsCa extends AppLocalizations {
   }
 
   @override
-  String get longPressToUnlock => 'Premeu llargament per desbloquejar';
+  String get longPressToUnlock => 'Mantingueu per a desbloquejar';
 
   @override
   String get off => 'Apagat';
@@ -1511,7 +1511,7 @@ class AppLocalizationsCa extends AppLocalizations {
   }
 
   @override
-  String get bitrateOverride => 'Anulació de la taxa de bits';
+  String get bitrateOverride => 'Taxa de bits (manual)';
 
   @override
   String get audioDelay => 'Retard d\'àudio';
@@ -1722,10 +1722,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get themeSystem => 'Tema: Sistema';
 
   @override
-  String get themeLight => 'Tema: Llum';
+  String get themeLight => 'Tema: Clar';
 
   @override
-  String get themeDark => 'Tema: fosc';
+  String get themeDark => 'Tema: Fosc';
 
   @override
   String get themeSepia => 'Tema: Sèpia';
@@ -1778,7 +1778,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get news => 'Notícies';
 
   @override
-  String get kids => 'Nens';
+  String get kids => 'Infantil';
 
   @override
   String get premiere => 'Estrena';
@@ -1795,7 +1795,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get noChannelsFound => 'No s\'han trobat canals';
 
   @override
-  String get liveBadge => 'EN VIU';
+  String get liveBadge => 'En Viu';
 
   @override
   String guideNextProgram(String time, String title) {
@@ -2251,7 +2251,7 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get seriesThumbnailsDescription =>
-      'Només els episodis: utilitzeu obres d\'art de sèrie que coincideixin amb cada tipus d\'imatge de fila';
+      'Per a les sèries, utilitza l\'obra artística principal de la sèrie en lloc de la miniatura de l\'episodi.';
 
   @override
   String get homeRowInfoOverlay =>
@@ -2383,7 +2383,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get scaleOnDevice => 'Escala al dispositiu';
 
   @override
-  String get trickPlay => 'Joc de trucs';
+  String get trickPlay => 'Previsualització';
 
   @override
   String get showPreviewThumbnailsWhenSeeking =>
@@ -2413,22 +2413,24 @@ class AppLocalizationsCa extends AppLocalizations {
   String get defaultAudioLanguage => 'Idioma d\'àudio per defecte';
 
   @override
-  String get fallbackAudioLanguage => '';
+  String get fallbackAudioLanguage => 'Fallback Audio Language';
 
   @override
-  String get preferDefaultAudioTrack => '';
+  String get preferDefaultAudioTrack => 'Prefer Default Audio Track';
 
   @override
-  String get preferDefaultAudioTrackDescription => '';
+  String get preferDefaultAudioTrackDescription =>
+      'Prefer original audio track over localized dub.';
 
   @override
-  String get preferAudioDescription => '';
+  String get preferAudioDescription => 'Prefer Audio Description Tracks';
 
   @override
-  String get preferAudioDescriptionDescription => '';
+  String get preferAudioDescriptionDescription =>
+      'Prefer audio description tracks over normal tracks.';
 
   @override
-  String get transcodingAudio => '';
+  String get transcodingAudio => 'Transcoding (Audio)';
 
   @override
   String get directStreamRemux => 'Direct Stream (Remux)';
@@ -2521,7 +2523,8 @@ class AppLocalizationsCa extends AppLocalizations {
   String get settingsAudioOutputMode => 'Mode de sortida d\'àudio';
 
   @override
-  String get settingsAudioOutputModeDescription => '';
+  String get settingsAudioOutputModeDescription =>
+      'Tria com es descodifica l\'àudio. AVR Passthrough envia els fluxos Dolby/DTS en brut al receptor; Auto o Downmix els descodifica localment.';
 
   @override
   String get settingsAudioOutputModeAvrPassthrough => 'Passthrough AVR';
@@ -2530,10 +2533,11 @@ class AppLocalizationsCa extends AppLocalizations {
   String get settingsAudioFallbackCodec => 'Còdec de reserva d\'àudio';
 
   @override
-  String get settingsAudioFallbackCodecDescription => '';
+  String get settingsAudioFallbackCodecDescription =>
+      'Select the target format to transcode multi-channel audio when the source stream cannot be direct-played or passed through.';
 
   @override
-  String get settingsAudioFallbackCodecAuto => '';
+  String get settingsAudioFallbackCodecAuto => 'Auto Detect\n(Recommended)';
 
   @override
   String get settingsAudioFallbackCodecAac => 'AAC\n(Predeterminat)';
@@ -2548,23 +2552,23 @@ class AppLocalizationsCa extends AppLocalizations {
   String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(Sense perdues)';
 
   @override
-  String get settingsAudioFallbackCodecMp3 => '';
+  String get settingsAudioFallbackCodecMp3 => 'MP3\n(Stereo Only)';
 
   @override
-  String get settingsAudioFallbackCodecOpus => '';
+  String get settingsAudioFallbackCodecOpus => 'Opus\n(Efficient)';
 
   @override
   String get settingsAudioFallbackCodecFlac => 'FLAC\n(Sense perdua)';
 
   @override
-  String get settingsMaxAudioChannels => '';
+  String get settingsMaxAudioChannels => 'Max Audio Channels';
 
   @override
   String get settingsMaxAudioChannelsDescription =>
       'Configura el nombre màxim de canals de la teva configuració d’àudio. Els fluxos multicanal que superin aquest límit es reduiran a una versió mesclada o es transcodificaran.';
 
   @override
-  String get settingsMaxAudioChannelsAuto => '';
+  String get settingsMaxAudioChannelsAuto => 'Auto Detect\n(Hardware Default)';
 
   @override
   String get settingsMaxAudioChannelsMono => '1.0 Mono';
@@ -2851,40 +2855,45 @@ class AppLocalizationsCa extends AppLocalizations {
       'Personalitza l\'aspecte dels subtítols';
 
   @override
-  String get subtitleMode => '';
+  String get subtitleMode => 'Subtitle Mode';
 
   @override
-  String get subtitleModeFlagged => '';
+  String get subtitleModeFlagged => 'Flagged';
 
   @override
-  String get subtitleModeAlways => '';
+  String get subtitleModeAlways => 'Sempre';
 
   @override
-  String get subtitleModeForeign => '';
+  String get subtitleModeForeign => 'Intel·ligent';
 
   @override
-  String get subtitleModeForced => '';
+  String get subtitleModeForced => 'Forçat';
 
   @override
-  String get subtitleModeFlaggedDescription => '';
+  String get subtitleModeFlaggedDescription =>
+      'Plays tracks internally flagged in the media file\'s metadata as \"default\" or \"forced\".';
 
   @override
-  String get subtitleModeAlwaysDescription => '';
+  String get subtitleModeAlwaysDescription =>
+      'Automatically loads and displays subtitles every time a video starts.';
 
   @override
-  String get subtitleModeForeignDescription => '';
+  String get subtitleModeForeignDescription =>
+      'Automatically turns on subtitles if the default audio track is in a foreign language.';
 
   @override
-  String get subtitleModeForcedDescription => '';
+  String get subtitleModeForcedDescription =>
+      'Only loads subtitles explicitly tagged with the forced metadata flag.';
 
   @override
-  String get subtitleModeNoneDescription => '';
+  String get subtitleModeNoneDescription =>
+      'Completely disables automatic subtitle loading.';
 
   @override
-  String get fallbackSubtitleLanguage => '';
+  String get fallbackSubtitleLanguage => 'Fallback Subtitle Language';
 
   @override
-  String get subtitleStream => '';
+  String get subtitleStream => 'Subtitle Stream';
 
   @override
   String get subtitlePreviewText =>
@@ -3138,7 +3147,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get thumbnailLabel => 'Miniatura';
 
   @override
-  String get bannerLabel => 'Bandera';
+  String get bannerLabel => 'Bàner';
 
   @override
   String get overridePerLibrarySettings =>
@@ -3163,16 +3172,18 @@ class AppLocalizationsCa extends AppLocalizations {
       'Mostra l\'opció de navegació de carpetes';
 
   @override
-  String get groupItemsIntoCollections => '';
+  String get groupItemsIntoCollections => 'Group Items into Collections';
 
   @override
-  String get hideCollectionAssociatedItems => '';
+  String get hideCollectionAssociatedItems =>
+      'Hide Collection associated library items when browsing libraries';
 
   @override
-  String get groupItemsIntoCollectionsDialogTitle => '';
+  String get groupItemsIntoCollectionsDialogTitle => 'Library Grouping Notice';
 
   @override
-  String get groupItemsIntoCollectionsDialogMessage => '';
+  String get groupItemsIntoCollectionsDialogMessage =>
+      'To use this setting, please ensure the \"Group movies into collections\" and/or \"Group shows into collections\" Library settings are enabled under your library\'s Display settings on your Jellyfin or Emby server.';
 
   @override
   String get libraryVisibility => 'Visibilitat de la biblioteca';
@@ -3185,7 +3196,8 @@ class AppLocalizationsCa extends AppLocalizations {
   String get showInNavigation => 'Mostra a la navegació';
 
   @override
-  String get showInLatestMedia => 'Mostra als últims mitjans';
+  String get showInLatestMedia =>
+      'Mostra a contingut afegit/estrenat recentment';
 
   @override
   String get sourceLibraries => 'Biblioteques font';
@@ -3285,6 +3297,12 @@ class AppLocalizationsCa extends AppLocalizations {
       'Reprodueix automàticament els tràilers a la barra multimèdia després de 3 segons';
 
   @override
+  String get trailerAudio => 'Trailer Audio';
+
+  @override
+  String get enableTrailerAudio => 'Enable audio for trailers in media bar';
+
+  @override
   String get episodePreview => 'Vista prèvia de l\'episodi';
 
   @override
@@ -3306,16 +3324,16 @@ class AppLocalizationsCa extends AppLocalizations {
       'Activa l\'àudio per a les previsualitzacions de tràilers i episodis';
 
   @override
-  String get latestMedia => 'Últims mitjans';
+  String get latestMedia => 'Continguts afegits recentment';
 
   @override
   String get recentlyReleased => 'Publicat recentment';
 
   @override
-  String get myMedia => 'Els meus mitjans';
+  String get myMedia => 'La meva biblioteca';
 
   @override
-  String get myMediaSmall => 'Els meus mitjans (petits)';
+  String get myMediaSmall => 'La meva biblioteca (petit)';
 
   @override
   String get continueWatching => 'Continuar mirant';
@@ -3324,7 +3342,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get resumeAudio => 'Reprendre l\'àudio';
 
   @override
-  String get resumeBooks => 'Llibres de currículums';
+  String get resumeBooks => 'Continuar llegint';
 
   @override
   String get activeRecordings => 'Enregistraments actius';
@@ -3928,7 +3946,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get submitRequest => 'Enviar sol·licitud';
 
   @override
-  String get allSeasons => 'Totes les estacions';
+  String get allSeasons => 'Totes les temporades';
 
   @override
   String get advancedOptions => 'Opcions avançades';
@@ -4135,7 +4153,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get tmdbScore => 'Puntuació TMDB';
 
   @override
-  String get releaseDateLabel => 'Data de llançament';
+  String get releaseDateLabel => 'Data d\'estrena';
 
   @override
   String get firstAirDateLabel => 'Primera cita d\'emissió';
@@ -4898,7 +4916,7 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get adminLibExtraThumbs =>
-      'Copy extrafanart images into an extrathumbs folder';
+      'Copia les imatges d\'extrafanart a una carpeta extrathumbs';
 
   @override
   String get adminLibNone => 'None';
@@ -6584,7 +6602,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get adminMetadataImageBanner => 'Bandera';
 
   @override
-  String get adminMetadataImageThumb => 'polze';
+  String get adminMetadataImageThumb => 'Miniatura';
 
   @override
   String get adminMetadataRecursive => 'Recursiu';
@@ -8609,12 +8627,12 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String latestLibraryName(String libraryName) {
-    return 'Última $libraryName';
+    return 'Novetats a $libraryName';
   }
 
   @override
   String recentlyReleasedLibraryName(String libraryName) {
-    return '';
+    return 'Estrenes a $libraryName';
   }
 
   @override
@@ -8799,10 +8817,12 @@ class AppLocalizationsCa extends AppLocalizations {
   String get homeRowToggles => 'Activació de les fileres d\'inici';
 
   @override
-  String get homeRowTogglesSubtitle => '';
+  String get homeRowTogglesSubtitle =>
+      'Enable or disable library-based home row categories';
 
   @override
-  String get homeRowTogglesDescription => '';
+  String get homeRowTogglesDescription =>
+      'Enable the following toggles to display the rows in Home Sections.';
 
   @override
   String get rowsType => 'Tipus de files';
@@ -8861,31 +8881,34 @@ class AppLocalizationsCa extends AppLocalizations {
       'Mostra pel·lícules, sèries o totes dues a les files Gèneres.';
 
   @override
-  String get displayPlaylistsRows => '';
+  String get displayPlaylistsRows => 'Display Playlist Rows';
 
   @override
-  String get displayPlaylistsRowsSubtitle => '';
+  String get displayPlaylistsRowsSubtitle =>
+      'Show Playlist rows in Home Sections.';
 
   @override
-  String get playlistsRowSorting => '';
+  String get playlistsRowSorting => 'Playlist Row Sorting';
 
   @override
-  String get playlistsRowSortingDescription => '';
+  String get playlistsRowSortingDescription =>
+      'Sort Playlist rows by date added, release date, alphabetically, and more.';
 
   @override
-  String get displayAudioRows => '';
+  String get displayAudioRows => 'Display Audio Rows';
 
   @override
-  String get displayAudioRowsSubtitle => '';
+  String get displayAudioRowsSubtitle => 'Show Audio rows in Home Sections.';
 
   @override
-  String get audioRowsSorting => '';
+  String get audioRowsSorting => 'Audio Rows sorting';
 
   @override
-  String get audioRowsSortingDescription => '';
+  String get audioRowsSortingDescription =>
+      'Sort Audio rows by date added, release date, alphabetically, and more.';
 
   @override
-  String get audioPlaylists => '';
+  String get audioPlaylists => 'Audio Playlists';
 
   @override
   String get appearance => 'Aparença';
@@ -8915,7 +8938,8 @@ class AppLocalizationsCa extends AppLocalizations {
   String get externalPlayerApp => 'Aplicació de reproductor extern';
 
   @override
-  String get externalPlayerAppDescription => '';
+  String get externalPlayerAppDescription =>
+      'Set external player to enable long-press play option';
 
   @override
   String get externalPlayerAskEachTimeSubtitle =>
@@ -9187,7 +9211,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get appearancesSeerr => 'Aparicions (Seerr)';
 
   @override
-  String get crewContributionsSeerr => '';
+  String get crewContributionsSeerr => 'Crew Contributions (Seerr)';
 
   @override
   String get watchWithGroup => 'Veure amb grup';
@@ -9453,146 +9477,148 @@ class AppLocalizationsCa extends AppLocalizations {
   String get whenFullscreen => 'Quan a pantalla completa';
 
   @override
-  String get changeArtwork => '';
+  String get changeArtwork => 'Change Artwork';
 
   @override
-  String get missing => '';
+  String get missing => 'Missing';
 
   @override
   String get transcodingLimits => 'Límits de transcodificació';
 
   @override
-  String get clearAllArtworkButton => '';
+  String get clearAllArtworkButton => 'Clear all artwork?';
 
   @override
-  String get clearAllArtworkWarning => '';
+  String get clearAllArtworkWarning =>
+      'Are you sure you want to clear all downloaded artwork?';
 
   @override
-  String get confirmClear => '';
+  String get confirmClear => 'Confirm Clear';
 
   @override
   String confirmClearMessage(String itemType) {
-    return '';
+    return 'Are you sure you would like to clear this $itemType?';
   }
 
   @override
-  String get uploadButton => '';
+  String get uploadButton => 'Upload?';
 
   @override
-  String get resolutionLabel => '';
+  String get resolutionLabel => 'Resolution: ';
 
   @override
-  String get onlyShowInterfaceLanguage => '';
+  String get onlyShowInterfaceLanguage =>
+      'Only show artwork in interface language';
 
   @override
-  String get confirmClearAll => '';
+  String get confirmClearAll => 'Confirm Clear All';
 
   @override
-  String get imageUploadSuccess => '';
+  String get imageUploadSuccess => 'Image uploaded successfully!';
 
   @override
   String imageUploadFailed(String error) {
-    return '';
+    return 'Failed to upload image: $error';
   }
 
   @override
   String imageDownloadFailed(String error) {
-    return '';
+    return 'Failed to set image: $error';
   }
 
   @override
   String imageDeleteFailed(String error) {
-    return '';
+    return 'Failed to delete image: $error';
   }
 
   @override
   String clearAllArtworkFailed(String error) {
-    return '';
+    return 'Failed to clear all artwork: $error';
   }
 
   @override
-  String get yes => '';
+  String get yes => 'Yes';
 
   @override
-  String get posterCategory => '';
+  String get posterCategory => 'Poster';
 
   @override
-  String get backdropsCategory => '';
+  String get backdropsCategory => 'Backdrops';
 
   @override
-  String get bannerCategory => '';
+  String get bannerCategory => 'Banner';
 
   @override
-  String get logoCategory => '';
+  String get logoCategory => 'Logo';
 
   @override
-  String get thumbnailCategory => '';
+  String get thumbnailCategory => 'Miniatura';
 
   @override
-  String get artCategory => '';
+  String get artCategory => 'Art';
 
   @override
-  String get discArtCategory => '';
+  String get discArtCategory => 'Disc Art';
 
   @override
-  String get screenshotCategory => '';
+  String get screenshotCategory => 'Screenshot';
 
   @override
-  String get boxCoverCategory => '';
+  String get boxCoverCategory => 'Box Cover';
 
   @override
-  String get boxRearCoverCategory => '';
+  String get boxRearCoverCategory => 'Box Rear Cover';
 
   @override
-  String get menuArtCategory => '';
+  String get menuArtCategory => 'Menu Art';
 
   @override
-  String get confirmItemPoster => '';
+  String get confirmItemPoster => 'poster';
 
   @override
-  String get confirmItemBackdrop => '';
+  String get confirmItemBackdrop => 'backdrop';
 
   @override
-  String get confirmItemBanner => '';
+  String get confirmItemBanner => 'banner';
 
   @override
-  String get confirmItemLogo => '';
+  String get confirmItemLogo => 'logo';
 
   @override
-  String get confirmItemThumbnail => '';
+  String get confirmItemThumbnail => 'miniatura';
 
   @override
-  String get confirmItemArt => '';
+  String get confirmItemArt => 'art';
 
   @override
-  String get confirmItemDiscArt => '';
+  String get confirmItemDiscArt => 'disc art';
 
   @override
-  String get confirmItemScreenshot => '';
+  String get confirmItemScreenshot => 'screenshot';
 
   @override
-  String get confirmItemBoxCover => '';
+  String get confirmItemBoxCover => 'box cover';
 
   @override
-  String get confirmItemBoxRearCover => '';
+  String get confirmItemBoxRearCover => 'box rear cover';
 
   @override
-  String get confirmItemMenuArt => '';
+  String get confirmItemMenuArt => 'menu art';
 
   @override
-  String get resolutionAll => '';
+  String get resolutionAll => 'All';
 
   @override
-  String get resolutionHigh => '';
+  String get resolutionHigh => 'High (1080p+)';
 
   @override
-  String get resolutionMedium => '';
+  String get resolutionMedium => 'Medium (720p)';
 
   @override
-  String get resolutionLow => '';
+  String get resolutionLow => 'Low (<720p)';
 
   @override
-  String get sources => '';
+  String get sources => 'Sources';
 
   @override
   String get audiobookChapters => 'Chapters';
@@ -9742,51 +9768,54 @@ class AppLocalizationsCa extends AppLocalizations {
   String get audiobookDelete => 'Delete';
 
   @override
-  String get subtitlePreferences => '';
+  String get subtitlePreferences => 'Subtitle Preferences';
 
   @override
-  String get subtitlePreferencesDescription => '';
+  String get subtitlePreferencesDescription =>
+      'Change subtitle modes, default languages, appearance, and rendering options.';
 
   @override
-  String get subtitleRendering => '';
+  String get subtitleRendering => 'Subtitle Rendering';
 
   @override
-  String get displayOptions => '';
+  String get displayOptions => 'Display Options';
 
   @override
-  String get releaseDateAscending => '';
+  String get releaseDateAscending => 'Data d\'estrena (Ascendent)';
 
   @override
-  String get releaseDateDescending => '';
+  String get releaseDateDescending => 'Data d\'estrena (Descendent)';
 
   @override
-  String get groupContributions => '';
+  String get groupContributions => 'Group Contributions';
 
   @override
-  String get groupMultipleRoles => '';
+  String get groupMultipleRoles => 'Group multiple roles';
 
   @override
-  String get libraryWriteAccessWarningTitle => '';
+  String get libraryWriteAccessWarningTitle => 'Library Write Access Warning';
 
   @override
-  String get libraryWriteAccessHowToFix => '';
+  String get libraryWriteAccessHowToFix => 'How to fix this:';
 
   @override
-  String get libraryWriteAccessFixSteps => '';
+  String get libraryWriteAccessFixSteps =>
+      '1. Grant write permissions to the Jellyfin service user (e.g., jellyfin or Docker PUID/PGID) for your media library folders on the server.\n\n2. Or, go to your Jellyfin Dashboard -> Libraries, edit this library, and disable \'Save artwork into media folders\' to store artwork in Jellyfin\'s internal database.';
 
   @override
-  String get dismiss => '';
+  String get dismiss => 'Dismiss';
 
   @override
   String libraryWriteAccessProactiveBody(
     String libraryName,
     String failedPath,
   ) {
-    return '';
+    return 'Your \'$libraryName\' library is configured to save artwork directly into the media folders (\'Save artwork into media folders\' is enabled). However, Jellyfin has tested write access and does not have permission to write files into this directory:\n\n$failedPath';
   }
 
   @override
-  String get libraryWriteAccessReactiveBody => '';
+  String get libraryWriteAccessReactiveBody =>
+      'It looks like Jellyfin failed to update the artwork. Your library is configured to save artwork directly into the media folders (\'Save artwork into media folders\' is enabled). This error typically occurs when the Jellyfin server process does not have permission to write files into your media directories.';
 
   @override
   String get externalLists => 'External Lists';
@@ -9819,7 +9848,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get directPlayCapabilityLabel => 'Direct Play Capability: ';
 
   @override
-  String get forced => 'Forced';
+  String get forced => 'Forçat';
 
   @override
   String get transcodeContainerNotSupported =>
@@ -9881,7 +9910,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get sortReleaseAscending => 'Release Order (Ascending)';
 
   @override
-  String get sortReleaseDescending => 'Release Order (Descending)';
+  String get sortReleaseDescending => 'Ordre d\'estrena (Descendent)';
 
   @override
   String get sortCustomDragDrop => 'Custom (Drag-and-Drop)';

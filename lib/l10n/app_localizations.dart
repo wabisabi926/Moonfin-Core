@@ -5938,6 +5938,18 @@ abstract class AppLocalizations {
   /// **'Auto-play trailers in the media bar after 3 seconds'**
   String get autoPlayTrailers;
 
+  /// Setting for trailer audio
+  ///
+  /// In en, this message translates to:
+  /// **'Trailer Audio'**
+  String get trailerAudio;
+
+  /// Description for trailer audio
+  ///
+  /// In en, this message translates to:
+  /// **'Enable audio for trailers in media bar'**
+  String get enableTrailerAudio;
+
   /// Setting for episode preview
   ///
   /// In en, this message translates to:
@@ -5971,7 +5983,7 @@ abstract class AppLocalizations {
   /// Description for preview audio
   ///
   /// In en, this message translates to:
-  /// **'Enable audio for trailer and episode previews'**
+  /// **'Enable audio for media previews'**
   String get enablePreviewAudio;
 
   /// Home section: recently added media

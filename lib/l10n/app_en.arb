@@ -4495,6 +4495,14 @@
   "@autoPlayTrailers": {
     "description": "Description for trailer preview"
   },
+  "trailerAudio": "Trailer Audio",
+  "@trailerAudio": {
+    "description": "Setting for trailer audio"
+  },
+  "enableTrailerAudio": "Enable audio for trailers in media bar",
+  "@enableTrailerAudio": {
+    "description": "Description for trailer audio"
+  },
   "episodePreview": "Episode Preview",
   "@episodePreview": {
     "description": "Setting for episode preview"
@@ -4515,7 +4523,7 @@
   "@previewAudio": {
     "description": "Setting for preview audio"
   },
-  "enablePreviewAudio": "Enable audio for trailer and episode previews",
+  "enablePreviewAudio": "Enable audio for media previews",
   "@enablePreviewAudio": {
     "description": "Description for preview audio"
   },
