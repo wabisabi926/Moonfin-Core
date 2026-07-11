@@ -5156,6 +5156,8 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
 
   bool _playLaunchInFlight = false;
   bool _autoPlayTriggered = false;
+  bool _availableOffline = false;
+  DownloadService? _downloadService;
   StreamSubscription<Object?>? _userSub;
   final FocusNode _localTvPlayFocusNode = FocusNode(
     debugLabel: 'detail_play_button',
@@ -5253,15 +5255,21 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
   @override
   void initState() {
     super.initState();
+    if (GetIt.instance.isRegistered<DownloadService>()) {
+      _downloadService = GetIt.instance<DownloadService>();
+      _downloadService!.addListener(_onDownloadChanged);
+    }
     _userSub = GetIt.instance<UserRepository>().currentUserStream.listen((_) {
       if (!mounted) return;
       setState(() {});
     });
+    _checkOffline();
     _maybeTriggerAutoPlay();
   }
 
   @override
   void dispose() {
+    _downloadService?.removeListener(_onDownloadChanged);
     _userSub?.cancel();
     _localTvPlayFocusNode.dispose();
     _overflowMoreFocusNode.dispose();
@@ -5490,6 +5498,33 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
     });
   }
 
+  void _onDownloadChanged() => _checkOffline();
+
+  /// The download service notifies on every progress tick, so only rebuild
+  /// when the resolved offline availability actually changes.
+  Future<void> _checkOffline() async {
+    final item = viewModel.item;
+    if (item == null || !_isDownloadable(item.type)) return;
+    final repo = GetIt.instance<OfflineRepository>();
+
+    bool available;
+    if (item.type == 'Season' || item.type == 'Series') {
+      final episodes = item.type == 'Season'
+          ? await repo.getSeasonEpisodes(item.id)
+          : await repo.getSeriesEpisodes(item.id);
+      available = episodes.any(
+        (e) => e.downloadStatus == 2 && e.localFilePath != null,
+      );
+    } else {
+      final row = await repo.getItem(item.id);
+      available = row != null && row.downloadStatus == 2;
+    }
+
+    if (mounted && available != _availableOffline) {
+      setState(() => _availableOffline = available);
+    }
+  }
+
   int _calculateMaxVisibleButtons(BuildContext context) {
     final override = widget.maxVisibleButtonsOverride;
     if (override != null) return override > 2 ? override : 2;
@@ -5525,6 +5560,10 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
         oldWidget.itemId != widget.itemId) {
       _selectedAudioIndex = null;
       _selectedSubtitleIndex = null;
+    }
+    if (oldWidget.itemId != widget.itemId) {
+      _availableOffline = false;
+      _checkOffline();
     }
     _maybeTriggerAutoPlay();
   }
@@ -5910,6 +5949,16 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
                   forceStartOver: true,
                 )
               : null,
+        ),
+      // Playback is local-first, so this plays the downloaded copy. The
+      // button mostly signals that one exists.
+      if (_availableOffline)
+        _DetailActionButton(
+          label: isBook ? l10n.readOffline : l10n.playOffline,
+          icon: isBook ? Icons.menu_book : Icons.offline_pin,
+          onPressed: () => _play(context, item),
+          isActive: true,
+          activeColor: const Color(0xFF4CAF50),
         ),
       if (isPlayableVideo) ...[
         if (audioStreams.length > 1)
