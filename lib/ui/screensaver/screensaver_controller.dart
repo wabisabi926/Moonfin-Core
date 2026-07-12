@@ -35,6 +35,7 @@ class ScreensaverController {
   bool _activityPaused = false;
   bool _playbackActive = false;
   bool _streamPlaying = false;
+  bool _trailerActive = false;
   bool _wakeLockEnabled = false;
 
   bool get activityPaused => _activityPaused;
@@ -53,12 +54,19 @@ class ScreensaverController {
     _onStateChanged();
   }
 
+  void setMediaBarTrailerActive(bool value) {
+    if (_trailerActive == value) return;
+    _trailerActive = value;
+    _onStateChanged();
+  }
+
   bool get _armed =>
       PlatformDetection.isTV &&
       _enabledCache &&
       !_activityPaused &&
       !_playbackActive &&
-      !_streamPlaying;
+      !_streamPlaying &&
+      !_trailerActive;
 
   void notifyInteraction() {
     if (!PlatformDetection.isTV || visible.value) return;

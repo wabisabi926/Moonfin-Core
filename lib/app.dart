@@ -21,6 +21,7 @@ import 'data/services/cast/cast_service.dart';
 import 'data/services/download_service.dart';
 import 'data/services/seerr_notification_service.dart';
 import 'data/services/plugin_sync_service.dart';
+import 'data/services/theme_music_service.dart';
 import 'data/services/topshelf_service.dart';
 import 'data/services/watch_next_service.dart';
 import 'di/providers.dart';
@@ -323,6 +324,7 @@ class _GlobalShortcutScopeState extends State<_GlobalShortcutScope>
     globalShortcutFocusNode = _focusNode;
     _hardwareKeyHandler = _onHardwareKeyEvent;
     HardwareKeyboard.instance.addHandler(_hardwareKeyHandler);
+    _screensaverController.visible.addListener(_onScreensaverVisibleChanged);
     if (_trackMouseThumbHistory) {
       appRouter.routerDelegate.addListener(_onRouterStateChanged);
       _onRouterStateChanged();
@@ -686,8 +688,16 @@ class _GlobalShortcutScopeState extends State<_GlobalShortcutScope>
     }
     WidgetsBinding.instance.removeObserver(this);
     HardwareKeyboard.instance.removeHandler(_hardwareKeyHandler);
+    _screensaverController.visible.removeListener(_onScreensaverVisibleChanged);
     _focusNode.dispose();
     super.dispose();
+  }
+
+  // When the screensaver comes up, silence the theme song playing under it.
+  void _onScreensaverVisibleChanged() {
+    if (_screensaverController.visible.value) {
+      GetIt.instance<ThemeMusicService>().forceStop();
+    }
   }
 
   Future<void> _saveWindowGeometry() async {

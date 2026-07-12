@@ -579,6 +579,7 @@ class SliderPreferenceTile extends StatefulWidget {
   final int? divisions;
   final String Function(int value)? labelOf;
   final VoidCallback? onChangeEnd;
+  final bool autofocus;
 
   const SliderPreferenceTile({
     super.key,
@@ -590,6 +591,7 @@ class SliderPreferenceTile extends StatefulWidget {
     this.divisions,
     this.labelOf,
     this.onChangeEnd,
+    this.autofocus = false,
   });
 
   @override
@@ -668,6 +670,7 @@ class _SliderPreferenceTileState extends State<SliderPreferenceTile> {
     final invert = _outerFocused && settingsTileInvertsOnFocus;
     return Focus(
       focusNode: _outerFocusNode,
+      autofocus: widget.autofocus,
       onKeyEvent: _onKeyEvent,
       onFocusChange: (focused) {
         if (focused) {

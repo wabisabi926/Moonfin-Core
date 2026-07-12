@@ -456,6 +456,10 @@ class Media3VideoView(
     private val subtitleView = SubtitleView(context)
     private val containerView: FrameLayout = FrameLayout(context).also { container ->
         container.setBackgroundColor(Color.BLACK)
+        // Hold the screen awake while a real player surface is attached so the
+        // OS screensaver cannot interrupt playback if the wakelock lapses.
+        // Previews stay excluded so browsing does not keep the screen on.
+        container.keepScreenOn = role == "main"
         val videoLayoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT,
