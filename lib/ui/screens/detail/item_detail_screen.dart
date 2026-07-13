@@ -42,6 +42,7 @@ import '../../../util/overview_text.dart';
 import '../../navigation/destinations.dart';
 import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/adaptive/sf_symbol.dart';
+import '../../widgets/settings/settings_panel.dart';
 import '../../widgets/add_to_playlist_dialog.dart';
 import '../../widgets/logo_view.dart';
 import '../../widgets/media_card.dart';
@@ -3046,7 +3047,10 @@ class _DetailContentState extends State<_DetailContent> {
         item: item,
         tracks: viewModel.tracks,
         playFocusNode: widget.initialFocusNode ?? _albumPlayFocusNode,
-        autofocusPlay: PlatformDetection.isTV,
+        // Do not steal focus onto the media page when a settings panel is open
+        // over the details and rebuilds it (detail style or theme change).
+        autofocusPlay:
+            PlatformDetection.isTV && !SettingsPanel.isOpenNotifier.value,
         onPlayDown: () {
           if (viewModel.tracks.isNotEmpty) {
             final node = _getTrackFocusNode(viewModel.tracks.first.id);
@@ -5692,6 +5696,12 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
   Widget build(BuildContext context) {
     final item = viewModel.item!;
     final l10n = AppLocalizations.of(context);
+    // Only grab initial focus when this screen is actually in front. A settings
+    // panel change (detail style or theme) rebuilds the details underneath the
+    // open panel, and without this guard the play button would autofocus and
+    // pull focus off the panel and onto the media page.
+    final autofocusPlay =
+        PlatformDetection.isTV && !SettingsPanel.isOpenNotifier.value;
 
     if (item.type == 'Person') {
       final normalizedPrimaryButtons = [
@@ -5700,7 +5710,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
           icon: Icons.favorite,
           isPrimary: true,
           focusNode: widget.tvPlayFocusNode ?? _primaryFocusNode(0),
-          autofocus: PlatformDetection.isTV,
+          autofocus: autofocusPlay,
           onPressed: viewModel.toggleFavorite,
           isActive: item.isFavorite,
           activeColor: const Color(0xFFFF4757),
@@ -5892,7 +5902,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
             ? Icons.menu_book
             : Icons.play_arrow,
         focusNode: _tvPlayFocusNode,
-        autofocus: PlatformDetection.isTV,
+        autofocus: autofocusPlay,
         onPressed: () {
           if (isSeason && viewModel.episodes.isNotEmpty) {
             final targetEp = seasonNextUpEp ?? viewModel.episodes[0];
