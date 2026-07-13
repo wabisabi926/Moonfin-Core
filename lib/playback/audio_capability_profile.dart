@@ -69,8 +69,13 @@ class AudioCapabilityProfile {
   final bool _canDecodeTrueHd;
   // Android has no hardware TrueHD/MLP decoder, but the Media3 backend bundles
   // an FFmpeg audio decoder that decodes it to PCM, so decode is genuine there.
-  bool get canDecodeTrueHd =>
-      PlatformDetection.isAndroid || _canDecodeTrueHd;
+  // iOS has no TrueHD decoder at all, so it must always report false and let the
+  // server transcode. Otherwise direct play fails to initialize the decoder.
+  bool get canDecodeTrueHd {
+    if (PlatformDetection.isAndroid) return true;
+    if (PlatformDetection.isIOS) return false;
+    return _canDecodeTrueHd;
+  }
   final bool canDecodeFlac;
 
   final bool canPassthroughAc3;
