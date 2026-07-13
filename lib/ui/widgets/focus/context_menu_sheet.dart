@@ -91,7 +91,7 @@ class _ActionRow extends StatelessWidget {
       onPressed: () async {
         await OverlaySheetController.closeAdaptive<void>(
           context,
-          restoreFocus: false,
+          restoreFocus: true,
         );
         await action.onSelect();
       },
