@@ -4381,7 +4381,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     required int tileWidth,
     required int tileHeight,
   }) {
-    final displayWidth = 220.0;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final displayWidth = (screenWidth * 0.4).clamp(240.0, 520.0).toDouble();
     final displayHeight = displayWidth * (thumbHeight / thumbWidth);
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -5581,6 +5582,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   }
 
   Widget _buildCenterTransportControls() {
+    // Hide the center controls while scrubbing with a trickplay preview so the
+    // preview is not covered by the play and pause buttons.
+    final hasTrickplay = _trickplayInfo != null && _trickplayInfo!.isValid;
+    if (_isSeeking && hasTrickplay) {
+      return const SizedBox.shrink();
+    }
     return StreamBuilder<bool>(
       stream: _state.playingStream,
       initialData: _state.isPlaying,

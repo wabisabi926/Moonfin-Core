@@ -127,6 +127,7 @@ final class AppleTvPlayerViewController: UIViewController {
 
     private let trickplayContainer = UIView()
     private let trickplayImageView = UIImageView()
+    private let trickplayWidth: CGFloat = 480
     private var trickplayCenterX: NSLayoutConstraint?
     private var trickplayHeight: NSLayoutConstraint?
 
@@ -565,13 +566,14 @@ final class AppleTvPlayerViewController: UIViewController {
 
         let center = trickplayContainer.centerXAnchor.constraint(
             equalTo: scrubber.leadingAnchor)
-        let height = trickplayContainer.heightAnchor.constraint(equalToConstant: 135)
+        let height = trickplayContainer.heightAnchor.constraint(
+            equalToConstant: trickplayWidth * 9 / 16)
         trickplayCenterX = center
         trickplayHeight = height
         NSLayoutConstraint.activate([
             center,
             height,
-            trickplayContainer.widthAnchor.constraint(equalToConstant: 240),
+            trickplayContainer.widthAnchor.constraint(equalToConstant: trickplayWidth),
             trickplayContainer.bottomAnchor.constraint(
                 equalTo: scrubber.topAnchor, constant: -14),
             trickplayImageView.leadingAnchor.constraint(
@@ -947,7 +949,7 @@ final class AppleTvPlayerViewController: UIViewController {
         trickplay = TrickplayData(
             urls: urls, headers: headers, width: width, height: height,
             cols: cols, rows: rows, intervalMs: intervalMs)
-        trickplayHeight?.constant = 240.0 * CGFloat(height) / CGFloat(width)
+        trickplayHeight?.constant = trickplayWidth * CGFloat(height) / CGFloat(width)
     }
 
     private func parseNextUp(_ raw: Any?) {
