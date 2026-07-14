@@ -34,6 +34,7 @@ import '../../../data/services/seerr/seerr_api_models.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../preference/preference_constants.dart';
 import '../../../preference/user_preferences.dart';
+import '../../../preference/seerr_preferences.dart';
 import '../../../ui/mixins/focus_state_mixin.dart';
 import '../../../auth/repositories/user_repository.dart';
 import '../../../util/focus/key_event_utils.dart';
@@ -41,6 +42,7 @@ import '../../../util/overview_text.dart';
 import '../../navigation/destinations.dart';
 import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/adaptive/sf_symbol.dart';
+import '../../widgets/settings/settings_panel.dart';
 import '../../widgets/add_to_playlist_dialog.dart';
 import '../../widgets/logo_view.dart';
 import '../../widgets/media_card.dart';
@@ -983,7 +985,7 @@ class _DetailContentState extends State<_DetailContent> {
           return;
         }
       }
-      if (attempt + 1 >= 8) return;
+      if (attempt + 1 >= 60) return;
       Future<void>.delayed(const Duration(milliseconds: 50), () {
         if (!mounted) return;
         _tryRequestTvAlbumPlayFocus(itemId, attempt + 1);
@@ -2614,6 +2616,9 @@ class _DetailContentState extends State<_DetailContent> {
     final seerrAppearancesFocusNode = hasSeerrAppearances
         ? _sectionFocusNode('detailPersonSeerrAppearances')
         : null;
+    final seerrLabel = GetIt.instance<SeerrPreferences>().labelOrDefault(
+      l10n.seerr,
+    );
 
     return [
       if (!useSplit) ...[
@@ -2711,7 +2716,7 @@ class _DetailContentState extends State<_DetailContent> {
             if (hasSeerrButton) ...[
               const SizedBox(width: 16),
               _DetailActionButton(
-                label: l10n.seerr,
+                label: seerrLabel,
                 iconBuilder: (size, color) =>
                     SeerrIcon(size: size, color: color),
                 onPressed: () {
@@ -3042,7 +3047,10 @@ class _DetailContentState extends State<_DetailContent> {
         item: item,
         tracks: viewModel.tracks,
         playFocusNode: widget.initialFocusNode ?? _albumPlayFocusNode,
-        autofocusPlay: PlatformDetection.isTV,
+        // Do not steal focus onto the media page when a settings panel is open
+        // over the details and rebuilds it (detail style or theme change).
+        autofocusPlay:
+            PlatformDetection.isTV && !SettingsPanel.isOpenNotifier.value,
         onPlayDown: () {
           if (viewModel.tracks.isNotEmpty) {
             final node = _getTrackFocusNode(viewModel.tracks.first.id);
@@ -4140,23 +4148,15 @@ class DetailMetadataRow extends StatelessWidget {
       parts.add(_badge(theme, item.officialRating!));
     }
 
-    final sizeBytes =
-        selectedMediaSource?['Size'] as int? ??
-        (item.mediaSources.isNotEmpty
-            ? item.mediaSources.first['Size'] as int?
-            : null);
-    if (sizeBytes != null &&
-        sizeBytes > 0 &&
-        item.type != 'Series' &&
-        item.type != 'Season') {
-      final double mb = sizeBytes / (1024 * 1024);
-      final String formattedSize;
-      if (mb > 999) {
-        formattedSize = '${(mb / 1024).toStringAsFixed(2)} GB';
-      } else {
-        formattedSize = '${mb.toStringAsFixed(0)} MB';
-      }
-      parts.add(_text(theme, formattedSize));
+    final showTech = GetIt.instance<UserPreferences>().get(
+      UserPreferences.detailShowTechnicalDetails,
+    );
+    final tech = showTech
+        ? technicalDetailsFor(item, selectedMediaSource)
+        : null;
+
+    if (tech?.formattedSize != null) {
+      parts.add(_text(theme, tech!.formattedSize!));
     }
 
     final runtime = _runtimeForItem(item, selectedMediaSource);
@@ -4211,21 +4211,7 @@ class DetailMetadataRow extends StatelessWidget {
       }
     }
 
-    final streams = _mediaStreamsForItem(item, selectedMediaSource);
-    final badges = <String>[];
-    final res = _resolutionFromStreams(streams) ?? item.videoResolution;
-    if (res != null) badges.add(res);
-    final hdr = _hdrFromStreams(streams) ?? item.hdrType;
-    if (hdr != null) badges.add(hdr);
-    final vcodec =
-        _codecFromStreams(streams, 'Video') ?? item.videoCodec?.toUpperCase();
-    if (vcodec != null) badges.add(vcodec);
-    final acodec =
-        _audioLabelFromStreams(streams) ??
-        audioLabelFromProfileCodec(item.audioProfile, item.audioCodec);
-    if (acodec != null) badges.add(acodec);
-    final layout = _channelLayoutFromStreams(streams) ?? item.channelLayout;
-    if (layout != null) badges.add(layout);
+    final badges = tech?.badges ?? const <String>[];
 
     final compact = !_useDesktopDetailLayout(context);
 
@@ -5491,7 +5477,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
           return;
         }
       }
-      if (attempt + 1 >= 8) return;
+      if (attempt + 1 >= 60) return;
       Future<void>.delayed(const Duration(milliseconds: 50), () {
         if (!mounted) return;
         _tryRequestPlayFocus(itemId, attempt + 1);
@@ -5662,7 +5648,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
         resolution.mediaStreams.isNotEmpty) {
       return resolution.mediaStreams;
     }
-    return _mediaStreamsForItem(item, selectedSource);
+    return mediaStreamsForItem(item, selectedSource);
   }
 
   void _openSubtitleSelector(BuildContext context, AggregatedItem item) {
@@ -5710,6 +5696,12 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
   Widget build(BuildContext context) {
     final item = viewModel.item!;
     final l10n = AppLocalizations.of(context);
+    // Only grab initial focus when this screen is actually in front. A settings
+    // panel change (detail style or theme) rebuilds the details underneath the
+    // open panel, and without this guard the play button would autofocus and
+    // pull focus off the panel and onto the media page.
+    final autofocusPlay =
+        PlatformDetection.isTV && !SettingsPanel.isOpenNotifier.value;
 
     if (item.type == 'Person') {
       final normalizedPrimaryButtons = [
@@ -5718,7 +5710,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
           icon: Icons.favorite,
           isPrimary: true,
           focusNode: widget.tvPlayFocusNode ?? _primaryFocusNode(0),
-          autofocus: PlatformDetection.isTV,
+          autofocus: autofocusPlay,
           onPressed: viewModel.toggleFavorite,
           isActive: item.isFavorite,
           activeColor: const Color(0xFFFF4757),
@@ -5837,7 +5829,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
       item,
       widget.selectedMediaSourceId,
     );
-    final mediaStreams = _mediaStreamsForItem(item, selectedSource);
+    final mediaStreams = mediaStreamsForItem(item, selectedSource);
     final subtitleStreams = mediaStreams
         .where((s) => s['Type'] == 'Subtitle')
         .toList();
@@ -5910,7 +5902,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
             ? Icons.menu_book
             : Icons.play_arrow,
         focusNode: _tvPlayFocusNode,
-        autofocus: PlatformDetection.isTV,
+        autofocus: autofocusPlay,
         onPressed: () {
           if (isSeason && viewModel.episodes.isNotEmpty) {
             final targetEp = seasonNextUpEp ?? viewModel.episodes[0];
@@ -7916,7 +7908,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
       item,
       widget.selectedMediaSourceId,
     );
-    return _mediaStreamsForItem(item, selectedSource);
+    return mediaStreamsForItem(item, selectedSource);
   }
 
   bool _hasTrailer(AggregatedItem item) {
@@ -8244,7 +8236,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
           refreshedItem,
           widget.selectedMediaSourceId,
         );
-        latestStreams = _mediaStreamsForItem(refreshedItem, mediaSource)
+        latestStreams = mediaStreamsForItem(refreshedItem, mediaSource)
             .where((stream) => stream['Type'] == 'Subtitle')
             .toList(growable: false);
         final hasNewStream = latestStreams.any((stream) {
@@ -8559,7 +8551,7 @@ Map<String, dynamic>? selectedMediaSourceForItem(
   return item.mediaSources.first;
 }
 
-List<Map<String, dynamic>> _mediaStreamsForItem(
+List<Map<String, dynamic>> mediaStreamsForItem(
   AggregatedItem item,
   Map<String, dynamic>? mediaSource,
 ) {
@@ -8666,7 +8658,7 @@ Future<bool> _runWithDolbyVisionStartupFallbackPrompt(
 
   for (final item in queue) {
     final selectedSource = selectedMediaSourceForItem(item, mediaSourceId);
-    final streams = _mediaStreamsForItem(item, selectedSource);
+    final streams = mediaStreamsForItem(item, selectedSource);
     for (final stream in streams) {
       if (!hasDolbyVision &&
           HdrStreamCapability.isDolbyVisionVideoStream(stream)) {
@@ -8856,7 +8848,7 @@ String? _endsAt(
   return '$h12:$minute $amPm';
 }
 
-String? _resolutionFromStreams(List<Map<String, dynamic>> streams) {
+String? resolutionFromStreams(List<Map<String, dynamic>> streams) {
   final video = streams.where((s) => s['Type'] == 'Video').firstOrNull;
   if (video == null) {
     return null;
@@ -8879,7 +8871,7 @@ String? _resolutionFromStreams(List<Map<String, dynamic>> streams) {
   return 'SD';
 }
 
-String? _hdrFromStreams(List<Map<String, dynamic>> streams) {
+String? hdrFromStreams(List<Map<String, dynamic>> streams) {
   final video = streams.where((s) => s['Type'] == 'Video').firstOrNull;
   if (video == null) {
     return null;
@@ -8891,7 +8883,7 @@ String? _hdrFromStreams(List<Map<String, dynamic>> streams) {
   return hdr.toUpperCase();
 }
 
-String? _audioLabelFromStreams(List<Map<String, dynamic>> streams) {
+String? audioLabelFromStreams(List<Map<String, dynamic>> streams) {
   final audio = streams.where((s) => s['Type'] == 'Audio').firstOrNull;
   if (audio == null) return null;
   return audioLabelFromProfileCodec(
@@ -8900,7 +8892,7 @@ String? _audioLabelFromStreams(List<Map<String, dynamic>> streams) {
   );
 }
 
-String? _codecFromStreams(
+String? codecFromStreams(
   List<Map<String, dynamic>> streams,
   String streamType,
 ) {
@@ -8912,7 +8904,49 @@ String? _codecFromStreams(
   return codec.toUpperCase();
 }
 
-String? _channelLayoutFromStreams(List<Map<String, dynamic>> streams) {
+/// Formatted file size and technical stream badges (resolution, HDR, video and
+/// audio codec, channel layout) for an item, shared by the classic and modern
+/// detail layouts.
+({String? formattedSize, List<String> badges}) technicalDetailsFor(
+  AggregatedItem item,
+  Map<String, dynamic>? selectedMediaSource,
+) {
+  final streams = mediaStreamsForItem(item, selectedMediaSource);
+  final badges = <String>[];
+  final res = resolutionFromStreams(streams) ?? item.videoResolution;
+  if (res != null) badges.add(res);
+  final hdr = hdrFromStreams(streams) ?? item.hdrType;
+  if (hdr != null) badges.add(hdr);
+  final vcodec =
+      codecFromStreams(streams, 'Video') ?? item.videoCodec?.toUpperCase();
+  if (vcodec != null) badges.add(vcodec);
+  final acodec =
+      audioLabelFromStreams(streams) ??
+      audioLabelFromProfileCodec(item.audioProfile, item.audioCodec);
+  if (acodec != null) badges.add(acodec);
+  final layout = channelLayoutFromStreams(streams) ?? item.channelLayout;
+  if (layout != null) badges.add(layout);
+
+  final sizeBytes =
+      selectedMediaSource?['Size'] as int? ??
+      (item.mediaSources.isNotEmpty
+          ? item.mediaSources.first['Size'] as int?
+          : null);
+  String? formattedSize;
+  if (sizeBytes != null &&
+      sizeBytes > 0 &&
+      item.type != 'Series' &&
+      item.type != 'Season') {
+    final double mb = sizeBytes / (1024 * 1024);
+    formattedSize = mb > 999
+        ? '${(mb / 1024).toStringAsFixed(2)} GB'
+        : '${mb.toStringAsFixed(0)} MB';
+  }
+
+  return (formattedSize: formattedSize, badges: badges);
+}
+
+String? channelLayoutFromStreams(List<Map<String, dynamic>> streams) {
   final audio = streams.where((s) => s['Type'] == 'Audio').firstOrNull;
   if (audio == null) {
     return null;
@@ -9943,7 +9977,8 @@ class _DetailActionButtonState extends State<_DetailActionButton>
         : (widget.isActive
               ? (widget.activeColor ?? (isNeon ? neonAccent : Colors.white))
               : (isNeon ? neonAccent : Colors.white));
-    final labelColor = showHighlight
+    final showLabelInside = modern && (widget.isPrimary || !isMobile);
+    final labelColor = (showHighlight && showLabelInside)
         ? AppColorScheme.onButtonFocused
         : (isNeon ? neonAccent : Colors.white);
 
@@ -11122,7 +11157,7 @@ class DetailMetadataSectionState extends State<DetailMetadataSection> {
               name: name,
               id: id,
               onTap: name.isNotEmpty
-                  ? () => context.push(Destinations.searchWith('studio:$name'))
+                  ? () => context.push(Destinations.studio(name))
                   : null,
             );
           }).toList(),
@@ -11555,8 +11590,18 @@ class _EpisodesRow extends StatelessWidget {
     final isMobile = _isCompact(context);
     final desktopScale = _desktopUiScale();
 
+    // The card is a fixed-height poster plus a single label line. The poster
+    // tracks the desktop scale while the label tracks the text scaler, so size
+    // the row from both. Folding the text scaler in keeps a larger system font
+    // from overflowing the row and clipping the labels.
+    final imageHeight = isMobile ? 100.0 : 124 * desktopScale;
+    final labelStyle = Theme.of(context).textTheme.bodySmall;
+    final labelLine = MediaQuery.textScalerOf(
+      context,
+    ).scale((labelStyle?.fontSize ?? 12) * (labelStyle?.height ?? 1.4));
+
     return SizedBox(
-      height: isMobile ? 150 : 180 * desktopScale,
+      height: imageHeight + 10 + labelLine + 6,
       child: ListView.separated(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
@@ -11671,123 +11716,136 @@ class _EpisodeListCardState extends State<_EpisodeListCard>
             width: widget.isMobile ? 180.0 : 220.0 * desktopScale,
             decoration: BoxDecoration(
               borderRadius: AppRadius.circular(8),
-              border: showFocusBorder
-                  ? Border.fromBorderSide(
-                      ThemeRegistry.active.borders.focusBorder.copyWith(
-                        color: isNeon ? AppColorScheme.accent : focusColor,
-                        width: 1.5,
-                      ),
-                    )
-                  : widget.isCurrent
-                  ? Border.fromBorderSide(
-                      ThemeRegistry.active.borders.focusBorder.copyWith(
-                        color: AppColorScheme.onSurface,
-                        width: 2.5,
-                      ),
-                    )
-                  : null,
             ),
             clipBehavior: Clip.antiAlias,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
+              fit: StackFit.passthrough,
               children: [
-                SizedBox(
-                  height: widget.isMobile ? 100 : 124 * desktopScale,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      if (ep.primaryImageTag != null)
-                        OfflineAwareImage(
-                          imageUrl: widget.imageApi.getPrimaryImageUrl(
-                            ep.id,
-                            maxHeight: widget.isMobile
-                                ? 250
-                                : (250 * desktopScale).round(),
-                            tag: ep.primaryImageTag,
-                          ),
-                          fit: BoxFit.cover,
-                          errorWidget: (_, _, _) => Container(
-                            color: Colors.white.withValues(alpha: 0.05),
-                            child: const AdaptiveIcon(
-                              Icons.movie,
-                              color: Colors.white24,
-                              size: 32,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: widget.isMobile ? 100 : 124 * desktopScale,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          if (ep.primaryImageTag != null)
+                            OfflineAwareImage(
+                              imageUrl: widget.imageApi.getPrimaryImageUrl(
+                                ep.id,
+                                maxHeight: widget.isMobile
+                                    ? 250
+                                    : (250 * desktopScale).round(),
+                                tag: ep.primaryImageTag,
+                              ),
+                              fit: BoxFit.cover,
+                              errorWidget: (_, _, _) => Container(
+                                color: Colors.white.withValues(alpha: 0.05),
+                                child: const AdaptiveIcon(
+                                  Icons.movie,
+                                  color: Colors.white24,
+                                  size: 32,
+                                ),
+                              ),
+                            )
+                          else
+                            Container(
+                              color: Colors.white.withValues(alpha: 0.05),
+                              child: const AdaptiveIcon(
+                                Icons.movie,
+                                color: Colors.white24,
+                                size: 32,
+                              ),
+                            ),
+                          if ((ep.playedPercentage ?? 0) > 0)
+                            _EpisodeProgressBar(percentage: ep.playedPercentage!),
+                          if (ep.isPlayed && (ep.playedPercentage ?? 0) == 0)
+                            const Positioned(
+                              top: 6,
+                              right: 6,
+                              child: AdaptiveIcon(
+                                Icons.check_circle,
+                                color: Colors.green,
+                                size: 18,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 6, 8, 4),
+                      child: Row(
+                        children: [
+                          if (epNum != null)
+                            Text(
+                              'E$epNum',
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(
+                                    color: isNeon
+                                        ? AppColorScheme.onSurface.withValues(
+                                            alpha: 0.85,
+                                          )
+                                        : Colors.white.withValues(alpha: 0.5),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          if (epNum != null) const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              ep.name,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: isNeon
+                                        ? AppColorScheme.accent
+                                        : Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                        )
-                      else
-                        Container(
-                          color: Colors.white.withValues(alpha: 0.05),
-                          child: const AdaptiveIcon(
-                            Icons.movie,
-                            color: Colors.white24,
-                            size: 32,
-                          ),
-                        ),
-                      if ((ep.playedPercentage ?? 0) > 0)
-                        _EpisodeProgressBar(percentage: ep.playedPercentage!),
-                      if (ep.isPlayed && (ep.playedPercentage ?? 0) == 0)
-                        const Positioned(
-                          top: 6,
-                          right: 6,
-                          child: AdaptiveIcon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                            size: 18,
-                          ),
-                        ),
-                    ],
-                  ),
+                          if (runtimeText != null) ...[
+                            const SizedBox(width: 4),
+                            Text(
+                              runtimeText,
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(
+                                    color: isNeon
+                                        ? AppColorScheme.onSurface.withValues(
+                                            alpha: 0.8,
+                                          )
+                                        : Colors.white.withValues(alpha: 0.5),
+                                  ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 6, 8, 4),
-                  child: Row(
-                    children: [
-                      if (epNum != null)
-                        Text(
-                          'E$epNum',
-                          style: Theme.of(context).textTheme.labelSmall
-                              ?.copyWith(
-                                color: isNeon
-                                    ? AppColorScheme.onSurface.withValues(
-                                        alpha: 0.85,
-                                      )
-                                    : Colors.white.withValues(alpha: 0.5),
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ),
-                      if (epNum != null) const SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          ep.name,
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: isNeon
-                                    ? AppColorScheme.accent
-                                    : Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                if (showFocusBorder || widget.isCurrent)
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: AppRadius.circular(8),
+                          border: showFocusBorder
+                              ? Border.fromBorderSide(
+                                  ThemeRegistry.active.borders.focusBorder.copyWith(
+                                    color: isNeon ? AppColorScheme.accent : focusColor,
+                                    width: 1.5,
+                                  ),
+                                )
+                              : Border.fromBorderSide(
+                                  ThemeRegistry.active.borders.focusBorder.copyWith(
+                                    color: AppColorScheme.onSurface,
+                                    width: 2.5,
+                                  ),
+                                ),
                         ),
                       ),
-                      if (runtimeText != null) ...[
-                        const SizedBox(width: 4),
-                        Text(
-                          runtimeText,
-                          style: Theme.of(context).textTheme.labelSmall
-                              ?.copyWith(
-                                color: isNeon
-                                    ? AppColorScheme.onSurface.withValues(
-                                        alpha: 0.8,
-                                      )
-                                    : Colors.white.withValues(alpha: 0.5),
-                              ),
-                        ),
-                      ],
-                    ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -11870,84 +11928,97 @@ class DetailNextUpCardState extends State<DetailNextUpCard>
                     ? Colors.transparent
                     : Colors.white.withValues(alpha: 0.08),
                 borderRadius: AppRadius.circular(8),
-                border: showFocusBorder
-                    ? Border.fromBorderSide(
-                        ThemeRegistry.active.borders.focusBorder.copyWith(
-                          color: isNeon ? AppColorScheme.accent : focusColor,
-                          width: 1.5,
-                        ),
-                      )
-                    : null,
               ),
               clipBehavior: Clip.antiAlias,
-              child: Row(
+              child: Stack(
+                fit: StackFit.passthrough,
                 children: [
-                  SizedBox(
-                    width: isMobile ? 178.0 : 213.0 * desktopScale,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        if (episode.primaryImageTag != null)
-                          OfflineAwareImage(
-                            imageUrl: widget.imageApi.getPrimaryImageUrl(
-                              episode.id,
-                              maxHeight: isMobile
-                                  ? 240
-                                  : (240 * desktopScale).round(),
-                              tag: episode.primaryImageTag,
-                            ),
-                            fit: BoxFit.cover,
-                            errorWidget: (_, _, _) => const SizedBox.shrink(),
-                          ),
-                        if ((episode.playedPercentage ?? 0) > 0)
-                          _EpisodeProgressBar(
-                            percentage: episode.playedPercentage!,
-                          ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: isMobile ? 16 : 16 * desktopScale),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          subtitle,
-                          style: Theme.of(context).textTheme.titleSmall
-                              ?.copyWith(
-                                color: isNeon
-                                    ? AppColorScheme.accent
-                                    : Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        if (episode.overview != null) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            episode.overview!,
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: isNeon
-                                      ? AppColorScheme.onSurface
-                                      : Colors.white.withValues(alpha: 0.7),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: isMobile ? 178.0 : 213.0 * desktopScale,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            if (episode.primaryImageTag != null)
+                              OfflineAwareImage(
+                                imageUrl: widget.imageApi.getPrimaryImageUrl(
+                                  episode.id,
+                                  maxHeight: isMobile
+                                      ? 240
+                                      : (240 * desktopScale).round(),
+                                  tag: episode.primaryImageTag,
                                 ),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+                                fit: BoxFit.cover,
+                                errorWidget: (_, _, _) => const SizedBox.shrink(),
+                              ),
+                            if ((episode.playedPercentage ?? 0) > 0)
+                              _EpisodeProgressBar(
+                                percentage: episode.playedPercentage!,
+                              ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: isMobile ? 16 : 16 * desktopScale),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              subtitle,
+                              style: Theme.of(context).textTheme.titleSmall
+                                  ?.copyWith(
+                                    color: isNeon
+                                        ? AppColorScheme.accent
+                                        : Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            if (episode.overview != null) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                episode.overview!,
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: isNeon
+                                          ? AppColorScheme.onSurface
+                                          : Colors.white.withValues(alpha: 0.7),
+                                    ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: isMobile ? 16 : 16 * desktopScale),
+                      AdaptiveIcon(
+                        Icons.play_circle_outline,
+                        color: Colors.white54,
+                        size: isMobile ? 40 : 40 * desktopScale,
+                      ),
+                      SizedBox(width: isMobile ? 16 : 16 * desktopScale),
+                    ],
+                  ),
+                  if (showFocusBorder)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: AppRadius.circular(8),
+                            border: Border.fromBorderSide(
+                              ThemeRegistry.active.borders.focusBorder.copyWith(
+                                color: isNeon ? AppColorScheme.accent : focusColor,
+                                width: 1.5,
+                              ),
+                            ),
                           ),
-                        ],
-                      ],
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(width: isMobile ? 16 : 16 * desktopScale),
-                  AdaptiveIcon(
-                    Icons.play_circle_outline,
-                    color: Colors.white54,
-                    size: isMobile ? 40 : 40 * desktopScale,
-                  ),
-                  SizedBox(width: isMobile ? 16 : 16 * desktopScale),
                 ],
               ),
             ),
@@ -12057,146 +12128,151 @@ class DetailEpisodeCardState extends State<DetailEpisodeCard>
                     ? Colors.transparent
                     : Colors.white.withValues(alpha: 0.06),
                 borderRadius: AppRadius.circular(8),
-                border: showFocusBorder
-                    ? Border.fromBorderSide(
-                        ThemeRegistry.active.borders.focusBorder.copyWith(
-                          color: isNeon ? AppColorScheme.accent : focusColor,
-                          width: 1.5,
-                        ),
-                      )
-                    : (widget.isActive
-                          ? Border.fromBorderSide(
-                              ThemeRegistry.active.borders.focusBorder.copyWith(
-                                color: isNeon
-                                    ? const Color(0xFF00FFFF)
-                                    : Colors.cyan.withValues(alpha: 0.7),
-                                width: 1.5,
-                              ),
-                            )
-                          : null),
               ),
               clipBehavior: Clip.none,
-              child: ClipRRect(
-                borderRadius: AppRadius.circular(8),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: isMobile ? 160.0 : 196.0 * desktopScale,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          if (episode.primaryImageTag != null)
-                            OfflineAwareImage(
-                              imageUrl: widget.imageApi.getPrimaryImageUrl(
-                                episode.id,
-                                maxHeight: isMobile
-                                    ? 220
-                                    : (220 * desktopScale).round(),
-                                tag: episode.primaryImageTag,
-                              ),
-                              fit: BoxFit.cover,
-                              errorWidget: (_, _, _) => Container(
-                                color: Colors.white.withValues(alpha: 0.05),
-                                child: const AdaptiveIcon(
-                                  Icons.movie,
-                                  color: Colors.white24,
-                                  size: 32,
-                                ),
-                              ),
-                            )
-                          else
-                            Container(
-                              color: Colors.white.withValues(alpha: 0.05),
-                              child: const AdaptiveIcon(
-                                Icons.movie,
-                                color: Colors.white24,
-                                size: 32,
-                              ),
-                            ),
-                          if ((episode.playedPercentage ?? 0) > 0)
-                            _EpisodeProgressBar(
-                              percentage: episode.playedPercentage!,
-                            ),
-                          if (episode.isPlayed)
-                            Positioned(
-                              top: 6,
-                              right: 6,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: AppColorScheme.accent,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(3),
-                                  child: AdaptiveIcon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                    size: 14,
+              child: Stack(
+                clipBehavior: Clip.none,
+                fit: StackFit.passthrough,
+                children: [
+                  ClipRRect(
+                    borderRadius: AppRadius.circular(8),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: isMobile ? 160.0 : 196.0 * desktopScale,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              if (episode.primaryImageTag != null)
+                                OfflineAwareImage(
+                                  imageUrl: widget.imageApi.getPrimaryImageUrl(
+                                    episode.id,
+                                    maxHeight: isMobile
+                                        ? 220
+                                        : (220 * desktopScale).round(),
+                                    tag: episode.primaryImageTag,
+                                  ),
+                                  fit: BoxFit.cover,
+                                  errorWidget: (_, _, _) => Container(
+                                    color: Colors.white.withValues(alpha: 0.05),
+                                    child: const AdaptiveIcon(
+                                      Icons.movie,
+                                      color: Colors.white24,
+                                      size: 32,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: isMobile ? 16 : 16 * desktopScale),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            [
-                              if (epNum != null)
-                                AppLocalizations.of(
-                                  context,
-                                ).episodeLabel(epNum),
-                              episode.name,
-                            ].join(' - '),
-                            style: Theme.of(context).textTheme.titleSmall
-                                ?.copyWith(
-                                  color: isNeon
-                                      ? AppColorScheme.accent
-                                      : Colors.white,
-                                  fontWeight: FontWeight.w600,
+                              if ((episode.playedPercentage ?? 0) > 0)
+                                _EpisodeProgressBar(
+                                  percentage: episode.playedPercentage!,
                                 ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                              if (episode.isPlayed)
+                                Positioned(
+                                  top: 6,
+                                  right: 6,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: AppColorScheme.accent,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(3),
+                                      child: AdaptiveIcon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                        size: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
-                          if (runtimeText != null) ...[
-                            const SizedBox(height: 2),
-                            Text(
-                              runtimeText,
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    color: isNeon
-                                        ? AppColorScheme.onSurface.withValues(
-                                            alpha: 0.8,
-                                          )
-                                        : Colors.white.withValues(alpha: 0.5),
+                        ),
+                        SizedBox(width: isMobile ? 16 : 16 * desktopScale),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                [
+                                  if (epNum != null)
+                                    AppLocalizations.of(
+                                      context,
+                                    ).episodeLabel(epNum),
+                                  episode.name,
+                                ].join(' - '),
+                                style: Theme.of(context).textTheme.titleSmall
+                                    ?.copyWith(
+                                      color: isNeon
+                                          ? AppColorScheme.accent
+                                          : Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              if (runtimeText != null) ...[
+                                const SizedBox(height: 2),
+                                Text(
+                                  runtimeText,
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(
+                                        color: isNeon
+                                            ? AppColorScheme.onSurface.withValues(
+                                                alpha: 0.8,
+                                              )
+                                            : Colors.white.withValues(alpha: 0.5),
+                                      ),
+                                ),
+                              ],
+                              if (episode.overview != null) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  episode.overview!,
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(
+                                        color: isNeon
+                                            ? AppColorScheme.onSurface
+                                            : Colors.white.withValues(alpha: 0.7),
+                                      ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: isMobile ? 12 : 12 * desktopScale),
+                      ],
+                    ),
+                  ),
+                  if (showFocusBorder || widget.isActive)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: AppRadius.circular(8),
+                            border: showFocusBorder
+                                ? Border.fromBorderSide(
+                                    ThemeRegistry.active.borders.focusBorder.copyWith(
+                                      color: isNeon ? AppColorScheme.accent : focusColor,
+                                      width: 1.5,
+                                    ),
+                                  )
+                                : Border.fromBorderSide(
+                                    ThemeRegistry.active.borders.focusBorder.copyWith(
+                                      color: isNeon
+                                          ? const Color(0xFF00FFFF)
+                                          : Colors.cyan.withValues(alpha: 0.7),
+                                      width: 1.5,
+                                    ),
                                   ),
-                            ),
-                          ],
-                          if (episode.overview != null) ...[
-                            const SizedBox(height: 4),
-                            Text(
-                              episode.overview!,
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    color: isNeon
-                                        ? AppColorScheme.onSurface
-                                        : Colors.white.withValues(alpha: 0.7),
-                                  ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ],
+                          ),
+                        ),
                       ),
                     ),
-                    SizedBox(width: isMobile ? 12 : 12 * desktopScale),
-                  ],
-                ),
+                ],
               ),
             ),
           ),

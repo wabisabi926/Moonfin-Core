@@ -19,6 +19,7 @@ import '../../preference/preference_constants.dart';
 import '../../preference/seerr_preferences.dart';
 import '../../preference/user_preferences.dart';
 import '../../util/clock_format.dart';
+import '../../util/game_library.dart';
 import '../../util/overlay_color_palette.dart';
 import '../../util/platform_detection.dart';
 import '../navigation/destinations.dart';
@@ -80,15 +81,18 @@ class TopToolbar extends StatefulWidget {
     return PlatformDetection.useLeanbackUi ? 64.0 : 54.0;
   }
 
-  /// Total laid-out height of the toolbar for the current platform.
-  static double heightFor(BuildContext context) {
-    final baseHeight = PlatformDetection.useLeanbackUi
+  /// Base height of the toolbar for the current platform (excluding music bar).
+  static double baseHeightFor(BuildContext context) {
+    return PlatformDetection.useLeanbackUi
         ? _kToolbarHeightTV
         : PlatformDetection.useMobileUi
         ? _kToolbarHeightMobile
         : _kToolbarHeightDesktop;
+  }
 
-    return baseHeight + musicBarExtraHeight();
+  /// Total laid-out height of the toolbar for the current platform.
+  static double heightFor(BuildContext context) {
+    return baseHeightFor(context) + musicBarExtraHeight();
   }
 
   @override
@@ -264,6 +268,8 @@ class _TopToolbarState extends State<TopToolbar> {
           ? await GetIt.instance<MultiServerRepository>()
                 .getAggregatedLibraries()
           : await _viewsRepo.getUserViews();
+
+      unawaited(GetIt.instance<GameLibraryRegistry>().refresh());
 
       List<AggregatedLibrary> filtered = libs;
       if (useMultiServer) {
@@ -807,10 +813,7 @@ class _TopToolbarState extends State<TopToolbar> {
     final showSeerr = _prefs.get(UserPreferences.showSeerrButton) &&
         GetIt.instance<PluginSyncService>().seerrAvailable;
     final l10n = AppLocalizations.of(context);
-    final seerrDisplayName = seerrPrefs.moonfinDisplayName.trim();
-    final seerrNavLabel = seerrDisplayName.isNotEmpty
-      ? seerrDisplayName
-      : (seerrPrefs.isSeerrVariant ? l10n.seerr : l10n.seerr);
+    final seerrNavLabel = seerrPrefs.labelOrDefault(l10n.seerr);
     // Desktop/macOS keeps the dropdown; inline fan-out is only used where
     // horizontal scroll is natural (TV d-pad or touch).
     final useInlineLibraries =
@@ -1100,7 +1103,9 @@ class _TopToolbarState extends State<TopToolbar> {
         } else if (lib.collectionType == 'livetv') {
           context.navigateTopLevel(Destinations.liveTvGuide);
         } else {
-          context.navigateTopLevel('/library/${lib.id}');
+          context.navigateTopLevel(
+            gameOrLibraryRoute(lib.id, lib.collectionType, lib.name),
+          );
         }
       },
     );
@@ -1131,7 +1136,9 @@ class _TopToolbarState extends State<TopToolbar> {
         } else if (lib.collectionType == 'livetv') {
           context.navigateTopLevel(Destinations.liveTvGuide);
         } else {
-          context.navigateTopLevel('/library/${lib.id}');
+          context.navigateTopLevel(
+            gameOrLibraryRoute(lib.id, lib.collectionType, lib.name),
+          );
         }
       },
     );

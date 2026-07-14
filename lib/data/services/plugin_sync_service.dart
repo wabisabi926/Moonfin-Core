@@ -1081,6 +1081,11 @@ class PluginSyncService extends ChangeNotifier {
       );
       _applyBool(
         resolved,
+        'detailShowTechnicalDetails',
+        UserPreferences.detailShowTechnicalDetails,
+      );
+      _applyBool(
+        resolved,
         'fullScreenRows',
         UserPreferences.fullScreenRows,
       );
@@ -1359,6 +1364,7 @@ class PluginSyncService extends ChangeNotifier {
       if (resolved['mdblistRatingSources'] is List) {
         final sources = (resolved['mdblistRatingSources'] as List)
             .cast<String>()
+            .map((s) => _serverToClientRatingSource[s] ?? s)
             .join(',');
         _store.set(
           _prefs.getEffectivePreference(UserPreferences.enabledRatings),
@@ -1714,6 +1720,19 @@ class PluginSyncService extends ChangeNotifier {
     }
   }
 
+  // The Moonbase dashboard stores a few rating source keys in camelCase while
+  // the client uses lowercase. Keep one canonical map and derive its inverse so
+  // the two directions can never drift.
+  static const Map<String, String> _serverToClientRatingSource = {
+    'metacriticUser': 'metacriticuser',
+    'myAnimeList': 'myanimelist',
+    'aniList': 'anilist',
+  };
+  static final Map<String, String> _clientToServerRatingSource = {
+    for (final entry in _serverToClientRatingSource.entries)
+      entry.value: entry.key,
+  };
+
   List<String> _csvToList(Preference<String> pref) {
     return _prefs.get(pref).split(',').where((s) => s.isNotEmpty).toList();
   }
@@ -1737,6 +1756,9 @@ class PluginSyncService extends ChangeNotifier {
           _prefs.get(UserPreferences.recommendationSystemSource).name,
       'detailScreenStyle': _prefs.get(UserPreferences.detailScreenStyle).name,
       'detailExpandedTabs': _prefs.get(UserPreferences.detailExpandedTabs),
+      'detailShowTechnicalDetails': _prefs.get(
+        UserPreferences.detailShowTechnicalDetails,
+      ),
       'homeImageTypeContinueWatching': _prefs
           .get(UserPreferences.homeRowImageType(prefs.HomeSectionType.resume))
           .name,
@@ -1833,7 +1855,9 @@ class PluginSyncService extends ChangeNotifier {
       ),
       'seerrEnabled': _prefs.get(UserPreferences.seerrEnabled),
       'seerrBlockNsfw': _prefs.get(UserPreferences.seerrBlockNsfw),
-      'mdblistRatingSources': _csvToList(UserPreferences.enabledRatings),
+      'mdblistRatingSources': _csvToList(UserPreferences.enabledRatings)
+          .map((s) => _clientToServerRatingSource[s] ?? s)
+          .toList(),
       'homeRowOrder': _prefs.homeSectionsConfig
           .where((c) => c.enabled)
           .map((c) => c.type.serializedName)

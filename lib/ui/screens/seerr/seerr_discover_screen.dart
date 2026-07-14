@@ -53,6 +53,7 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
   int _badgeCount = 0;
   bool _initialFocusResolved = false;
   bool _isFirstRowFocused = false;
+  int _firstFocusableVisibleIndex = -1;
   final Map<int, GlobalKey<LockedFocusRowState>> _rowKeys = {};
   final Map<int, ScrollController> _rowScrollControllers = {};
 
@@ -63,6 +64,10 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
   ScrollController _getRowScroll(int index) {
     return _rowScrollControllers.putIfAbsent(index, () => ScrollController());
   }
+
+  // Touch UIs should not force focus onto items, so the initial-focus
+  // machinery only runs where dpad or keyboard navigation is used.
+  bool get _wantsInitialFocus => !PlatformDetection.useMobileUi;
 
   void _onRowLeftEdge() {
     final prefs = GetIt.instance<UserPreferences>();
@@ -109,11 +114,13 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
     _prefs.addListener(_onPrefsChanged);
     _initialFocusNode.addListener(_onInitialFocusNodeChanged);
     _initViewModel();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || _initialFocusResolved) return;
-      if (_loadingHoldFocusNode.context == null) return;
-      _loadingHoldFocusNode.requestFocus();
-    });
+    if (_wantsInitialFocus) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || _initialFocusResolved) return;
+        if (_loadingHoldFocusNode.context == null) return;
+        _loadingHoldFocusNode.requestFocus();
+      });
+    }
   }
 
   Future<void> _initViewModel() async {
@@ -191,12 +198,24 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
     _initialFocusNode.removeListener(_onInitialFocusNodeChanged);
     final targetContext = _initialFocusNode.context;
     if (!mounted || targetContext == null) return;
-    Scrollable.ensureVisible(
-      targetContext,
-      alignment: 0.0,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeOut,
-    );
+    // The first focusable row is always the visual top (earlier empty rows
+    // collapse), so keep the list at offset 0 rather than shifting the nav off.
+    if (_firstFocusableVisibleIndex >= 0) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0.0,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      }
+    } else {
+      Scrollable.ensureVisible(
+        targetContext,
+        alignment: 0.0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
+    }
   }
 
   KeyEventResult _onContentKeyEvent(FocusNode node, KeyEvent event) {
@@ -232,7 +251,7 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
   void _onChanged() {
     if (!mounted) return;
     setState(() {});
-    if (_initialFocusResolved) return;
+    if (_initialFocusResolved || !_wantsInitialFocus) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || _initialFocusResolved || _initialFocusNode.hasFocus) {
         return;
@@ -278,6 +297,8 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
   @override
   Widget build(BuildContext context) =>
       RequestInitialFocus(
+        // On mobile the target is never attached (no row autofocuses it), so
+        // RequestInitialFocus simply finds nothing to focus and gives up.
         targetNode: _initialFocusNode,
         child: _buildScreenContent(context),
       );
@@ -382,11 +403,14 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    var firstFocusableVisibleIndex = -1;
+    _firstFocusableVisibleIndex = -1;
     for (var i = 0; i < rows.length; i++) {
       final row = rows[i];
+      if (row.isLoading) {
+        break;
+      }
       if (_rowHasFocusableContent(row)) {
-        firstFocusableVisibleIndex = i;
+        _firstFocusableVisibleIndex = i;
         break;
       }
     }
@@ -401,15 +425,16 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
         if (!row.isLoading && !_rowHasFocusableContent(row)) {
           return const SizedBox.shrink();
         }
-        final isFirstFocusableRow = index == firstFocusableVisibleIndex;
-        final firstNode = isFirstFocusableRow ? _initialFocusNode : null;
+        final isFirstFocusableRow = index == _firstFocusableVisibleIndex;
+        final autofocusRow = isFirstFocusableRow && _wantsInitialFocus;
+        final firstNode = autofocusRow ? _initialFocusNode : null;
         Widget rowWidget;
         if (row.isGenreRow) {
           rowWidget = _buildGenreRow(
             row,
             index,
             isFirstVisibleRow: isFirstFocusableRow,
-            autofocusFirst: isFirstFocusableRow,
+            autofocusFirst: autofocusRow,
             firstFocusNode: firstNode,
           );
         } else if (row.isNetworkRow) {
@@ -417,7 +442,7 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
             row,
             index,
             isFirstVisibleRow: isFirstFocusableRow,
-            autofocusFirst: isFirstFocusableRow,
+            autofocusFirst: autofocusRow,
             firstFocusNode: firstNode,
           );
         } else if (row.isStudioRow) {
@@ -425,7 +450,7 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
             row,
             index,
             isFirstVisibleRow: isFirstFocusableRow,
-            autofocusFirst: isFirstFocusableRow,
+            autofocusFirst: autofocusRow,
             firstFocusNode: firstNode,
           );
         } else {
@@ -433,7 +458,7 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
             row,
             index,
             isFirstVisibleRow: isFirstFocusableRow,
-            autofocusFirst: isFirstFocusableRow,
+            autofocusFirst: autofocusRow,
             firstFocusNode: firstNode,
           );
         }
@@ -442,12 +467,22 @@ class _SeerrDiscoverScreenState extends State<SeerrDiscoverScreen> {
             skipTraversal: true,
             onFocusChange: (hasFocus) {
               if (hasFocus) {
-                Scrollable.ensureVisible(
-                  rowContext,
-                  alignment: 0.0,
-                  duration: const Duration(milliseconds: 240),
-                  curve: Curves.easeInOut,
-                );
+                if (index == _firstFocusableVisibleIndex) {
+                  if (_scrollController.hasClients) {
+                    _scrollController.animateTo(
+                      0.0,
+                      duration: const Duration(milliseconds: 240),
+                      curve: Curves.easeInOut,
+                    );
+                  }
+                } else {
+                  Scrollable.ensureVisible(
+                    rowContext,
+                    alignment: 0.0,
+                    duration: const Duration(milliseconds: 240),
+                    curve: Curves.easeInOut,
+                  );
+                }
               }
             },
             child: rowWidget,

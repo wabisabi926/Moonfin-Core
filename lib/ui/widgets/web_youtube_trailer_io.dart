@@ -294,9 +294,14 @@ class _WebYouTubeTrailerState extends State<WebYouTubeTrailer> {
         return;
 
       case 'StateChange':
-        // 1 == YT.PlayerState.PLAYING
-        if (_parseInt(data) == 1) {
+        final state = _parseInt(data);
+        // 1 == YT.PlayerState.PLAYING, 0 == YT.PlayerState.ENDED
+        if (state == 1) {
           _reportPlaybackStarted();
+        } else if (state == 0 && !widget.loop) {
+          // When looping is off the JS does not self-reload, so an ended
+          // trailer means it is time to advance to the next slide.
+          widget.onCompleted?.call();
         }
         return;
 
@@ -590,6 +595,8 @@ class _WebYouTubeTrailerState extends State<WebYouTubeTrailer> {
     },
     stop: function() {
       if (player) {
+        // Mute first so audio dies immediately even if stopVideo lags.
+        try { player.mute(); } catch (_) {}
         try { player.stopVideo(); } catch (_) {}
       }
     }

@@ -47,12 +47,14 @@ import '../item_detail_screen.dart'
         PersonDates,
         FilmographyRow,
         SeerrAppearancesRow,
-        SeerrCrewCreditsRow;
+        SeerrCrewCreditsRow,
+        technicalDetailsFor;
 import 'modern_landscape_layout.dart';
 import 'modern_portrait_layout.dart';
 import 'widgets/details_tab_bar.dart';
 import 'widgets/season_card.dart';
 import 'widgets/up_next_card.dart';
+import '../../../widgets/overlay_sheet.dart';
 
 double _desktopUiScale({UserPreferences? prefs}) {
   final effectivePrefs = prefs ?? GetIt.instance<UserPreferences>();
@@ -1917,16 +1919,24 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   }
 
   Widget _studiosTab(BuildContext context, AggregatedItem item) {
-    // Prefer TMDB production companies (with real logos) and fall back to the
-    // Jellyfin studio names when TMDB has nothing or no key is configured.
-    final studios = _tmdbStudios.isNotEmpty
-        ? [
-            for (final s in _tmdbStudios) (name: s.name, logoUrl: s.imageUrl),
-          ]
-        : [
-            for (final s in item.studios)
-              (name: s['Name']?.toString() ?? '', logoUrl: null),
-          ];
+    // Only the library's own studios can be filtered, so build the cards from
+    // those and reuse a TMDB logo whenever a studio name matches one.
+    final tmdbLogoByName = <String, String>{};
+    for (final company in _tmdbStudios) {
+      final logo = company.imageUrl;
+      if (logo != null) {
+        tmdbLogoByName[company.name.trim().toLowerCase()] = logo;
+      }
+    }
+    final studios = <({String name, String? logoUrl})>[];
+    for (final s in item.studios) {
+      final name = s['Name']?.toString() ?? '';
+      if (name.isEmpty) continue;
+      studios.add((
+        name: name,
+        logoUrl: tmdbLogoByName[name.trim().toLowerCase()],
+      ));
+    }
     if (studios.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -1969,7 +1979,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
               return FocusableWrapper(
                 focusNode: index == 0 ? _studiosFirstFocusNode : null,
                 onSelect: name.isNotEmpty
-                    ? () => context.push(Destinations.searchWith('studio:$name'))
+                    ? () => context.push(Destinations.studio(name))
                     : null,
                 borderRadius: 12,
                 suppressFocusGlow: true,
@@ -1984,6 +1994,13 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                       color: Colors.white.withValues(alpha: 0.15),
                       width: 1,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.2),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: ClipRRect(
                     borderRadius: AppRadius.circular(12),
@@ -1991,6 +2008,19 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                         ? OfflineAwareImage(
                             imageUrl: imageUrl,
                             fit: BoxFit.contain,
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                color: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 8,
+                                ),
+                                child: Image(
+                                  image: imageProvider,
+                                  fit: BoxFit.contain,
+                                ),
+                              );
+                            },
                             placeholder: (context, url) => _buildStudioFallback(context, name),
                             errorWidget: (context, url, error) => _buildStudioFallback(context, name),
                           )
@@ -2330,6 +2360,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
         },
         child: _DetailsContainer(
           isScrollable: hasButtons,
+          hasAudioButton: audioStreams.length > 2,
+          hasSubtitleButton: subtitleStreams.length > 2,
+          audioButtonFocusNode: _audioShowAllFocusNode,
+          subtitleButtonFocusNode: _subtitleShowAllFocusNode,
           canRequestFocus: true,
           focusNode: _detailsTabFocusNode,
           onNavigateUp: _focusSelectedTab,
@@ -2537,7 +2571,6 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                 const SizedBox(width: 90),
                 FocusableWrapper(
                   focusNode: _audioShowAllFocusNode,
-                  onNavigateUp: _focusSelectedTab,
                   onSelect: () => setState(() => _audioExpanded = !_audioExpanded),
                   borderRadius: 6,
                   suppressFocusGlow: true,
@@ -2609,7 +2642,6 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                 const SizedBox(width: 90),
                 FocusableWrapper(
                   focusNode: _subtitleShowAllFocusNode,
-                  onNavigateUp: _focusSelectedTab,
                   onSelect: () => setState(() => _subtitlesExpanded = !_subtitlesExpanded),
                   borderRadius: 6,
                   suppressFocusGlow: true,
@@ -2844,12 +2876,13 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     final grid = LayoutBuilder(
       builder: (context, constraints) {
         const spacing = 12.0;
-        final columns = (constraints.maxWidth / (_landscape ? 150.0 : 130.0))
+        final columns = (constraints.maxWidth / (_landscape ? 160.0 : 130.0))
             .floor()
-            .clamp(3, _landscape ? 8 : 6);
+            .clamp(3, _landscape ? 10 : 6);
         final cardWidth =
-            ((constraints.maxWidth - spacing * (columns - 1)) / columns)
-                .floorToDouble();
+            (((constraints.maxWidth - spacing * (columns - 1)) / columns)
+                .floorToDouble())
+            .clamp(0.0, 260.0 * _desktopUiScale(prefs: widget.prefs));
         return Wrap(
           spacing: spacing,
           runSpacing: 16,
@@ -3439,6 +3472,8 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     }
 
     final selectedSource = selectedMediaSourceForItem(item, widget.selectedMediaSourceId);
+    final showTech = widget.prefs.get(UserPreferences.detailShowTechnicalDetails);
+    final techRow = showTech ? _buildTechnicalDetailsRow(context, item, selectedSource) : null;
 
     final Column childrenCol = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -3576,6 +3611,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
           ],
           const SizedBox(height: 6),
           _metadataRow(context, item, selectedSource),
+          if (techRow != null) ...[
+            const SizedBox(height: 6),
+            techRow,
+          ],
           if (showRatings) ...[
             const SizedBox(height: 6),
             RatingsRow(
@@ -3638,7 +3677,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
             ),
           ),
         ],
-        const SizedBox(height: 24),
+        SizedBox(height: techRow != null ? 12 : 24),
         Focus(
           canRequestFocus: false,
           skipTraversal: true,
@@ -3807,6 +3846,88 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
               fontWeight: FontWeight.w600,
             ),
       ),
+    );
+  }
+
+  Widget _techChip(ThemeData theme, String label) {
+    final isNeon = ThemeRegistry.active.id == ThemeRegistry.neonPulseId;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        border: Border.fromBorderSide(
+          ThemeRegistry.active.borders.chipBorder.copyWith(
+            color: isNeon
+                ? AppColorScheme.accent.withValues(alpha: 0.7)
+                : Colors.white.withValues(alpha: 0.3),
+          ),
+        ),
+        borderRadius: AppRadius.circular(4),
+      ),
+      child: Text(
+        label,
+        style: theme.textTheme.labelSmall?.copyWith(
+          color: isNeon
+              ? AppColorScheme.onSurface
+              : Colors.white.withValues(alpha: 0.8),
+          shadows: const [Shadow(blurRadius: 4, color: Colors.black54)],
+        ),
+      ),
+    );
+  }
+
+  Widget? _buildTechnicalDetailsRow(
+    BuildContext context,
+    AggregatedItem item,
+    Map<String, dynamic>? selectedMediaSource,
+  ) {
+    final theme = Theme.of(context);
+    final isNeon = ThemeRegistry.active.id == ThemeRegistry.neonPulseId;
+    final muted = AppColorScheme.onSurface.withValues(alpha: 0.75);
+    final style = theme.textTheme.bodyMedium?.copyWith(color: muted);
+
+    final tech = technicalDetailsFor(item, selectedMediaSource);
+    final badges = tech.badges;
+
+    final pieces = <Widget>[];
+
+    if (tech.formattedSize != null) {
+      pieces.add(
+        Text(
+          tech.formattedSize!,
+          style: style?.copyWith(
+            fontWeight: FontWeight.w700,
+            shadows: const [Shadow(blurRadius: 4, color: Colors.black54)],
+          ),
+        ),
+      );
+    }
+
+    if (badges.isNotEmpty) {
+      if (pieces.isNotEmpty) {
+        pieces.add(
+          Text(
+            ' · ',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: isNeon
+                  ? AppColorScheme.onSurface.withValues(alpha: 0.6)
+                  : Colors.white.withValues(alpha: 0.5),
+              shadows: const [Shadow(blurRadius: 4, color: Colors.black54)],
+            ),
+          ),
+        );
+      }
+      pieces.addAll(
+        badges.map((b) => _techChip(theme, b)),
+      );
+    }
+
+    if (pieces.isEmpty) return null;
+
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 8,
+      runSpacing: 6,
+      children: pieces,
     );
   }
 
@@ -4172,7 +4293,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
             _buildBackdrop(_landscape, backdropUrl),
       ),
     );
-    final topInset = TopToolbar.heightFor(context);
+    final topInset = TopToolbar.baseHeightFor(context);
 
     final isEpisode = item.type == 'Episode';
     final logoTag = item.logoImageTag ?? (isEpisode ? item.seriesLogoImageTag : null);
@@ -4315,6 +4436,10 @@ class _ModernTab {
 class _DetailsContainer extends StatefulWidget {
   final Widget child;
   final bool isScrollable;
+  final bool hasAudioButton;
+  final bool hasSubtitleButton;
+  final FocusNode audioButtonFocusNode;
+  final FocusNode subtitleButtonFocusNode;
   final bool canRequestFocus;
   final FocusNode? focusNode;
   final VoidCallback? onNavigateUp;
@@ -4323,6 +4448,10 @@ class _DetailsContainer extends StatefulWidget {
   const _DetailsContainer({
     required this.child,
     required this.isScrollable,
+    required this.hasAudioButton,
+    required this.hasSubtitleButton,
+    required this.audioButtonFocusNode,
+    required this.subtitleButtonFocusNode,
     required this.canRequestFocus,
     this.focusNode,
     this.onNavigateUp,
@@ -4335,9 +4464,27 @@ class _DetailsContainer extends StatefulWidget {
 
 class _DetailsContainerState extends State<_DetailsContainer> with FocusStateMixin {
   final ScrollController _scrollController = ScrollController();
+  bool _hasInterceptor = false;
+
+  void _registerBackInterceptor() {
+    if (_hasInterceptor) return;
+    _hasInterceptor = true;
+    InlineBackInterceptor.push(_handleBack);
+  }
+
+  void _unregisterBackInterceptor() {
+    if (!_hasInterceptor) return;
+    _hasInterceptor = false;
+    InlineBackInterceptor.remove(_handleBack);
+  }
+
+  void _handleBack() {
+    widget.onNavigateUp?.call();
+  }
 
   @override
   void dispose() {
+    _unregisterBackInterceptor();
     _scrollController.dispose();
     super.dispose();
   }
@@ -4357,6 +4504,7 @@ class _DetailsContainerState extends State<_DetailsContainer> with FocusStateMix
       onFocusChange: (focused) {
         setFocused(focused);
         if (focused) {
+          _registerBackInterceptor();
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
               Scrollable.ensureVisible(
@@ -4367,50 +4515,90 @@ class _DetailsContainerState extends State<_DetailsContainer> with FocusStateMix
               );
             }
           });
+        } else {
+          _unregisterBackInterceptor();
         }
       },
-      onKeyEvent: (node, event) {
+      onKeyEvent: (_, event) {
+        if (event.logicalKey.isBackKey) {
+          if (event is KeyDownEvent) {
+            widget.onNavigateUp?.call();
+          }
+          return KeyEventResult.handled;
+        }
+
+        // onKeyEvent always passes this handler its own node, so read the
+        // actually-focused descendant to know which child is active.
+        final focused = FocusManager.instance.primaryFocus;
+
         if (event is KeyDownEvent) {
           if (event.logicalKey == LogicalKeyboardKey.enter ||
               event.logicalKey == LogicalKeyboardKey.select) {
+            if (focused == widget.audioButtonFocusNode ||
+                focused == widget.subtitleButtonFocusNode) {
+              return KeyEventResult.ignored;
+            }
             if (widget.onSelect != null) {
               widget.onSelect!();
               return KeyEventResult.handled;
             }
           }
         }
-        if (widget.isScrollable) {
-          if (event is KeyDownEvent || event is KeyRepeatEvent) {
-            if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-              final maxScroll = _scrollController.position.maxScrollExtent;
-              final currentScroll = _scrollController.offset;
-              if (currentScroll < maxScroll) {
-                _scrollController.animateTo(
-                  (currentScroll + 60.0).clamp(0.0, maxScroll),
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.easeOut,
-                );
-                return KeyEventResult.handled;
+
+        if (event is KeyDownEvent || event is KeyRepeatEvent) {
+          if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+            if (focused == widget.focusNode) {
+              if (widget.isScrollable) {
+                final maxScroll = _scrollController.position.maxScrollExtent;
+                final currentScroll = _scrollController.offset;
+                if (currentScroll < maxScroll) {
+                  _scrollController.animateTo(
+                    (currentScroll + 60.0).clamp(0.0, maxScroll),
+                    duration: const Duration(milliseconds: 100),
+                    curve: Curves.easeOut,
+                  );
+                  return KeyEventResult.handled;
+                }
               }
-            } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-              final currentScroll = _scrollController.offset;
-              if (currentScroll > 0.0) {
-                _scrollController.animateTo(
-                  (currentScroll - 60.0).clamp(0.0, double.infinity),
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.easeOut,
-                );
-                return KeyEventResult.handled;
-              } else {
-                widget.onNavigateUp?.call();
-                return KeyEventResult.handled;
+              if (widget.hasAudioButton) {
+                widget.audioButtonFocusNode.requestFocus();
+              } else if (widget.hasSubtitleButton) {
+                widget.subtitleButtonFocusNode.requestFocus();
               }
+              return KeyEventResult.handled;
+            } else if (focused == widget.audioButtonFocusNode) {
+              if (widget.hasSubtitleButton) {
+                widget.subtitleButtonFocusNode.requestFocus();
+              }
+              return KeyEventResult.handled;
+            } else if (focused == widget.subtitleButtonFocusNode) {
+              return KeyEventResult.handled;
             }
-          }
-        } else {
-          if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.arrowUp) {
-            widget.onNavigateUp?.call();
-            return KeyEventResult.handled;
+          } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+            if (focused == widget.focusNode) {
+              if (widget.isScrollable) {
+                final currentScroll = _scrollController.offset;
+                if (currentScroll > 0.0) {
+                  _scrollController.animateTo(
+                    (currentScroll - 60.0).clamp(0.0, double.infinity),
+                    duration: const Duration(milliseconds: 100),
+                    curve: Curves.easeOut,
+                  );
+                  return KeyEventResult.handled;
+                }
+              }
+              return KeyEventResult.handled;
+            } else if (focused == widget.audioButtonFocusNode) {
+              widget.focusNode?.requestFocus();
+              return KeyEventResult.handled;
+            } else if (focused == widget.subtitleButtonFocusNode) {
+              if (widget.hasAudioButton) {
+                widget.audioButtonFocusNode.requestFocus();
+              } else {
+                widget.focusNode?.requestFocus();
+              }
+              return KeyEventResult.handled;
+            }
           }
         }
         return KeyEventResult.ignored;

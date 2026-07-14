@@ -238,7 +238,7 @@ List<ItemContextAction> contextActionsFor(
       label: l10n.contextMenuGoToSeries,
       onSelect: () async {
         if (!context.mounted) return;
-        context.go(Destinations.item(item.seriesId!, serverId: item.serverId));
+        context.push(Destinations.item(item.seriesId!, serverId: item.serverId));
       },
     ));
   }

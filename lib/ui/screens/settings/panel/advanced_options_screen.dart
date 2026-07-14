@@ -40,6 +40,7 @@ class _AdvancedOptionsScreenState extends State<_AdvancedOptionsScreen> {
                   max: 5000,
                   divisions: 20,
                   labelOf: (v) => l10n.settingsMillisecondsValue(v.round()),
+                  autofocus: true,
                 ),
               ],
             ),

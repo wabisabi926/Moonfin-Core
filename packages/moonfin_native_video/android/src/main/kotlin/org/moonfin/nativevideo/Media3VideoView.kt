@@ -438,6 +438,8 @@ class Media3VideoView(
     // composition path (see newVideoView). Previously gated to API 30+.
     private val useSurfaceView = true
     private var videoView: View = newVideoView()
+    private var lastSourceArguments: Map<*, *>? = null
+    private var lastPlaybackPositionMs: Long = 0L
 
     private fun newVideoView(): View =
         if (useSurfaceView) {
@@ -456,6 +458,10 @@ class Media3VideoView(
     private val subtitleView = SubtitleView(context)
     private val containerView: FrameLayout = FrameLayout(context).also { container ->
         container.setBackgroundColor(Color.BLACK)
+        // Hold the screen awake while a real player surface is attached so the
+        // OS screensaver cannot interrupt playback if the wakelock lapses.
+        // Previews stay excluded so browsing does not keep the screen on.
+        container.keepScreenOn = role == "main"
         val videoLayoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -466,8 +472,30 @@ class Media3VideoView(
             FrameLayout.LayoutParams.MATCH_PARENT,
         )
         container.addView(videoView, videoLayoutParams)
-        container.addView(firstFrameCover, subtitleLayoutParams)
+        // The cover keeps its own params so resizing the subtitle canvas to the
+        // active video box never shrinks the full-frame cover.
+        container.addView(
+            firstFrameCover,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT,
+            ),
+        )
         container.addView(subtitleView, subtitleLayoutParams)
+
+        container.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {
+                if (!isDisposedByFlutter && currentMediaType != "audio") {
+                    resumeFromBackground()
+                }
+            }
+
+            override fun onViewDetachedFromWindow(v: View) {
+                if (currentMediaType != "audio") {
+                    forceReleasePlayer()
+                }
+            }
+        })
     }
     private val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
     private val hasHardwareAv1Decoder by lazy { queryHardwareAv1DecoderAvailability() }
@@ -927,7 +955,10 @@ class Media3VideoView(
     fun isPlayerLive(): Boolean = !isPlayerReleased && !isDisposedByFlutter
 
     // Rebuilds the player after another view's attachView() force-released it
-    // while this widget stayed mounted. This mirrors the init path.
+    // while this widget stayed mounted. This mirrors the init path and leaves
+    // the source alone, because the caller re-sends its own source right after
+    // (a view swap or trailer reactivation). Use resumeFromBackground when there
+    // is no incoming source to reload.
     fun ensurePlayerAlive() {
         if (!isPlayerReleased) return
         isPlayerReleased = false
@@ -942,8 +973,25 @@ class Media3VideoView(
         startTicker()
     }
 
+    // Rebuilds the player and reloads the last source at its paused position when
+    // the app returns from the background or the system screensaver. Only runs
+    // when the player was actually released, so a still-live view is untouched.
+    fun resumeFromBackground() {
+        if (!isPlayerReleased) return
+        ensurePlayerAlive()
+        val args = lastSourceArguments ?: return
+        val restored = args.toMutableMap().apply {
+            this["startPositionMs"] = lastPlaybackPositionMs
+            this["autoPlay"] = false
+        }
+        setSource(restored)
+    }
+
+    fun isAudioPlayback(): Boolean = currentMediaType == "audio"
+
     fun forceReleasePlayer() {
         if (isPlayerReleased) return
+        lastPlaybackPositionMs = player.currentPosition
         isPlayerReleased = true
         isDisposed = true
         cancelPendingSubtitleCue(clearView = false)
@@ -1192,6 +1240,20 @@ class Media3VideoView(
                     if (isDisposedByFlutter && currentMediaType != "audio") {
                         forceReleasePlayer()
                         Media3Bridge.detachView(this)
+                    }
+                    result.success(null)
+                }
+
+                "appPaused" -> {
+                    if (currentMediaType != "audio") {
+                        forceReleasePlayer()
+                    }
+                    result.success(null)
+                }
+
+                "appResumed" -> {
+                    if (currentMediaType != "audio") {
+                        resumeFromBackground()
                     }
                     result.success(null)
                 }
@@ -1467,6 +1529,7 @@ class Media3VideoView(
 
     private fun setSource(arguments: Any?) {
         val args = arguments as? Map<*, *> ?: return
+        lastSourceArguments = args
         val url = args["url"]?.toString() ?: return
         val startPositionMs = (args["startPositionMs"] as? Number)?.toLong() ?: 0L
         val autoPlay = args["autoPlay"] as? Boolean ?: false
@@ -2204,18 +2267,30 @@ class Media3VideoView(
     }
 
     private fun applyVideoLayout() {
-        val currentParams = videoView.layoutParams as? FrameLayout.LayoutParams
-        val layoutParams = currentParams ?: FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            Gravity.CENTER,
-        )
+        val videoLayoutParams = videoView.layoutParams as? FrameLayout.LayoutParams
+            ?: FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER,
+            )
+        val subtitleLayoutParams = subtitleView.layoutParams as? FrameLayout.LayoutParams
+            ?: FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER,
+            )
+
+        // Keep the subtitle canvas aligned to the active video box so PGS cues
+        // and the ASS overlay position against the video, not the full frame.
+        fun applyBounds(width: Int, height: Int) {
+            applyLayoutBounds(videoView, videoLayoutParams, width, height)
+            applyLayoutBounds(subtitleView, subtitleLayoutParams, width, height)
+        }
 
         if (zoomMode == ZoomMode.STRETCH) {
-            updateVideoLayoutParams(
-                layoutParams = layoutParams,
-                width = FrameLayout.LayoutParams.MATCH_PARENT,
-                height = FrameLayout.LayoutParams.MATCH_PARENT,
+            applyBounds(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT,
             )
             return
         }
@@ -2225,10 +2300,9 @@ class Media3VideoView(
         val sourceWidth = videoWidthPx.toFloat() * videoPixelRatio
         val sourceHeight = videoHeightPx.toFloat()
         if (containerWidth <= 0 || containerHeight <= 0 || sourceWidth <= 0f || sourceHeight <= 0f) {
-            updateVideoLayoutParams(
-                layoutParams = layoutParams,
-                width = FrameLayout.LayoutParams.MATCH_PARENT,
-                height = FrameLayout.LayoutParams.MATCH_PARENT,
+            applyBounds(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT,
             )
             return
         }
@@ -2263,14 +2337,14 @@ class Media3VideoView(
             ZoomMode.STRETCH -> FrameLayout.LayoutParams.MATCH_PARENT to FrameLayout.LayoutParams.MATCH_PARENT
         }
 
-        updateVideoLayoutParams(
-            layoutParams = layoutParams,
-            width = targetSize.first.coerceAtLeast(1),
-            height = targetSize.second.coerceAtLeast(1),
+        applyBounds(
+            targetSize.first.coerceAtLeast(1),
+            targetSize.second.coerceAtLeast(1),
         )
     }
 
-    private fun updateVideoLayoutParams(
+    private fun applyLayoutBounds(
+        view: View,
         layoutParams: FrameLayout.LayoutParams,
         width: Int,
         height: Int,
@@ -2286,7 +2360,7 @@ class Media3VideoView(
         layoutParams.width = width
         layoutParams.height = height
         layoutParams.gravity = Gravity.CENTER
-        videoView.layoutParams = layoutParams
+        view.layoutParams = layoutParams
     }
 
     private fun applySubtitleRendererMode(mode: SubtitleRendererMode) {

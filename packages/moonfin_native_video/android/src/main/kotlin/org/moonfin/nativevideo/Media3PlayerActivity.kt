@@ -764,6 +764,20 @@ class Media3PlayerActivity : ComponentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (::media3View.isInitialized) {
+            media3View.resumeFromBackground()
+        }
+    }
+
+    override fun onStop() {
+        if (::media3View.isInitialized && !media3View.isAudioPlayback()) {
+            media3View.forceReleasePlayer()
+        }
+        super.onStop()
+    }
+
     override fun onDestroy() {
         if (::media3View.isInitialized) {
             media3View.dispose()

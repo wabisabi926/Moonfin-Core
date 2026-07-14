@@ -426,13 +426,14 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
     final seerrAvailable =
         _syncService.pluginAvailable && _syncService.seerrEnabled;
     final showSeerrSettings = seerrAvailable && _seerrPrefs.enabled;
+    final seerrLabel = _seerrPrefs.labelOrDefault(l10n.seerr);
 
     return RequestInitialFocus(
       targetNode: _enableSeerrFocusNode,
       child: Scaffold(
         appBar: buildSettingsAppBar(
           context,
-          Text(l10n.seerr),
+          Text(seerrLabel),
           actions: showSeerrSettings
               ? [
                   IconButton(

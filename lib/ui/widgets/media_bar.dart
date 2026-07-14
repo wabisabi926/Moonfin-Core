@@ -29,6 +29,7 @@ import '../../preference/preference_constants.dart';
 import '../../preference/user_preferences.dart';
 import '../navigation/app_router.dart';
 import '../navigation/destinations.dart';
+import '../screensaver/screensaver_controller.dart';
 import '../../util/language_matching.dart';
 import '../../util/overlay_color_palette.dart';
 import '../../util/overview_text.dart';
@@ -93,6 +94,7 @@ class _MediaBarState extends State<MediaBar>
   final _backgroundService = GetIt.instance<BackgroundService>();
   final _playbackManager = GetIt.instance<PlaybackManager>();
   final _audioArbiter = GetIt.instance<PlaybackArbiter>();
+  final _screensaverController = GetIt.instance<ScreensaverController>();
   final Media3PlayerBackend? _media3TrailerBackend =
       (PlatformDetection.isTizen || PlatformDetection.isAppleTV)
       ? null
@@ -142,6 +144,8 @@ class _MediaBarState extends State<MediaBar>
   /// defer to post-frame mid-build (cancel runs from deactivate) so the
   /// ancestor NavigationLayout is not marked dirty during build.
   void _publishTrailerImmersive(bool value) {
+    // Keep the screensaver from arming while a trailer plays on any backend.
+    _screensaverController.setMediaBarTrailerActive(value);
     if (NavigationLayout.trailerImmersiveNotifier.value == value) return;
     final phase = SchedulerBinding.instance.schedulerPhase;
     if (phase == SchedulerPhase.idle ||
@@ -216,8 +220,17 @@ class _MediaBarState extends State<MediaBar>
         .addListener(_onPlayerRouteChanged);
     widget.viewModel.addListener(_onStateChanged);
     widget.prefs.addListener(_onPrefsChanged);
+    _screensaverController.visible.addListener(_onScreensaverVisibleChanged);
     WidgetsBinding.instance.addObserver(this);
     _audioArbiter.register(this);
+  }
+
+  // Stop any playing trailer when the screensaver comes up so its audio does
+  // not keep sounding behind the overlay.
+  void _onScreensaverVisibleChanged() {
+    if (_screensaverController.visible.value) {
+      _cancelTrailerPreview();
+    }
   }
 
   @override
@@ -259,6 +272,7 @@ class _MediaBarState extends State<MediaBar>
     unawaited(_disposeTrailerPlayer());
     widget.viewModel.removeListener(_onStateChanged);
     widget.prefs.removeListener(_onPrefsChanged);
+    _screensaverController.visible.removeListener(_onScreensaverVisibleChanged);
     WidgetsBinding.instance.removeObserver(this);
     appRouter.routerDelegate.removeListener(_onRouteChanged);
     PlayerRouteObserver.instance.isPlayerActive
@@ -774,6 +788,9 @@ class _MediaBarState extends State<MediaBar>
     if (_mainPlaybackActive) {
       return;
     }
+    if (_screensaverController.visible.value) {
+      return;
+    }
     if (_failedTrailerItemIds.contains(item.itemId)) {
       return;
     }
@@ -994,6 +1011,7 @@ class _MediaBarState extends State<MediaBar>
           if (!mounted || resolveId != _trailerResolveId) return;
         }
         await _media3TrailerBackend!.setVolume(0);
+        await _media3TrailerBackend.configureSubtitleStyle(verticalOffset: 0.15);
         if (!mounted || resolveId != _trailerResolveId) return;
 
         final payload = <String, dynamic>{
@@ -1362,6 +1380,13 @@ class _MediaBarState extends State<MediaBar>
         hwdec: _trailerHwdecSetting(),
       ),
     );
+
+    try {
+      final native = player.platform;
+      final dynamic dyn = native;
+      dyn.setProperty('sub-margin-y', '108');
+    } catch (_) {}
+
     return player;
   }
 
@@ -2640,7 +2665,9 @@ class _MediaBarState extends State<MediaBar>
                         ),
                         showControls: false,
                         ignorePointer: true,
-                        loop: true,
+                        // Loop only when this is the sole slide. Otherwise an
+                        // ended trailer should advance rather than replay.
+                        loop: widget.viewModel.items.length <= 1,
                         onPlaybackStarted: _onYouTubePlaybackStarted,
                         onCompleted: () => _onTrailerCompleted(true),
                         onAutoplayFailed: _handleYouTubeAutoplayFailed,
