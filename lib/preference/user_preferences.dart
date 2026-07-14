@@ -203,6 +203,7 @@ class UserPreferences extends ChangeNotifier {
     'prefer_sdh_subtitles',
     'app_theme_id',
     'pref_custom_theme_id',
+    'pref_glass_quality',
     'pref_navbar_position',
     'focus_color',
     'pref_watched_indicator_behavior',
