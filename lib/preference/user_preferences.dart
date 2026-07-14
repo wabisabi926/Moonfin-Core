@@ -709,7 +709,7 @@ class UserPreferences extends ChangeNotifier {
 
   static final displaySinceYouWatchedRows = Preference(
     key: 'pref_display_since_you_watched_rows',
-    defaultValue: false,
+    defaultValue: true,
   );
 
   static final sinceYouWatched1Enabled = Preference(
@@ -768,7 +768,7 @@ class UserPreferences extends ChangeNotifier {
 
   static final displayRewatchRow = Preference(
     key: 'pref_display_rewatch_row',
-    defaultValue: false,
+    defaultValue: true,
   );
 
   static final rewatchSortBy = EnumPreference(
