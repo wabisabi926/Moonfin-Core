@@ -16,6 +16,23 @@ if(NOT WIN32)
   target_link_libraries(libretro_host PUBLIC ${CMAKE_DL_LIBS})
 endif()
 
+# Desktop audio sink (miniaudio). The desktop runners enable it. Android and
+# the Apple platforms use their own audio, so it stays off by default.
+option(LIBRETRO_HOST_AUDIO "Build the miniaudio desktop audio sink" OFF)
+if(LIBRETRO_HOST_AUDIO)
+  add_library(lh_audio STATIC lh_audio.c)
+  target_include_directories(lh_audio PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+  target_link_libraries(lh_audio PUBLIC libretro_host)
+  if(APPLE)
+    target_link_libraries(lh_audio PUBLIC "-framework CoreAudio"
+      "-framework AudioToolbox" "-framework CoreFoundation")
+  elseif(WIN32)
+    target_link_libraries(lh_audio PUBLIC ole32)
+  else()
+    target_link_libraries(lh_audio PUBLIC ${CMAKE_DL_LIBS} m)
+  endif()
+endif()
+
 # Headless self-test: a stub core plus a harness that drives the host. Enable
 # with -DLIBRETRO_HOST_TESTS=ON.
 option(LIBRETRO_HOST_TESTS "Build the libretro host self-test" OFF)

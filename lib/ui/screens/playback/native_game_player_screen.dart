@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:archive/archive_io.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
@@ -61,6 +61,24 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen> {
   int _fastForward = 1;
   List<GameCoreOption> _options = const [];
 
+  // Keyboard gameplay on Windows and Linux: keys map to RetroPad bits and the
+  // combined mask is sent to the core.
+  int _keyboardMask = 0;
+  static final _keyToBit = <LogicalKeyboardKey, int>{
+    LogicalKeyboardKey.arrowUp: 1 << 4,
+    LogicalKeyboardKey.arrowDown: 1 << 5,
+    LogicalKeyboardKey.arrowLeft: 1 << 6,
+    LogicalKeyboardKey.arrowRight: 1 << 7,
+    LogicalKeyboardKey.keyZ: 1 << 0,
+    LogicalKeyboardKey.keyX: 1 << 8,
+    LogicalKeyboardKey.keyA: 1 << 1,
+    LogicalKeyboardKey.keyS: 1 << 9,
+    LogicalKeyboardKey.enter: 1 << 3,
+    LogicalKeyboardKey.shiftRight: 1 << 2,
+    LogicalKeyboardKey.keyQ: 1 << 10,
+    LogicalKeyboardKey.keyW: 1 << 11,
+  };
+
   @override
   void initState() {
     super.initState();
@@ -117,6 +135,46 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen> {
       }[index];
 
   void _onRemotePress(String? key) => _nav(key == 'select' ? 'confirm' : key);
+
+  // Desktop keyboard: Escape opens the overlay, arrows and Enter drive it while
+  // open, and everything else feeds the RetroPad mask to the core.
+  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
+    if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.escape) {
+      _toggleOverlay();
+      return KeyEventResult.handled;
+    }
+    if (_overlayOpen && event is KeyDownEvent) {
+      switch (event.logicalKey) {
+        case LogicalKeyboardKey.arrowUp:
+          _moveSelection(-1);
+          return KeyEventResult.handled;
+        case LogicalKeyboardKey.arrowDown:
+          _moveSelection(1);
+          return KeyEventResult.handled;
+        case LogicalKeyboardKey.arrowLeft:
+          _changeValue(-1);
+          return KeyEventResult.handled;
+        case LogicalKeyboardKey.arrowRight:
+          _changeValue(1);
+          return KeyEventResult.handled;
+        case LogicalKeyboardKey.enter:
+        case LogicalKeyboardKey.space:
+          _confirm();
+          return KeyEventResult.handled;
+      }
+    }
+    final bit = _keyToBit[event.logicalKey];
+    if (bit == null) return KeyEventResult.ignored;
+    if (event is KeyDownEvent) {
+      _keyboardMask |= bit;
+    } else if (event is KeyUpEvent) {
+      _keyboardMask &= ~bit;
+    } else {
+      return KeyEventResult.ignored;
+    }
+    _player.setInput(0, _keyboardMask);
+    return KeyEventResult.handled;
+  }
 
   // Menu opens or closes the overlay. The rest only act while it is open.
   void _nav(String? action) {
@@ -456,6 +514,12 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffold = _buildScaffold(context);
+    if (!usesKeyboardInput) return scaffold;
+    return Focus(autofocus: true, onKeyEvent: _onKey, child: scaffold);
+  }
+
+  Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(

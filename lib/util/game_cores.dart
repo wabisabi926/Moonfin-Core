@@ -113,6 +113,12 @@ bool get supportsCoreDownloads =>
     (PlatformDetection.isAndroid || PlatformDetection.isDesktop) &&
     _buildbotTarget() != null;
 
+/// Whether gameplay input comes from the keyboard through Flutter rather than a
+/// native controller source. Windows and Linux have no native gamepad reader, so
+/// the player screen maps keys to a RetroPad mask and sends it down.
+bool get usesKeyboardInput =>
+    PlatformDetection.isWindows || PlatformDetection.isLinux;
+
 /// The save-state key for a game. Native libretro states are namespaced so they
 /// don't collide with an EmulatorJS state of the same game.
 String gameStateKey(String gameId) =>

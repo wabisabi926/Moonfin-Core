@@ -78,6 +78,10 @@ abstract class NativeGamePlayer {
   Future<bool> loadState(Uint8List data);
   Future<void> setFastForward(int factor);
   Future<void> pulseButton(int index, {int durationMs = 150});
+
+  /// Sends the current RetroPad button mask for a port. Used by the desktop
+  /// keyboard path, where input comes from Flutter rather than a native source.
+  Future<void> setInput(int port, int mask);
   Future<List<GameCoreOption>> getOptions();
   Future<void> setOption(String id, String value);
   Future<Map<String, String>> getCurrentOptions();
@@ -179,6 +183,13 @@ class MethodChannelGamePlayer implements NativeGamePlayer {
     try {
       await _control.invokeMethod<void>(
           'pulseButton', {'index': index, 'durationMs': durationMs});
+    } catch (_) {}
+  }
+
+  @override
+  Future<void> setInput(int port, int mask) async {
+    try {
+      await _control.invokeMethod<void>('setInput', {'port': port, 'mask': mask});
     } catch (_) {}
   }
 
