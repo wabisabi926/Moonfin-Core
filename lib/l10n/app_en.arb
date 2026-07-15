@@ -5208,6 +5208,18 @@
       }
     }
   },
+  "mbValue": "{value} MB",
+  "@mbValue": {
+    "description": "Megabyte value display",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "imageCacheLimit": "Image cache limit",
+  "clearImageCache": "Clear image cache",
+  "imageCacheCleared": "Image cache cleared",
   "clear": "Clear",
   "@clear": {
     "description": "Button to clear"

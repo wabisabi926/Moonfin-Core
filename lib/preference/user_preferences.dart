@@ -2071,6 +2071,13 @@ class UserPreferences extends ChangeNotifier {
     defaultValue: true,
   );
 
+  // Byte budget for the on-disk image cache, in megabytes. 0 disables the
+  // budget and falls back to the cache manager's object-count cap.
+  static final imageCacheLimitMb = Preference(
+    key: 'image_cache_limit_mb',
+    defaultValue: 350,
+  );
+
   static final customDownloadPath = Preference(
     key: 'download_custom_path',
     defaultValue: '',

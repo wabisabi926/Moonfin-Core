@@ -256,12 +256,14 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     // 1. Local Jellyfin items
     for (final f in _vm.filmographyMovies) {
       if (f.backdropImageTags.isNotEmpty) {
-        candidates.add(_vm.imageApi.getBackdropImageUrl(f.id, tag: f.backdropImageTags.first));
+        candidates.add(_vm.imageApi.getBackdropImageUrl(f.id,
+            tag: f.backdropImageTags.first, maxWidth: 1920));
       }
     }
     for (final f in _vm.filmographySeries) {
       if (f.backdropImageTags.isNotEmpty) {
-        candidates.add(_vm.imageApi.getBackdropImageUrl(f.id, tag: f.backdropImageTags.first));
+        candidates.add(_vm.imageApi.getBackdropImageUrl(f.id,
+            tag: f.backdropImageTags.first, maxWidth: 1920));
       }
     }
 

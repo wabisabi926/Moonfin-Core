@@ -6934,6 +6934,30 @@ abstract class AppLocalizations {
   /// **'{value} GB'**
   String gbValue(String value);
 
+  /// Megabyte value display
+  ///
+  /// In en, this message translates to:
+  /// **'{value} MB'**
+  String mbValue(int value);
+
+  /// No description provided for @imageCacheLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Image cache limit'**
+  String get imageCacheLimit;
+
+  /// No description provided for @clearImageCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear image cache'**
+  String get clearImageCache;
+
+  /// No description provided for @imageCacheCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Image cache cleared'**
+  String get imageCacheCleared;
+
   /// Button to clear
   ///
   /// In en, this message translates to:

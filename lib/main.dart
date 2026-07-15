@@ -286,6 +286,23 @@ Future<void> _migrateSeededPassthroughTogglesToAuto(
   await prefs.set(UserPreferences.audioPassthroughMigratedToAuto, true);
 }
 
+void _sweepImageCache(UserPreferences prefs, {bool throttle = false}) {
+  final mb = prefs.get(UserPreferences.imageCacheLimitMb);
+  unawaited(enforceImageCacheBudget(mb * 1024 * 1024, throttle: throttle));
+}
+
+class _ImageCacheSweepObserver with WidgetsBindingObserver {
+  _ImageCacheSweepObserver(this._prefs);
+
+  final UserPreferences _prefs;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) return;
+    _sweepImageCache(_prefs, throttle: true);
+  }
+}
+
 class _PreferenceWriteFlushObserver with WidgetsBindingObserver {
   _PreferenceWriteFlushObserver(this._prefs);
 
@@ -377,7 +394,7 @@ void main() async {
   }
 
   _configureImageCache();
-  await configureAppleTvImageCache();
+  await configureImageDiskCache();
 
   // On Linux the GTK font pipeline loads fonts asynchronously. The first frame
   // can render before MaterialIcons and other fonts are ready, causing icons to
@@ -420,6 +437,8 @@ void main() async {
 
   final prefs = GetIt.instance<UserPreferences>();
   WidgetsBinding.instance.addObserver(_PreferenceWriteFlushObserver(prefs));
+  WidgetsBinding.instance.addObserver(_ImageCacheSweepObserver(prefs));
+  WidgetsBinding.instance.addPostFrameCallback((_) => _sweepImageCache(prefs));
 
   GetIt.instance<PlaybackManager>().queueService.queueChangedStream.listen((_) {
     final activeItem = GetIt.instance<PlaybackManager>().queueService.currentItem;

@@ -3710,6 +3710,20 @@ class AppLocalizationsYue extends AppLocalizations {
   }
 
   @override
+  String mbValue(int value) {
+    return '$value MB';
+  }
+
+  @override
+  String get imageCacheLimit => 'Image cache limit';
+
+  @override
+  String get clearImageCache => 'Clear image cache';
+
+  @override
+  String get imageCacheCleared => 'Image cache cleared';
+
+  @override
   String get clear => '清除';
 
   @override
