@@ -161,11 +161,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Sekmeler arasında gezinirken sekme içeriğini otomatik olarak göster. Her sekmeyi manuel olarak açıp kapatmak için bu seçeneği kapatın.';
 
   @override
-  String get showTechnicalDetails => 'Teknik Detaylar Gösterilsin Mi?';
+  String get showTechnicalDetails => 'Show Technical Details?';
 
   @override
   String get showTechnicalDetailsSubtitle =>
-      'Başlık özetinde kodek, çözünürlük ve akış bilgilerini göster';
+      'Show codec, resolution, and stream information in banner summary';
 
   @override
   String get recommendationSystem => 'Öneri Sistemi';
@@ -332,6 +332,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get gameSaveState => 'Durumu Kaydet';
+
+  @override
+  String get games => 'Games';
 
   @override
   String get gameLoadState => 'Durumu Yükle';
@@ -2294,11 +2297,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get playWhenBrowsingHomeScreen => 'Ana ekrana göz atarken oynat';
 
   @override
-  String get loopThemeMusic => 'Tema Müziğini Sürekli Çal';
+  String get loopThemeMusic => 'Loop Theme Music';
 
   @override
   String get loopThemeMusicSubtitle =>
-      'Parçayı bir kez oynatmak yerine döngüye al';
+      'Repeat the track instead of playing it once';
 
   @override
   String get detailsBackgroundBlur => 'Detay Arka Plan Bulanıklığı';
@@ -3284,11 +3287,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Fragmanları medya çubuğunda 3 saniye sonra otomatik oynat';
 
   @override
-  String get trailerAudio => 'Fragman Sesi';
+  String get trailerAudio => 'Trailer Audio';
 
   @override
-  String get enableTrailerAudio =>
-      'Medya çubuğundaki fragmanlar için sesi etkinleştir';
+  String get enableTrailerAudio => 'Enable audio for trailers in media bar';
 
   @override
   String get episodePreview => 'Bölüm Önizlemesi';
@@ -3308,7 +3310,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get previewAudio => 'Sesi Önizle';
 
   @override
-  String get enablePreviewAudio => 'Medya önizlemeleri için sesi aç';
+  String get enablePreviewAudio =>
+      'Fragman ve bölüm önizlemeleri için sesi etkinleştirin';
 
   @override
   String get latestMedia => 'En Son Eklenen Medya';
@@ -3680,10 +3683,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Onaylandı, reddedildi ve kütüphanenize eklendi';
 
   @override
-  String get seerrNotifyIssuesTitle => 'Sorun Güncellemeleri';
+  String get seerrNotifyIssuesTitle => 'Issue updates';
 
   @override
-  String get seerrNotifyIssuesSubtitle => 'Yeni sorunlar, yanıtlar ve çözümler';
+  String get seerrNotifyIssuesSubtitle =>
+      'New issues, replies, and resolutions';
 
   @override
   String loggedInAs(String username) {
@@ -3841,11 +3845,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String seerrDownloadingPercent(int percent) {
-    return 'İndiriliyor · %$percent';
+    return 'Downloading · $percent%';
   }
 
   @override
-  String get seerrImportingStatus => 'İçe Aktarılıyor';
+  String get seerrImportingStatus => 'Importing';
 
   @override
   String itemsCount(int count) {
@@ -3987,147 +3991,148 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deletedStatus => 'Silindi';
 
   @override
-  String get failedStatus => 'Başarısız Oldu';
+  String get failedStatus => 'Failed';
 
   @override
-  String get processingStatus => 'İşleniyor';
+  String get processingStatus => 'Processing';
 
   @override
   String modifiedByName(String name) {
-    return '$name tarafından değiştirildi';
+    return 'Modified by $name';
   }
 
   @override
-  String get completedStatus => 'Tamamlandı';
+  String get completedStatus => 'Completed';
 
   @override
-  String get requestErrorDuplicate => 'Bu içerik zaten talep edilmiş';
+  String get requestErrorDuplicate => 'This title was already requested';
 
   @override
-  String get requestErrorQuota => 'İstek sınırına ulaşıldı';
+  String get requestErrorQuota => 'Request limit reached';
 
   @override
-  String get requestErrorBlocklisted => 'Bu içerik kara listede';
+  String get requestErrorBlocklisted => 'This title is blocklisted';
 
   @override
-  String get requestErrorNoSeasons => 'Talep edilecek sezon kalmadı';
+  String get requestErrorNoSeasons => 'No seasons left to request';
 
   @override
   String get requestErrorPermission =>
-      'Bu talebi gerçekleştirmek için izniniz yok';
+      'You don\'t have permission to make this request';
 
   @override
-  String get seerrRequestsTitle => 'İstekler';
+  String get seerrRequestsTitle => 'Requests';
 
   @override
-  String get seerrIssuesTitle => 'Sorunlar';
+  String get seerrIssuesTitle => 'Issues';
 
   @override
-  String get sortNewest => 'En Yeni';
+  String get sortNewest => 'Newest';
 
   @override
-  String get sortLastModified => 'Son Düzenlenen';
+  String get sortLastModified => 'Last Modified';
 
   @override
-  String get noIssues => 'Sorun Yok';
+  String get noIssues => 'No issues';
 
   @override
   String movieQuotaRemaining(int remaining, int limit) {
-    return 'Kalan film talebi: $remaining / $limit';
+    return '$remaining of $limit movie requests remaining';
   }
 
   @override
   String seasonQuotaRemaining(int remaining, int limit) {
-    return 'Kalan sezon talebi: $remaining / $limit';
+    return '$remaining of $limit season requests remaining';
   }
 
   @override
   String partOfCollectionName(String name) {
-    return '$name koleksiyonunun parçası';
+    return 'Part of $name';
   }
 
   @override
-  String get viewCollection => 'Koleksiyonu Görüntüle';
+  String get viewCollection => 'View Collection';
 
   @override
-  String get requestCollection => 'Koleksiyonu İste';
+  String get requestCollection => 'Request Collection';
 
   @override
   String collectionMoviesSummary(int total, int available) {
-    return '$total film · $available mevcut';
+    return '$total movies · $available available';
   }
 
   @override
   String requestMoviesCount(int count) {
-    return '$count film iste';
+    return 'Request $count movies';
   }
 
   @override
   String requestingProgress(int current, int total) {
-    return 'İsteniyor: $current / $total...';
+    return 'Requesting $current of $total...';
   }
 
   @override
   String requestedMoviesCount(int count) {
-    return '$count film istendi';
+    return 'Requested $count movies';
   }
 
   @override
   String requestedMoviesPartial(int ok, int total) {
-    return 'İstenen film: $ok / $total';
+    return 'Requested $ok of $total movies';
   }
 
   @override
-  String get collectionAllRequested => 'Tüm filmler zaten mevcut veya istenmiş';
+  String get collectionAllRequested =>
+      'All movies are already available or requested';
 
   @override
-  String get reportIssue => 'Sorun Bildir';
+  String get reportIssue => 'Report Issue';
 
   @override
   String get issueTypeVideo => 'Video';
 
   @override
-  String get issueTypeAudio => 'Ses';
+  String get issueTypeAudio => 'Audio';
 
   @override
-  String get whatsWrong => 'Sorun ne?';
+  String get whatsWrong => 'What\'s wrong?';
 
   @override
-  String get allEpisodes => 'Tüm Bölümler';
+  String get allEpisodes => 'All Episodes';
 
   @override
-  String get episode => 'Bölüm';
+  String get episode => 'Episode';
 
   @override
-  String get openStatus => 'Açık';
+  String get openStatus => 'Open';
 
   @override
-  String get resolvedStatus => 'Çözüldü';
+  String get resolvedStatus => 'Resolved';
 
   @override
-  String get resolveAction => 'Çöz';
+  String get resolveAction => 'Resolve';
 
   @override
-  String get reopenAction => 'Tekrar aç';
+  String get reopenAction => 'Reopen';
 
   @override
   String reportedByName(String name) {
-    return '$name tarafından bildirildi';
+    return 'Reported by $name';
   }
 
   @override
   String commentsCount(int count) {
-    return '$count yorum';
+    return '$count comments';
   }
 
   @override
-  String get addComment => 'Yorum ekle';
+  String get addComment => 'Add a comment';
 
   @override
-  String get deleteIssueConfirm => 'Sorun silinsin mi?';
+  String get deleteIssueConfirm => 'Delete this issue?';
 
   @override
-  String get submitReport => 'Raporu Gönder';
+  String get submitReport => 'Submit Report';
 
   @override
   String get tmdbScore => 'TMDB Puanı';
@@ -7671,20 +7676,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get offlineSavedMedia => 'Kayıtlı Medya';
 
   @override
-  String get offlineBannerTitle => 'Çevrimdışısın';
+  String get offlineBannerTitle => 'You\'re offline';
 
   @override
-  String get offlineBannerSubtitle => 'İndirdikleriniz gösteriliyor';
+  String get offlineBannerSubtitle => 'Showing your downloads';
 
   @override
-  String get offlineBannerAction => 'İndirilenler';
+  String get offlineBannerAction => 'Downloads';
 
   @override
-  String get serverUnreachableBannerTitle => 'Sunucuya erişilemiyor';
+  String get serverUnreachableBannerTitle => 'Can\'t reach your server';
 
   @override
   String get serverUnreachableBannerSubtitle =>
-      'Bağlantı geri gelene kadar indirilenlerden oynatılıyor';
+      'Playing from downloads until it\'s back';
 
   @override
   String get castGoogleCast => 'Google Cast';
@@ -9743,7 +9748,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Jellyfin görselleri güncelleyemedi. Kütüphaneniz, görselleri doğrudan medya klasörlerine kaydedecek şekilde yapılandırılmış (\'Görselleri medya klasörlerine kaydet\' seçeneği etkin). Bu hata genellikle Jellyfin sunucu işleminin, medya dizinlerinize dosya yazma izni olmadığında meydana gelir.';
 
   @override
-  String get externalLists => 'Harici Listeler';
+  String get externalLists => 'Harici Ana Sayfa Satır Listeleri';
 
   @override
   String get replay => 'Tekrar';
@@ -9914,20 +9919,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminLibChapterImageResolutionMatchSource => 'Kaynağa göre eşle';
 
   @override
-  String get imdbTop250Movies => 'IMDB En İyi 250 Film';
+  String get imdbTop250Movies => 'IMDb Top 250 Movies';
 
   @override
-  String get imdbTop250TvShows => 'IMDB En İyi 250 Dizi';
+  String get imdbTop250TvShows => 'IMDb Top 250 TV Shows';
 
   @override
-  String get imdbMostPopularMovies => 'IMDB En Popüler Filmler';
+  String get imdbMostPopularMovies => 'IMDb Most Popular Movies';
 
   @override
-  String get imdbMostPopularTvShows => 'IMDB En Popüler Diziler';
+  String get imdbMostPopularTvShows => 'IMDb Most Popular TV Shows';
 
   @override
-  String get imdbLowestRatedMovies => 'IMDB En Düşük Puanlı Filmler';
+  String get imdbLowestRatedMovies => 'IMDb Lowest Rated Movies';
 
   @override
-  String get imdbTopEnglishMovies => 'IMDB En Yüksek Puanlı İngilizce Filmler';
+  String get imdbTopEnglishMovies => 'IMDb Top Rated English Movies';
 }

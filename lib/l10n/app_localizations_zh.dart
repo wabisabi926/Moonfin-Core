@@ -320,6 +320,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get gameSaveState => '保存存档';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => '读取存档';
 
   @override
@@ -16486,6 +16489,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String get subtitlesUseEmbeddedFontSizesSubtitle =>
       'Apply font-size hints embedded in the subtitle track. Disable to use the subtitle size from your style preferences.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Use Detailed Sub-Headings';

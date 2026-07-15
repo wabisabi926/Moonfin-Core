@@ -335,6 +335,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get gameSaveState => 'Save state';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Load state';
 
   @override
@@ -17209,6 +17212,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Apply font-size hints embedded in the subtitle track. Disable to use the subtitle size from your style preferences.';
 
   @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
+
+  @override
   String get useDetailedSubHeadings => 'Use Detailed Sub-Headings';
 
   @override
@@ -25199,6 +25205,9 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   @override
   String get subtitlesUseEmbeddedFontSizesSubtitle =>
       'Aplica dicas de tamanho de fonte incorporadas na faixa de legenda. Desativa o uso do tamanho da legenda nas tuas preferências de estilo.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Usa subtítulos detalhados';
