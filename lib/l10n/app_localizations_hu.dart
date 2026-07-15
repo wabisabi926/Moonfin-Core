@@ -337,6 +337,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get gameSaveState => 'Állás mentése';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Állás betöltése';
 
   @override
@@ -8701,6 +8704,9 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get showMediaDetailsOnLibraryPageDescription =>
       'A kijelölt elem részleteinek megjelenítése a könyvtároldalak tetején.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Részletes alcímek használata';

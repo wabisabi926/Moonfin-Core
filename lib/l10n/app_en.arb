@@ -421,6 +421,10 @@
   "@gameSaveState": {
     "description": "In-game menu action to save the game state"
   },
+  "games": "Games",
+  "@games": {
+    "description": "Label for the games category tab in search results"
+  },
   "gameLoadState": "Load state",
   "@gameLoadState": {
     "description": "In-game menu action to load the saved game state"
@@ -8092,6 +8096,10 @@
   "showMediaDetailsOnLibraryPageDescription": "Show details of the selected item at the top of Library pages.",
   "@showMediaDetailsOnLibraryPageDescription": {
     "description": "Setting description to show/hide focused media details at the top of the library page"
+  },
+  "hideBackdropsInLibraries": "Hide Backdrops while Browsing?",
+  "@hideBackdropsInLibraries": {
+    "description": "Setting title to show/hide backdrops when browsing library pages"
   },
   "useDetailedSubHeadings": "Use Detailed Sub-Headings",
   "@useDetailedSubHeadings": {

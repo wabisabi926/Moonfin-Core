@@ -334,6 +334,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get gameSaveState => 'Save state';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Load state';
 
   @override
@@ -8555,6 +8558,9 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get showMediaDetailsOnLibraryPageDescription =>
       'Show details of the selected item at the top of Library pages.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'استخدم العناوين الفرعية التفصيلية';

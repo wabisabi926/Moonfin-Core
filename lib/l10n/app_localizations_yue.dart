@@ -326,6 +326,9 @@ class AppLocalizationsYue extends AppLocalizations {
   String get gameSaveState => 'Save state';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Load state';
 
   @override
@@ -8357,6 +8360,9 @@ class AppLocalizationsYue extends AppLocalizations {
   @override
   String get showMediaDetailsOnLibraryPageDescription =>
       'Show details of the selected item at the top of Library pages.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Use Detailed Sub-Headings';
@@ -16605,6 +16611,9 @@ class AppLocalizationsYueCn extends AppLocalizationsYue {
       'Apply font-size hints embedded in the subtitle track. Disable to use the subtitle size from your style preferences.';
 
   @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
+
+  @override
   String get useDetailedSubHeadings => 'Use Detailed Sub-Headings';
 
   @override
@@ -24217,6 +24226,9 @@ class AppLocalizationsYueHk extends AppLocalizationsYue {
   @override
   String get subtitlesUseEmbeddedFontSizesSubtitle =>
       'Apply font-size hints embedded in the subtitle track. Disable to use the subtitle size from your style preferences.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Use Detailed Sub-Headings';

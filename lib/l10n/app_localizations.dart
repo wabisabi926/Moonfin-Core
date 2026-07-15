@@ -802,6 +802,12 @@ abstract class AppLocalizations {
   /// **'Save state'**
   String get gameSaveState;
 
+  /// Label for the games category tab in search results
+  ///
+  /// In en, this message translates to:
+  /// **'Games'**
+  String get games;
+
   /// In-game menu action to load the saved game state
   ///
   /// In en, this message translates to:
@@ -15339,6 +15345,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show details of the selected item at the top of Library pages.'**
   String get showMediaDetailsOnLibraryPageDescription;
+
+  /// Setting title to show/hide backdrops when browsing library pages
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Backdrops while Browsing?'**
+  String get hideBackdropsInLibraries;
 
   /// Label for setting to toggle detailed or minimal subrow on library pages
   ///

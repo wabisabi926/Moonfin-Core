@@ -335,6 +335,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get gameSaveState => 'Sauvegarder';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Charger une sauvegarde';
 
   @override
@@ -8697,6 +8700,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get showMediaDetailsOnLibraryPageDescription =>
       'Afficher les détails de l\'élément sélectionné en haut des pages de la bibliothèque.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Informations détaillées sous le titre';

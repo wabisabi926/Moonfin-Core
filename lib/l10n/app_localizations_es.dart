@@ -336,6 +336,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gameSaveState => 'Save state';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Load state';
 
   @override
@@ -8672,6 +8675,9 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get showMediaDetailsOnLibraryPageDescription =>
       'Show details of the selected item at the top of Library pages.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Utilice subtítulos detallados';
@@ -17410,6 +17416,9 @@ class AppLocalizationsEs419 extends AppLocalizationsEs {
       'Aplique sugerencias de tamaño de fuente incrustadas en la pista de subtítulos. Desactive el uso del tamaño de los subtítulos en sus preferencias de estilo.';
 
   @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
+
+  @override
   String get useDetailedSubHeadings => 'Utilice subtítulos detallados';
 
   @override
@@ -25374,6 +25383,9 @@ class AppLocalizationsEsAr extends AppLocalizationsEs {
   @override
   String get subtitlesUseEmbeddedFontSizesSubtitle =>
       'Aplique sugerencias de tamaño de fuente incrustadas en la pista de subtítulos. Desactive el uso del tamaño de los subtítulos en sus preferencias de estilo.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Utilice subtítulos detallados';
@@ -33342,6 +33354,9 @@ class AppLocalizationsEsDo extends AppLocalizationsEs {
       'Aplique sugerencias de tamaño de fuente incrustadas en la pista de subtítulos. Desactive el uso del tamaño de los subtítulos en sus preferencias de estilo.';
 
   @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
+
+  @override
   String get useDetailedSubHeadings => 'Utilice subtítulos detallados';
 
   @override
@@ -41306,6 +41321,9 @@ class AppLocalizationsEsMx extends AppLocalizationsEs {
   @override
   String get subtitlesUseEmbeddedFontSizesSubtitle =>
       'Aplique sugerencias de tamaño de fuente incrustadas en la pista de subtítulos. Desactive el uso del tamaño de los subtítulos en sus preferencias de estilo.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Utilice subtítulos detallados';

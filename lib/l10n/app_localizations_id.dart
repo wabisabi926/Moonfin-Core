@@ -336,6 +336,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get gameSaveState => 'Save state';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Load state';
 
   @override
@@ -8601,6 +8604,9 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get showMediaDetailsOnLibraryPageDescription =>
       'Tampilkan detail item yang dipilih di bagian atas halaman Pustaka.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Gunakan Subjudul Terperinci';

@@ -180,6 +180,7 @@ class UserPreferences extends ChangeNotifier {
     'pref_show_seerr_button',
     'pref_show_media_details_on_library_page',
     'pref_use_detailed_sub_headings',
+    'pref_hide_backdrops_in_libraries',
     'pref_show_clock',
     'pref_use_24_hour_clock',
     'pref_clock_behavior',
@@ -203,6 +204,7 @@ class UserPreferences extends ChangeNotifier {
     'prefer_sdh_subtitles',
     'app_theme_id',
     'pref_custom_theme_id',
+    'pref_glass_quality',
     'pref_navbar_position',
     'focus_color',
     'pref_watched_indicator_behavior',
@@ -707,7 +709,7 @@ class UserPreferences extends ChangeNotifier {
 
   static final displaySinceYouWatchedRows = Preference(
     key: 'pref_display_since_you_watched_rows',
-    defaultValue: false,
+    defaultValue: true,
   );
 
   static final sinceYouWatched1Enabled = Preference(
@@ -766,7 +768,7 @@ class UserPreferences extends ChangeNotifier {
 
   static final displayRewatchRow = Preference(
     key: 'pref_display_rewatch_row',
-    defaultValue: false,
+    defaultValue: true,
   );
 
   static final rewatchSortBy = EnumPreference(
@@ -1022,6 +1024,11 @@ class UserPreferences extends ChangeNotifier {
   static final useDetailedSubHeadings = Preference(
     key: 'pref_use_detailed_sub_headings',
     defaultValue: true,
+  );
+
+  static final hideBackdropsInLibraries = Preference(
+    key: 'pref_hide_backdrops_in_libraries',
+    defaultValue: false,
   );
   static final maxBitrate = Preference(
     key: 'pref_max_bitrate',

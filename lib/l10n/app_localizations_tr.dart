@@ -334,6 +334,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get gameSaveState => 'Durumu Kaydet';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Durumu Yükle';
 
   @override
@@ -8633,6 +8636,9 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get showMediaDetailsOnLibraryPageDescription =>
       'Kütüphane sayfalarında, seçilen ögenin detaylarını üst kısımda göster.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Detaylı alt başlıklar kullan';

@@ -337,6 +337,9 @@ class AppLocalizationsCa extends AppLocalizations {
   String get gameSaveState => 'Desa l’estat actual';
 
   @override
+  String get games => 'Games';
+
+  @override
   String get gameLoadState => 'Carregar estat';
 
   @override
@@ -8709,6 +8712,9 @@ class AppLocalizationsCa extends AppLocalizations {
   @override
   String get showMediaDetailsOnLibraryPageDescription =>
       'Mostra els detalls de l\'item seleccionat a dalt la pàgina de Biblioteca.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Utilitzeu subtítols detallats';
