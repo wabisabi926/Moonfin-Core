@@ -8597,6 +8597,9 @@ class AppLocalizationsBn extends AppLocalizations {
       'Show details of the selected item at the top of Library pages.';
 
   @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
+
+  @override
   String get useDetailedSubHeadings => 'বিস্তারিত উপ-শিরোনাম ব্যবহার করুন';
 
   @override

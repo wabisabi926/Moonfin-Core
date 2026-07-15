@@ -8638,6 +8638,9 @@ class AppLocalizationsTr extends AppLocalizations {
       'Kütüphane sayfalarında, seçilen ögenin detaylarını üst kısımda göster.';
 
   @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
+
+  @override
   String get useDetailedSubHeadings => 'Detaylı alt başlıklar kullan';
 
   @override

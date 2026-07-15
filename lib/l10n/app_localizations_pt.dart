@@ -8658,6 +8658,9 @@ class AppLocalizationsPt extends AppLocalizations {
       'Show details of the selected item at the top of Library pages.';
 
   @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
+
+  @override
   String get useDetailedSubHeadings => 'Use subtítulos detalhados';
 
   @override
@@ -17209,6 +17212,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Apply font-size hints embedded in the subtitle track. Disable to use the subtitle size from your style preferences.';
 
   @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
+
+  @override
   String get useDetailedSubHeadings => 'Use Detailed Sub-Headings';
 
   @override
@@ -25199,6 +25205,9 @@ class AppLocalizationsPtPt extends AppLocalizationsPt {
   @override
   String get subtitlesUseEmbeddedFontSizesSubtitle =>
       'Aplica dicas de tamanho de fonte incorporadas na faixa de legenda. Desativa o uso do tamanho da legenda nas tuas preferências de estilo.';
+
+  @override
+  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Usa subtítulos detalhados';
