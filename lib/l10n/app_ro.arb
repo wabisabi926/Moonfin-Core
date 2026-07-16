@@ -17,7 +17,7 @@
             }
         }
     },
-    "quickConnect": "Quick Connect",
+    "quickConnect": "Conectare rapidă",
     "@quickConnect": {
         "description": "Quick Connect toggle button label"
     },
@@ -37,7 +37,7 @@
     "@waitingForAuthorization": {
         "description": "Quick Connect polling status text"
     },
-    "back": "Înapoi",
+    "back": "Spate",
     "@back": {
         "description": "Back button label"
     },
@@ -132,7 +132,7 @@
     "@cancel": {
         "description": "Generic cancel button label"
     },
-    "remove": "Elimină",
+    "remove": "Elimina",
     "@remove": {
         "description": "Remove button label in confirmation dialogs"
     },
@@ -285,7 +285,7 @@
     "@schedule": {
         "description": "Live TV schedule button label"
     },
-    "series": "Seriale",
+    "series": "Serie",
     "@series": {
         "description": "Section header for TV series"
     },
@@ -440,7 +440,7 @@
     "@large": {
         "description": "Poster size option"
     },
-    "extraLarge": "Foarte mare",
+    "extraLarge": "Extra Large",
     "@extraLarge": {
         "description": "Size option: extra large"
     },
@@ -532,7 +532,7 @@
     "@pickDiscoverySubjects": {
         "description": "Instruction text in discovery subject picker"
     },
-    "apply": "Aplică",
+    "apply": "Aplicați",
     "@apply": {
         "description": "Button label to apply selected options"
     },
@@ -597,7 +597,7 @@
     "@listen": {
         "description": "Primary action label for audiobooks"
     },
-    "resume": "Reia",
+    "resume": "Relua",
     "@resume": {
         "description": "Primary action label for resuming reading"
     },
@@ -790,7 +790,7 @@
     "@readStatus": {
         "description": "Filter label for read/watched items in book libraries"
     },
-    "watched": "Vizionate",
+    "watched": "Privit",
     "@watched": {
         "description": "Filter label for watched items"
     },
@@ -798,7 +798,7 @@
     "@unread": {
         "description": "Status label for an unread book"
     },
-    "unwatched": "Nevizionate",
+    "unwatched": "Nevizionat",
     "@unwatched": {
         "description": "Filter label for unwatched items"
     },
@@ -914,7 +914,7 @@
             }
         }
     },
-    "audiobookCountLabel": "{count, plural, =1{1 carte audio} few{{count} cărți audio} other{{count} de cărți audio}}",
+    "audiobookCountLabel": "{count, plural, =1{1 audiobook} other{{count} audiobooks}}",
     "@audiobookCountLabel": {
         "description": "Subtitle showing number of audiobooks by an author",
         "placeholders": {
@@ -935,11 +935,11 @@
     "@failedToLoad": {
         "description": "Error message when item detail fails to load"
     },
-    "delete": "Șterge",
+    "delete": "Şterge",
     "@delete": {
         "description": "Delete action button label"
     },
-    "save": "Salvează",
+    "save": "Salva",
     "@save": {
         "description": "Save action button label"
     },
@@ -963,7 +963,7 @@
     "@nextUp": {
         "description": "Home section: next up"
     },
-    "seasons": "Sezoane",
+    "seasons": "anotimpuri",
     "@seasons": {
         "description": "Section header for seasons"
     },
@@ -1036,7 +1036,7 @@
     "@publicationDateUnknown": {
         "description": "Placeholder when publication date is unknown"
     },
-    "seasonCount": "{count, plural, =1{1 Sezon} few{{count} Sezoane} other{{count} de Sezoane}}",
+    "seasonCount": "{count, plural, =1{1 Season} other{{count} Seasons}}",
     "@seasonCount": {
         "description": "Number of seasons for a series",
         "placeholders": {
@@ -1075,7 +1075,7 @@
             }
         }
     },
-    "play": "Redă",
+    "play": "Juca",
     "@play": {
         "description": "Action button label to play media"
     },
@@ -1107,7 +1107,7 @@
     "@version": {
         "description": "Action button label for version/media source selection"
     },
-    "cast": "Proiectează",
+    "cast": "Distribuție",
     "@cast": {
         "description": "Action button label for casting to a device"
     },
@@ -1275,7 +1275,7 @@
     "@subtitleTrack": {
         "description": "Dialog title for subtitle track selection"
     },
-    "none": "Niciuna",
+    "none": "Nici unul",
     "@none": {
         "description": "Option label for no subtitle selected"
     },
@@ -1387,11 +1387,11 @@
     "@deleteFiles": {
         "description": "Action button label for deleting downloaded files"
     },
-    "director": "REGIZOR",
+    "director": "DIRECTOR",
     "@director": {
         "description": "Metadata label for director"
     },
-    "writers": "SCENARIȘTI",
+    "writers": "SCRIITORII",
     "@writers": {
         "description": "Metadata label for writers"
     },
@@ -1447,7 +1447,7 @@
             }
         }
     },
-    "trackCount": "{count, plural, =1{1 piesă} few{{count} piese} other{{count} de piese}}",
+    "trackCount": "{count, plural, =1{1 track} other{{count} tracks}}",
     "@trackCount": {
         "description": "Label showing number of tracks in an album",
         "placeholders": {
@@ -1456,7 +1456,7 @@
             }
         }
     },
-    "chapterCount": "{count, plural, =1{1 capitol} few{{count} capitole} other{{count} de capitole}}",
+    "chapterCount": "{count, plural, =1{1 chapter} other{{count} chapters}}",
     "@chapterCount": {
         "description": "Label showing number of chapters in an audiobook",
         "placeholders": {
@@ -1500,7 +1500,7 @@
     "@readMore": {
         "description": "Toggle label to expand biography"
     },
-    "shuffle": "Aleatoriu",
+    "shuffle": "Amesteca",
     "@shuffle": {
         "description": "Action button label for shuffle playback"
     },
@@ -1517,7 +1517,7 @@
     "@perfectMatch": {
         "description": "Label for a subtitle that is a hash match"
     },
-    "channelsCount": "{count}can.",
+    "channelsCount": "{count}ch",
     "@channelsCount": {
         "description": "Audio channel count label",
         "placeholders": {
@@ -1786,7 +1786,7 @@
     "@subtitleDelay": {
         "description": "Title for subtitle delay adjuster"
     },
-    "reset": "Resetează",
+    "reset": "Resetați",
     "@reset": {
         "description": "Button label to reset a value"
     },
@@ -1810,7 +1810,7 @@
     "@directPlay": {
         "description": "Play method label"
     },
-    "directStream": "Flux direct",
+    "directStream": "Direct Stream",
     "@directStream": {
         "description": "Audio option: direct stream"
     },
@@ -1854,7 +1854,7 @@
     "@videoBitrate": {
         "description": "Stream info label for video bitrate"
     },
-    "track": "Piesă",
+    "track": "Urmări",
     "@track": {
         "description": "Stream info label for track name"
     },
@@ -2187,11 +2187,11 @@
     "@favoriteChannel": {
         "description": "Button label to add a channel to favorites"
     },
-    "watch": "Vizionează",
+    "watch": "Ceas",
     "@watch": {
         "description": "Button label to start watching a channel"
     },
-    "close": "Închide",
+    "close": "Aproape",
     "@close": {
         "description": "Button label to close a dialog"
     },
@@ -2490,7 +2490,7 @@
             }
         }
     },
-    "episodeCount": "{count, plural, =1{1 episod} few{{count} episoade} other{{count} de episoade}}",
+    "episodeCount": "{count, plural, =1{1 episode} other{{count} episodes}}",
     "@episodeCount": {
         "description": "Number of episodes with pluralization",
         "placeholders": {
@@ -3045,7 +3045,7 @@
             }
         }
     },
-    "mediaQueuing": "Coadă media",
+    "mediaQueuing": "Media Queuing",
     "@mediaQueuing": {
         "description": "Setting for media queuing"
     },
@@ -3169,7 +3169,7 @@
     "@verticalOffset": {
         "description": "Setting for vertical offset"
     },
-    "pgsDirectPlay": "Redare directă PGS",
+    "pgsDirectPlay": "PGS Direct Play",
     "@pgsDirectPlay": {
         "description": "Setting for PGS direct play"
     },
@@ -3177,7 +3177,7 @@
     "@directPlayPgsSubtitles": {
         "description": "Description for PGS direct play"
     },
-    "assSsaDirectPlay": "Redare directă ASS/SSA",
+    "assSsaDirectPlay": "ASS/SSA Direct Play",
     "@assSsaDirectPlay": {
         "description": "Setting for ASS/SSA direct play"
     },
@@ -3436,7 +3436,7 @@
     "@purple": {
         "description": "Color: purple"
     },
-    "teal": "Turcoaz",
+    "teal": "Teal",
     "@teal": {
         "description": "Color: teal"
     },
@@ -3549,7 +3549,7 @@
             }
         }
     },
-    "mediaBar": "Bară media",
+    "mediaBar": "Media Bar",
     "@mediaBar": {
         "description": "Media bar section title"
     },
@@ -3797,7 +3797,7 @@
     "@enableBuiltInScreensaver": {
         "description": "Description for in-app screensaver"
     },
-    "mode": "Mod",
+    "mode": "Modul",
     "@mode": {
         "description": "Setting for mode"
     },
@@ -3951,7 +3951,7 @@
     "@ratingSourcesDescription": {
         "description": "Description for rating sources"
     },
-    "pluginLabel": "Plugin Moonbase",
+    "pluginLabel": "Plugin",
     "@pluginLabel": {
         "description": "Settings title for plugin"
     },
@@ -4011,7 +4011,7 @@
     "@recentlyAdded": {
         "description": "Seerr row: recently added"
     },
-    "trending": "În tendințe",
+    "trending": "Trending",
     "@trending": {
         "description": "Seerr row: trending"
     },
@@ -4080,15 +4080,15 @@
             }
         }
     },
-    "discoverRows": "Pagina de descoperire Seerr",
+    "discoverRows": "Descoperiți Rânduri",
     "@discoverRows": {
         "description": "Section title for discover rows"
     },
-    "discoverRowsDescriptionPlugin": "Activați rândurile pe care doriți să le vedeți pe pagina principală Seerr. Trageți pentru a le reordona. Ordinea personalizată se sincronizează cu Moonbase.",
+    "discoverRowsDescriptionPlugin": "Trageți pentru a reordona. Activați sau dezactivați rândurile. Sincronizarea comenzii rândurilor este activată cu pluginul Moonfin.",
     "@discoverRowsDescriptionPlugin": {
         "description": "Description for discover rows with plugin"
     },
-    "discoverRowsDescription": "Activați rândurile pe care doriți să le vedeți pe pagina principală Seerr. Trageți pentru a le reordona. Ordinea personalizată se sincronizează cu Moonbase.",
+    "discoverRowsDescription": "Trageți pentru a reordona. Activați sau dezactivați rândurile.",
     "@discoverRowsDescription": {
         "description": "Description for discover rows without plugin"
     },
@@ -4248,7 +4248,7 @@
             }
         }
     },
-    "clear": "Golește",
+    "clear": "Clar",
     "@clear": {
         "description": "Button to clear"
     },
@@ -4314,7 +4314,7 @@
     "@declineAction": {
         "description": "Tooltip/button to decline a request"
     },
-    "similar": "Similare",
+    "similar": "Similar",
     "@similar": {
         "description": "Section title for similar media"
     },
@@ -4471,7 +4471,7 @@
     "@notRequestedStatus": {
         "description": "Request status label when no request exists"
     },
-    "blocklistedStatus": "Pe lista de blocare",
+    "blocklistedStatus": "Blocklisted",
     "@blocklistedStatus": {
         "description": "Request status label for blocklisted media"
     },
@@ -4507,7 +4507,7 @@
     "@originalLanguageLabel": {
         "description": "Stat label for original language"
     },
-    "seasonsLabel": "Sezoane",
+    "seasonsLabel": "anotimpuri",
     "@seasonsLabel": {
         "description": "Stat label for number of seasons"
     },
@@ -4516,19 +4516,19 @@
         "description": "Stat label for number of episodes"
     },
     "access": "Acces",
-    "add": "Adaugă",
+    "add": "Adăuga",
     "address": "Adresa",
-    "analytics": "Analiză",
+    "analytics": "Analytics",
     "catalog": "Catalog",
     "content": "Conţinut",
     "copy": "Copie",
     "create": "Crea",
     "disable": "Dezactivați",
-    "done": "Gata",
-    "edit": "Editează",
+    "done": "Făcut",
+    "edit": "Edita",
     "encoding": "Codificare",
     "error": "Eroare",
-    "forward": "Înainte",
+    "forward": "Redirecţiona",
     "general": "General",
     "go": "Merge",
     "install": "Instala",
@@ -4544,19 +4544,19 @@
     "profile": "Profil",
     "provider": "Furnizor",
     "refresh": "Reîmprospăta",
-    "remote": "Telecomandă",
+    "remote": "Telecomanda",
     "rename": "Redenumiți",
     "revoke": "Revoca",
     "role": "Rol",
     "root": "Rădăcină",
     "run": "Fugi",
-    "search": "Caută",
+    "search": "Căutare",
     "select": "Selecta",
     "send": "Trimite",
     "sessions": "Sesiuni",
     "set": "Set",
     "status": "Stare",
-    "stop": "Oprește",
+    "stop": "Stop",
     "streaming": "Streaming",
     "time": "Timp",
     "trickplay": "Trickplay",
@@ -4565,16 +4565,16 @@
     "update": "Actualizare",
     "upload": "Încărcați",
     "unmute": "Activați sunetul",
-    "mute": "Fără sunet",
+    "mute": "Mut",
     "branding": "Branding",
     "adminDrawerDashboard": "Bord",
-    "adminDrawerAnalytics": "Analiză",
+    "adminDrawerAnalytics": "Analytics",
     "adminDrawerSettings": "Setări",
     "adminDrawerBranding": "Branding",
     "adminDrawerUsers": "Utilizatori",
     "adminDrawerLibraries": "Biblioteci",
     "adminDrawerTranscoding": "Transcodare",
-    "adminDrawerResume": "Reluare",
+    "adminDrawerResume": "Relua",
     "adminDrawerStreaming": "Streaming",
     "adminDrawerTrickplay": "Trickplay",
     "adminDrawerDevices": "Dispozitive",
@@ -4668,9 +4668,9 @@
     "adminSendMessage": "Trimite mesaj",
     "adminMessageTextHint": "Textul mesajului",
     "adminSetVolume": "Setați volumul",
-    "sessionPrev": "Anter.",
+    "sessionPrev": "Prev",
     "sessionRewind": "Derulează înapoi",
-    "sessionForward": "Înainte",
+    "sessionForward": "Redirecţiona",
     "sessionNext": "Următorul",
     "sessionVolumeDown": "Vol –",
     "sessionVolumeUp": "Vol +",
@@ -4680,7 +4680,7 @@
     "actions": "Acțiuni",
     "videoCodec": "Codec video",
     "audioCodec": "Codec audio",
-    "hwAccel": "Accel. HW",
+    "hwAccel": "HW Accel",
     "completion": "Finalizare",
     "direct": "Direct",
     "adminDisconnect": "Deconecta",
@@ -5639,7 +5639,7 @@
             }
         }
     },
-    "adminPostPaddingDisplay": "Marjă la final: {minutes} min",
+    "adminPostPaddingDisplay": "Post-padding: {minutes} min",
     "@adminPostPaddingDisplay": {
         "placeholders": {
             "minutes": {
@@ -5647,7 +5647,7 @@
             }
         }
     },
-    "adminTunerDiscovery": "Detectarea tunerelor",
+    "adminTunerDiscovery": "Tuner Discovery",
     "adminChannelMappings": "Mapările canalelor",
     "adminNoDiscoveredTuners": "Niciun tuner descoperit încă",
     "adminSettingsSaved": "Setările au fost salvate",
@@ -5669,9 +5669,9 @@
     "adminUnnamedBackup": "Backup fără nume",
     "adminLiveTvNotAvailable": "Administrarea TV în direct nu este disponibilă pe această versiune de server.",
     "adminLiveTvTitle": "Administrare TV în direct",
-    "adminApply": "Aplică",
+    "adminApply": "Aplicați",
     "adminNotSet": "Nu setat",
-    "adminReset": "Resetează",
+    "adminReset": "Resetați",
     "adminLogsTitle": "Jurnalele serverului",
     "adminLogsNewestFirst": "Cel mai nou primul",
     "adminLogsOldestFirst": "Cel mai vechi primul",
@@ -5896,7 +5896,7 @@
             }
         }
     },
-    "adminReposRemove": "Elimină",
+    "adminReposRemove": "Elimina",
     "adminReposSaveFailed": "Nu s-au salvat depozitele: {error}",
     "@adminReposSaveFailed": {
         "placeholders": {
@@ -5967,7 +5967,7 @@
     "adminTrickplayBlocking": "Blocare",
     "adminTrickplayPriorityHigh": "Ridicat",
     "adminTrickplayPriorityAboveNormal": "Peste Normal",
-    "adminTrickplayPriorityNormal": "Normală",
+    "adminTrickplayPriorityNormal": "Normal",
     "adminTrickplayPriorityBelowNormal": "Sub Normal",
     "adminTrickplayPriorityIdle": "Inactiv",
     "adminTrickplayImageSettings": "Setări imagine",
@@ -5984,7 +5984,7 @@
     "adminTaskCancelling": "Se anulează...",
     "adminTaskRunning": "Funcţionare...",
     "adminTaskNeverRun": "Nu fugi niciodată",
-    "adminTaskStop": "Oprește",
+    "adminTaskStop": "Stop",
     "adminTaskRun": "Fugi",
     "adminTaskDetailLastExecution": "Ultima Execuție",
     "adminTaskDetailStarted": "A început",
@@ -6028,7 +6028,7 @@
     "adminTaskTriggerEvery12Hours": "La fiecare 12 ore",
     "adminTaskTriggerEvery24Hours": "La fiecare 24 de ore",
     "adminTaskTriggerEvery2Days": "La fiecare 2 zile",
-    "adminTaskTriggerHours": "{count, plural, one{1 oră} few{{count} ore} other{{count} de ore}}",
+    "adminTaskTriggerHours": "{count, plural, one{1 hour} other{{count} hours}}",
     "@adminTaskTriggerHours": {
         "placeholders": {
             "count": {
@@ -6084,7 +6084,7 @@
             }
         }
     },
-    "adminActivityDaysShort": "{days}z",
+    "adminActivityDaysShort": "{days}d",
     "@adminActivityDaysShort": {
         "placeholders": {
             "days": {
@@ -6092,7 +6092,7 @@
             }
         }
     },
-    "adminActivityDateShort": "{day}/{month}",
+    "adminActivityDateShort": "{month}/{day}",
     "@adminActivityDateShort": {
         "placeholders": {
             "month": {
@@ -6170,7 +6170,7 @@
     "syncPlayServerUnsupportedMessage": "SyncPlay necesită un server Jellyfin. Serverul actual nu îl acceptă.",
     "syncPlayGroupFallbackName": "Grupul SyncPlay",
     "syncPlayGroupTooltip": "grup SyncPlay",
-    "syncPlayParticipantCount": "{count, plural, one {# participant} few {# participanți} other {# de participanți}}",
+    "syncPlayParticipantCount": "{count, plural, one {# participant} other {# participants}}",
     "@syncPlayParticipantCount": {
         "description": "Participant count label shown in SyncPlay UI",
         "placeholders": {
@@ -6251,7 +6251,7 @@
     "rememberMyChoice": "Ține minte alegerea mea",
     "playHdr10Fallback": "Redați HDR10 alternativ",
     "requestTranscode": "Solicitați transcodare",
-    "integrationRowsDiscoveredCount": "{count, plural, one {# rând descoperit} few {# rânduri descoperite} other {# de rânduri descoperite}}",
+    "integrationRowsDiscoveredCount": "{count, plural, one {# row discovered} other {# rows discovered}}",
     "@integrationRowsDiscoveredCount": {
         "description": "Plural label for number of rows discovered in integration status",
         "placeholders": {
@@ -6326,16 +6326,16 @@
     "pinIncorrect": "PIN incorect",
     "pinMismatch": "PIN-urile nu se potrivesc",
     "pinForgot": "Ați uitat codul PIN?",
-    "pinClear": "Golește",
+    "pinClear": "Clar",
     "pinBackspace": "Backspace",
-    "quickConnectAuthorized": "Cererea Quick Connect a fost autorizată.",
-    "quickConnectInvalidOrExpired": "Codul Quick Connect este invalid sau a expirat.",
-    "quickConnectNotSupported": "Quick Connect nu este acceptat pe acest server.",
-    "quickConnectAuthorizeFailed": "Autorizarea codului Quick Connect a eșuat.",
-    "quickConnectDisabled": "Quick Connect este dezactivat pe acest server.",
-    "quickConnectForbidden": "Contul dvs. nu poate autoriza această cerere Quick Connect.",
-    "quickConnectNotFound": "Codul Quick Connect nu a fost găsit. Încercați un cod nou.",
-    "quickConnectFailedWithMessage": "Quick Connect a eșuat: {message}",
+    "quickConnectAuthorized": "Solicitare de conectare rapidă autorizată.",
+    "quickConnectInvalidOrExpired": "Codul de conectare rapidă este invalid sau a expirat.",
+    "quickConnectNotSupported": "Conectarea rapidă nu este acceptată pe acest server.",
+    "quickConnectAuthorizeFailed": "Nu s-a putut autoriza codul de conectare rapidă.",
+    "quickConnectDisabled": "Conectarea rapidă este dezactivată pe acest server.",
+    "quickConnectForbidden": "Contul dvs. nu poate autoriza această solicitare de conectare rapidă.",
+    "quickConnectNotFound": "Codul de conectare rapidă nu a fost găsit. Încercați un cod nou.",
+    "quickConnectFailedWithMessage": "Conectarea rapidă a eșuat: {message}",
     "@quickConnectFailedWithMessage": {
         "placeholders": {
             "message": {
@@ -6415,7 +6415,7 @@
     "upNext": "Următorul",
     "playNext": "Joacă în continuare",
     "stillWatchingContent": "Redarea a fost întreruptă. Încă te uiți?",
-    "stillWatchingStop": "Oprește",
+    "stillWatchingStop": "Stop",
     "stillWatchingContinue": "Continua",
     "skipSegment": "Omite {segment}",
     "@skipSegment": {
@@ -6567,7 +6567,7 @@
     "settingsCheckForUpdates": "Verificați actualizările",
     "settingsCheckForUpdatesSubtitle": "Verificați cea mai recentă versiune Moonfin",
     "settingsPoweredByFlutter": "Alimentat de Flutter",
-    "settingsLicenseNoticesCount": "{count, plural, one {# notificare de licență} few {# notificări de licență} other {# de notificări de licență}}",
+    "settingsLicenseNoticesCount": "{count, plural, one {# license notice} other {# license notices}}",
     "@settingsLicenseNoticesCount": {
         "description": "Plural label for number of license notices",
         "placeholders": {
@@ -6632,7 +6632,7 @@
             }
         }
     },
-    "settingsLiveTvDirect": "TV în direct (direct)",
+    "settingsLiveTvDirect": "Live TV Direct",
     "settingsLiveTvDirectSubtitle": "Activați redarea directă pentru TV în direct",
     "settingsOpenGroups": "Grupuri deschise",
     "settingsOpenGroupsSubtitle": "Creați, alăturați-vă sau gestionați grupuri SyncPlay",
@@ -6677,7 +6677,7 @@
             }
         }
     },
-    "discNumber": "Discul {number}",
+    "discNumber": "Disc {number}",
     "@discNumber": {
         "description": "Label for an album disc section in a multi-disc track list",
         "placeholders": {
@@ -6690,7 +6690,7 @@
     "@desktopUiScale": {
         "description": "Setting for desktop UI scale"
     },
-    "nextUpDisplay": "Afișare „Urmează”",
+    "nextUpDisplay": "Next Up Display",
     "@nextUpDisplay": {
         "description": "Setting for next up behavior"
     },
@@ -6763,7 +6763,7 @@
     "@musicVideos": {
         "description": "Section header for music videos filmography row"
     },
-    "record": "Înregistrează",
+    "record": "Înregistra",
     "@record": {
         "description": "Button label to schedule a live TV recording"
     },
@@ -6799,7 +6799,7 @@
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
     },
-    "settingsAudioCodecPassthrough": "Passthrough codec",
+    "settingsAudioCodecPassthrough": "Codec Passthrough",
     "@settingsAudioCodecPassthrough": {
         "description": "Title for codec passthrough settings group"
     },
@@ -6891,7 +6891,7 @@
     "@settingsAudioRouteSpeaker": {
         "description": "Audio route type speaker"
     },
-    "settingsAudioPcmChannels": "{count}can. PCM",
+    "settingsAudioPcmChannels": "{count}ch PCM",
     "@settingsAudioPcmChannels": {
         "description": "Audio route subtitle showing max PCM channels",
         "placeholders": {
@@ -7048,63 +7048,63 @@
     },
     "savedThemesDeleteTooltip": "Ștergeți tema salvată",
     "savedThemesManageSubtitle": "Gestionați temele de plugin descărcate pe acest dispozitiv",
-    "themeEditor": "Editor de teme",
-    "themeEditorSubtitle": "Deschideți editorul de teme Moonfin în browser",
-    "homeScreen": "Ecran principal",
-    "bottomBar": "Bară inferioară",
-    "homeRowsStyleClassic": "Clasic",
+    "themeEditor": "Theme Editor",
+    "themeEditorSubtitle": "Open the Moonfin Theme Editor in your browser",
+    "homeScreen": "Home Screen",
+    "bottomBar": "Bottom Bar",
+    "homeRowsStyleClassic": "Classic",
     "homeRowsStyleModern": "Modern",
-    "homeRowsSection": "Rânduri pe ecranul principal",
+    "homeRowsSection": "Home Rows",
     "rowsType": "Rows Type",
-    "rowsTypeDescription": "Modul Clasic păstrează tipul de imagine și suprapunerea cu informații pentru fiecare rând. Modul Modern folosește rânduri de la portret la fundal.",
-    "displayFavoritesRows": "Afișează rândurile cu favorite",
-    "displayFavoritesRowsSubtitle": "Afișează filmele și serialele favorite, precum și celelalte rânduri cu favorite, în secțiunile ecranului principal.",
-    "favoritesRowSorting": "Sortarea rândurilor cu favorite",
-    "favoritesRowSortingDescription": "Sortați rândurile cu favorite după data adăugării, data lansării, alfabetic și după alte criterii.",
-    "displayCollectionsRows": "Afișează rândurile cu colecții",
-    "displayCollectionsRowsSubtitle": "Afișează rândurile cu colecții în secțiunile ecranului principal.",
-    "collectionsRowSorting": "Sortarea rândurilor cu colecții",
-    "collectionsRowSortingDescription": "Sortați rândurile cu colecții după data adăugării, data lansării, alfabetic și după alte criterii.",
-    "displayGenresRows": "Afișează rândurile cu genuri",
-    "displayGenresRowsSubtitle": "Afișează rândurile cu genuri în secțiunile ecranului principal.",
-    "genresRowSorting": "Sortarea rândurilor cu genuri",
-    "genresRowSortingDescription": "Sortați rândurile cu genuri după data adăugării, data lansării, alfabetic și după alte criterii.",
-    "genresRowItems": "Elementele rândurilor cu genuri",
-    "genresRowItemsDescription": "Afișați filme, seriale sau ambele în rândurile cu genuri.",
-    "appearance": "Aspect",
+    "rowsTypeDescription": "Classic keeps per-row image type and info overlay. Modern uses portrait-to-backdrop rows.",
+    "displayFavoritesRows": "Display Favorites Rows",
+    "displayFavoritesRowsSubtitle": "Show Favorite Movies, Series, and other favorite rows in Home Sections.",
+    "favoritesRowSorting": "Favorites Row Sorting",
+    "favoritesRowSortingDescription": "Sort Favorites rows by date added, release date, alphabetically, and more.",
+    "displayCollectionsRows": "Display Collections Rows",
+    "displayCollectionsRowsSubtitle": "Show Collections rows in Home Sections.",
+    "collectionsRowSorting": "Collections Row Sorting",
+    "collectionsRowSortingDescription": "Sort Collections rows by date added, release date, alphabetically, and more.",
+    "displayGenresRows": "Display Genres Rows",
+    "displayGenresRowsSubtitle": "Show Genres rows in Home Sections.",
+    "genresRowSorting": "Genres Row Sorting",
+    "genresRowSortingDescription": "Sort Genres rows by date added, release date, alphabetically, and more.",
+    "genresRowItems": "Genres Row Items",
+    "genresRowItemsDescription": "Show Movies, Series, or both in Genres rows.",
+    "appearance": "Appearance",
     "cardSize": "Card Size",
-    "externalPlayerApp": "Aplicație player extern",
-    "externalPlayerAskEachTimeSubtitle": "Afișează selectorul de aplicații la începerea redării.",
-    "loadingInstalledPlayers": "Se încarcă playerele instalate...",
-    "connection": "Conexiune",
-    "audioTranscodeTarget": "Format țintă pentru transcodarea audio",
+    "externalPlayerApp": "External player app",
+    "externalPlayerAskEachTimeSubtitle": "Show app chooser when playback starts.",
+    "loadingInstalledPlayers": "Loading installed players...",
+    "connection": "Connection",
+    "audioTranscodeTarget": "Audio Transcode Target",
     "passthrough": "Passthrough",
-    "supportedOnThisDevice": "Acceptat pe acest dispozitiv",
-    "notSupportedOnThisDevice": "Neacceptat pe acest dispozitiv",
+    "supportedOnThisDevice": "Supported on this device",
+    "notSupportedOnThisDevice": "Not Supported on this device",
     "settingsAudioDtsXPassthrough": "DTS:X (DTS UHD) Passthrough",
-    "settingsAudioBitstreamDtsXToExternalDecoder": "Trimite DTS:X (DTS UHD) ca bitstream către decodorul extern.",
-    "settingsAudioTrueHdJocPassthrough": "TrueHD cu Atmos (JOC) Passthrough",
-    "mediaPlayerBehavior": "Comportamentul playerului media",
-    "playbackEnhancements": "Îmbunătățiri ale redării",
-    "alwaysOn": "Întotdeauna activ.",
-    "replaceSkipOutroWithNextUpDisplay": "Înlocuiește „Sari peste generic” cu afișarea „Urmează”",
-    "replaceSkipOutroWithNextUpDisplaySubtitle": "Afișează suprapunerea „Urmează” în locul butonului „Sari peste generic”.",
-    "playerRouting": "Direcționarea playerului",
-    "preferSoftwareDecoders": "Preferă decodoarele software",
-    "preferSoftwareDecodersSubtitle": "Folosește FFmpeg (audio) și libgav1 (AV1) înaintea decodoarelor hardware. Dezactivați dacă passthrough-ul audio HDMI nu funcționează.",
+    "settingsAudioBitstreamDtsXToExternalDecoder": "Bitstream DTS:X (DTS UHD) to external decoder.",
+    "settingsAudioTrueHdJocPassthrough": "TrueHD with Atmos (JOC) Passthrough",
+    "mediaPlayerBehavior": "Media Player Behavior",
+    "playbackEnhancements": "Playback Enhancements",
+    "alwaysOn": "Always on.",
+    "replaceSkipOutroWithNextUpDisplay": "Replace Skip Outro with Next Up Display",
+    "replaceSkipOutroWithNextUpDisplaySubtitle": "Show the Next Up overlay instead of the Skip Outro button.",
+    "playerRouting": "Player Routing",
+    "preferSoftwareDecoders": "Prefer software decoders",
+    "preferSoftwareDecodersSubtitle": "Use FFmpeg (audio) and libgav1 (AV1) before hardware decoders. Disable if HDMI audio passthrough breaks.",
     "useExternalPlayer": "Use external player",
-    "useExternalPlayerSubtitle": "Deschide redarea video în aplicația externă selectată, pe Android TV.",
-    "automaticQueuing": "Adăugare automată în coadă",
-    "preferSdhSubtitles": "Preferă subtitrările SDH",
-    "preferSdhSubtitlesSubtitle": "Prioritizează pistele de subtitrare SDH/CC la selectarea automată.",
-    "webDiagnostics": "Diagnosticare web",
-    "webDiagnosticsTitle": "Diagnosticare web Moonfin",
-    "webDiagnosticsIntro": "Folosiți această pagină pentru a diagnostica problemele de conectivitate ale browserului (CORS, conținut mixt și setări de descoperire).",
-    "webDiagnosticsDetectedMixedContentFailure": "A fost detectată o eroare de conținut mixt",
-    "webDiagnosticsDetectedCorsPreflightFailure": "A fost detectată o eroare CORS/preflight",
-    "webDiagnosticsMixedContentFailureBody": "Moonfin a detectat o pagină HTTPS care încearcă să apeleze un URL de server HTTP. Browserele blochează această cerere înainte să ajungă la server.",
-    "webDiagnosticsCorsFailureBody": "Moonfin a detectat o eroare de cerere la nivel de browser, cauzată de obicei de lipsa antetelor CORS sau preflight de pe serverul media.",
-    "webDiagnosticsTargetUrl": "URL țintă: {url}",
+    "useExternalPlayerSubtitle": "Open video playback in your selected external app on Android TV.",
+    "automaticQueuing": "Automatic Queuing",
+    "preferSdhSubtitles": "Prefer SDH subtitles",
+    "preferSdhSubtitlesSubtitle": "Prioritize SDH/CC subtitle tracks when auto-selecting.",
+    "webDiagnostics": "Web diagnostics",
+    "webDiagnosticsTitle": "Moonfin Web Diagnostics",
+    "webDiagnosticsIntro": "Use this page to diagnose browser connectivity issues (CORS, mixed content, and discovery settings).",
+    "webDiagnosticsDetectedMixedContentFailure": "Detected Mixed-Content Failure",
+    "webDiagnosticsDetectedCorsPreflightFailure": "Detected CORS/Preflight Failure",
+    "webDiagnosticsMixedContentFailureBody": "Moonfin detected an HTTPS page trying to call an HTTP server URL. Browsers block this request before it reaches your server.",
+    "webDiagnosticsCorsFailureBody": "Moonfin detected a browser-level request failure that is commonly caused by missing CORS or preflight headers on the media server.",
+    "webDiagnosticsTargetUrl": "Target URL: {url}",
     "@webDiagnosticsTargetUrl": {
         "description": "Target URL shown in diagnostics summary",
         "placeholders": {
@@ -7113,7 +7113,7 @@
             }
         }
     },
-    "webDiagnosticsDetail": "Detaliu: {detail}",
+    "webDiagnosticsDetail": "Detail: {detail}",
     "@webDiagnosticsDetail": {
         "description": "Error detail shown in diagnostics summary",
         "placeholders": {
@@ -7122,77 +7122,77 @@
             }
         }
     },
-    "webDiagnosticsCurrentRuntimeContext": "Contextul curent de execuție",
-    "webDiagnosticsOrigin": "Origine",
-    "webDiagnosticsScheme": "Schemă",
-    "webDiagnosticsPluginMode": "Mod plugin",
-    "webDiagnosticsWebRtcScan": "Scanare WebRTC",
-    "webDiagnosticsForcedServerUrl": "URL de server forțat",
-    "webDiagnosticsDefaultServerUrl": "URL de server implicit",
-    "webDiagnosticsDiscoveryProxyUrl": "URL proxy pentru descoperire",
-    "notConfigured": "neconfigurat",
-    "webDiagnosticsMixedContent": "Conținut mixt",
-    "webDiagnosticsMixedContentDetected": "Această pagină este încărcată prin HTTPS, dar unul sau mai multe URL-uri configurate folosesc HTTP. Browserele blochează apelurile către API-uri HTTP din pagini HTTPS.",
-    "webDiagnosticsMixedContentFix": "Soluție: serviți serverul media sau punctul final proxy prin HTTPS ori încărcați Moonfin prin HTTP doar în rețele locale de încredere.",
-    "webDiagnosticsNoMixedContentDetected": "Nu a fost detectată nicio configurație evidentă de conținut mixt în setările curente de execuție.",
-    "webDiagnosticsCorsChecklist": "Listă de verificare CORS",
-    "webDiagnosticsCorsChecklistItem1": "• Permiteți originea browserului în Access-Control-Allow-Origin.",
-    "webDiagnosticsCorsChecklistItem2": "• Includeți Authorization, X-Emby-Authorization și X-Emby-Token în Access-Control-Allow-Headers.",
-    "webDiagnosticsCorsChecklistItem3": "• Expuneți Content-Range și Accept-Ranges pentru streaming și derulare.",
-    "webDiagnosticsCorsChecklistItem4": "• Returnați 204 la cererile preflight OPTIONS.",
-    "webDiagnosticsHeaderSnippetTitle": "Exemplu de fragment de antet (stil nginx)",
-    "note": "Notă",
-    "webDiagnosticsNonWebNote": "Această rută de diagnosticare este destinată versiunilor web. Dacă o vedeți pe altă platformă, este posibil ca aceste verificări să nu se aplice.",
-    "backToServerSelect": "Înapoi la selectarea serverului",
-    "signOutAllUsers": "Deconectează toți utilizatorii",
-    "voiceSearchPermissionPermanentlyDenied": "Permisiunea pentru microfon este refuzată definitiv. Activați-o din setările sistemului.",
-    "voiceSearchPermissionRequired": "Căutarea vocală necesită permisiunea pentru microfon.",
-    "voiceSearchNoMatch": "Nu am înțeles. Încercați din nou.",
-    "voiceSearchNoSpeechDetected": "Nu a fost detectată nicio voce.",
-    "voiceSearchMicrophoneError": "Eroare de microfon.",
-    "voiceSearchNeedsInternet": "Căutarea vocală necesită conexiune la internet.",
-    "voiceSearchServiceBusy": "Serviciul vocal este ocupat. Încercați din nou.",
-    "microphonePermissionPermanentlyDenied": "Permisiunea pentru microfon este refuzată definitiv.",
-    "microphonePermissionDenied": "Permisiunea pentru microfon este refuzată.",
-    "speechRecognitionUnavailable": "Recunoașterea vocală nu este disponibilă pe acest dispozitiv.",
-    "openIosRoutePicker": "Deschide selectorul de rute iOS",
-    "airPlayRoutePickerUnavailable": "Selectorul de rute AirPlay nu este disponibil pe acest dispozitiv.",
-    "videos": "Videoclipuri",
-    "trailers": "Trailere",
-    "programs": "Programe",
-    "songs": "Melodii",
-    "photoAlbums": "Albume foto",
-    "photos": "Fotografii",
-    "people": "Persoane",
-    "recentlyReleasedEpisodes": "Episoade lansate recent",
-    "watchAgain": "Vizionează din nou",
-    "guestAppearances": "Apariții ca invitat",
-    "appearancesSeerr": "Apariții (Seerr)",
-    "watchWithGroup": "Vizionează cu grupul",
-    "errors": "Erori",
-    "warnings": "Avertismente",
-    "disk": "Disc",
-    "openInBrowser": "Deschide în browser",
-    "embeddedBrowserNotAvailable": "Browserul încorporat nu este disponibil pe această platformă.",
-    "adminRestartServerConfirmation": "Sigur doriți să reporniți serverul?",
-    "adminShutdownServerConfirmation": "Sigur doriți să opriți serverul? Va trebui să îl reporniți manual.",
-    "internal": "Intern",
-    "idle": "Inactiv",
+    "webDiagnosticsCurrentRuntimeContext": "Current Runtime Context",
+    "webDiagnosticsOrigin": "Origin",
+    "webDiagnosticsScheme": "Scheme",
+    "webDiagnosticsPluginMode": "Plugin Mode",
+    "webDiagnosticsWebRtcScan": "WebRTC Scan",
+    "webDiagnosticsForcedServerUrl": "Forced Server URL",
+    "webDiagnosticsDefaultServerUrl": "Default Server URL",
+    "webDiagnosticsDiscoveryProxyUrl": "Discovery Proxy URL",
+    "notConfigured": "not configured",
+    "webDiagnosticsMixedContent": "Mixed Content",
+    "webDiagnosticsMixedContentDetected": "This page is loaded over HTTPS, but one or more configured URLs are HTTP. Browsers block HTTPS pages from calling HTTP APIs.",
+    "webDiagnosticsMixedContentFix": "Fix: serve your media server or proxy endpoint via HTTPS, or load Moonfin over HTTP on trusted local networks only.",
+    "webDiagnosticsNoMixedContentDetected": "No obvious mixed-content configuration detected from current runtime settings.",
+    "webDiagnosticsCorsChecklist": "CORS Checklist",
+    "webDiagnosticsCorsChecklistItem1": "• Allow the browser origin in Access-Control-Allow-Origin.",
+    "webDiagnosticsCorsChecklistItem2": "• Include Authorization, X-Emby-Authorization, and X-Emby-Token in Access-Control-Allow-Headers.",
+    "webDiagnosticsCorsChecklistItem3": "• Expose Content-Range and Accept-Ranges for streaming and seek behavior.",
+    "webDiagnosticsCorsChecklistItem4": "• Return 204 to OPTIONS preflight requests.",
+    "webDiagnosticsHeaderSnippetTitle": "Example Header Snippet (nginx-style)",
+    "note": "Note",
+    "webDiagnosticsNonWebNote": "This diagnostics route is intended for web builds. If you are seeing this on another platform, these checks may not apply.",
+    "backToServerSelect": "Back To Server Select",
+    "signOutAllUsers": "Sign Out All Users",
+    "voiceSearchPermissionPermanentlyDenied": "Microphone permission is permanently denied. Enable it in system settings.",
+    "voiceSearchPermissionRequired": "Microphone permission is required for voice search.",
+    "voiceSearchNoMatch": "Did not catch that. Try again.",
+    "voiceSearchNoSpeechDetected": "No speech detected.",
+    "voiceSearchMicrophoneError": "Microphone error.",
+    "voiceSearchNeedsInternet": "Voice search needs internet.",
+    "voiceSearchServiceBusy": "Voice service is busy. Try again.",
+    "microphonePermissionPermanentlyDenied": "Microphone permission is permanently denied.",
+    "microphonePermissionDenied": "Microphone permission is denied.",
+    "speechRecognitionUnavailable": "Speech recognition is unavailable on this device.",
+    "openIosRoutePicker": "Open iOS route picker",
+    "airPlayRoutePickerUnavailable": "AirPlay route picker is unavailable on this device.",
+    "videos": "Videos",
+    "trailers": "Trailers",
+    "programs": "Programs",
+    "songs": "Songs",
+    "photoAlbums": "Photo Albums",
+    "photos": "Photos",
+    "people": "People",
+    "recentlyReleasedEpisodes": "Recently Released Episodes",
+    "watchAgain": "Watch Again",
+    "guestAppearances": "Guest Appearances",
+    "appearancesSeerr": "Appearances (Seerr)",
+    "watchWithGroup": "Watch with group",
+    "errors": "Errors",
+    "warnings": "Warnings",
+    "disk": "Disk",
+    "openInBrowser": "Open in Browser",
+    "embeddedBrowserNotAvailable": "Embedded browser is not available on this platform.",
+    "adminRestartServerConfirmation": "Are you sure you want to restart the server?",
+    "adminShutdownServerConfirmation": "Are you sure you want to shut down the server? You will need to restart it manually.",
+    "internal": "Internal",
+    "idle": "Idle",
     "os": "OS",
-    "adminNoUsersFound": "Niciun utilizator găsit",
-    "adminNoUsersMatchSearch": "Niciun utilizator nu corespunde căutării",
-    "adminNoDevicesFound": "Niciun dispozitiv găsit",
-    "adminNoDevicesMatchCurrentFilters": "Niciun dispozitiv nu corespunde filtrelor curente",
-    "passwordSet": "Parolă setată",
-    "noPasswordConfigured": "Nicio parolă configurată",
-    "remoteAccess": "Acces la distanță",
-    "localOnly": "Doar local",
-    "adminMediaAnalyticsLoadFailed": "Încărcarea analizelor media a eșuat",
-    "analyticsCombinedAcrossLibraries": "Analize combinate din toate bibliotecile media.",
-    "analyticsTopArtists": "Artiști de top",
-    "analyticsTopAuthors": "Autori de top",
-    "analyticsTopContributors": "Contribuitori de top",
-    "analyticsLibrariesCount": "{count, plural, =1{1 Bibliotecă} few{{count} Biblioteci} other{{count} de Biblioteci}}",
+    "adminNoUsersFound": "No users found",
+    "adminNoUsersMatchSearch": "No users match your search",
+    "adminNoDevicesFound": "No devices found",
+    "adminNoDevicesMatchCurrentFilters": "No devices match the current filters",
+    "passwordSet": "Password set",
+    "noPasswordConfigured": "No password configured",
+    "remoteAccess": "Remote Access",
+    "localOnly": "Local Only",
+    "adminMediaAnalyticsLoadFailed": "Failed to load media analytics",
+    "analyticsCombinedAcrossLibraries": "Combined analytics across all media libraries.",
+    "analyticsTopArtists": "Top Artists",
+    "analyticsTopAuthors": "Top Authors",
+    "analyticsTopContributors": "Top Contributors",
+    "analyticsLibrariesCount": "{count, plural, =1{1 Library} other{{count} Libraries}}",
     "@analyticsLibrariesCount": {
         "placeholders": {
             "count": {
@@ -7200,20 +7200,20 @@
             }
         }
     },
-    "analyticsNoIndexedMediaTotals": "Nu sunt încă disponibile totaluri de conținut media indexat pentru această selecție.",
-    "analyticsLibraryDetails": "Detalii despre bibliotecă",
-    "analyticsLibraryBreakdown": "Defalcare pe biblioteci",
-    "analyticsNoLibrariesAvailable": "Nu este disponibilă nicio bibliotecă.",
-    "adminServerAdministrationTitle": "Administrarea serverului",
-    "adminServerPathData": "Date",
-    "adminServerPathImageCache": "Cache de imagini",
+    "analyticsNoIndexedMediaTotals": "No indexed media totals are available for this selection yet.",
+    "analyticsLibraryDetails": "Library Details",
+    "analyticsLibraryBreakdown": "Library Breakdown",
+    "analyticsNoLibrariesAvailable": "No libraries are available.",
+    "adminServerAdministrationTitle": "Server Administration",
+    "adminServerPathData": "Data",
+    "adminServerPathImageCache": "Image Cache",
     "adminServerPathCache": "Cache",
-    "adminServerPathLogs": "Jurnale",
-    "adminServerPathMetadata": "Metadate",
-    "adminServerPathTranscode": "Transcodare",
+    "adminServerPathLogs": "Logs",
+    "adminServerPathMetadata": "Metadata",
+    "adminServerPathTranscode": "Transcode",
     "adminServerPathWeb": "Web",
-    "adminNoServerPathsReturned": "Acest server nu a returnat nicio cale.",
-    "adminPercentUsed": "{percent}% utilizat",
+    "adminNoServerPathsReturned": "No server paths returned by this server.",
+    "adminPercentUsed": "{percent}% used",
     "@adminPercentUsed": {
         "placeholders": {
             "percent": {
@@ -7221,24 +7221,24 @@
             }
         }
     },
-    "userActivity": "Activitatea utilizatorilor",
-    "systemEvents": "Evenimente de sistem",
-    "needsAttention": "Necesită atenție",
+    "userActivity": "User Activity",
+    "systemEvents": "System Events",
+    "needsAttention": "Needs Attention",
     "adminDrawerSectionServer": "Server",
-    "adminDrawerSectionPlayback": "Redare",
-    "adminDrawerSectionDevices": "Dispozitive",
-    "adminDrawerSectionAdvanced": "Avansat",
-    "adminDrawerSectionPlugins": "Pluginuri",
-    "adminDrawerSectionLiveTv": "TV în direct",
-    "homeVideos": "Videoclipuri personale",
-    "mixedContent": "Conținut mixt",
-    "homeVideosAndPhotos": "Videoclipuri și fotografii personale",
-    "mixedMoviesAndShows": "Filme și seriale mixte",
+    "adminDrawerSectionPlayback": "Playback",
+    "adminDrawerSectionDevices": "Devices",
+    "adminDrawerSectionAdvanced": "Advanced",
+    "adminDrawerSectionPlugins": "Plugins",
+    "adminDrawerSectionLiveTv": "Live TV",
+    "homeVideos": "Home Videos",
+    "mixedContent": "Mixed Content",
+    "homeVideosAndPhotos": "Home Videos & Photos",
+    "mixedMoviesAndShows": "Mixed Movies & Shows",
     "intelQuickSync": "Intel Quick Sync",
     "rockchipMpp": "Rockchip MPP",
     "dolbyVision": "Dolby Vision",
-    "noRecordingsFound": "Nicio înregistrare găsită",
-    "noImagePagesFoundInArchive": "Nu au fost găsite pagini imagine în arhiva .{extension}.",
+    "noRecordingsFound": "No recordings found",
+    "noImagePagesFoundInArchive": "No image pages found inside .{extension} archive.",
     "@noImagePagesFoundInArchive": {
         "placeholders": {
             "extension": {
@@ -7246,7 +7246,7 @@
             }
         }
     },
-    "embeddedRendererFailed": "Randarea încorporată a eșuat ({code}): {description}",
+    "embeddedRendererFailed": "Embedded renderer failed ({code}): {description}",
     "@embeddedRendererFailed": {
         "placeholders": {
             "code": {
@@ -7257,7 +7257,7 @@
             }
         }
     },
-    "epubRendererFailed": "Randarea EPUB a eșuat ({code}): {description}",
+    "epubRendererFailed": "EPUB renderer failed ({code}): {description}",
     "@epubRendererFailed": {
         "placeholders": {
             "code": {
@@ -7268,7 +7268,7 @@
             }
         }
     },
-    "missingLocalFileForReader": "Lipsește fișierul local pentru cititor: {uri}",
+    "missingLocalFileForReader": "Missing local file for reader: {uri}",
     "@missingLocalFileForReader": {
         "placeholders": {
             "uri": {
@@ -7276,7 +7276,7 @@
             }
         }
     },
-    "httpStatusWhileOpeningBookData": "HTTP {status} la deschiderea datelor cărții din {uri}",
+    "httpStatusWhileOpeningBookData": "HTTP {status} while opening book data from {uri}",
     "@httpStatusWhileOpeningBookData": {
         "placeholders": {
             "status": {
@@ -7287,8 +7287,8 @@
             }
         }
     },
-    "noReadableBookEndpointAvailable": "Nu este disponibil niciun punct final pentru citirea cărții",
-    "unsupportedComicArchiveFormat": "Format de arhivă de benzi desenate neacceptat: .{extension}",
+    "noReadableBookEndpointAvailable": "No readable book endpoint available",
+    "unsupportedComicArchiveFormat": "Unsupported comic archive format: .{extension}",
     "@unsupportedComicArchiveFormat": {
         "placeholders": {
             "extension": {
@@ -7296,205 +7296,205 @@
             }
         }
     },
-    "cbrExtractionPluginUnavailable": "Pluginul de extragere CBR nu este disponibil pe această platformă.",
-    "failedToExtractCbrArchive": "Extragerea arhivei .cbr a eșuat.",
-    "cb7ExtractionUnavailable": "Extragerea CB7 nu este disponibilă pe această platformă.",
-    "cb7ExtractionPluginUnavailable": "Pluginul de extragere CB7 nu este disponibil pe această platformă.",
-    "closeGenrePanel": "Închide panoul cu genuri",
-    "loadingShuffle": "Se încarcă redarea aleatorie...",
-    "libraryShuffleLabel": "REDARE ALEATORIE DIN BIBLIOTECĂ",
-    "randomShuffleLabel": "REDARE ALEATORIE",
-    "genresShuffleLabel": "REDARE ALEATORIE PE GENURI",
-    "autoHdrSwitching": "Comutare automată HDR",
-    "autoHdrSwitchingDescription": "Activează automat HDR la redarea videoclipurilor HDR și restabilește modul de afișare la ieșire.",
-    "whenFullscreen": "Pe ecran complet",
-    "transcodingLimits": "Limite de transcodare",
+    "cbrExtractionPluginUnavailable": "CBR extraction plugin is not available on this platform.",
+    "failedToExtractCbrArchive": "Failed to extract .cbr archive.",
+    "cb7ExtractionUnavailable": "CB7 extraction is not available on this platform.",
+    "cb7ExtractionPluginUnavailable": "CB7 extraction plugin is not available on this platform.",
+    "closeGenrePanel": "Close genre panel",
+    "loadingShuffle": "Loading shuffle...",
+    "libraryShuffleLabel": "LIBRARY SHUFFLE",
+    "randomShuffleLabel": "RANDOM SHUFFLE",
+    "genresShuffleLabel": "GENRES SHUFFLE",
+    "autoHdrSwitching": "Auto HDR Switching",
+    "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
+    "whenFullscreen": "When fullscreen",
+    "transcodingLimits": "Transcoding Limits",
     "settingsSupportMoonfinSubtitle": "Donează o cafea dezvoltatorului",
-    "accountPreferences": "PREFERINȚE CONT",
+    "accountPreferences": "",
     "@accountPreferences": {
         "description": "Section header for account preferences settings"
     },
-    "interfaceLanguage": "Limba interfeței",
+    "interfaceLanguage": "",
     "@interfaceLanguage": {
         "description": "Label for the app interface language setting"
     },
-    "systemLanguageDefault": "Implicit din sistem",
+    "systemLanguageDefault": "",
     "@systemLanguageDefault": {
         "description": "Label for using the system default language in settings"
     },
-    "empty": "Gol",
+    "empty": "",
     "@empty": {
         "description": "Label indicating a section or category is empty"
     },
-    "detailScreenStyle": "Stilul ecranului de detalii",
+    "detailScreenStyle": "",
     "@detailScreenStyle": {
         "description": "Label for the media detail screen layout style setting"
     },
-    "detailScreenStyleSubtitle": "Clasic este aspectul centrat original Moonfin. Modern este un aspect cinematografic adaptiv.",
+    "detailScreenStyleSubtitle": "",
     "@detailScreenStyleSubtitle": {
         "description": "Explanation under the detail screen style setting"
     },
-    "detailScreenStyleMoonfin": "Clasic",
+    "detailScreenStyleMoonfin": "",
     "@detailScreenStyleMoonfin": {
         "description": "Detail screen style option: the classic centered layout"
     },
-    "detailScreenStyleModern": "Modern",
+    "detailScreenStyleModern": "",
     "@detailScreenStyleModern": {
         "description": "Detail screen style option: the responsive cinematic layout"
     },
-    "expandedTabs": "File extinse",
+    "expandedTabs": "",
     "@expandedTabs": {
         "description": "Label for the detail screen expanded tabs setting"
     },
-    "expandedTabsSubtitle": "Afișează automat conținutul filelor în timp ce navigați printre ele. Dezactivați pentru a deschide și închide fiecare filă manual.",
+    "expandedTabsSubtitle": "",
     "@expandedTabsSubtitle": {
         "description": "Explanation under the expanded tabs setting"
     },
-    "showTechnicalDetails": "Afișați detaliile tehnice?",
+    "showTechnicalDetails": "",
     "@showTechnicalDetails": {
         "description": "Label for the detail screen setting to show stream/codec technical details"
     },
-    "showTechnicalDetailsSubtitle": "Afișează informații despre codec, rezoluție și flux în rezumatul din banner",
+    "showTechnicalDetailsSubtitle": "",
     "@showTechnicalDetailsSubtitle": {
         "description": "Explanation under the show technical details setting"
     },
-    "recommendationSystem": "Sistem de recomandări",
+    "recommendationSystem": "",
     "@recommendationSystem": {
         "description": "Label for the Recommendation System setting"
     },
-    "recommendationSystemSubtitle": "Folosiți algoritmul local Moonfin Recommends sau metricile de similaritate TMDb online. Notă: recomandările online necesită integrarea Seerr.",
+    "recommendationSystemSubtitle": "",
     "@recommendationSystemSubtitle": {
         "description": "Explanation under the recommendation system setting"
     },
-    "recommendationSystemMoonfin": "Moonfin Recommends",
+    "recommendationSystemMoonfin": "",
     "@recommendationSystemMoonfin": {
         "description": "Recommendation system option: Moonfin Recommends"
     },
-    "recommendationSystemTmdb": "Similaritate TMDb",
+    "recommendationSystemTmdb": "",
     "@recommendationSystemTmdb": {
         "description": "Recommendation system option: TMDb Similarity"
     },
-    "recommendationsApplyParentalRatingCap": "Aplicați limita de clasificare parentală?",
+    "recommendationsApplyParentalRatingCap": "",
     "@recommendationsApplyParentalRatingCap": {
         "description": "Label for the toggle that controls whether similar suggestions are capped by target media parental rating"
     },
-    "recommendationsApplyParentalRatingCapSubtitle": "Limitează sugestiile Moonfin Recommends în funcție de clasificarea parentală a conținutului vizat",
+    "recommendationsApplyParentalRatingCapSubtitle": "",
     "@recommendationsApplyParentalRatingCapSubtitle": {
         "description": "Explanation under the parental rating cap setting toggle"
     },
-    "interfaceStyle": "Stilul interfeței",
+    "interfaceStyle": "",
     "@interfaceStyle": {
         "description": "Label for the Automatic/Apple/Material interface style setting"
     },
-    "interfaceStyleSubtitle": "Automat se potrivește cu dispozitivul dvs. Alegeți Apple sau Material pentru a impune un anumit aspect.",
+    "interfaceStyleSubtitle": "",
     "@interfaceStyleSubtitle": {
         "description": "Explanation under the interface style setting"
     },
-    "interfaceStyleAutomatic": "Automat",
+    "interfaceStyleAutomatic": "",
     "@interfaceStyleAutomatic": {
         "description": "Interface style option: follow the platform"
     },
-    "interfaceStyleApple": "Apple",
+    "interfaceStyleApple": "",
     "@interfaceStyleApple": {
         "description": "Interface style option: Apple native look"
     },
-    "interfaceStyleMaterial": "Material",
+    "interfaceStyleMaterial": "",
     "@interfaceStyleMaterial": {
         "description": "Interface style option: Material look"
     },
-    "glassQuality": "Calitatea efectului de sticlă",
+    "glassQuality": "",
     "@glassQuality": {
         "description": "Label for the glass rendering quality setting"
     },
-    "glassQualitySubtitle": "Auto alege cel mai bun efect de sticlă pentru acest dispozitiv. Complet impune estomparea reală, iar Redus folosește un efect de sticlă ușor, care economisește resursele GPU.",
+    "glassQualitySubtitle": "",
     "@glassQualitySubtitle": {
         "description": "Explanation under the glass quality setting"
     },
-    "glassQualityAuto": "Auto",
+    "glassQualityAuto": "",
     "@glassQualityAuto": {
         "description": "Glass quality option: per-device default"
     },
-    "glassQualityFull": "Complet",
+    "glassQualityFull": "",
     "@glassQualityFull": {
         "description": "Glass quality option: force real blur"
     },
-    "glassQualityReduced": "Redus",
+    "glassQualityReduced": "",
     "@glassQualityReduced": {
         "description": "Glass quality option: lightweight zero-blur glass"
     },
-    "customThemeTitle": "Temă personalizată",
+    "customThemeTitle": "",
     "@customThemeTitle": {
         "description": "Title for the custom theme settings section"
     },
-    "customThemeSubtitle": "Temele personalizate modifică elementele vizuale din întreaga aplicație Moonfin. Alegeți una dintre aceste opțiuni, potrivită stilului dvs.",
+    "customThemeSubtitle": "",
     "@customThemeSubtitle": {
         "description": "Description under custom themes section"
     },
-    "themeGlass": "Glass",
+    "themeGlass": "",
     "@themeGlass": {
         "description": "Display name for the Glass theme"
     },
-    "themeGlassSubtitle": "Stil liquid-glass, cu un fundal în degrade care se deplasează lent, suprafețe mate și accent albastru Apple",
+    "themeGlassSubtitle": "",
     "@themeGlassSubtitle": {
         "description": "Preview description for the Glass theme"
     },
-    "theme8BitHero": "8-bit Hero",
+    "theme8BitHero": "",
     "@theme8BitHero": {
         "description": "Display name for the 8-bit Hero theme"
     },
-    "theme8BitHeroSubtitle": "Stil retro pixel-art, cu o paletă masivă, borduri în blocuri, umbre puternice și un font pixelat",
+    "theme8BitHeroSubtitle": "",
     "@theme8BitHeroSubtitle": {
         "description": "Preview description for the 8-bit Hero theme"
     },
-    "gameMenu": "Meniu",
+    "gameMenu": "",
     "@gameMenu": {
         "description": "Tooltip for the in-game menu button"
     },
-    "gamePaused": "În pauză",
+    "gamePaused": "",
     "@gamePaused": {
         "description": "Status shown in the in-game menu while the game is paused"
     },
-    "gameSaveState": "Salvează starea",
+    "gameSaveState": "",
     "@gameSaveState": {
         "description": "In-game menu action to save the game state"
     },
-    "games": "Jocuri",
+    "games": "",
     "@games": {
         "description": "Label for the games category tab in search results"
     },
-    "gameLoadState": "Încarcă starea",
+    "gameLoadState": "",
     "@gameLoadState": {
         "description": "In-game menu action to load the saved game state"
     },
-    "gameFastForward": "Derulare rapidă",
+    "gameFastForward": "",
     "@gameFastForward": {
         "description": "In-game menu action to toggle fast-forward"
     },
-    "gameEmulatorSettings": "Setări emulator",
+    "gameEmulatorSettings": "",
     "@gameEmulatorSettings": {
         "description": "In-game menu action opening the emulator settings"
     },
-    "gameNoCoreOptions": "Acest nucleu nu are opțiuni reglabile.",
+    "gameNoCoreOptions": "",
     "@gameNoCoreOptions": {
         "description": "Shown when a game core exposes no settings"
     },
-    "gameHoldToOpenMenu": "Țineți apăsat pentru meniu",
+    "gameHoldToOpenMenu": "",
     "@gameHoldToOpenMenu": {
         "description": "Hint shown while holding the gamepad combo to open the in-game menu"
     },
-    "gamePlaybackUnsupported": "Rularea jocurilor nu este încă acceptată pe acest dispozitiv.",
+    "gamePlaybackUnsupported": "",
     "@gamePlaybackUnsupported": {
         "description": "Shown when the device cannot run the retro-game emulator"
     },
-    "latestBooks": "Cele mai recente cărți",
+    "latestBooks": "",
     "@latestBooks": {
         "description": "Row title for recently added books in the book library"
     },
-    "latestAudiobooks": "Cele mai recente cărți audio",
+    "latestAudiobooks": "",
     "@latestAudiobooks": {
         "description": "Row title for recently added audiobooks in the book library"
     },
-    "bookSeriesItemCount": "{count, plural, =1{1 carte} few{{count} cărți} other{{count} de cărți}}",
+    "bookSeriesItemCount": "",
     "@bookSeriesItemCount": {
         "description": "Subtitle for a book series shelf entry showing how many books it contains",
         "placeholders": {
@@ -7503,15 +7503,15 @@
             }
         }
     },
-    "bookFormatBook": "Carte",
+    "bookFormatBook": "",
     "@bookFormatBook": {
         "description": "Semantic label for the book format badge on library cards"
     },
-    "bookFormatAudiobook": "Carte audio",
+    "bookFormatAudiobook": "",
     "@bookFormatAudiobook": {
         "description": "Semantic label for the audiobook format badge on library cards"
     },
-    "bookPercentRead": "{percent}% citit",
+    "bookPercentRead": "",
     "@bookPercentRead": {
         "description": "Reading progress label on book cards",
         "placeholders": {
@@ -7520,7 +7520,7 @@
             }
         }
     },
-    "bookTimeLeft": "{time} rămase",
+    "bookTimeLeft": "",
     "@bookTimeLeft": {
         "description": "Short remaining-duration chip on audiobook cards, e.g. '6h 12m left'",
         "placeholders": {
@@ -7529,47 +7529,47 @@
             }
         }
     },
-    "bookHeroRead": "Citește",
+    "bookHeroRead": "",
     "@bookHeroRead": {
         "description": "Hero CTA label to start reading a book"
     },
-    "bookHeroListen": "Ascultă",
+    "bookHeroListen": "",
     "@bookHeroListen": {
         "description": "Hero CTA label to start listening to an audiobook"
     },
-    "items": "Elemente",
+    "items": "",
     "@items": {
         "description": "Tab label for the items in a collection/box set"
     },
-    "extras": "Extra",
+    "extras": "",
     "@extras": {
         "description": "Tab label for special features / extras"
     },
-    "behindTheScenes": "Din culise",
+    "behindTheScenes": "",
     "@behindTheScenes": {
         "description": "Tab label for behind the scenes special features"
     },
-    "deletedScenes": "Scene șterse",
+    "deletedScenes": "",
     "@deletedScenes": {
         "description": "Tab label for deleted scenes special features"
     },
-    "featurettes": "Featurette-uri",
+    "featurettes": "",
     "@featurettes": {
         "description": "Tab label for featurettes special features"
     },
-    "interviews": "Interviuri",
+    "interviews": "",
     "@interviews": {
         "description": "Tab label for interviews special features"
     },
-    "scenes": "Scene",
+    "scenes": "",
     "@scenes": {
         "description": "Tab label for scenes special features"
     },
-    "shorts": "Scurtmetraje",
+    "shorts": "",
     "@shorts": {
         "description": "Tab label for shorts special features"
     },
-    "timeRemaining": "{time} rămase",
+    "timeRemaining": "",
     "@timeRemaining": {
         "description": "Label showing remaining playback time, e.g. '42m remaining'",
         "placeholders": {
@@ -7578,7 +7578,7 @@
             }
         }
     },
-    "endsIn": "Se termină în {time}",
+    "endsIn": "",
     "@endsIn": {
         "description": "Label showing remaining time for segment or timeout",
         "placeholders": {
@@ -7587,27 +7587,27 @@
             }
         }
     },
-    "directors": "REGIZORI",
+    "directors": "",
     "@directors": {
         "description": "Metadata label for directors"
     },
-    "writer": "SCENARIST",
+    "writer": "",
     "@writer": {
         "description": "Metadata label for writer"
     },
-    "shuffleAllMusic": "Redă aleatoriu toată muzica",
+    "shuffleAllMusic": "",
     "@shuffleAllMusic": {
         "description": "Car browse action that shuffles the whole music library"
     },
-    "carSignInPrompt": "Conectați-vă la Moonfin pe telefon",
+    "carSignInPrompt": "",
     "@carSignInPrompt": {
         "description": "Shown in the car when no account is signed in"
     },
-    "carServerUnreachable": "Serverul nu poate fi contactat",
+    "carServerUnreachable": "",
     "@carServerUnreachable": {
         "description": "Shown in the car when the media server can't be reached"
     },
-    "guideNextProgram": "Urmează: {time}  {title}",
+    "guideNextProgram": "",
     "@guideNextProgram": {
         "description": "Guide card line for the upcoming program, e.g. 'Next: 9:00 PM  The News'",
         "placeholders": {
@@ -7619,7 +7619,7 @@
             }
         }
     },
-    "guideMinutesLeft": "{minutes}m rămase",
+    "guideMinutesLeft": "",
     "@guideMinutesLeft": {
         "description": "Remaining time of the current program, under an hour",
         "placeholders": {
@@ -7628,7 +7628,7 @@
             }
         }
     },
-    "guideHoursLeft": "{hours}h rămase",
+    "guideHoursLeft": "",
     "@guideHoursLeft": {
         "description": "Remaining time of the current program, whole hours",
         "placeholders": {
@@ -7637,7 +7637,7 @@
             }
         }
     },
-    "guideHoursMinutesLeft": "{hours}h {minutes}m rămase",
+    "guideHoursMinutesLeft": "",
     "@guideHoursMinutesLeft": {
         "description": "Remaining time of the current program, hours and minutes",
         "placeholders": {
@@ -7649,301 +7649,301 @@
             }
         }
     },
-    "themeMusicSettingsSubtitle": "Pagini de detalii, rânduri de pe ecranul principal și volum",
+    "themeMusicSettingsSubtitle": "",
     "@themeMusicSettingsSubtitle": {
         "description": "Subtitle for the Theme Music settings sub-category tile"
     },
-    "loopThemeMusic": "Repetă muzica tematică",
+    "loopThemeMusic": "",
     "@loopThemeMusic": {
         "description": "Setting to loop the theme music"
     },
-    "loopThemeMusicSubtitle": "Repetă piesa în loc să o redea o singură dată",
+    "loopThemeMusicSubtitle": "",
     "@loopThemeMusicSubtitle": {
         "description": "Description for the loop theme music setting"
     },
-    "settingsScrollWheelAction": "Rotița mouse-ului",
+    "settingsScrollWheelAction": "",
     "@settingsScrollWheelAction": {
         "description": "Setting title for the mouse scroll wheel action during playback"
     },
-    "settingsScrollWheelActionDescription": "Alegeți ce se întâmplă când derulați cu rotița mouse-ului peste videoclip în timpul redării.",
+    "settingsScrollWheelActionDescription": "",
     "@settingsScrollWheelActionDescription": {
         "description": "Description for the mouse scroll wheel action setting"
     },
-    "scrollWheelActionOff": "Oprit",
+    "scrollWheelActionOff": "",
     "@scrollWheelActionOff": {
         "description": "Scroll wheel action option: do nothing"
     },
-    "scrollWheelActionSeek": "Derulare (înainte / înapoi)",
+    "scrollWheelActionSeek": "",
     "@scrollWheelActionSeek": {
         "description": "Scroll wheel action option: seek forward and back"
     },
-    "scrollWheelActionVolume": "Volum",
+    "scrollWheelActionVolume": "",
     "@scrollWheelActionVolume": {
         "description": "Scroll wheel action option: adjust volume"
     },
-    "playerTooltipVolume": "Volum",
+    "playerTooltipVolume": "",
     "@playerTooltipVolume": {
         "description": "Tooltip for the volume control button in the player OSD"
     },
-    "fallbackAudioLanguage": "Limbă audio de rezervă",
+    "fallbackAudioLanguage": "",
     "@fallbackAudioLanguage": {
         "description": "Setting for fallback audio language"
     },
-    "preferDefaultAudioTrack": "Preferă pista audio implicită",
+    "preferDefaultAudioTrack": "",
     "@preferDefaultAudioTrack": {
         "description": "Setting for preferring default audio track"
     },
-    "preferDefaultAudioTrackDescription": "Preferă pista audio originală în locul dublajului localizat.",
+    "preferDefaultAudioTrackDescription": "",
     "@preferDefaultAudioTrackDescription": {
         "description": "Description for preferring default audio track setting"
     },
-    "preferAudioDescription": "Preferă pistele cu descriere audio",
+    "preferAudioDescription": "",
     "@preferAudioDescription": {
         "description": "Setting for preferring audio description tracks"
     },
-    "preferAudioDescriptionDescription": "Preferă pistele cu descriere audio în locul celor normale.",
+    "preferAudioDescriptionDescription": "",
     "@preferAudioDescriptionDescription": {
         "description": "Description for preferring audio description tracks setting"
     },
-    "transcodingAudio": "Transcodare (Audio)",
+    "transcodingAudio": "",
     "@transcodingAudio": {
         "description": "Label for audio-only transcode playback method"
     },
-    "directStreamRemux": "Flux direct (Remux)",
+    "directStreamRemux": "",
     "@directStreamRemux": {
         "description": "Play method label for direct stream with remuxing"
     },
-    "transcodingBitrateOrResolution": "Transcodare (Bitrate sau rezoluție)",
+    "transcodingBitrateOrResolution": "",
     "@transcodingBitrateOrResolution": {
         "description": "Play method label for transcoding due to bitrate or resolution"
     },
-    "transcodingVideoAndAudio": "Transcodare (Video & Audio)",
+    "transcodingVideoAndAudio": "",
     "@transcodingVideoAndAudio": {
         "description": "Play method label for transcoding both video and audio"
     },
-    "transcodingVideo": "Transcodare (Video)",
+    "transcodingVideo": "",
     "@transcodingVideo": {
         "description": "Play method label for transcoding video"
     },
-    "settingsAudioOutputModeDescription": "Alegeți modul în care este decodat sunetul. AVR Passthrough trimite fluxurile Dolby/DTS brute către receiverul dvs., iar Auto sau Downmix decodează local.",
+    "settingsAudioOutputModeDescription": "",
     "@settingsAudioOutputModeDescription": {
         "description": "Description for audio output mode setting"
     },
-    "settingsAudioFallbackCodecDescription": "Selectați formatul țintă pentru transcodarea sunetului multicanal atunci când fluxul sursă nu poate fi redat direct sau trimis prin passthrough.",
+    "settingsAudioFallbackCodecDescription": "",
     "@settingsAudioFallbackCodecDescription": {
         "description": "Description for audio fallback codec setting"
     },
-    "settingsAudioFallbackCodecAuto": "Detectare automată\n(Recomandat)",
+    "settingsAudioFallbackCodecAuto": "",
     "@settingsAudioFallbackCodecAuto": {
         "description": "Fallback codec option: Auto"
     },
-    "settingsAudioFallbackCodecAac": "AAC\n(Implicit)",
+    "settingsAudioFallbackCodecAac": "",
     "@settingsAudioFallbackCodecAac": {
         "description": "Fallback codec option: AAC"
     },
-    "settingsAudioFallbackCodecAc3": "AC3\n(Dolby Digital)",
+    "settingsAudioFallbackCodecAc3": "",
     "@settingsAudioFallbackCodecAc3": {
         "description": "Fallback codec option: AC3"
     },
-    "settingsAudioFallbackCodecEac3": "EAC3\n(Dolby Digital Plus)",
+    "settingsAudioFallbackCodecEac3": "",
     "@settingsAudioFallbackCodecEac3": {
         "description": "Fallback codec option: EAC3"
     },
-    "settingsAudioFallbackCodecTrueHd": "TrueHD\n(Fără pierderi)",
+    "settingsAudioFallbackCodecTrueHd": "",
     "@settingsAudioFallbackCodecTrueHd": {
         "description": "Fallback codec option: TrueHD"
     },
-    "settingsAudioFallbackCodecMp3": "MP3\n(Doar stereo)",
+    "settingsAudioFallbackCodecMp3": "",
     "@settingsAudioFallbackCodecMp3": {
         "description": "Fallback codec option: MP3"
     },
-    "settingsAudioFallbackCodecOpus": "Opus\n(Eficient)",
+    "settingsAudioFallbackCodecOpus": "",
     "@settingsAudioFallbackCodecOpus": {
         "description": "Fallback codec option: Opus"
     },
-    "settingsAudioFallbackCodecFlac": "FLAC\n(Fără pierderi)",
+    "settingsAudioFallbackCodecFlac": "",
     "@settingsAudioFallbackCodecFlac": {
         "description": "Fallback codec option: FLAC"
     },
-    "settingsMaxAudioChannels": "Număr maxim de canale audio",
+    "settingsMaxAudioChannels": "",
     "@settingsMaxAudioChannels": {
         "description": "Setting for maximum audio channels capability"
     },
-    "settingsMaxAudioChannelsDescription": "Configurați numărul maxim de canale al sistemului dvs. audio. Fluxurile multicanal care depășesc această limită vor fi downmixate sau transcodate.",
+    "settingsMaxAudioChannelsDescription": "",
     "@settingsMaxAudioChannelsDescription": {
         "description": "Description for maximum audio channels setting"
     },
-    "settingsMaxAudioChannelsAuto": "Detectare automată\n(Implicit hardware)",
+    "settingsMaxAudioChannelsAuto": "",
     "@settingsMaxAudioChannelsAuto": {
         "description": "Option: Auto detect channels"
     },
-    "settingsMaxAudioChannelsMono": "1.0 Mono",
+    "settingsMaxAudioChannelsMono": "",
     "@settingsMaxAudioChannelsMono": {
         "description": "Option: Mono (1 channel)"
     },
-    "settingsMaxAudioChannelsStereo": "2.0 Stereo",
+    "settingsMaxAudioChannelsStereo": "",
     "@settingsMaxAudioChannelsStereo": {
         "description": "Option: Stereo (2 channels)"
     },
-    "settingsMaxAudioChannels3_0": "3.0 / 2.1 Surround",
+    "settingsMaxAudioChannels3_0": "",
     "@settingsMaxAudioChannels3_0": {
         "description": "Option: 3 channels"
     },
-    "settingsMaxAudioChannels4_0": "4.0 / 3.1 Cvadrafonic",
+    "settingsMaxAudioChannels4_0": "",
     "@settingsMaxAudioChannels4_0": {
         "description": "Option: 4 channels"
     },
-    "settingsMaxAudioChannels5_0": "5.0 / 4.1 Surround",
+    "settingsMaxAudioChannels5_0": "",
     "@settingsMaxAudioChannels5_0": {
         "description": "Option: 5 channels"
     },
-    "settingsMaxAudioChannels5_1": "5.1 Surround",
+    "settingsMaxAudioChannels5_1": "",
     "@settingsMaxAudioChannels5_1": {
         "description": "Option: 5.1 Surround channels"
     },
-    "settingsMaxAudioChannels6_1": "6.1 Surround",
+    "settingsMaxAudioChannels6_1": "",
     "@settingsMaxAudioChannels6_1": {
         "description": "Option: 6.1 Surround channels"
     },
-    "settingsMaxAudioChannels7_1": "7.1 Surround",
+    "settingsMaxAudioChannels7_1": "",
     "@settingsMaxAudioChannels7_1": {
         "description": "Option: 7.1 Surround channels"
     },
-    "settingsAudioRouteHeadphones": "Căști",
+    "settingsAudioRouteHeadphones": "",
     "@settingsAudioRouteHeadphones": {
         "description": "Audio route type wired or USB headphones"
     },
-    "subtitleMode": "Mod subtitrări",
+    "subtitleMode": "",
     "@subtitleMode": {
         "description": "Setting for subtitle mode"
     },
-    "subtitleModeFlagged": "Marcate",
+    "subtitleModeFlagged": "",
     "@subtitleModeFlagged": {
         "description": "Subtitle mode: default/flagged"
     },
-    "subtitleModeAlways": "Întotdeauna",
+    "subtitleModeAlways": "",
     "@subtitleModeAlways": {
         "description": "Subtitle mode: always play"
     },
-    "subtitleModeForeign": "Străine",
+    "subtitleModeForeign": "",
     "@subtitleModeForeign": {
         "description": "Subtitle mode: foreign/smart"
     },
-    "subtitleModeForced": "Forțate",
+    "subtitleModeForced": "",
     "@subtitleModeForced": {
         "description": "Subtitle mode: only forced"
     },
-    "subtitleModeFlaggedDescription": "Redă pistele marcate intern în metadatele fișierului media drept „implicite” sau „forțate”.",
+    "subtitleModeFlaggedDescription": "",
     "@subtitleModeFlaggedDescription": {
         "description": "Description for flagged subtitle mode"
     },
-    "subtitleModeAlwaysDescription": "Încarcă și afișează automat subtitrările de fiecare dată când începe un videoclip.",
+    "subtitleModeAlwaysDescription": "",
     "@subtitleModeAlwaysDescription": {
         "description": "Description for always subtitle mode"
     },
-    "subtitleModeForeignDescription": "Activează automat subtitrările dacă pista audio implicită este într-o limbă străină.",
+    "subtitleModeForeignDescription": "",
     "@subtitleModeForeignDescription": {
         "description": "Description for foreign subtitle mode"
     },
-    "subtitleModeForcedDescription": "Încarcă doar subtitrările marcate explicit cu indicatorul de metadate „forțat”.",
+    "subtitleModeForcedDescription": "",
     "@subtitleModeForcedDescription": {
         "description": "Description for forced subtitle mode"
     },
-    "subtitleModeNoneDescription": "Dezactivează complet încărcarea automată a subtitrărilor.",
+    "subtitleModeNoneDescription": "",
     "@subtitleModeNoneDescription": {
         "description": "Description for none subtitle mode"
     },
-    "fallbackSubtitleLanguage": "Limbă de rezervă pentru subtitrări",
+    "fallbackSubtitleLanguage": "",
     "@fallbackSubtitleLanguage": {
         "description": "Setting for fallback subtitle language"
     },
-    "subtitleStream": "Flux de subtitrare",
+    "subtitleStream": "",
     "@subtitleStream": {
         "description": "Header for subtitle stream settings"
     },
     "reportDownloadsActivity": "Afișează descărcările pe server",
     "reportDownloadsActivitySubtitle": "Permiteți administratorului serverului să vă vadă descărcările transcodate în panoul de control",
-    "navbarAlwaysExpanded": "Afișează mereu etichetele barei de navigare",
+    "navbarAlwaysExpanded": "",
     "@navbarAlwaysExpanded": {
         "description": "Setting to keep every top navbar heading's text label visible at all times, tvOS-style"
     },
-    "showSeerrButton": "Afișează butonul Seerr",
+    "showSeerrButton": "",
     "@showSeerrButton": {
         "description": "Setting for showing Seerr button"
     },
-    "groupItemsIntoCollections": "Grupează elementele în colecții",
+    "groupItemsIntoCollections": "",
     "@groupItemsIntoCollections": {
         "description": "Setting for grouping items into collections"
     },
-    "hideCollectionAssociatedItems": "Ascunde elementele asociate colecțiilor când navigați prin biblioteci",
+    "hideCollectionAssociatedItems": "",
     "@hideCollectionAssociatedItems": {
         "description": "Description for grouping items into collections"
     },
-    "groupItemsIntoCollectionsDialogTitle": "Notificare privind gruparea bibliotecii",
+    "groupItemsIntoCollectionsDialogTitle": "",
     "@groupItemsIntoCollectionsDialogTitle": {
         "description": "Title of the alert dialog explaining server settings requirement"
     },
-    "groupItemsIntoCollectionsDialogMessage": "Pentru a folosi această setare, asigurați-vă că setările de bibliotecă „Grupează filmele în colecții” și/sau „Grupează serialele în colecții” sunt activate în setările de afișare ale bibliotecii de pe serverul Jellyfin sau Emby.",
+    "groupItemsIntoCollectionsDialogMessage": "",
     "@groupItemsIntoCollectionsDialogMessage": {
         "description": "Message of the alert dialog explaining server settings requirement"
     },
-    "trailerAudio": "Sunet trailer",
+    "trailerAudio": "",
     "@trailerAudio": {
         "description": "Setting for trailer audio"
     },
-    "enableTrailerAudio": "Activează sunetul pentru trailerele din bara media",
+    "enableTrailerAudio": "",
     "@enableTrailerAudio": {
         "description": "Description for trailer audio"
     },
-    "fullScreenRows": "Rânduri extinse pe ecranul principal",
+    "fullScreenRows": "",
     "@fullScreenRows": {
         "description": "Setting for full screen home rows"
     },
-    "fullScreenRowsDescription": "Limitează ecranul principal la un singur rând",
+    "fullScreenRowsDescription": "",
     "@fullScreenRowsDescription": {
         "description": "Description for full screen home rows"
     },
-    "currentUser": "Utilizator curent",
+    "currentUser": "",
     "@currentUser": {
         "description": "Option: current user"
     },
-    "clockModeStatic": "Static",
+    "clockModeStatic": "",
     "@clockModeStatic": {
         "description": "Screensaver clock mode: fixed in a corner"
     },
-    "clockModeBouncing": "În mișcare",
+    "clockModeBouncing": "",
     "@clockModeBouncing": {
         "description": "Screensaver clock mode: bounces around the screen"
     },
-    "seerrDiscoveryRows": "Rânduri de descoperire Seerr",
+    "seerrDiscoveryRows": "",
     "@seerrDiscoveryRows": {
         "description": "Subtitle shown under Seerr discovery home rows"
     },
-    "seerrNotificationsSection": "Notificări",
+    "seerrNotificationsSection": "",
     "@seerrNotificationsSection": {
         "description": "Header for the Seerr notifications settings section"
     },
-    "seerrNotifyNewRequestsTitle": "Notificări pentru cereri noi",
+    "seerrNotifyNewRequestsTitle": "",
     "@seerrNotifyNewRequestsTitle": {
         "description": "Title for the toggle that notifies approvers of new Seerr requests"
     },
-    "seerrNotifyNewRequestsSubtitle": "Anunță-mă când cineva trimite o cerere",
+    "seerrNotifyNewRequestsSubtitle": "",
     "@seerrNotifyNewRequestsSubtitle": {
         "description": "Subtitle for the new request notifications toggle"
     },
-    "seerrNotifyLibraryAddedTitle": "Actualizări ale cererilor",
+    "seerrNotifyLibraryAddedTitle": "",
     "@seerrNotifyLibraryAddedTitle": {
         "description": "Title for the toggle that notifies a requester about approvals, declines, and library availability"
     },
-    "seerrNotifyLibraryAddedSubtitle": "Aprobate, respinse și adăugate în biblioteca dvs.",
+    "seerrNotifyLibraryAddedSubtitle": "",
     "@seerrNotifyLibraryAddedSubtitle": {
         "description": "Subtitle for the library-added notifications toggle"
     },
-    "seerrNotifyIssuesTitle": "Actualizări ale problemelor",
+    "seerrNotifyIssuesTitle": "",
     "@seerrNotifyIssuesTitle": {
         "description": "Title for the issue notifications toggle"
     },
-    "seerrNotifyIssuesSubtitle": "Probleme noi, răspunsuri și rezolvări",
+    "seerrNotifyIssuesSubtitle": "",
     "@seerrNotifyIssuesSubtitle": {
         "description": "Subtitle for the issue notifications toggle"
     },
@@ -7959,7 +7959,7 @@
     "imageCacheLimit": "Limita memoriei cache pentru imagini",
     "clearImageCache": "Golește memoria cache pentru imagini",
     "imageCacheCleared": "Memoria cache pentru imagini a fost golită",
-    "seerrDownloadingPercent": "Se descarcă · {percent}%",
+    "seerrDownloadingPercent": "",
     "@seerrDownloadingPercent": {
         "description": "Label above the Seerr download progress bar",
         "placeholders": {
@@ -7968,19 +7968,19 @@
             }
         }
     },
-    "seerrImportingStatus": "Se importă",
+    "seerrImportingStatus": "",
     "@seerrImportingStatus": {
         "description": "Label when a Seerr download has finished and is importing"
     },
-    "failedStatus": "Eșuat",
+    "failedStatus": "",
     "@failedStatus": {
         "description": "Request status label when the request failed to send to Radarr/Sonarr"
     },
-    "processingStatus": "În procesare",
+    "processingStatus": "",
     "@processingStatus": {
         "description": "Filter label for approved requests being processed"
     },
-    "modifiedByName": "Modificat de {name}",
+    "modifiedByName": "",
     "@modifiedByName": {
         "description": "Label showing which manager acted on a request",
         "placeholders": {
@@ -7989,51 +7989,51 @@
             }
         }
     },
-    "completedStatus": "Finalizat",
+    "completedStatus": "",
     "@completedStatus": {
         "description": "Request status label when the request finished"
     },
-    "requestErrorDuplicate": "Acest titlu a fost deja cerut",
+    "requestErrorDuplicate": "",
     "@requestErrorDuplicate": {
         "description": "Error when creating a request that already exists"
     },
-    "requestErrorQuota": "Ați atins limita de cereri",
+    "requestErrorQuota": "",
     "@requestErrorQuota": {
         "description": "Error when the user is out of request quota"
     },
-    "requestErrorBlocklisted": "Acest titlu este pe lista de blocare",
+    "requestErrorBlocklisted": "",
     "@requestErrorBlocklisted": {
         "description": "Error when requesting blocklisted media"
     },
-    "requestErrorNoSeasons": "Nu mai sunt sezoane de cerut",
+    "requestErrorNoSeasons": "",
     "@requestErrorNoSeasons": {
         "description": "Error when every season is already requested or available"
     },
-    "requestErrorPermission": "Nu aveți permisiunea de a face această cerere",
+    "requestErrorPermission": "",
     "@requestErrorPermission": {
         "description": "Error when the user lacks request permission"
     },
-    "seerrRequestsTitle": "Cereri",
+    "seerrRequestsTitle": "",
     "@seerrRequestsTitle": {
         "description": "Requests tab and screen title"
     },
-    "seerrIssuesTitle": "Probleme",
+    "seerrIssuesTitle": "",
     "@seerrIssuesTitle": {
         "description": "Issues tab title on the requests hub"
     },
-    "sortNewest": "Cele mai noi",
+    "sortNewest": "",
     "@sortNewest": {
         "description": "Request sort option, most recently added first"
     },
-    "sortLastModified": "Ultima modificare",
+    "sortLastModified": "",
     "@sortLastModified": {
         "description": "Request sort option, most recently updated first"
     },
-    "noIssues": "Nicio problemă",
+    "noIssues": "",
     "@noIssues": {
         "description": "Shown when the issue list is empty"
     },
-    "movieQuotaRemaining": "{remaining} din {limit} cereri de filme rămase",
+    "movieQuotaRemaining": "",
     "@movieQuotaRemaining": {
         "description": "Quota line in the request dialog",
         "placeholders": {
@@ -8045,7 +8045,7 @@
             }
         }
     },
-    "seasonQuotaRemaining": "{remaining} din {limit} cereri de sezoane rămase",
+    "seasonQuotaRemaining": "",
     "@seasonQuotaRemaining": {
         "description": "Quota line in the request dialog for series",
         "placeholders": {
@@ -8057,7 +8057,7 @@
             }
         }
     },
-    "partOfCollectionName": "Face parte din {name}",
+    "partOfCollectionName": "",
     "@partOfCollectionName": {
         "description": "Banner on a movie that belongs to a collection",
         "placeholders": {
@@ -8066,15 +8066,15 @@
             }
         }
     },
-    "viewCollection": "Vezi colecția",
+    "viewCollection": "",
     "@viewCollection": {
         "description": "Link to open the collection screen"
     },
-    "requestCollection": "Cere colecția",
+    "requestCollection": "",
     "@requestCollection": {
         "description": "Button to request movies from a collection"
     },
-    "collectionMoviesSummary": "{total} filme · {available} disponibile",
+    "collectionMoviesSummary": "",
     "@collectionMoviesSummary": {
         "description": "Collection header summary line",
         "placeholders": {
@@ -8086,7 +8086,7 @@
             }
         }
     },
-    "requestMoviesCount": "Cere {count} filme",
+    "requestMoviesCount": "",
     "@requestMoviesCount": {
         "description": "Submit button on the collection request sheet",
         "placeholders": {
@@ -8095,7 +8095,7 @@
             }
         }
     },
-    "requestingProgress": "Se cere {current} din {total}...",
+    "requestingProgress": "",
     "@requestingProgress": {
         "description": "Progress label while collection requests are submitted",
         "placeholders": {
@@ -8107,7 +8107,7 @@
             }
         }
     },
-    "requestedMoviesCount": "Au fost cerute {count} filme",
+    "requestedMoviesCount": "",
     "@requestedMoviesCount": {
         "description": "Snackbar after a collection request succeeds",
         "placeholders": {
@@ -8116,7 +8116,7 @@
             }
         }
     },
-    "requestedMoviesPartial": "Au fost cerute {ok} din {total} filme",
+    "requestedMoviesPartial": "",
     "@requestedMoviesPartial": {
         "description": "Snackbar when some collection requests failed",
         "placeholders": {
@@ -8128,51 +8128,51 @@
             }
         }
     },
-    "collectionAllRequested": "Toate filmele sunt deja disponibile sau cerute",
+    "collectionAllRequested": "",
     "@collectionAllRequested": {
         "description": "Shown instead of the request button when nothing is requestable"
     },
-    "reportIssue": "Raportează o problemă",
+    "reportIssue": "",
     "@reportIssue": {
         "description": "Button on the seerr detail screen to report a media issue"
     },
-    "issueTypeVideo": "Video",
+    "issueTypeVideo": "",
     "@issueTypeVideo": {
         "description": "Issue type option"
     },
-    "issueTypeAudio": "Audio",
+    "issueTypeAudio": "",
     "@issueTypeAudio": {
         "description": "Issue type option"
     },
-    "whatsWrong": "Care este problema?",
+    "whatsWrong": "",
     "@whatsWrong": {
         "description": "Label for the issue description field"
     },
-    "allEpisodes": "Toate episoadele",
+    "allEpisodes": "",
     "@allEpisodes": {
         "description": "Episode dropdown option covering the whole season"
     },
-    "episode": "Episod",
+    "episode": "",
     "@episode": {
         "description": "Episode dropdown label"
     },
-    "openStatus": "Deschisă",
+    "openStatus": "",
     "@openStatus": {
         "description": "Issue status label"
     },
-    "resolvedStatus": "Rezolvată",
+    "resolvedStatus": "",
     "@resolvedStatus": {
         "description": "Issue status label"
     },
-    "resolveAction": "Rezolvă",
+    "resolveAction": "",
     "@resolveAction": {
         "description": "Button to resolve an issue"
     },
-    "reopenAction": "Redeschide",
+    "reopenAction": "",
     "@reopenAction": {
         "description": "Button to reopen a resolved issue"
     },
-    "reportedByName": "Raportată de {name}",
+    "reportedByName": "",
     "@reportedByName": {
         "description": "Label showing who reported an issue",
         "placeholders": {
@@ -8181,7 +8181,7 @@
             }
         }
     },
-    "commentsCount": "{count} comentarii",
+    "commentsCount": "",
     "@commentsCount": {
         "description": "Number of comments on an issue",
         "placeholders": {
@@ -8190,24 +8190,24 @@
             }
         }
     },
-    "addComment": "Adăugați un comentariu",
+    "addComment": "",
     "@addComment": {
         "description": "Hint for the issue comment field"
     },
-    "deleteIssueConfirm": "Ștergeți această problemă?",
+    "deleteIssueConfirm": "",
     "@deleteIssueConfirm": {
         "description": "Confirmation before deleting an issue"
     },
-    "submitReport": "Trimite raportul",
+    "submitReport": "",
     "@submitReport": {
         "description": "Button to submit an issue report"
     },
-    "adminDrawerDisplay": "Afișare",
-    "adminDrawerMetadata": "Metadate",
-    "adminDrawerNfo": "Setări NFO",
-    "adminActivitySeverityAll": "Toate nivelurile de gravitate",
-    "adminActivityDateRange": "Interval de date",
-    "adminRemoveDeviceConfirm": "Eliminați dispozitivul „{name}”? Utilizatorul va trebui să se conecteze din nou pe acest dispozitiv.",
+    "adminDrawerDisplay": "",
+    "adminDrawerMetadata": "",
+    "adminDrawerNfo": "",
+    "adminActivitySeverityAll": "",
+    "adminActivityDateRange": "",
+    "adminRemoveDeviceConfirm": "",
     "@adminRemoveDeviceConfirm": {
         "placeholders": {
             "name": {
@@ -8215,8 +8215,8 @@
             }
         }
     },
-    "adminDeleteAllDevices": "Șterge toate dispozitivele",
-    "adminDeleteAllDevicesConfirm": "Eliminați {count} dispozitive? Utilizatorii afectați vor trebui să se conecteze din nou. Dispozitivul dvs. curent nu este afectat.",
+    "adminDeleteAllDevices": "",
+    "adminDeleteAllDevicesConfirm": "",
     "@adminDeleteAllDevicesConfirm": {
         "placeholders": {
             "count": {
@@ -8224,8 +8224,8 @@
             }
         }
     },
-    "adminDevicesDeletedAll": "Dispozitivele au fost eliminate",
-    "adminDevicesDeletedPartial": "Unele dispozitive au fost eliminate; {count} nu au putut fi eliminate.",
+    "adminDevicesDeletedAll": "",
+    "adminDevicesDeletedPartial": "",
     "@adminDevicesDeletedPartial": {
         "placeholders": {
             "count": {
@@ -8233,13 +8233,13 @@
             }
         }
     },
-    "adminLibraryTabPaths": "Căi",
-    "adminLibraryTabOptions": "Opțiuni",
-    "adminLibraryTabDownloaders": "Servicii de descărcare",
-    "adminLibMetadataSavers": "Servicii de salvare a metadatelor",
-    "adminLibSubtitleDownloaders": "Servicii de descărcare a subtitrărilor",
-    "adminLibLyricDownloaders": "Servicii de descărcare a versurilor",
-    "adminLibMetadataDownloadersFor": "Servicii de descărcare a metadatelor: {type}",
+    "adminLibraryTabPaths": "",
+    "adminLibraryTabOptions": "",
+    "adminLibraryTabDownloaders": "",
+    "adminLibMetadataSavers": "",
+    "adminLibSubtitleDownloaders": "",
+    "adminLibLyricDownloaders": "",
+    "adminLibMetadataDownloadersFor": "",
     "@adminLibMetadataDownloadersFor": {
         "placeholders": {
             "type": {
@@ -8247,7 +8247,7 @@
             }
         }
     },
-    "adminLibImageFetchersFor": "Servicii de preluare a imaginilor: {type}",
+    "adminLibImageFetchersFor": "",
     "@adminLibImageFetchersFor": {
         "placeholders": {
             "type": {
@@ -8255,48 +8255,48 @@
             }
         }
     },
-    "adminLibNoDownloaders": "Acest server nu oferă servicii de descărcare pentru acest tip de bibliotecă.",
-    "adminLibrarySectionGeneral": "General",
-    "adminLibrarySectionMetadata": "Metadate",
-    "adminLibrarySectionEmbedded": "Informații încorporate",
-    "adminLibrarySectionSubtitles": "Subtitrări",
-    "adminLibrarySectionImages": "Imagini",
-    "adminLibrarySectionSeries": "Seriale",
-    "adminLibrarySectionMusic": "Muzică",
-    "adminLibrarySectionMovies": "Filme",
-    "adminLibRealtimeMonitor": "Activează monitorizarea în timp real",
-    "adminLibRealtimeMonitorHint": "Detectează modificările fișierelor și le procesează automat.",
-    "adminLibArchiveMediaFiles": "Tratează arhivele ca fișiere media",
-    "adminLibEnablePhotos": "Afișează fotografiile",
-    "adminLibSaveLocalMetadata": "Salvează imaginile în folderele media",
-    "adminLibRefreshInterval": "Reîmprospătare automată a metadatelor",
-    "adminLibRefreshNever": "Niciodată",
-    "adminLibDefault": "Implicit",
-    "adminLibDisplayTitle": "Afișare",
-    "adminLibDisplaySection": "Afișarea bibliotecii",
-    "adminLibFolderView": "Afișează o vizualizare de foldere pentru folderele media simple",
-    "adminLibSpecialsInSeasons": "Afișează episoadele speciale în sezoanele în care au fost difuzate",
-    "adminLibGroupMovies": "Grupează filmele în colecții",
-    "adminLibGroupShows": "Grupează serialele în colecții",
-    "adminLibExternalSuggestions": "Afișează conținut extern în sugestii",
-    "adminLibDateAddedSection": "Comportamentul datei adăugării",
-    "adminLibDateAddedLabel": "Folosește data adăugării din",
-    "adminLibDateAddedImport": "Data scanării în bibliotecă",
-    "adminLibDateAddedFile": "Data creării fișierului",
-    "adminLibMetadataTitle": "Metadate și imagini",
-    "adminLibMetadataLangSection": "Limba preferată pentru metadate",
-    "adminLibChaptersSection": "Capitole",
-    "adminLibDummyChapterDuration": "Durata capitolelor generate (secunde)",
-    "adminLibDummyChapterDurationHint": "Durata capitolelor generate pentru conținutul media care nu are capitole. Setați 0 pentru dezactivare.",
-    "adminLibChapterImageResolution": "Rezoluția imaginilor de capitol",
-    "adminLibNfoTitle": "Setări NFO",
-    "adminLibNfoHelp": "Metadatele NFO sunt compatibile cu Kodi și cu clienți similari. Setările se aplică tuturor bibliotecilor care salvează metadate NFO.",
-    "adminLibKodiUser": "Utilizatorul pentru care se salvează datele de vizionare în fișierele NFO",
-    "adminLibSaveImagePaths": "Salvează căile imaginilor în fișierele NFO",
-    "adminLibPathSubstitution": "Activează substituția căilor pentru imaginile din fișierele NFO",
-    "adminLibExtraThumbs": "Copiază imaginile extrafanart într-un folder extrathumbs",
-    "adminLibNone": "Niciunul",
-    "adminLibRefreshDays": "{days} zile",
+    "adminLibNoDownloaders": "",
+    "adminLibrarySectionGeneral": "",
+    "adminLibrarySectionMetadata": "",
+    "adminLibrarySectionEmbedded": "",
+    "adminLibrarySectionSubtitles": "",
+    "adminLibrarySectionImages": "",
+    "adminLibrarySectionSeries": "",
+    "adminLibrarySectionMusic": "",
+    "adminLibrarySectionMovies": "",
+    "adminLibRealtimeMonitor": "",
+    "adminLibRealtimeMonitorHint": "",
+    "adminLibArchiveMediaFiles": "",
+    "adminLibEnablePhotos": "",
+    "adminLibSaveLocalMetadata": "",
+    "adminLibRefreshInterval": "",
+    "adminLibRefreshNever": "",
+    "adminLibDefault": "",
+    "adminLibDisplayTitle": "",
+    "adminLibDisplaySection": "",
+    "adminLibFolderView": "",
+    "adminLibSpecialsInSeasons": "",
+    "adminLibGroupMovies": "",
+    "adminLibGroupShows": "",
+    "adminLibExternalSuggestions": "",
+    "adminLibDateAddedSection": "",
+    "adminLibDateAddedLabel": "",
+    "adminLibDateAddedImport": "",
+    "adminLibDateAddedFile": "",
+    "adminLibMetadataTitle": "",
+    "adminLibMetadataLangSection": "",
+    "adminLibChaptersSection": "",
+    "adminLibDummyChapterDuration": "",
+    "adminLibDummyChapterDurationHint": "",
+    "adminLibChapterImageResolution": "",
+    "adminLibNfoTitle": "",
+    "adminLibNfoHelp": "",
+    "adminLibKodiUser": "",
+    "adminLibSaveImagePaths": "",
+    "adminLibPathSubstitution": "",
+    "adminLibExtraThumbs": "",
+    "adminLibNone": "",
+    "adminLibRefreshDays": "",
     "@adminLibRefreshDays": {
         "placeholders": {
             "days": {
@@ -8304,119 +8304,119 @@
             }
         }
     },
-    "adminLibEmbeddedTitles": "Folosește titlurile încorporate",
-    "adminLibEmbeddedExtrasTitles": "Folosește titlurile încorporate pentru materialele extra",
-    "adminLibEmbeddedEpisodeInfos": "Folosește informațiile încorporate despre episoade",
-    "adminLibAllowEmbeddedSubtitles": "Permite subtitrările încorporate",
-    "adminLibEmbeddedAllowAll": "Permite toate",
-    "adminLibEmbeddedAllowText": "Doar text",
-    "adminLibEmbeddedAllowImage": "Doar imagine",
-    "adminLibEmbeddedAllowNone": "Niciuna",
-    "adminLibSkipIfEmbeddedSubs": "Omite descărcarea dacă există subtitrări încorporate",
-    "adminLibSkipIfAudioMatches": "Omite descărcarea dacă pista audio corespunde limbii de descărcare",
-    "adminLibRequirePerfectMatch": "Necesită o potrivire perfectă a subtitrării",
-    "adminLibSaveSubtitlesWithMedia": "Salvează subtitrările în folderele media",
-    "adminLibChapterImageExtraction": "Extrage imaginile de capitol",
-    "adminLibChapterImagesDuringScan": "Extrage imaginile de capitol în timpul scanării bibliotecii",
-    "adminLibTrickplayExtraction": "Activează extragerea imaginilor Trickplay",
-    "adminLibTrickplayDuringScan": "Extrage imaginile Trickplay în timpul scanării bibliotecii",
-    "adminLibSaveTrickplayWithMedia": "Salvează imaginile Trickplay în folderele media",
-    "adminLibAutomaticSeriesGrouping": "Îmbină automat serialele răspândite în mai multe foldere",
-    "adminLibSeasonZeroName": "Numele afișat pentru sezonul zero",
-    "adminLibLufsScan": "Activează scanarea LUFS pentru normalizarea audio",
-    "adminLibPreferNonstandardArtist": "Preferă eticheta non-standard pentru artiști",
-    "adminLibAutoAddToCollection": "Adaugă automat filmele în colecții",
-    "adminParentalControl": "Control parental",
-    "adminMaxParentalRating": "Clasificarea parentală maximă permisă",
-    "adminMaxParentalRatingHint": "Conținutul cu o clasificare mai mare va fi ascuns pentru acest utilizator.",
-    "adminParentalRatingNone": "Niciuna",
-    "adminBlockUnratedItems": "Blochează elementele fără clasificare sau cu clasificare nerecunoscută",
-    "adminUnratedBook": "Cărți",
-    "adminUnratedChannelContent": "Canale",
-    "adminUnratedLiveTvChannel": "TV în direct",
-    "adminUnratedMovie": "Filme",
-    "adminUnratedMusic": "Muzică",
-    "adminUnratedTrailer": "Trailere",
-    "adminUnratedSeries": "Seriale",
-    "adminAccessSchedules": "Programe de acces",
-    "adminAccessSchedulesHint": "Permite accesul doar în intervalele programate mai jos. Dacă nu este setat niciun program, accesul este permis toată ziua.",
-    "adminAddSchedule": "Adaugă program",
-    "adminScheduleDay": "Ziua",
-    "adminScheduleStart": "Început",
-    "adminScheduleEnd": "Sfârșit",
-    "adminDayEveryday": "În fiecare zi",
-    "adminDayWeekday": "Zi lucrătoare",
-    "adminDayWeekend": "Weekend",
-    "adminDaySunday": "Duminică",
-    "adminDayMonday": "Luni",
-    "adminDayTuesday": "Marți",
-    "adminDayWednesday": "Miercuri",
-    "adminDayThursday": "Joi",
-    "adminDayFriday": "Vineri",
-    "adminDaySaturday": "Sâmbătă",
-    "adminAllowedTags": "Etichete permise",
-    "adminAllowedTagsHint": "Se afișează doar conținutul cu aceste etichete. Lăsați gol pentru a permite tot conținutul.",
-    "adminBlockedTags": "Etichete blocate",
-    "adminBlockedTagsHint": "Conținutul cu aceste etichete este ascuns pentru acest utilizator.",
-    "adminAddTag": "Adaugă etichetă",
-    "adminEnabledDevices": "Dispozitive activate",
-    "adminEnabledChannels": "Canale activate",
-    "adminAuthProvider": "Furnizor de autentificare",
-    "adminPasswordResetProvider": "Furnizor pentru resetarea parolei",
-    "adminLoginAttemptsBeforeLockout": "Numărul maxim de încercări eșuate de conectare înainte de blocare",
-    "adminLoginAttemptsHint": "Setați 0 pentru valoarea implicită sau -1 pentru a dezactiva blocarea.",
-    "adminSyncPlayAccess": "Acces SyncPlay",
-    "adminSyncPlayCreateAndJoin": "Permite crearea grupurilor și alăturarea la ele",
-    "adminSyncPlayJoin": "Permite alăturarea la grupuri",
-    "adminSyncPlayNone": "Fără acces",
-    "adminContentDeletionFolders": "Permite ștergerea conținutului din",
-    "adminBackupOptionsTitle": "Creează o copie de rezervă",
-    "adminBackupInclude": "Alegeți ce să includeți în copia de rezervă.",
-    "adminBackupDatabase": "Baza de date",
-    "adminBackupDatabaseAlways": "Inclusă întotdeauna",
-    "adminBackupMetadata": "Metadate",
-    "adminBackupSubtitles": "Subtitrări",
-    "adminBackupTrickplay": "Imagini Trickplay",
-    "adminEditTuner": "Editează tunerul",
-    "adminTunerTypeM3u": "Tuner M3U",
-    "adminTunerTypeHdHomerun": "HDHomeRun",
-    "adminTunerFileOrUrl": "Fișier sau URL",
-    "adminTunerIpAddress": "Adresa IP a tunerului",
-    "adminTunerFriendlyName": "Nume prietenos",
-    "adminTunerUserAgent": "User agent",
-    "adminTunerCount": "Limita de conexiuni simultane",
-    "adminTunerCountHelp": "Numărul maxim de fluxuri pe care tunerul le permite simultan. Setați 0 pentru nelimitat.",
-    "adminTunerFallbackBitrate": "Bitrate maxim de rezervă pentru streaming",
-    "adminTunerImportFavoritesOnly": "Importă doar canalele favorite",
-    "adminTunerAllowHwTranscoding": "Permite transcodarea hardware",
-    "adminTunerAllowFmp4": "Permite containerul de transcodare fMP4",
-    "adminTunerAllowStreamSharing": "Permite partajarea fluxurilor",
-    "adminTunerEnableStreamLooping": "Activează redarea în buclă a fluxului",
-    "adminTunerIgnoreDts": "Ignoră DTS",
-    "adminTunerReadAtNativeFramerate": "Citește sursa la rata de cadre nativă",
-    "adminEditProvider": "Editează furnizorul",
-    "adminProviderXmltv": "XMLTV",
-    "adminProviderSchedulesDirect": "Schedules Direct",
-    "adminXmltvPath": "Fișier sau URL",
-    "adminXmltvMoviePrefix": "Prefix pentru filme",
-    "adminXmltvMovieCategories": "Categorii de filme",
-    "adminXmltvCategoriesHelp": "Separați mai multe categorii cu o bară verticală.",
-    "adminXmltvKidsCategories": "Categorii pentru copii",
-    "adminXmltvNewsCategories": "Categorii de știri",
-    "adminXmltvSportsCategories": "Categorii sportive",
-    "adminSdUsername": "Nume de utilizator",
-    "adminSdPassword": "Parolă",
-    "adminSdCountry": "Țară",
-    "adminSdCountrySelect": "Selectați o țară",
-    "adminSdPostalCode": "Cod poștal",
-    "adminSdGetListings": "Obține programele",
-    "adminSdListings": "Programe",
-    "adminEnableAllTuners": "Activează toate tunerele",
-    "adminTunerResetNotSupported": "Acest tip de tuner nu acceptă resetarea.",
-    "adminMovieRecordingPath": "Calea pentru înregistrarea filmelor",
-    "adminGuideDays": "Zile de date pentru ghid",
-    "adminGuideDaysAuto": "Automat",
-    "adminGuideDaysValue": "{days} zile",
+    "adminLibEmbeddedTitles": "",
+    "adminLibEmbeddedExtrasTitles": "",
+    "adminLibEmbeddedEpisodeInfos": "",
+    "adminLibAllowEmbeddedSubtitles": "",
+    "adminLibEmbeddedAllowAll": "",
+    "adminLibEmbeddedAllowText": "",
+    "adminLibEmbeddedAllowImage": "",
+    "adminLibEmbeddedAllowNone": "",
+    "adminLibSkipIfEmbeddedSubs": "",
+    "adminLibSkipIfAudioMatches": "",
+    "adminLibRequirePerfectMatch": "",
+    "adminLibSaveSubtitlesWithMedia": "",
+    "adminLibChapterImageExtraction": "",
+    "adminLibChapterImagesDuringScan": "",
+    "adminLibTrickplayExtraction": "",
+    "adminLibTrickplayDuringScan": "",
+    "adminLibSaveTrickplayWithMedia": "",
+    "adminLibAutomaticSeriesGrouping": "",
+    "adminLibSeasonZeroName": "",
+    "adminLibLufsScan": "",
+    "adminLibPreferNonstandardArtist": "",
+    "adminLibAutoAddToCollection": "",
+    "adminParentalControl": "",
+    "adminMaxParentalRating": "",
+    "adminMaxParentalRatingHint": "",
+    "adminParentalRatingNone": "",
+    "adminBlockUnratedItems": "",
+    "adminUnratedBook": "",
+    "adminUnratedChannelContent": "",
+    "adminUnratedLiveTvChannel": "",
+    "adminUnratedMovie": "",
+    "adminUnratedMusic": "",
+    "adminUnratedTrailer": "",
+    "adminUnratedSeries": "",
+    "adminAccessSchedules": "",
+    "adminAccessSchedulesHint": "",
+    "adminAddSchedule": "",
+    "adminScheduleDay": "",
+    "adminScheduleStart": "",
+    "adminScheduleEnd": "",
+    "adminDayEveryday": "",
+    "adminDayWeekday": "",
+    "adminDayWeekend": "",
+    "adminDaySunday": "",
+    "adminDayMonday": "",
+    "adminDayTuesday": "",
+    "adminDayWednesday": "",
+    "adminDayThursday": "",
+    "adminDayFriday": "",
+    "adminDaySaturday": "",
+    "adminAllowedTags": "",
+    "adminAllowedTagsHint": "",
+    "adminBlockedTags": "",
+    "adminBlockedTagsHint": "",
+    "adminAddTag": "",
+    "adminEnabledDevices": "",
+    "adminEnabledChannels": "",
+    "adminAuthProvider": "",
+    "adminPasswordResetProvider": "",
+    "adminLoginAttemptsBeforeLockout": "",
+    "adminLoginAttemptsHint": "",
+    "adminSyncPlayAccess": "",
+    "adminSyncPlayCreateAndJoin": "",
+    "adminSyncPlayJoin": "",
+    "adminSyncPlayNone": "",
+    "adminContentDeletionFolders": "",
+    "adminBackupOptionsTitle": "",
+    "adminBackupInclude": "",
+    "adminBackupDatabase": "",
+    "adminBackupDatabaseAlways": "",
+    "adminBackupMetadata": "",
+    "adminBackupSubtitles": "",
+    "adminBackupTrickplay": "",
+    "adminEditTuner": "",
+    "adminTunerTypeM3u": "",
+    "adminTunerTypeHdHomerun": "",
+    "adminTunerFileOrUrl": "",
+    "adminTunerIpAddress": "",
+    "adminTunerFriendlyName": "",
+    "adminTunerUserAgent": "",
+    "adminTunerCount": "",
+    "adminTunerCountHelp": "",
+    "adminTunerFallbackBitrate": "",
+    "adminTunerImportFavoritesOnly": "",
+    "adminTunerAllowHwTranscoding": "",
+    "adminTunerAllowFmp4": "",
+    "adminTunerAllowStreamSharing": "",
+    "adminTunerEnableStreamLooping": "",
+    "adminTunerIgnoreDts": "",
+    "adminTunerReadAtNativeFramerate": "",
+    "adminEditProvider": "",
+    "adminProviderXmltv": "",
+    "adminProviderSchedulesDirect": "",
+    "adminXmltvPath": "",
+    "adminXmltvMoviePrefix": "",
+    "adminXmltvMovieCategories": "",
+    "adminXmltvCategoriesHelp": "",
+    "adminXmltvKidsCategories": "",
+    "adminXmltvNewsCategories": "",
+    "adminXmltvSportsCategories": "",
+    "adminSdUsername": "",
+    "adminSdPassword": "",
+    "adminSdCountry": "",
+    "adminSdCountrySelect": "",
+    "adminSdPostalCode": "",
+    "adminSdGetListings": "",
+    "adminSdListings": "",
+    "adminEnableAllTuners": "",
+    "adminTunerResetNotSupported": "",
+    "adminMovieRecordingPath": "",
+    "adminGuideDays": "",
+    "adminGuideDaysAuto": "",
+    "adminGuideDaysValue": "",
     "@adminGuideDaysValue": {
         "placeholders": {
             "days": {
@@ -8424,14 +8424,14 @@
             }
         }
     },
-    "adminRecordingPostProcessor": "Calea aplicației de post-procesare",
-    "adminRecordingPostProcessorArgs": "Argumente pentru post-procesare",
-    "adminSaveRecordingNfo": "Salvează metadatele NFO ale înregistrării",
-    "adminSaveRecordingImages": "Salvează imaginile înregistrării",
-    "adminLiveTvSectionTiming": "Sincronizare",
-    "adminLiveTvSectionPaths": "Căi pentru înregistrări",
-    "adminLiveTvSectionPostProcessing": "Post-procesare",
-    "adminGuideDaysDisplay": "Date pentru ghid: {value}",
+    "adminRecordingPostProcessor": "",
+    "adminRecordingPostProcessorArgs": "",
+    "adminSaveRecordingNfo": "",
+    "adminSaveRecordingImages": "",
+    "adminLiveTvSectionTiming": "",
+    "adminLiveTvSectionPaths": "",
+    "adminLiveTvSectionPostProcessing": "",
+    "adminGuideDaysDisplay": "",
     "@adminGuideDaysDisplay": {
         "placeholders": {
             "value": {
@@ -8439,124 +8439,124 @@
             }
         }
     },
-    "adminRefreshGuideData": "Reîmprospătează datele ghidului",
-    "adminGuideRefreshStarted": "Reîmprospătarea datelor ghidului a început",
-    "adminGuideRefreshUnavailable": "Sarcina de reîmprospătare a ghidului nu este disponibilă pe acest server.",
-    "adminMetadataIdentify": "Identifică",
-    "adminBrandingSplashUpload": "Încarcă o imagine",
-    "adminBrandingSplashUploaded": "Ecranul de pornire a fost actualizat",
-    "adminBrandingSplashUploadFailed": "Încărcarea ecranului de pornire a eșuat",
-    "adminBrandingSplashDeleted": "Ecranul de pornire a fost eliminat",
-    "adminBrandingNoSplash": "Niciun ecran de pornire personalizat",
-    "adminPlaybackQsvDevice": "Dispozitiv QSV",
-    "adminPlaybackEnhancedNvdec": "Activează decodorul NVDEC îmbunătățit",
-    "adminPlaybackPreferNativeDecoder": "Preferă decodorul hardware nativ al sistemului",
-    "adminPlaybackColorDepth": "Adâncimea de culoare la decodarea hardware",
-    "adminPlaybackColorDepth10Hevc": "Decodare HEVC pe 10 biți",
-    "adminPlaybackColorDepth10Vp9": "Decodare VP9 pe 10 biți",
-    "adminPlaybackColorDepth10HevcRext": "Decodare HEVC RExt pe 8/10 biți",
-    "adminPlaybackColorDepth12HevcRext": "Decodare HEVC RExt pe 12 biți",
-    "adminPlaybackHwEncodingSection": "Codare hardware",
-    "adminPlaybackAllowHevcEncoding": "Permite codarea HEVC",
-    "adminPlaybackAllowAv1Encoding": "Permite codarea AV1",
-    "adminPlaybackIntelLowPowerH264": "Activează codorul Intel H.264 cu consum redus",
-    "adminPlaybackIntelLowPowerHevc": "Activează codorul Intel HEVC cu consum redus",
-    "adminPlaybackToneMapping": "Tone mapping",
-    "adminPlaybackEnableTonemapping": "Activează tone mapping",
-    "adminPlaybackEnableVppTonemapping": "Activează tone mapping VPP",
-    "adminPlaybackEnableVtTonemapping": "Activează tone mapping VideoToolbox",
-    "adminPlaybackTonemappingAlgorithm": "Algoritm de tone mapping",
-    "adminPlaybackTonemappingMode": "Mod de tone mapping",
-    "adminPlaybackTonemappingRange": "Interval de tone mapping",
-    "adminPlaybackTonemappingDesat": "Desaturare la tone mapping",
-    "adminPlaybackTonemappingPeak": "Vârf de tone mapping",
-    "adminPlaybackTonemappingParam": "Parametru de tone mapping",
-    "adminPlaybackVppTonemappingBrightness": "Luminozitate tone mapping VPP",
-    "adminPlaybackVppTonemappingContrast": "Contrast tone mapping VPP",
-    "adminPlaybackPresetsQuality": "Presetări și calitate",
-    "adminPlaybackEncoderPreset": "Presetare codor",
-    "adminPlaybackH264Crf": "CRF pentru codarea H.264",
-    "adminPlaybackH265Crf": "CRF pentru codarea H.265 (HEVC)",
-    "adminPlaybackDeinterlaceMethod": "Metodă de deinterlațare",
-    "adminPlaybackDeinterlaceDoubleRate": "Dublează rata de cadre la deinterlațare",
-    "adminPlaybackAudioSection": "Audio",
-    "adminPlaybackEnableAudioVbr": "Activează codarea audio VBR",
-    "adminPlaybackDownmixBoost": "Amplificare la downmix audio",
-    "adminPlaybackDownmixAlgorithm": "Algoritm de downmix stereo",
-    "adminPlaybackMaxMuxingQueue": "Dimensiunea maximă a cozii de multiplexare",
-    "adminPlaybackAutoOption": "Auto",
-    "adminRunningTasks": "Sarcini în execuție",
-    "adminNetworkingPublicHttpPort": "Port HTTP public",
-    "adminNetworkingRequireHttps": "Solicită HTTPS",
-    "adminNetworkingRequireHttpsHint": "Redirecționează toate cererile la distanță către HTTPS. Nu are efect dacă serverul nu are un certificat valid.",
-    "adminNetworkingCertPassword": "Parola certificatului",
-    "adminNetworkingIpSettings": "Setări IP",
-    "adminNetworkingEnableIpv4": "Activează IPv4",
-    "adminNetworkingEnableIpv6": "Activează IPv6",
-    "adminNetworkingAutoDiscovery": "Activează maparea automată a porturilor",
-    "adminNetworkingLocalSubnets": "Rețele LAN",
-    "adminNetworkingLocalSubnetsHint": "Listă de adrese IP sau subrețele CIDR, separate prin virgulă sau pe linii separate, considerate ca făcând parte din rețeaua locală.",
-    "adminNetworkingPublishedUris": "URI-uri publicate ale serverului",
-    "adminNetworkingPublishedUriHint": "Asociați o subrețea sau o adresă unui URL publicat, de ex. all=https://example.com",
-    "adminPlaybackThrottleDelay": "Întârziere de limitare (secunde)",
-    "adminPlaybackEnableSubtitleExtraction": "Permite extragerea subtitrărilor în timp real",
-    "adminGeneralEnableSlowResponse": "Activează avertismentele privind răspunsurile lente",
-    "adminGeneralQuickConnect": "Activează Quick Connect",
-    "adminGeneralSectionServer": "Server",
-    "adminGeneralSectionMetadata": "Metadate",
-    "adminGeneralSectionPaths": "Căi",
-    "adminGeneralSectionPerformance": "Performanță",
-    "adminGeneralDisplayLanguage": "Limba de afișare preferată",
-    "offlineBannerTitle": "Sunteți offline",
-    "offlineBannerSubtitle": "Se afișează descărcările dvs.",
-    "offlineBannerAction": "Descărcări",
-    "serverUnreachableBannerTitle": "Serverul nu poate fi contactat",
-    "serverUnreachableBannerSubtitle": "Se redă din descărcări până când revine",
-    "contextMenuHideFromContinueWatching": "Ascunde din „Continuați vizionarea”",
+    "adminRefreshGuideData": "",
+    "adminGuideRefreshStarted": "",
+    "adminGuideRefreshUnavailable": "",
+    "adminMetadataIdentify": "",
+    "adminBrandingSplashUpload": "",
+    "adminBrandingSplashUploaded": "",
+    "adminBrandingSplashUploadFailed": "",
+    "adminBrandingSplashDeleted": "",
+    "adminBrandingNoSplash": "",
+    "adminPlaybackQsvDevice": "",
+    "adminPlaybackEnhancedNvdec": "",
+    "adminPlaybackPreferNativeDecoder": "",
+    "adminPlaybackColorDepth": "",
+    "adminPlaybackColorDepth10Hevc": "",
+    "adminPlaybackColorDepth10Vp9": "",
+    "adminPlaybackColorDepth10HevcRext": "",
+    "adminPlaybackColorDepth12HevcRext": "",
+    "adminPlaybackHwEncodingSection": "",
+    "adminPlaybackAllowHevcEncoding": "",
+    "adminPlaybackAllowAv1Encoding": "",
+    "adminPlaybackIntelLowPowerH264": "",
+    "adminPlaybackIntelLowPowerHevc": "",
+    "adminPlaybackToneMapping": "",
+    "adminPlaybackEnableTonemapping": "",
+    "adminPlaybackEnableVppTonemapping": "",
+    "adminPlaybackEnableVtTonemapping": "",
+    "adminPlaybackTonemappingAlgorithm": "",
+    "adminPlaybackTonemappingMode": "",
+    "adminPlaybackTonemappingRange": "",
+    "adminPlaybackTonemappingDesat": "",
+    "adminPlaybackTonemappingPeak": "",
+    "adminPlaybackTonemappingParam": "",
+    "adminPlaybackVppTonemappingBrightness": "",
+    "adminPlaybackVppTonemappingContrast": "",
+    "adminPlaybackPresetsQuality": "",
+    "adminPlaybackEncoderPreset": "",
+    "adminPlaybackH264Crf": "",
+    "adminPlaybackH265Crf": "",
+    "adminPlaybackDeinterlaceMethod": "",
+    "adminPlaybackDeinterlaceDoubleRate": "",
+    "adminPlaybackAudioSection": "",
+    "adminPlaybackEnableAudioVbr": "",
+    "adminPlaybackDownmixBoost": "",
+    "adminPlaybackDownmixAlgorithm": "",
+    "adminPlaybackMaxMuxingQueue": "",
+    "adminPlaybackAutoOption": "",
+    "adminRunningTasks": "",
+    "adminNetworkingPublicHttpPort": "",
+    "adminNetworkingRequireHttps": "",
+    "adminNetworkingRequireHttpsHint": "",
+    "adminNetworkingCertPassword": "",
+    "adminNetworkingIpSettings": "",
+    "adminNetworkingEnableIpv4": "",
+    "adminNetworkingEnableIpv6": "",
+    "adminNetworkingAutoDiscovery": "",
+    "adminNetworkingLocalSubnets": "",
+    "adminNetworkingLocalSubnetsHint": "",
+    "adminNetworkingPublishedUris": "",
+    "adminNetworkingPublishedUriHint": "",
+    "adminPlaybackThrottleDelay": "",
+    "adminPlaybackEnableSubtitleExtraction": "",
+    "adminGeneralEnableSlowResponse": "",
+    "adminGeneralQuickConnect": "",
+    "adminGeneralSectionServer": "",
+    "adminGeneralSectionMetadata": "",
+    "adminGeneralSectionPaths": "",
+    "adminGeneralSectionPerformance": "",
+    "adminGeneralDisplayLanguage": "",
+    "offlineBannerTitle": "",
+    "offlineBannerSubtitle": "",
+    "offlineBannerAction": "",
+    "serverUnreachableBannerTitle": "",
+    "serverUnreachableBannerSubtitle": "",
+    "contextMenuHideFromContinueWatching": "",
     "@contextMenuHideFromContinueWatching": {
         "description": "Context menu action to hide an item from the Continue Watching section"
     },
-    "contextMenuHideFromNextUp": "Ascunde din „Urmează”",
+    "contextMenuHideFromNextUp": "",
     "@contextMenuHideFromNextUp": {
         "description": "Context menu action to hide a show from the Next Up section"
     },
-    "contextMenuAddToCollection": "Adaugă în colecție",
+    "contextMenuAddToCollection": "",
     "@contextMenuAddToCollection": {
         "description": "Context menu action to add an item to a collection"
     },
-    "settingsConnectionSection": "CONEXIUNE",
+    "settingsConnectionSection": "",
     "@settingsConnectionSection": {
         "description": "Section header for server connection settings"
     },
-    "settingsAllowSelfSignedCerts": "Permite certificatele autosemnate",
+    "settingsAllowSelfSignedCerts": "",
     "@settingsAllowSelfSignedCerts": {
         "description": "Setting to trust self-signed TLS certificates"
     },
-    "settingsAllowSelfSignedCertsSubtitle": "Aveți încredere în serverele care folosesc certificate TLS autosemnate sau emise de o autoritate privată. Activați doar pentru serverele pe care le controlați. Această opțiune dezactivează validarea certificatelor pentru toate conexiunile.",
+    "settingsAllowSelfSignedCertsSubtitle": "",
     "@settingsAllowSelfSignedCertsSubtitle": {
         "description": "Description for the allow self-signed certificates setting"
     },
-    "settingsDetailsScreen": "Ecranul de detalii",
-    "settingsDetailsScreenSubtitle": "Stil, estomparea fundalului și comportamentul filelor",
-    "settingsShowSeerrButtonInNavigation": "Afișează butonul Seerr în bara de navigare",
-    "settingsAlwaysExpandNavbarLabels": "Afișează mereu etichetele text în bara de navigare de sus",
-    "settingsMediaSegmentCountdown": "Numărătoare inversă pentru segmentele media",
+    "settingsDetailsScreen": "",
+    "settingsDetailsScreenSubtitle": "",
+    "settingsShowSeerrButtonInNavigation": "",
+    "settingsAlwaysExpandNavbarLabels": "",
+    "settingsMediaSegmentCountdown": "",
     "@settingsMediaSegmentCountdown": {
         "description": "Setting label for media segment countdown customizations"
     },
-    "settingsProgressBar": "Bară de progres",
+    "settingsProgressBar": "",
     "@settingsProgressBar": {
         "description": "Option label to show only progress bar on media segment countdown overlay"
     },
-    "settingsTimer": "Cronometru",
+    "settingsTimer": "",
     "@settingsTimer": {
         "description": "Option label to show only countdown timer on media segment countdown overlay"
     },
-    "settingsNone": "Fără",
+    "settingsNone": "",
     "@settingsNone": {
         "description": "Option label to hide all decorations on media segment countdown overlay"
     },
-    "recentlyReleasedLibraryName": "{libraryName} lansate recent",
+    "recentlyReleasedLibraryName": "",
     "@recentlyReleasedLibraryName": {
         "description": "Row title for recently released media in a specific library",
         "placeholders": {
@@ -8565,36 +8565,36 @@
             }
         }
     },
-    "enableTunnelingTitle": "Activează tunelarea",
+    "enableTunnelingTitle": "",
     "@enableTunnelingTitle": {
         "description": "Setting title: enable tunneled video playback (advanced)"
     },
-    "enableTunnelingSubtitle": "Opțiune avansată. Direcționează sunetul și imaginea printr-o cale hardware cuplată. Este dezactivată implicit deoarece provoacă întreruperi audio/video pe unele dispozitive.",
+    "enableTunnelingSubtitle": "",
     "@enableTunnelingSubtitle": {
         "description": "Setting subtitle for enable tunneling"
     },
-    "showMediaDetailsOnLibraryPage": "Afișează detaliile media",
+    "showMediaDetailsOnLibraryPage": "",
     "@showMediaDetailsOnLibraryPage": {
         "description": "Setting title to show/hide focused media details at the top of the library page"
     },
-    "showMediaDetailsOnLibraryPageDescription": "Afișează detaliile elementului selectat în partea de sus a paginilor de bibliotecă.",
+    "showMediaDetailsOnLibraryPageDescription": "",
     "@showMediaDetailsOnLibraryPageDescription": {
         "description": "Setting description to show/hide focused media details at the top of the library page"
     },
-    "hideBackdropsInLibraries": "Ascundeți fundalurile în timpul navigării?",
+    "hideBackdropsInLibraries": "",
     "@hideBackdropsInLibraries": {
         "description": "Setting title to show/hide backdrops when browsing library pages"
     },
-    "themeStore": "Magazin de teme",
-    "themeStoreSubtitle": "Descoperiți și salvați teme create de comunitate",
-    "themeStoreDescription": "Salvați o temă pentru a o folosi ca pe celelalte teme salvate.",
-    "themeStoreEmpty": "Momentan nu este disponibilă nicio temă.",
-    "themeStoreLoadFailed": "Magazinul de teme nu a putut fi încărcat. Verificați conexiunea și încercați din nou.",
-    "themeStoreSave": "Salvează",
-    "themeStoreSaveAndApply": "Salvează și aplică",
-    "themeStoreSaved": "Salvată",
-    "themeStoreInvalidMessage": "Această temă nu a putut fi încărcată.",
-    "themeStoreSavedMessage": "„{themeName}” a fost salvată.",
+    "themeStore": "",
+    "themeStoreSubtitle": "",
+    "themeStoreDescription": "",
+    "themeStoreEmpty": "",
+    "themeStoreLoadFailed": "",
+    "themeStoreSave": "",
+    "themeStoreSaveAndApply": "",
+    "themeStoreSaved": "",
+    "themeStoreInvalidMessage": "",
+    "themeStoreSavedMessage": "",
     "@themeStoreSavedMessage": {
         "description": "Status message shown after saving a Theme Store theme",
         "placeholders": {
@@ -8603,34 +8603,34 @@
             }
         }
     },
-    "homeRowDisplay": "Afișarea rândurilor de pe ecranul principal",
-    "homeRowSections": "Secțiunile rândurilor de pe ecranul principal",
-    "homeRowToggles": "Comutatoare pentru rândurile de pe ecranul principal",
-    "homeRowTogglesSubtitle": "Activați sau dezactivați categoriile de rânduri bazate pe biblioteci",
-    "homeRowTogglesDescription": "Activați comutatoarele de mai jos pentru a afișa rândurile în secțiunile ecranului principal.",
-    "displayPlaylistsRows": "Afișează rândurile cu liste de redare",
-    "displayPlaylistsRowsSubtitle": "Afișează rândurile cu liste de redare în secțiunile ecranului principal.",
-    "playlistsRowSorting": "Sortarea rândurilor cu liste de redare",
-    "playlistsRowSortingDescription": "Sortați rândurile cu liste de redare după data adăugării, data lansării, alfabetic și după alte criterii.",
-    "displayAudioRows": "Afișează rândurile audio",
-    "displayAudioRowsSubtitle": "Afișează rândurile audio în secțiunile ecranului principal.",
-    "audioRowsSorting": "Sortarea rândurilor audio",
-    "audioRowsSortingDescription": "Sortați rândurile audio după data adăugării, data lansării, alfabetic și după alte criterii.",
-    "audioPlaylists": "Liste de redare audio",
-    "layout": "Aranjament",
-    "theme": "Temă",
-    "keyboard": "Tastatură",
-    "navButtons": "Butoane",
-    "rendering": "Randare",
-    "mpvConfiguration": "Configurare MPV",
-    "externalPlayerAppDescription": "Setați un player extern pentru a activa opțiunea de redare la apăsare lungă",
-    "crewContributionsSeerr": "Contribuții în echipa de producție (Seerr)",
-    "changeArtwork": "Schimbă imaginea",
-    "missing": "Lipsă",
-    "clearAllArtworkButton": "Ștergeți toate imaginile?",
-    "clearAllArtworkWarning": "Sigur doriți să ștergeți toate imaginile descărcate?",
-    "confirmClear": "Confirmați ștergerea",
-    "confirmClearMessage": "Sigur doriți să ștergeți imaginea de tip {itemType}?",
+    "homeRowDisplay": "",
+    "homeRowSections": "",
+    "homeRowToggles": "",
+    "homeRowTogglesSubtitle": "",
+    "homeRowTogglesDescription": "",
+    "displayPlaylistsRows": "",
+    "displayPlaylistsRowsSubtitle": "",
+    "playlistsRowSorting": "",
+    "playlistsRowSortingDescription": "",
+    "displayAudioRows": "",
+    "displayAudioRowsSubtitle": "",
+    "audioRowsSorting": "",
+    "audioRowsSortingDescription": "",
+    "audioPlaylists": "",
+    "layout": "",
+    "theme": "",
+    "keyboard": "",
+    "navButtons": "",
+    "rendering": "",
+    "mpvConfiguration": "",
+    "externalPlayerAppDescription": "",
+    "crewContributionsSeerr": "",
+    "changeArtwork": "",
+    "missing": "",
+    "clearAllArtworkButton": "",
+    "clearAllArtworkWarning": "",
+    "confirmClear": "",
+    "confirmClearMessage": "",
     "@confirmClearMessage": {
         "description": "Confirmation message when clearing a specific artwork",
         "placeholders": {
@@ -8639,12 +8639,12 @@
             }
         }
     },
-    "uploadButton": "Încărcați?",
-    "resolutionLabel": "Rezoluție: ",
-    "onlyShowInterfaceLanguage": "Afișează doar imaginile în limba interfeței",
-    "confirmClearAll": "Confirmați ștergerea tuturor",
-    "imageUploadSuccess": "Imaginea a fost încărcată cu succes!",
-    "imageUploadFailed": "Încărcarea imaginii a eșuat: {error}",
+    "uploadButton": "",
+    "resolutionLabel": "",
+    "onlyShowInterfaceLanguage": "",
+    "confirmClearAll": "",
+    "imageUploadSuccess": "",
+    "imageUploadFailed": "",
     "@imageUploadFailed": {
         "placeholders": {
             "error": {
@@ -8652,7 +8652,7 @@
             }
         }
     },
-    "imageDownloadFailed": "Setarea imaginii a eșuat: {error}",
+    "imageDownloadFailed": "",
     "@imageDownloadFailed": {
         "placeholders": {
             "error": {
@@ -8660,7 +8660,7 @@
             }
         }
     },
-    "imageDeleteFailed": "Ștergerea imaginii a eșuat: {error}",
+    "imageDeleteFailed": "",
     "@imageDeleteFailed": {
         "placeholders": {
             "error": {
@@ -8668,7 +8668,7 @@
             }
         }
     },
-    "clearAllArtworkFailed": "Ștergerea tuturor imaginilor a eșuat: {error}",
+    "clearAllArtworkFailed": "",
     "@clearAllArtworkFailed": {
         "placeholders": {
             "error": {
@@ -8676,49 +8676,49 @@
             }
         }
     },
-    "yes": "Da",
-    "posterCategory": "Poster",
-    "backdropsCategory": "Fundaluri",
-    "bannerCategory": "Banner",
-    "logoCategory": "Logo",
-    "thumbnailCategory": "Miniatură",
-    "artCategory": "Grafică",
-    "discArtCategory": "Grafică de disc",
-    "screenshotCategory": "Captură de ecran",
-    "boxCoverCategory": "Copertă cutie",
-    "boxRearCoverCategory": "Coperta din spate a cutiei",
-    "menuArtCategory": "Grafică de meniu",
-    "confirmItemPoster": "poster",
-    "confirmItemBackdrop": "fundal",
-    "confirmItemBanner": "banner",
-    "confirmItemLogo": "logo",
-    "confirmItemThumbnail": "miniatură",
-    "confirmItemArt": "grafică",
-    "confirmItemDiscArt": "grafică de disc",
-    "confirmItemScreenshot": "captură de ecran",
-    "confirmItemBoxCover": "copertă cutie",
-    "confirmItemBoxRearCover": "coperta din spate a cutiei",
-    "confirmItemMenuArt": "grafică de meniu",
-    "resolutionAll": "Toate",
-    "resolutionHigh": "Înaltă (1080p+)",
-    "resolutionMedium": "Medie (720p)",
-    "resolutionLow": "Scăzută (<720p)",
-    "sources": "Surse",
+    "yes": "",
+    "posterCategory": "",
+    "backdropsCategory": "",
+    "bannerCategory": "",
+    "logoCategory": "",
+    "thumbnailCategory": "",
+    "artCategory": "",
+    "discArtCategory": "",
+    "screenshotCategory": "",
+    "boxCoverCategory": "",
+    "boxRearCoverCategory": "",
+    "menuArtCategory": "",
+    "confirmItemPoster": "",
+    "confirmItemBackdrop": "",
+    "confirmItemBanner": "",
+    "confirmItemLogo": "",
+    "confirmItemThumbnail": "",
+    "confirmItemArt": "",
+    "confirmItemDiscArt": "",
+    "confirmItemScreenshot": "",
+    "confirmItemBoxCover": "",
+    "confirmItemBoxRearCover": "",
+    "confirmItemMenuArt": "",
+    "resolutionAll": "",
+    "resolutionHigh": "",
+    "resolutionMedium": "",
+    "resolutionLow": "",
+    "sources": "",
     "@sources": {
         "description": "Title of the artwork source-provider filter dialog"
     },
-    "audiobookChapters": "Capitole",
-    "audiobookBookmarks": "Marcaje",
-    "audiobookNotes": "Notițe",
-    "audiobookQueue": "Coadă",
-    "audiobookTimeline": "Cronologie",
-    "audiobookTimelineEmpty": "Cronologia este goală",
-    "audiobookWholeBook": "Toată cartea",
-    "audiobookFocusedTimeline": "Cronologie focalizată",
-    "audiobookExportBookmarks": "Exportă marcajele",
-    "audiobookExportNotes": "Exportă notițele",
-    "audiobookExportAll": "Exportă tot",
-    "audiobookExportSuccess": "Exportat în {path}",
+    "audiobookChapters": "",
+    "audiobookBookmarks": "",
+    "audiobookNotes": "",
+    "audiobookQueue": "",
+    "audiobookTimeline": "",
+    "audiobookTimelineEmpty": "",
+    "audiobookWholeBook": "",
+    "audiobookFocusedTimeline": "",
+    "audiobookExportBookmarks": "",
+    "audiobookExportNotes": "",
+    "audiobookExportAll": "",
+    "audiobookExportSuccess": "",
     "@audiobookExportSuccess": {
         "placeholders": {
             "path": {
@@ -8726,7 +8726,7 @@
             }
         }
     },
-    "audiobookExportFailed": "Exportul a eșuat: {error}",
+    "audiobookExportFailed": "",
     "@audiobookExportFailed": {
         "placeholders": {
             "error": {
@@ -8734,16 +8734,16 @@
             }
         }
     },
-    "audiobookLyrics": "Versuri",
-    "audiobookAddBookmark": "Adaugă un marcaj",
-    "audiobookAddNote": "Adaugă o notiță",
-    "audiobookEditNote": "Editează notița",
-    "audiobookNoteHint": "Scrieți o notiță pentru acest moment",
-    "audiobookSleepTimer": "Cronometru de adormire",
-    "audiobookSleepOff": "Oprit",
-    "audiobookSleepEndOfChapter": "Sfârșitul capitolului",
-    "audiobookSleepCustom": "Personalizat",
-    "audiobookSleepRemaining": "{remaining} rămase",
+    "audiobookLyrics": "",
+    "audiobookAddBookmark": "",
+    "audiobookAddNote": "",
+    "audiobookEditNote": "",
+    "audiobookNoteHint": "",
+    "audiobookSleepTimer": "",
+    "audiobookSleepOff": "",
+    "audiobookSleepEndOfChapter": "",
+    "audiobookSleepCustom": "",
+    "audiobookSleepRemaining": "",
     "@audiobookSleepRemaining": {
         "placeholders": {
             "remaining": {
@@ -8751,7 +8751,7 @@
             }
         }
     },
-    "audiobookSleepMinutes": "{count, plural, =1{1 min} other{{count} min}}",
+    "audiobookSleepMinutes": "",
     "@audiobookSleepMinutes": {
         "placeholders": {
             "count": {
@@ -8759,10 +8759,10 @@
             }
         }
     },
-    "audiobookPlaybackSpeed": "Viteza de redare",
-    "audiobookRemainingTime": "Rămas",
-    "audiobookElapsedTime": "Scurs",
-    "audiobookSkipBackSeconds": "Înapoi {seconds}s",
+    "audiobookPlaybackSpeed": "",
+    "audiobookRemainingTime": "",
+    "audiobookElapsedTime": "",
+    "audiobookSkipBackSeconds": "",
     "@audiobookSkipBackSeconds": {
         "placeholders": {
             "seconds": {
@@ -8770,7 +8770,7 @@
             }
         }
     },
-    "audiobookSkipForwardSeconds": "Înainte {seconds}s",
+    "audiobookSkipForwardSeconds": "",
     "@audiobookSkipForwardSeconds": {
         "placeholders": {
             "seconds": {
@@ -8778,9 +8778,9 @@
             }
         }
     },
-    "audiobookPreviousChapter": "Capitolul anterior",
-    "audiobookNextChapter": "Capitolul următor",
-    "audiobookChapterIndicator": "Capitolul {current} din {total}",
+    "audiobookPreviousChapter": "",
+    "audiobookNextChapter": "",
+    "audiobookChapterIndicator": "",
     "@audiobookChapterIndicator": {
         "placeholders": {
             "current": {
@@ -8791,10 +8791,10 @@
             }
         }
     },
-    "audiobookNoChapters": "Niciun capitol",
-    "audiobookNoBookmarks": "Niciun marcaj încă",
-    "audiobookNoNotes": "Nicio notiță încă",
-    "audiobookBookmarkAdded": "Marcaj adăugat la {position}",
+    "audiobookNoChapters": "",
+    "audiobookNoBookmarks": "",
+    "audiobookNoNotes": "",
+    "audiobookBookmarkAdded": "",
     "@audiobookBookmarkAdded": {
         "placeholders": {
             "position": {
@@ -8802,8 +8802,8 @@
             }
         }
     },
-    "audiobookSpeedReset": "Resetează la 1.0x",
-    "audiobookSpeedCustomLabel": "{value}x",
+    "audiobookSpeedReset": "",
+    "audiobookSpeedCustomLabel": "",
     "@audiobookSpeedCustomLabel": {
         "placeholders": {
             "value": {
@@ -8811,58 +8811,58 @@
             }
         }
     },
-    "audiobookSave": "Salvează",
-    "audiobookCancel": "Anulează",
-    "audiobookDelete": "Șterge",
-    "subtitlePreferences": "Preferințe pentru subtitrări",
+    "audiobookSave": "",
+    "audiobookCancel": "",
+    "audiobookDelete": "",
+    "subtitlePreferences": "",
     "@subtitlePreferences": {
         "description": "Title for the subtitle preferences settings section"
     },
-    "subtitlePreferencesDescription": "Modificați modurile de subtitrare, limbile implicite, aspectul și opțiunile de randare.",
+    "subtitlePreferencesDescription": "",
     "@subtitlePreferencesDescription": {
         "description": "Description for the subtitle preferences settings section"
     },
-    "subtitleRendering": "Randarea subtitrărilor",
+    "subtitleRendering": "",
     "@subtitleRendering": {
         "description": "Header for subtitle rendering settings"
     },
-    "displayOptions": "Opțiuni de afișare",
+    "displayOptions": "",
     "@displayOptions": {
         "description": "Title for details display options dialog"
     },
-    "releaseDateAscending": "Data lansării (crescător)",
+    "releaseDateAscending": "",
     "@releaseDateAscending": {
         "description": "Sort option for crew/cast contributions in ascending release date order"
     },
-    "releaseDateDescending": "Data lansării (descrescător)",
+    "releaseDateDescending": "",
     "@releaseDateDescending": {
         "description": "Sort option for crew/cast contributions in descending release date order"
     },
-    "groupContributions": "Gruparea contribuțiilor",
+    "groupContributions": "",
     "@groupContributions": {
         "description": "Section header for grouping person contributions"
     },
-    "groupMultipleRoles": "Grupează rolurile multiple",
+    "groupMultipleRoles": "",
     "@groupMultipleRoles": {
         "description": "Option to group multiple roles for a person"
     },
-    "libraryWriteAccessWarningTitle": "Avertisment privind accesul de scriere în bibliotecă",
+    "libraryWriteAccessWarningTitle": "",
     "@libraryWriteAccessWarningTitle": {
         "description": "Title for library write access warning dialog"
     },
-    "libraryWriteAccessHowToFix": "Cum puteți rezolva:",
+    "libraryWriteAccessHowToFix": "",
     "@libraryWriteAccessHowToFix": {
         "description": "Section header for write access troubleshooting"
     },
-    "libraryWriteAccessFixSteps": "1. Acordați permisiuni de scriere utilizatorului serviciului Jellyfin (de ex. jellyfin sau PUID/PGID din Docker) pentru folderele bibliotecii media de pe server.\n\n2. Sau accesați panoul de control Jellyfin -> Biblioteci, editați această bibliotecă și dezactivați „Salvează imaginile în folderele media” pentru a stoca imaginile în baza de date internă a Jellyfin.",
+    "libraryWriteAccessFixSteps": "",
     "@libraryWriteAccessFixSteps": {
         "description": "Troubleshooting steps for write access issues"
     },
-    "dismiss": "Închide",
+    "dismiss": "",
     "@dismiss": {
         "description": "Dismiss button text"
     },
-    "libraryWriteAccessProactiveBody": "Biblioteca dvs. „{libraryName}” este configurată să salveze imaginile direct în folderele media (opțiunea „Salvează imaginile în folderele media” este activată). Totuși, Jellyfin a testat accesul de scriere și nu are permisiunea de a scrie fișiere în acest director:\n\n{failedPath}",
+    "libraryWriteAccessProactiveBody": "",
     "@libraryWriteAccessProactiveBody": {
         "description": "Proactive warning message about server write access",
         "placeholders": {
@@ -8874,21 +8874,21 @@
             }
         }
     },
-    "libraryWriteAccessReactiveBody": "Se pare că Jellyfin nu a reușit să actualizeze imaginea. Biblioteca dvs. este configurată să salveze imaginile direct în folderele media (opțiunea „Salvează imaginile în folderele media” este activată). Această eroare apare de obicei atunci când procesul serverului Jellyfin nu are permisiunea de a scrie fișiere în directoarele media.",
+    "libraryWriteAccessReactiveBody": "",
     "@libraryWriteAccessReactiveBody": {
         "description": "Reactive error warning message when artwork update fails"
     },
-    "externalLists": "Liste externe",
-    "replay": "Redă din nou",
-    "fileInformation": "Informații despre fișier",
-    "fileSizeFormat": "Dimensiune: {size}  •  Format: {format}",
+    "externalLists": "",
+    "replay": "",
+    "fileInformation": "",
+    "fileSizeFormat": "",
     "@fileSizeFormat": {
         "placeholders": {
             "size": {},
             "format": {}
         }
     },
-    "showAllAudioTracks": "Afișează toate pistele audio ({count})",
+    "showAllAudioTracks": "",
     "@showAllAudioTracks": {
         "placeholders": {
             "count": {
@@ -8896,7 +8896,7 @@
             }
         }
     },
-    "showAllSubtitleTracks": "Afișează toate pistele de subtitrare ({count})",
+    "showAllSubtitleTracks": "",
     "@showAllSubtitleTracks": {
         "placeholders": {
             "count": {
@@ -8904,30 +8904,30 @@
             }
         }
     },
-    "checkingDirectPlay": "Se verifică suportul pentru redare directă...",
-    "directPlayCapabilityLabel": "Suport pentru redare directă: ",
-    "forced": "Forțat",
-    "transcodeContainerNotSupported": "Formatul containerului nu este acceptat de player.",
-    "transcodeVideoCodecNotSupported": "Codecul video nu este acceptat.",
-    "transcodeAudioCodecNotSupported": "Codecul audio nu este acceptat.",
-    "transcodeSubtitleCodecNotSupported": "Formatul subtitrării nu este acceptat (necesită încorporare în imagine).",
-    "transcodeAudioProfileNotSupported": "Profilul audio nu este acceptat.",
-    "transcodeVideoProfileNotSupported": "Profilul video nu este acceptat.",
-    "transcodeVideoLevelNotSupported": "Nivelul video nu este acceptat.",
-    "transcodeVideoResolutionNotSupported": "Rezoluția video nu este acceptată de acest dispozitiv.",
-    "transcodeVideoBitDepthNotSupported": "Adâncimea de biți a imaginii nu este acceptată.",
-    "transcodeVideoFramerateNotSupported": "Rata de cadre nu este acceptată.",
-    "transcodeContainerBitrateExceedsLimit": "Bitrate-ul fișierului depășește limita de streaming a playerului.",
-    "transcodeVideoBitrateExceedsLimit": "Bitrate-ul video depășește limita de streaming.",
-    "transcodeAudioBitrateExceedsLimit": "Bitrate-ul audio depășește limita de streaming.",
-    "transcodeAudioChannelsNotSupported": "Numărul de canale audio nu este acceptat.",
-    "sortAlphabetical": "Alfabetic",
-    "sortReleaseAscending": "Ordinea lansării (crescător)",
-    "sortReleaseDescending": "Ordinea lansării (descrescător)",
-    "sortCustomDragDrop": "Personalizat (trageți și plasați)",
-    "playlistSortOptions": "Opțiuni de sortare a listei de redare",
-    "resetSort": "Resetează sortarea",
-    "rewatchSeasonEpisode": "Revizionează S{season}:E{episode}",
+    "checkingDirectPlay": "",
+    "directPlayCapabilityLabel": "",
+    "forced": "",
+    "transcodeContainerNotSupported": "",
+    "transcodeVideoCodecNotSupported": "",
+    "transcodeAudioCodecNotSupported": "",
+    "transcodeSubtitleCodecNotSupported": "",
+    "transcodeAudioProfileNotSupported": "",
+    "transcodeVideoProfileNotSupported": "",
+    "transcodeVideoLevelNotSupported": "",
+    "transcodeVideoResolutionNotSupported": "",
+    "transcodeVideoBitDepthNotSupported": "",
+    "transcodeVideoFramerateNotSupported": "",
+    "transcodeContainerBitrateExceedsLimit": "",
+    "transcodeVideoBitrateExceedsLimit": "",
+    "transcodeAudioBitrateExceedsLimit": "",
+    "transcodeAudioChannelsNotSupported": "",
+    "sortAlphabetical": "",
+    "sortReleaseAscending": "",
+    "sortReleaseDescending": "",
+    "sortCustomDragDrop": "",
+    "playlistSortOptions": "",
+    "resetSort": "",
+    "rewatchSeasonEpisode": "",
     "@rewatchSeasonEpisode": {
         "placeholders": {
             "season": {
@@ -8938,57 +8938,57 @@
             }
         }
     },
-    "rewatchPlaylist": "Revizionează lista de redare",
-    "noSubtitlesFound": "Nu au fost găsite subtitrări.",
-    "adminControls": "Comenzi de administrare",
-    "impellerRendering": "Motor de randare (Impeller)",
+    "rewatchPlaylist": "",
+    "noSubtitlesFound": "",
+    "adminControls": "",
+    "impellerRendering": "",
     "@impellerRendering": {
         "description": "Title of the setting that selects the Flutter rendering engine (Impeller vs. legacy)."
     },
-    "impellerRenderingSubtitle": "Impeller este motorul GPU modern al Flutter, pentru animații mai fluide și mai puține sacadări. Pe unele TV box-uri și plăci grafice mai vechi poate provoca artefacte sau imagine neagră; dezactivați-l dacă observați astfel de probleme. Opțiunea Automat alege cea mai bună valoare implicită pentru dispozitivul dvs. Reporniți Moonfin pentru a aplica modificarea.",
+    "impellerRenderingSubtitle": "",
     "@impellerRenderingSubtitle": {
         "description": "Explanatory description under the rendering engine setting."
     },
-    "impellerAuto": "Automat",
-    "impellerOn": "Activat",
-    "impellerOff": "Dezactivat",
-    "impellerRestartTitle": "Repornire necesară",
+    "impellerAuto": "",
+    "impellerOn": "",
+    "impellerOff": "",
+    "impellerRestartTitle": "",
     "@impellerRestartTitle": {
         "description": "Title of the dialog shown after changing the rendering engine."
     },
-    "impellerRestartMessage": "Moonfin trebuie repornit pentru a schimba motorul de randare. Închideți aplicația acum, apoi redeschideți-o pentru a aplica modificarea.",
+    "impellerRestartMessage": "",
     "@impellerRestartMessage": {
         "description": "Body of the dialog shown after changing the rendering engine."
     },
-    "impellerCloseNow": "Închide aplicația acum",
+    "impellerCloseNow": "",
     "@impellerCloseNow": {
         "description": "Button that closes the app so the new rendering engine takes effect on next launch."
     },
-    "adminRefreshLibrary": "Reîmprospătează biblioteca",
+    "adminRefreshLibrary": "",
     "@adminRefreshLibrary": {
         "description": "Dropdown option to refresh/rescan a single library"
     },
-    "adminRefreshAllLibraries": "Reîmprospătează toate bibliotecile",
+    "adminRefreshAllLibraries": "",
     "@adminRefreshAllLibraries": {
         "description": "Floating action button text to refresh all libraries"
     },
-    "adminRepoSortDateOldest": "Data adăugării (cele mai vechi primele)",
+    "adminRepoSortDateOldest": "",
     "@adminRepoSortDateOldest": {
         "description": "Repository sort option, oldest added first"
     },
-    "adminRepoSortDateNewest": "Data adăugării (cele mai noi primele)",
+    "adminRepoSortDateNewest": "",
     "@adminRepoSortDateNewest": {
         "description": "Repository sort option, newest added first"
     },
-    "adminRepoSortNameAsc": "Alfabetic (de la A la Z)",
+    "adminRepoSortNameAsc": "",
     "@adminRepoSortNameAsc": {
         "description": "Repository sort option, alphabetical ascending"
     },
-    "adminRepoSortNameDesc": "Alfabetic (de la Z la A)",
+    "adminRepoSortNameDesc": "",
     "@adminRepoSortNameDesc": {
         "description": "Repository sort option, alphabetical descending"
     },
-    "adminAnalyticsLoadingProgress": "Se încarcă analizele serverului... {percentage}%",
+    "adminAnalyticsLoadingProgress": "",
     "@adminAnalyticsLoadingProgress": {
         "description": "Progress label shown while server analytics load",
         "placeholders": {
@@ -8997,14 +8997,14 @@
             }
         }
     },
-    "adminLibChapterImageResolutionMatchSource": "Ca sursa",
+    "adminLibChapterImageResolutionMatchSource": "",
     "@adminLibChapterImageResolutionMatchSource": {
         "description": "Chapter image resolution option that matches the source resolution"
     },
-    "imdbTop250Movies": "IMDb Top 250 filme",
-    "imdbTop250TvShows": "IMDb Top 250 seriale TV",
-    "imdbMostPopularMovies": "Cele mai populare filme IMDb",
-    "imdbMostPopularTvShows": "Cele mai populare seriale TV IMDb",
-    "imdbLowestRatedMovies": "Filme cu cel mai mic scor IMDb",
-    "imdbTopEnglishMovies": "Cele mai bine cotate filme în engleză pe IMDb"
+    "imdbTop250Movies": "",
+    "imdbTop250TvShows": "",
+    "imdbMostPopularMovies": "",
+    "imdbMostPopularTvShows": "",
+    "imdbLowestRatedMovies": "",
+    "imdbTopEnglishMovies": ""
 }
