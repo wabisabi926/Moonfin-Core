@@ -647,8 +647,11 @@ static void *run_loop(void *arg) {
     if (now_ns() - h->last_sram_flush_ns > 30000000000ull) sram_flush(h);
 
     if (h->audio_paced) {
-      while (h->running && !h->paused &&
-             buffered_seconds(h) > pace_seconds) {
+      // Wait for the audio device to drain the ring, but never longer than a
+      // couple of frames, so a stalled consumer cannot freeze frame output.
+      uint64_t deadline = now_ns() + frame_ns * 2;
+      while (h->running && !h->paused && buffered_seconds(h) > pace_seconds &&
+             now_ns() < deadline) {
         sleep_ns(2000000);
       }
     } else {

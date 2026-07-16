@@ -28,8 +28,7 @@ class LibretroBridge(flutterEngine: FlutterEngine) {
   private val mainHandler = Handler(Looper.getMainLooper())
 
   private var eventSink: EventChannel.EventSink? = null
-  private var textureEntry: TextureRegistry.SurfaceTextureEntry? = null
-  private var surface: Surface? = null
+  private var surfaceProducer: TextureRegistry.SurfaceProducer? = null
 
   private var audioTrack: AudioTrack? = null
   private var audioThread: Thread? = null
@@ -121,30 +120,28 @@ class LibretroBridge(flutterEngine: FlutterEngine) {
     val keys = options.keys.toTypedArray()
     val values = keys.map { options[it]!! }.toTypedArray()
 
-    val entry = textures.createSurfaceTexture()
-    textureEntry = entry
+    val producer = textures.createSurfaceProducer()
+    surfaceProducer = producer
 
     val av = nativeLoad(core, corePath, romPath, systemDir, saveDir, gameId, keys, values)
     if (av == null) {
-      entry.release()
-      textureEntry = null
+      producer.release()
+      surfaceProducer = null
       result.error("load_failed", null, null)
       return
     }
 
     val width = av[0].toInt()
     val height = av[1].toInt()
-    entry.surfaceTexture().setDefaultBufferSize(width, height)
-    val outputSurface = Surface(entry.surfaceTexture())
-    surface = outputSurface
-    nativeSetSurface(outputSurface)
+    producer.setSize(width, height)
+    nativeSetSurface(producer.surface)
 
     startAudio(av[4].toInt())
     isActive = true
 
     result.success(
       mapOf(
-        "textureId" to entry.id(),
+        "textureId" to producer.id(),
         "width" to width,
         "height" to height,
         "aspect" to av[2],
@@ -157,10 +154,8 @@ class LibretroBridge(flutterEngine: FlutterEngine) {
     isActive = false
     stopAudio()
     nativeStop()
-    surface?.release()
-    surface = null
-    textureEntry?.release()
-    textureEntry = null
+    surfaceProducer?.release()
+    surfaceProducer = null
     portMask = 0
     pulseMask = 0
     touchMask = 0
