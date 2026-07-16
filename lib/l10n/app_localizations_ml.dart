@@ -2999,6 +2999,13 @@ class AppLocalizationsMl extends AppLocalizations {
   String get wifiOnlyDownloads => 'വൈഫൈ-മാത്രം ഡൗൺലോഡുകൾ';
 
   @override
+  String get reportDownloadsActivity => 'Show downloads on the server';
+
+  @override
+  String get reportDownloadsActivitySubtitle =>
+      'Let the server admin see your transcoded downloads in the dashboard';
+
+  @override
   String get onlyDownloadOnWifi =>
       'വൈഫൈയിലേക്ക് കണക്റ്റ് ചെയ്യുമ്പോൾ മാത്രം ഡൗൺലോഡ് ചെയ്യുക';
 
@@ -3832,6 +3839,20 @@ class AppLocalizationsMl extends AppLocalizations {
   String gbValue(String value) {
     return '$value GB';
   }
+
+  @override
+  String mbValue(int value) {
+    return '$value MB';
+  }
+
+  @override
+  String get imageCacheLimit => 'Image cache limit';
+
+  @override
+  String get clearImageCache => 'Clear image cache';
+
+  @override
+  String get imageCacheCleared => 'Image cache cleared';
 
   @override
   String get clear => 'ക്ലിയർ';
@@ -6201,16 +6222,115 @@ class AppLocalizationsMl extends AppLocalizations {
   String get adminAddTuner => 'ട്യൂണർ ചേർക്കുക';
 
   @override
+  String get adminEditTuner => 'Edit Tuner';
+
+  @override
+  String get adminTunerTypeM3u => 'M3U Tuner';
+
+  @override
+  String get adminTunerTypeHdHomerun => 'HDHomeRun';
+
+  @override
+  String get adminTunerFileOrUrl => 'File or URL';
+
+  @override
+  String get adminTunerIpAddress => 'Tuner IP address';
+
+  @override
+  String get adminTunerFriendlyName => 'Friendly name';
+
+  @override
+  String get adminTunerUserAgent => 'User agent';
+
+  @override
+  String get adminTunerCount => 'Simultaneous connection limit';
+
+  @override
+  String get adminTunerCountHelp =>
+      'The maximum number of streams the tuner allows at once. Set to 0 for unlimited.';
+
+  @override
+  String get adminTunerFallbackBitrate => 'Fallback max streaming bitrate';
+
+  @override
+  String get adminTunerImportFavoritesOnly => 'Import only favorite channels';
+
+  @override
+  String get adminTunerAllowHwTranscoding => 'Allow hardware transcoding';
+
+  @override
+  String get adminTunerAllowFmp4 => 'Allow fMP4 transcoding container';
+
+  @override
+  String get adminTunerAllowStreamSharing => 'Allow stream sharing';
+
+  @override
+  String get adminTunerEnableStreamLooping => 'Enable stream looping';
+
+  @override
+  String get adminTunerIgnoreDts => 'Ignore DTS';
+
+  @override
+  String get adminTunerReadAtNativeFramerate =>
+      'Read input at native frame rate';
+
+  @override
+  String get adminEditProvider => 'Edit Provider';
+
+  @override
+  String get adminProviderXmltv => 'XMLTV';
+
+  @override
+  String get adminProviderSchedulesDirect => 'Schedules Direct';
+
+  @override
+  String get adminXmltvPath => 'File or URL';
+
+  @override
+  String get adminXmltvMoviePrefix => 'Movie prefix';
+
+  @override
+  String get adminXmltvMovieCategories => 'Movie categories';
+
+  @override
+  String get adminXmltvCategoriesHelp =>
+      'Separate multiple categories with a vertical bar.';
+
+  @override
+  String get adminXmltvKidsCategories => 'Kids categories';
+
+  @override
+  String get adminXmltvNewsCategories => 'News categories';
+
+  @override
+  String get adminXmltvSportsCategories => 'Sports categories';
+
+  @override
+  String get adminSdUsername => 'Username';
+
+  @override
+  String get adminSdPassword => 'Password';
+
+  @override
+  String get adminSdCountry => 'Country';
+
+  @override
+  String get adminSdCountrySelect => 'Select a country';
+
+  @override
+  String get adminSdPostalCode => 'Postal code';
+
+  @override
+  String get adminSdGetListings => 'Get listings';
+
+  @override
+  String get adminSdListings => 'Listings';
+
+  @override
+  String get adminEnableAllTuners => 'Enable all tuners';
+
+  @override
   String get adminTunerType => 'ട്യൂണർ തരം';
-
-  @override
-  String get adminTunerTypeHint => 'HDHomeRun, M3U, മറ്റുള്ളവ';
-
-  @override
-  String get adminUrlPath => 'URL / പാത';
-
-  @override
-  String get adminNameOptional => 'പേര് (ഓപ്ഷണൽ)';
 
   @override
   String get adminTunerAdded => 'ട്യൂണർ കൂട്ടിച്ചേർത്തു';
@@ -6225,15 +6345,6 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get adminProviderType => 'ദാതാവിൻ്റെ തരം';
-
-  @override
-  String get adminProviderTypeHint => 'ഷെഡ്യൂൾസ്ഡയറക്ട് അല്ലെങ്കിൽ XMLTV';
-
-  @override
-  String get adminUsernameOptional => 'ഉപയോക്തൃനാമം (ഓപ്ഷണൽ)';
-
-  @override
-  String get adminRefreshInterval => 'പുതുക്കിയ ഇടവേള (മണിക്കൂറുകൾ)';
 
   @override
   String get adminProviderAdded => 'ദാതാവ് ചേർത്തു';
@@ -7020,6 +7131,13 @@ class AppLocalizationsMl extends AppLocalizations {
   String get adminPlaybackTonemappingParam => 'Tone mapping parameter';
 
   @override
+  String get adminPlaybackVppTonemappingBrightness =>
+      'VPP tone mapping brightness';
+
+  @override
+  String get adminPlaybackVppTonemappingContrast => 'VPP tone mapping contrast';
+
+  @override
   String get adminPlaybackPresetsQuality => 'Presets & Quality';
 
   @override
@@ -7033,6 +7151,10 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get adminPlaybackDeinterlaceMethod => 'Deinterlace method';
+
+  @override
+  String get adminPlaybackDeinterlaceDoubleRate =>
+      'Double the frame rate when deinterlacing';
 
   @override
   String get adminPlaybackAudioSection => 'Audio';
@@ -7396,6 +7518,13 @@ class AppLocalizationsMl extends AppLocalizations {
   String get adminPlaybackThrottleBuffering => 'ത്രോട്ടിൽ ബഫറിംഗ്';
 
   @override
+  String get adminPlaybackThrottleDelay => 'Throttle delay (seconds)';
+
+  @override
+  String get adminPlaybackEnableSubtitleExtraction =>
+      'Allow subtitle extraction on the fly';
+
+  @override
   String get adminResumeMinPct => 'ഏറ്റവും കുറഞ്ഞ റെസ്യൂമെ ശതമാനം';
 
   @override
@@ -7476,6 +7605,9 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get adminGeneralServerName => 'സെർവറിൻ്റെ പേര്';
+
+  @override
+  String get adminGeneralDisplayLanguage => 'Preferred display language';
 
   @override
   String get adminSettingsLoadFailed =>

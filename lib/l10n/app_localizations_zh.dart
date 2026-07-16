@@ -2900,6 +2900,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get wifiOnlyDownloads => '仅 Wi-Fi 下载';
 
   @override
+  String get reportDownloadsActivity => 'Show downloads on the server';
+
+  @override
+  String get reportDownloadsActivitySubtitle =>
+      'Let the server admin see your transcoded downloads in the dashboard';
+
+  @override
   String get onlyDownloadOnWifi => '仅在连接 Wi-Fi 时下载';
 
   @override
@@ -3679,6 +3686,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String gbValue(String value) {
     return '$value GB';
   }
+
+  @override
+  String mbValue(int value) {
+    return '$value MB';
+  }
+
+  @override
+  String get imageCacheLimit => 'Image cache limit';
+
+  @override
+  String get clearImageCache => 'Clear image cache';
+
+  @override
+  String get imageCacheCleared => 'Image cache cleared';
 
   @override
   String get clear => '清除';
@@ -5952,16 +5973,115 @@ class AppLocalizationsZh extends AppLocalizations {
   String get adminAddTuner => '添加调谐器';
 
   @override
+  String get adminEditTuner => 'Edit Tuner';
+
+  @override
+  String get adminTunerTypeM3u => 'M3U Tuner';
+
+  @override
+  String get adminTunerTypeHdHomerun => 'HDHomeRun';
+
+  @override
+  String get adminTunerFileOrUrl => 'File or URL';
+
+  @override
+  String get adminTunerIpAddress => 'Tuner IP address';
+
+  @override
+  String get adminTunerFriendlyName => 'Friendly name';
+
+  @override
+  String get adminTunerUserAgent => 'User agent';
+
+  @override
+  String get adminTunerCount => 'Simultaneous connection limit';
+
+  @override
+  String get adminTunerCountHelp =>
+      'The maximum number of streams the tuner allows at once. Set to 0 for unlimited.';
+
+  @override
+  String get adminTunerFallbackBitrate => 'Fallback max streaming bitrate';
+
+  @override
+  String get adminTunerImportFavoritesOnly => 'Import only favorite channels';
+
+  @override
+  String get adminTunerAllowHwTranscoding => 'Allow hardware transcoding';
+
+  @override
+  String get adminTunerAllowFmp4 => 'Allow fMP4 transcoding container';
+
+  @override
+  String get adminTunerAllowStreamSharing => 'Allow stream sharing';
+
+  @override
+  String get adminTunerEnableStreamLooping => 'Enable stream looping';
+
+  @override
+  String get adminTunerIgnoreDts => 'Ignore DTS';
+
+  @override
+  String get adminTunerReadAtNativeFramerate =>
+      'Read input at native frame rate';
+
+  @override
+  String get adminEditProvider => 'Edit Provider';
+
+  @override
+  String get adminProviderXmltv => 'XMLTV';
+
+  @override
+  String get adminProviderSchedulesDirect => 'Schedules Direct';
+
+  @override
+  String get adminXmltvPath => 'File or URL';
+
+  @override
+  String get adminXmltvMoviePrefix => 'Movie prefix';
+
+  @override
+  String get adminXmltvMovieCategories => 'Movie categories';
+
+  @override
+  String get adminXmltvCategoriesHelp =>
+      'Separate multiple categories with a vertical bar.';
+
+  @override
+  String get adminXmltvKidsCategories => 'Kids categories';
+
+  @override
+  String get adminXmltvNewsCategories => 'News categories';
+
+  @override
+  String get adminXmltvSportsCategories => 'Sports categories';
+
+  @override
+  String get adminSdUsername => 'Username';
+
+  @override
+  String get adminSdPassword => 'Password';
+
+  @override
+  String get adminSdCountry => 'Country';
+
+  @override
+  String get adminSdCountrySelect => 'Select a country';
+
+  @override
+  String get adminSdPostalCode => 'Postal code';
+
+  @override
+  String get adminSdGetListings => 'Get listings';
+
+  @override
+  String get adminSdListings => 'Listings';
+
+  @override
+  String get adminEnableAllTuners => 'Enable all tuners';
+
+  @override
   String get adminTunerType => '调谐器类型';
-
-  @override
-  String get adminTunerTypeHint => 'HDHomeRun、M3U、其他';
-
-  @override
-  String get adminUrlPath => 'URL/路径';
-
-  @override
-  String get adminNameOptional => '名称（可选）';
 
   @override
   String get adminTunerAdded => '已添加调谐器';
@@ -5976,15 +6096,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get adminProviderType => '提供方类型';
-
-  @override
-  String get adminProviderTypeHint => 'ScheduleDirect 或 XMLTV';
-
-  @override
-  String get adminUsernameOptional => '用户名（可选）';
-
-  @override
-  String get adminRefreshInterval => '刷新间隔（小时）';
 
   @override
   String get adminProviderAdded => '提供方已添加';
@@ -6735,6 +6846,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get adminPlaybackTonemappingParam => '色调映射参数';
 
   @override
+  String get adminPlaybackVppTonemappingBrightness =>
+      'VPP tone mapping brightness';
+
+  @override
+  String get adminPlaybackVppTonemappingContrast => 'VPP tone mapping contrast';
+
+  @override
   String get adminPlaybackPresetsQuality => '预设与画质';
 
   @override
@@ -6748,6 +6866,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get adminPlaybackDeinterlaceMethod => '去隔行方法';
+
+  @override
+  String get adminPlaybackDeinterlaceDoubleRate =>
+      'Double the frame rate when deinterlacing';
 
   @override
   String get adminPlaybackAudioSection => '音频';
@@ -7096,6 +7218,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get adminPlaybackThrottleBuffering => '启用缓冲节流';
 
   @override
+  String get adminPlaybackThrottleDelay => 'Throttle delay (seconds)';
+
+  @override
+  String get adminPlaybackEnableSubtitleExtraction =>
+      'Allow subtitle extraction on the fly';
+
+  @override
   String get adminResumeMinPct => '保存进度的最低百分比';
 
   @override
@@ -7171,6 +7300,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get adminGeneralServerName => '服务器名称';
+
+  @override
+  String get adminGeneralDisplayLanguage => 'Preferred display language';
 
   @override
   String get adminSettingsLoadFailed => '无法加载设置';
@@ -14451,15 +14583,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get adminTunerType => '調音器類型';
 
   @override
-  String get adminTunerTypeHint => 'HDHomeRun、M3U、其他';
-
-  @override
-  String get adminUrlPath => '網址/路徑';
-
-  @override
-  String get adminNameOptional => '姓名（可選）';
-
-  @override
   String get adminTunerAdded => '新增了調音器';
 
   @override
@@ -14472,15 +14595,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get adminProviderType => '提供者類型';
-
-  @override
-  String get adminProviderTypeHint => 'ScheduleDirect 或 XMLTV';
-
-  @override
-  String get adminUsernameOptional => '使用者名稱（可選）';
-
-  @override
-  String get adminRefreshInterval => '刷新間隔（小時）';
 
   @override
   String get adminProviderAdded => '提供者已新增';
@@ -16489,9 +16603,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String get subtitlesUseEmbeddedFontSizesSubtitle =>
       'Apply font-size hints embedded in the subtitle track. Disable to use the subtitle size from your style preferences.';
-
-  @override
-  String get hideBackdropsInLibraries => 'Hide Backdrops while Browsing?';
 
   @override
   String get useDetailedSubHeadings => 'Use Detailed Sub-Headings';

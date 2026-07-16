@@ -4118,6 +4118,8 @@
   "@wifiOnlyDownloads": {
     "description": "Setting for wifi-only downloads"
   },
+  "reportDownloadsActivity": "Show downloads on the server",
+  "reportDownloadsActivitySubtitle": "Let the server admin see your transcoded downloads in the dashboard",
   "onlyDownloadOnWifi": "Only download when connected to WiFi",
   "@onlyDownloadOnWifi": {
     "description": "Description for wifi-only downloads"
@@ -5206,6 +5208,18 @@
       }
     }
   },
+  "mbValue": "{value} MB",
+  "@mbValue": {
+    "description": "Megabyte value display",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "imageCacheLimit": "Image cache limit",
+  "clearImageCache": "Clear image cache",
+  "imageCacheCleared": "Image cache cleared",
   "clear": "Clear",
   "@clear": {
     "description": "Button to clear"
@@ -6804,10 +6818,42 @@
     }
   },
   "adminAddTuner": "Add Tuner",
+  "adminEditTuner": "Edit Tuner",
+  "adminTunerTypeM3u": "M3U Tuner",
+  "adminTunerTypeHdHomerun": "HDHomeRun",
+  "adminTunerFileOrUrl": "File or URL",
+  "adminTunerIpAddress": "Tuner IP address",
+  "adminTunerFriendlyName": "Friendly name",
+  "adminTunerUserAgent": "User agent",
+  "adminTunerCount": "Simultaneous connection limit",
+  "adminTunerCountHelp": "The maximum number of streams the tuner allows at once. Set to 0 for unlimited.",
+  "adminTunerFallbackBitrate": "Fallback max streaming bitrate",
+  "adminTunerImportFavoritesOnly": "Import only favorite channels",
+  "adminTunerAllowHwTranscoding": "Allow hardware transcoding",
+  "adminTunerAllowFmp4": "Allow fMP4 transcoding container",
+  "adminTunerAllowStreamSharing": "Allow stream sharing",
+  "adminTunerEnableStreamLooping": "Enable stream looping",
+  "adminTunerIgnoreDts": "Ignore DTS",
+  "adminTunerReadAtNativeFramerate": "Read input at native frame rate",
+  "adminEditProvider": "Edit Provider",
+  "adminProviderXmltv": "XMLTV",
+  "adminProviderSchedulesDirect": "Schedules Direct",
+  "adminXmltvPath": "File or URL",
+  "adminXmltvMoviePrefix": "Movie prefix",
+  "adminXmltvMovieCategories": "Movie categories",
+  "adminXmltvCategoriesHelp": "Separate multiple categories with a vertical bar.",
+  "adminXmltvKidsCategories": "Kids categories",
+  "adminXmltvNewsCategories": "News categories",
+  "adminXmltvSportsCategories": "Sports categories",
+  "adminSdUsername": "Username",
+  "adminSdPassword": "Password",
+  "adminSdCountry": "Country",
+  "adminSdCountrySelect": "Select a country",
+  "adminSdPostalCode": "Postal code",
+  "adminSdGetListings": "Get listings",
+  "adminSdListings": "Listings",
+  "adminEnableAllTuners": "Enable all tuners",
   "adminTunerType": "Tuner Type",
-  "adminTunerTypeHint": "HDHomeRun, M3U, Other",
-  "adminUrlPath": "URL / Path",
-  "adminNameOptional": "Name (optional)",
   "adminTunerAdded": "Tuner added",
   "adminTunerAddFailed": "Failed to add tuner: {error}",
   "@adminTunerAddFailed": {
@@ -6817,9 +6863,6 @@
   },
   "adminAddGuideProvider": "Add Guide Provider",
   "adminProviderType": "Provider Type",
-  "adminProviderTypeHint": "SchedulesDirect or XMLTV",
-  "adminUsernameOptional": "Username (optional)",
-  "adminRefreshInterval": "Refresh interval (hours)",
   "adminProviderAdded": "Provider added",
   "adminProviderAddFailed": "Failed to add provider: {error}",
   "@adminProviderAddFailed": {
@@ -7230,11 +7273,14 @@
   "adminPlaybackTonemappingDesat": "Tone mapping desaturation",
   "adminPlaybackTonemappingPeak": "Tone mapping peak",
   "adminPlaybackTonemappingParam": "Tone mapping parameter",
+  "adminPlaybackVppTonemappingBrightness": "VPP tone mapping brightness",
+  "adminPlaybackVppTonemappingContrast": "VPP tone mapping contrast",
   "adminPlaybackPresetsQuality": "Presets & Quality",
   "adminPlaybackEncoderPreset": "Encoder preset",
   "adminPlaybackH264Crf": "H.264 encoding CRF",
   "adminPlaybackH265Crf": "H.265 (HEVC) encoding CRF",
   "adminPlaybackDeinterlaceMethod": "Deinterlace method",
+  "adminPlaybackDeinterlaceDoubleRate": "Double the frame rate when deinterlacing",
   "adminPlaybackAudioSection": "Audio",
   "adminPlaybackEnableAudioVbr": "Enable audio VBR encoding",
   "adminPlaybackDownmixBoost": "Audio downmix boost",
@@ -7405,6 +7451,8 @@
   "adminPlaybackSegmentDeletion": "Allow segment deletion",
   "adminPlaybackSegmentKeep": "Segment keep (seconds)",
   "adminPlaybackThrottleBuffering": "Throttle buffering",
+  "adminPlaybackThrottleDelay": "Throttle delay (seconds)",
+  "adminPlaybackEnableSubtitleExtraction": "Allow subtitle extraction on the fly",
 
   "adminResumeMinPct": "Minimum resume percentage",
   "adminResumeMinPctSubtitle": "Content must be played past this percentage to save progress",
@@ -7439,6 +7487,7 @@
   "adminGeneralCachePath": "Cache path",
   "adminGeneralMetadataPath": "Metadata path",
   "adminGeneralServerName": "Server name",
+  "adminGeneralDisplayLanguage": "Preferred display language",
   "adminSettingsLoadFailed": "Failed to load settings",
   "adminDiscover": "Discover",
   "adminChannelMappingsUpdateFailed": "Failed to update mappings: {error}",

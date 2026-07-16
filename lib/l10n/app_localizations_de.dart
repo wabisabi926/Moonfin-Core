@@ -154,14 +154,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get detailScreenStyleModern => 'Modern';
 
   @override
-  String get expandedTabs => 'Expanded Tabs';
+  String get expandedTabs => 'Erweiterte Tabs';
 
   @override
   String get expandedTabsSubtitle =>
-      'Automatically show tab content while browsing tabs. Turn off to open and close each tab manually.';
+      'Tab-Inhalte beim Wechseln zwischen den Tabs automatisch anzeigen. Deaktivieren, um jeden Tab manuell zu öffnen und zu schließen.';
 
   @override
-  String get showTechnicalDetails => 'Show Technical Details?';
+  String get showTechnicalDetails => 'Technische Details anzeigen?';
 
   @override
   String get showTechnicalDetailsSubtitle =>
@@ -178,11 +178,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get recommendationSystemMoonfin => 'Moonfin Recommends';
 
   @override
-  String get recommendationSystemTmdb => 'TMDb Similarity';
+  String get recommendationSystemTmdb => 'TMDb-Ähnlichkeit';
 
   @override
   String get recommendationsApplyParentalRatingCap =>
-      'Apply Parental Rating Cap?';
+      'Begrenzung nach Altersfreigabe anwenden?';
 
   @override
   String get recommendationsApplyParentalRatingCapSubtitle =>
@@ -225,7 +225,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Wechsel zwischen \"Moonfin\" und \"Neon Pulse\", ohne die App neu zu starten';
 
   @override
-  String get customThemeTitle => 'Custom Theme';
+  String get customThemeTitle => 'Benutzerdefiniertes Theme';
 
   @override
   String get customThemeSubtitle =>
@@ -3068,6 +3068,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get wifiOnlyDownloads => 'Nur über WLAN herunterladen';
 
   @override
+  String get reportDownloadsActivity => 'Show downloads on the server';
+
+  @override
+  String get reportDownloadsActivitySubtitle =>
+      'Let the server admin see your transcoded downloads in the dashboard';
+
+  @override
   String get onlyDownloadOnWifi => 'Nur herunterladen, wenn mit WLAN verbunden';
 
   @override
@@ -3904,6 +3911,20 @@ class AppLocalizationsDe extends AppLocalizations {
   String gbValue(String value) {
     return '$value GB';
   }
+
+  @override
+  String mbValue(int value) {
+    return '$value MB';
+  }
+
+  @override
+  String get imageCacheLimit => 'Image cache limit';
+
+  @override
+  String get clearImageCache => 'Clear image cache';
+
+  @override
+  String get imageCacheCleared => 'Image cache cleared';
 
   @override
   String get clear => 'Leeren';
@@ -6254,16 +6275,115 @@ class AppLocalizationsDe extends AppLocalizations {
   String get adminAddTuner => 'Tuner hinzufügen';
 
   @override
+  String get adminEditTuner => 'Edit Tuner';
+
+  @override
+  String get adminTunerTypeM3u => 'M3U Tuner';
+
+  @override
+  String get adminTunerTypeHdHomerun => 'HDHomeRun';
+
+  @override
+  String get adminTunerFileOrUrl => 'File or URL';
+
+  @override
+  String get adminTunerIpAddress => 'Tuner IP address';
+
+  @override
+  String get adminTunerFriendlyName => 'Friendly name';
+
+  @override
+  String get adminTunerUserAgent => 'User agent';
+
+  @override
+  String get adminTunerCount => 'Simultaneous connection limit';
+
+  @override
+  String get adminTunerCountHelp =>
+      'The maximum number of streams the tuner allows at once. Set to 0 for unlimited.';
+
+  @override
+  String get adminTunerFallbackBitrate => 'Fallback max streaming bitrate';
+
+  @override
+  String get adminTunerImportFavoritesOnly => 'Import only favorite channels';
+
+  @override
+  String get adminTunerAllowHwTranscoding => 'Allow hardware transcoding';
+
+  @override
+  String get adminTunerAllowFmp4 => 'Allow fMP4 transcoding container';
+
+  @override
+  String get adminTunerAllowStreamSharing => 'Allow stream sharing';
+
+  @override
+  String get adminTunerEnableStreamLooping => 'Enable stream looping';
+
+  @override
+  String get adminTunerIgnoreDts => 'Ignore DTS';
+
+  @override
+  String get adminTunerReadAtNativeFramerate =>
+      'Read input at native frame rate';
+
+  @override
+  String get adminEditProvider => 'Edit Provider';
+
+  @override
+  String get adminProviderXmltv => 'XMLTV';
+
+  @override
+  String get adminProviderSchedulesDirect => 'Schedules Direct';
+
+  @override
+  String get adminXmltvPath => 'File or URL';
+
+  @override
+  String get adminXmltvMoviePrefix => 'Movie prefix';
+
+  @override
+  String get adminXmltvMovieCategories => 'Movie categories';
+
+  @override
+  String get adminXmltvCategoriesHelp =>
+      'Separate multiple categories with a vertical bar.';
+
+  @override
+  String get adminXmltvKidsCategories => 'Kids categories';
+
+  @override
+  String get adminXmltvNewsCategories => 'News categories';
+
+  @override
+  String get adminXmltvSportsCategories => 'Sports categories';
+
+  @override
+  String get adminSdUsername => 'Username';
+
+  @override
+  String get adminSdPassword => 'Password';
+
+  @override
+  String get adminSdCountry => 'Country';
+
+  @override
+  String get adminSdCountrySelect => 'Select a country';
+
+  @override
+  String get adminSdPostalCode => 'Postal code';
+
+  @override
+  String get adminSdGetListings => 'Get listings';
+
+  @override
+  String get adminSdListings => 'Listings';
+
+  @override
+  String get adminEnableAllTuners => 'Enable all tuners';
+
+  @override
   String get adminTunerType => 'Tuner-Typ';
-
-  @override
-  String get adminTunerTypeHint => 'HDHomeRun, M3U, Andere';
-
-  @override
-  String get adminUrlPath => 'URL / Pfad';
-
-  @override
-  String get adminNameOptional => 'Name (optional)';
 
   @override
   String get adminTunerAdded => 'Tuner hinzugefügt';
@@ -6278,15 +6398,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get adminProviderType => 'Anbietertyp';
-
-  @override
-  String get adminProviderTypeHint => 'SchedulesDirect oder XMLTV';
-
-  @override
-  String get adminUsernameOptional => 'Benutzername (optional)';
-
-  @override
-  String get adminRefreshInterval => 'Aktualisierungsintervall (Stunden)';
 
   @override
   String get adminProviderAdded => 'Anbieter hinzugefügt';
@@ -7069,6 +7180,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get adminPlaybackTonemappingParam => 'Tone mapping parameter';
 
   @override
+  String get adminPlaybackVppTonemappingBrightness =>
+      'VPP tone mapping brightness';
+
+  @override
+  String get adminPlaybackVppTonemappingContrast => 'VPP tone mapping contrast';
+
+  @override
   String get adminPlaybackPresetsQuality => 'Presets & Quality';
 
   @override
@@ -7082,6 +7200,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get adminPlaybackDeinterlaceMethod => 'Deinterlace method';
+
+  @override
+  String get adminPlaybackDeinterlaceDoubleRate =>
+      'Double the frame rate when deinterlacing';
 
   @override
   String get adminPlaybackAudioSection => 'Audio';
@@ -7440,6 +7562,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get adminPlaybackThrottleBuffering => 'Pufferung drosseln';
 
   @override
+  String get adminPlaybackThrottleDelay => 'Throttle delay (seconds)';
+
+  @override
+  String get adminPlaybackEnableSubtitleExtraction =>
+      'Allow subtitle extraction on the fly';
+
+  @override
   String get adminResumeMinPct => 'Mindest-Fortsetzungsprozentsatz';
 
   @override
@@ -7519,6 +7648,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get adminGeneralServerName => 'Servername';
+
+  @override
+  String get adminGeneralDisplayLanguage => 'Preferred display language';
 
   @override
   String get adminSettingsLoadFailed =>

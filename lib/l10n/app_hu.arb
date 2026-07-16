@@ -8,7 +8,7 @@
     "@signIn": {
         "description": "Sign in heading and button label"
     },
-    "connectingToServer": "Csatlakozás {serverName}-hez",
+    "connectingToServer": "Kapcsolódás a {serverName} szerverhez",
     "@connectingToServer": {
         "description": "Subtitle showing which server the user is connecting to",
         "placeholders": {
@@ -7357,7 +7357,7 @@
     "@interfaceStyle": {
         "description": "Label for the Automatic/Apple/Material interface style setting"
     },
-    "interfaceLanguage": "Felület nyelve",
+    "interfaceLanguage": "Alkalmazás nyelvi beállításainak címkéje",
     "@interfaceLanguage": {
         "description": "Label for the app interface language setting"
     },
@@ -8552,7 +8552,7 @@
     "adminLibNfoTitle": "NFO-beállítások",
     "adminBackupSubtitles": "Feliratok",
     "audiobookExportBookmarks": "Könyvjelzők exportálása",
-    "externalLists": "Külső kezdőképernyő-sorok",
+    "externalLists": "Külső listák",
     "fileInformation": "Fájlinformációk",
     "rewatchPlaylist": "Lejátszási lista újranézése",
     "expandedTabs": "Kibontott lapok",
@@ -8685,5 +8685,291 @@
     "keyboard": "Billentyűzet",
     "navButtons": "Gombok",
     "rendering": "Renderelés",
-    "mpvConfiguration": "MPV-konfiguráció"
+    "mpvConfiguration": "MPV-konfiguráció",
+    "showTechnicalDetails": "Megjelenjenek a technikai részletek?",
+    "@showTechnicalDetails": {
+        "description": "Label for the detail screen setting to show stream/codec technical details"
+    },
+    "showTechnicalDetailsSubtitle": "Kodek-, felbontás- és stream-információk megjelenítése a banner-összefoglalóban",
+    "@showTechnicalDetailsSubtitle": {
+        "description": "Explanation under the show technical details setting"
+    },
+    "loopThemeMusic": "Témazene ismétlése",
+    "@loopThemeMusic": {
+        "description": "Setting to loop the theme music"
+    },
+    "loopThemeMusicSubtitle": "A zeneszám ismétlése az egyszeri lejátszás helyett",
+    "@loopThemeMusicSubtitle": {
+        "description": "Description for the loop theme music setting"
+    },
+    "trailerAudio": "Előzetesek hangja",
+    "@trailerAudio": {
+        "description": "Setting for trailer audio"
+    },
+    "enableTrailerAudio": "Előzetesek hangjának engedélyezése a médiasávban",
+    "@enableTrailerAudio": {
+        "description": "Description for trailer audio"
+    },
+    "seerrNotifyIssuesTitle": "Problémafrissítések",
+    "@seerrNotifyIssuesTitle": {
+        "description": "Title for the issue notifications toggle"
+    },
+    "seerrNotifyIssuesSubtitle": "Új problémák, válaszok és megoldások",
+    "@seerrNotifyIssuesSubtitle": {
+        "description": "Subtitle for the issue notifications toggle"
+    },
+    "seerrDownloadingPercent": "Letöltés · {percent}%",
+    "@seerrDownloadingPercent": {
+        "description": "Label above the Seerr download progress bar",
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "seerrImportingStatus": "Importálás",
+    "@seerrImportingStatus": {
+        "description": "Label when a Seerr download has finished and is importing"
+    },
+    "failedStatus": "Sikertelen",
+    "@failedStatus": {
+        "description": "Request status label when the request failed to send to Radarr/Sonarr"
+    },
+    "processingStatus": "Feldolgozás",
+    "@processingStatus": {
+        "description": "Filter label for approved requests being processed"
+    },
+    "modifiedByName": "Módosította: {name}",
+    "@modifiedByName": {
+        "description": "Label showing which manager acted on a request",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "completedStatus": "Elkészült",
+    "@completedStatus": {
+        "description": "Request status label when the request finished"
+    },
+    "requestErrorDuplicate": "Ezt a címet már igényelték",
+    "@requestErrorDuplicate": {
+        "description": "Error when creating a request that already exists"
+    },
+    "requestErrorQuota": "Elérted az igénylési korlátot",
+    "@requestErrorQuota": {
+        "description": "Error when the user is out of request quota"
+    },
+    "requestErrorBlocklisted": "Ez a cím tiltólistás",
+    "@requestErrorBlocklisted": {
+        "description": "Error when requesting blocklisted media"
+    },
+    "requestErrorNoSeasons": "Nem maradt igényelhető évad",
+    "@requestErrorNoSeasons": {
+        "description": "Error when every season is already requested or available"
+    },
+    "requestErrorPermission": "Nincs jogosultságod ehhez az igényléshez",
+    "@requestErrorPermission": {
+        "description": "Error when the user lacks request permission"
+    },
+    "seerrRequestsTitle": "Igénylések",
+    "@seerrRequestsTitle": {
+        "description": "Requests tab and screen title"
+    },
+    "seerrIssuesTitle": "Problémák",
+    "@seerrIssuesTitle": {
+        "description": "Issues tab title on the requests hub"
+    },
+    "sortNewest": "Legújabb",
+    "@sortNewest": {
+        "description": "Request sort option, most recently added first"
+    },
+    "sortLastModified": "Legutóbbi módosítás",
+    "@sortLastModified": {
+        "description": "Request sort option, most recently updated first"
+    },
+    "noIssues": "Nincsenek problémák",
+    "@noIssues": {
+        "description": "Shown when the issue list is empty"
+    },
+    "movieQuotaRemaining": "Még {remaining} filmigénylés maradt a(z) {limit}-ből",
+    "@movieQuotaRemaining": {
+        "description": "Quota line in the request dialog",
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            }
+        }
+    },
+    "seasonQuotaRemaining": "Még {remaining} évadigénylés maradt a(z) {limit}-ből",
+    "@seasonQuotaRemaining": {
+        "description": "Quota line in the request dialog for series",
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            }
+        }
+    },
+    "partOfCollectionName": "A(z) {name} része",
+    "@partOfCollectionName": {
+        "description": "Banner on a movie that belongs to a collection",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "viewCollection": "Gyűjtemény megtekintése",
+    "@viewCollection": {
+        "description": "Link to open the collection screen"
+    },
+    "requestCollection": "Gyűjtemény igénylése",
+    "@requestCollection": {
+        "description": "Button to request movies from a collection"
+    },
+    "collectionMoviesSummary": "{total} film · {available} elérhető",
+    "@collectionMoviesSummary": {
+        "description": "Collection header summary line",
+        "placeholders": {
+            "total": {
+                "type": "int"
+            },
+            "available": {
+                "type": "int"
+            }
+        }
+    },
+    "requestMoviesCount": "{count} film igénylése",
+    "@requestMoviesCount": {
+        "description": "Submit button on the collection request sheet",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "requestingProgress": "{current} / {total} igénylése...",
+    "@requestingProgress": {
+        "description": "Progress label while collection requests are submitted",
+        "placeholders": {
+            "current": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "requestedMoviesCount": "Sikeresen igényeltél {count} filmet",
+    "@requestedMoviesCount": {
+        "description": "Snackbar after a collection request succeeds",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "requestedMoviesPartial": "Sikeresen igényeltél {ok} filmet a(z) {total}-ből",
+    "@requestedMoviesPartial": {
+        "description": "Snackbar when some collection requests failed",
+        "placeholders": {
+            "ok": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "collectionAllRequested": "Minden film elérhető vagy igényelve van már",
+    "@collectionAllRequested": {
+        "description": "Shown instead of the request button when nothing is requestable"
+    },
+    "reportIssue": "Probléma bejelentése",
+    "@reportIssue": {
+        "description": "Button on the seerr detail screen to report a media issue"
+    },
+    "issueTypeVideo": "Videó",
+    "@issueTypeVideo": {
+        "description": "Issue type option"
+    },
+    "issueTypeAudio": "Hang",
+    "@issueTypeAudio": {
+        "description": "Issue type option"
+    },
+    "whatsWrong": "Mi a probléma?",
+    "@whatsWrong": {
+        "description": "Label for the issue description field"
+    },
+    "allEpisodes": "Összes epizód",
+    "@allEpisodes": {
+        "description": "Episode dropdown option covering the whole season"
+    },
+    "episode": "Epizód",
+    "@episode": {
+        "description": "Episode dropdown label"
+    },
+    "openStatus": "Nyitott",
+    "@openStatus": {
+        "description": "Issue status label"
+    },
+    "resolvedStatus": "Megoldott",
+    "@resolvedStatus": {
+        "description": "Issue status label"
+    },
+    "resolveAction": "Megoldás",
+    "@resolveAction": {
+        "description": "Button to resolve an issue"
+    },
+    "reopenAction": "Újranyitás",
+    "@reopenAction": {
+        "description": "Button to reopen a resolved issue"
+    },
+    "reportedByName": "Bejelentette: {name}",
+    "@reportedByName": {
+        "description": "Label showing who reported an issue",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "commentsCount": "{count} hozzászólás",
+    "@commentsCount": {
+        "description": "Number of comments on an issue",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "addComment": "Hozzászólás hozzáadása",
+    "@addComment": {
+        "description": "Hint for the issue comment field"
+    },
+    "deleteIssueConfirm": "Törlöd ezt a problémát?",
+    "@deleteIssueConfirm": {
+        "description": "Confirmation before deleting an issue"
+    },
+    "submitReport": "Jelentés elküldése",
+    "@submitReport": {
+        "description": "Button to submit an issue report"
+    },
+    "offlineBannerTitle": "Offline vagy",
+    "offlineBannerSubtitle": "A letöltéseid megjelenítése",
+    "offlineBannerAction": "Letöltések",
+    "serverUnreachableBannerTitle": "A szervered nem érhető el",
+    "serverUnreachableBannerSubtitle": "Lejátszás a letöltésekből, amíg újra elérhető nem lesz",
+    "imdbTop250Movies": "IMDb Top 250 film",
+    "imdbTop250TvShows": "IMDb Top 250 sorozat",
+    "imdbMostPopularMovies": "IMDb legnépszerűbb filmek",
+    "imdbMostPopularTvShows": "IMDb legnépszerűbb sorozatok",
+    "imdbLowestRatedMovies": "IMDb legalacsonyabb értékelésű filmek",
+    "imdbTopEnglishMovies": "IMDb legjobb értékelésű angol nyelvű filmek"
 }
