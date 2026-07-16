@@ -17,7 +17,7 @@
             }
         }
     },
-    "quickConnect": "Quick Connect",
+    "quickConnect": "快速连接",
     "@quickConnect": {
         "description": "Quick Connect toggle button label"
     },
@@ -1727,7 +1727,7 @@
     "@longPressToUnlock": {
         "description": "OSD lock overlay hint"
     },
-    "off": "关",
+    "off": "关闭",
     "@off": {
         "description": "Label for subtitle off option"
     },
@@ -1854,7 +1854,7 @@
     "@videoBitrate": {
         "description": "Stream info label for video bitrate"
     },
-    "track": "音轨",
+    "track": "轨道",
     "@track": {
         "description": "Stream info label for track name"
     },
@@ -2241,7 +2241,7 @@
             }
         }
     },
-    "no": "否",
+    "no": "不",
     "@no": {
         "description": "Negative dialog button label"
     },
@@ -3569,7 +3569,7 @@
     "@mediaBarModeMakd": {
         "description": "Media bar style option: MakD"
     },
-    "mediaBarModeOff": "关",
+    "mediaBarModeOff": "关闭",
     "@mediaBarModeOff": {
         "description": "Media bar style option: Off"
     },
@@ -6328,14 +6328,14 @@
     "pinForgot": "忘记 PIN 码？",
     "pinClear": "清除",
     "pinBackspace": "退格键",
-    "quickConnectAuthorized": "Quick Connect 请求已获授权。",
-    "quickConnectInvalidOrExpired": "Quick Connect 代码无效或已过期。",
-    "quickConnectNotSupported": "此服务器不支持 Quick Connect。",
-    "quickConnectAuthorizeFailed": "无法授权 Quick Connect 代码。",
-    "quickConnectDisabled": "此服务器上禁用了 Quick Connect。",
+    "quickConnectAuthorized": "快速连接请求已获授权。",
+    "quickConnectInvalidOrExpired": "快速连接代码无效或已过期。",
+    "quickConnectNotSupported": "此服务器不支持快速连接。",
+    "quickConnectAuthorizeFailed": "无法授权快速连接代码。",
+    "quickConnectDisabled": "此服务器上禁用了快速连接。",
     "quickConnectForbidden": "你的账号无法授权此快速连接请求。",
     "quickConnectNotFound": "未找到快速连接代码。请尝试新的代码。",
-    "quickConnectFailedWithMessage": "Quick Connect 失败：{message}",
+    "quickConnectFailedWithMessage": "快速连接失败：{message}",
     "@quickConnectFailedWithMessage": {
         "placeholders": {
             "message": {
@@ -7321,7 +7321,7 @@
     "writer": "编剧",
     "settingsScrollWheelAction": "鼠标滚轮",
     "settingsScrollWheelActionDescription": "选择播放时在视频上滚动鼠标滚轮会触发什么操作。",
-    "scrollWheelActionOff": "关",
+    "scrollWheelActionOff": "关闭",
     "scrollWheelActionSeek": "快进/快退",
     "scrollWheelActionVolume": "音量",
     "playerTooltipVolume": "音量",
