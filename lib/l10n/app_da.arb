@@ -7363,11 +7363,11 @@
     "@scrollWheelActionSeek": {
         "description": "Scroll wheel action option: seek forward and back"
     },
-    "scrollWheelActionVolume": "Lydstyrke",
+    "scrollWheelActionVolume": "Volume",
     "@scrollWheelActionVolume": {
         "description": "Scroll wheel action option: adjust volume"
     },
-    "playerTooltipVolume": "Lydstyrke",
+    "playerTooltipVolume": "Volume",
     "@playerTooltipVolume": {
         "description": "Tooltip for the volume control button in the player OSD"
     },
