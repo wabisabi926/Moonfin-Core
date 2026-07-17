@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Specifik bruger",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Autentificer altid",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Søg fjernperson",
     "adminNoRemoteMatches": "Ingen fjernmatch fundet",
     "adminRemoteResults": "Fjernresultater",
     "adminRemoteMetadataApplied": "Fjernmetadata anvendt",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Tilføj Tuner",
     "adminTunerType": "Tuner type",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Andet",
-    "adminUrlPath": "URL / sti",
-    "adminNameOptional": "Navn (valgfrit)",
     "adminTunerAdded": "Tuner tilføjet",
     "adminTunerAddFailed": "Kunne ikke tilføje tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Tilføj guideudbyder",
     "adminProviderType": "Udbyder type",
-    "adminProviderTypeHint": "SchedulesDirect eller XMLTV",
-    "adminUsernameOptional": "Brugernavn (valgfrit)",
-    "adminRefreshInterval": "Opdateringsinterval (timer)",
     "adminProviderAdded": "Udbyder tilføjet",
     "adminProviderAddFailed": "Kunne ikke tilføje udbyder: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Ingen matchende linjer",
     "adminMetadataEditorTitle": "Metadata Editor",
-    "adminMetadataRemote": "Fjern",
     "adminMetadataType": "Type",
     "adminMetadataDetails": "Detaljer",
     "adminMetadataExternalIds": "Eksterne ID'er",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (avanceret)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7398,5 +7374,19 @@
     "settingsAudioOutputModeDescription": "Vælg hvordan lyd afkodes. AVR Passthrough sender rå Dolby/DTS spor til din receiver; Auto og Nedjuster afkoder lokalt.",
     "@settingsAudioOutputModeDescription": {
         "description": "Description for audio output mode setting"
-    }
+    },
+    "reportDownloadsActivity": "Vis downloads på serveren",
+    "reportDownloadsActivitySubtitle": "Lad serveradministratoren se dine transkodede downloads i kontrolpanelet",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Grænse for billedcache",
+    "clearImageCache": "Ryd billedcache",
+    "imageCacheCleared": "Billedcachen er ryddet"
 }

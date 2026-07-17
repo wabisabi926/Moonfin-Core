@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Određeni korisnik",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Uvijek provjeri autentičnost",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Traži udaljenu osobu",
     "adminNoRemoteMatches": "Nije pronađeno udaljeno podudaranje",
     "adminRemoteResults": "Rezultati na daljinu",
     "adminRemoteMetadataApplied": "Primijenjeni udaljeni metapodaci",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Dodaj tuner",
     "adminTunerType": "Vrsta tunera",
-    "adminTunerTypeHint": "HDHomeRun, M3U, ostalo",
-    "adminUrlPath": "URL / Put",
-    "adminNameOptional": "Ime (nije obavezno)",
     "adminTunerAdded": "Tuner dodan",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Dodaj pružatelja vodiča",
     "adminProviderType": "Vrsta pružatelja usluga",
-    "adminProviderTypeHint": "SchedulesDirect ili XMLTV",
-    "adminUsernameOptional": "korisničko ime (nije obavezno)",
-    "adminRefreshInterval": "Interval osvježavanja (sati)",
     "adminProviderAdded": "Pružatelj je dodan",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Nema odgovarajućih linija",
     "adminMetadataEditorTitle": "Uređivač metapodataka",
-    "adminMetadataRemote": "Daljinski",
     "adminMetadataType": "Tip",
     "adminMetadataDetails": "pojedinosti",
     "adminMetadataExternalIds": "Vanjski ID-ovi",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Prikaži preuzimanja na poslužitelju",
+    "reportDownloadsActivitySubtitle": "Dopustite administratoru poslužitelja da na nadzornoj ploči vidi vaša transkodirana preuzimanja",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Ograničenje predmemorije slika",
+    "clearImageCache": "Očisti predmemoriju slika",
+    "imageCacheCleared": "Predmemorija slika je očišćena"
 }

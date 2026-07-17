@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "নির্দিষ্ট ব্যবহারকারী",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "সর্বদা প্রমাণীকরণ",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "দূরবর্তী ব্যক্তি অনুসন্ধান করুন",
     "adminNoRemoteMatches": "কোনো দূরবর্তী মিল খুঁজে পাওয়া যায়নি",
     "adminRemoteResults": "দূরবর্তী ফলাফল",
     "adminRemoteMetadataApplied": "দূরবর্তী মেটাডেটা প্রয়োগ করা হয়েছে",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "টিউনার যোগ করুন",
     "adminTunerType": "টিউনার প্রকার",
-    "adminTunerTypeHint": "HDHomeRun, M3U, অন্যান্য",
-    "adminUrlPath": "URL/পথ",
-    "adminNameOptional": "নাম (ঐচ্ছিক)",
     "adminTunerAdded": "টিউনার যোগ করা হয়েছে",
     "adminTunerAddFailed": "টিউনার যোগ করতে ব্যর্থ হয়েছে: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "গাইড প্রদানকারী যোগ করুন",
     "adminProviderType": "প্রদানকারীর ধরন",
-    "adminProviderTypeHint": "শিডিউল ডাইরেক্ট বা এক্সএমএলটিভি",
-    "adminUsernameOptional": "ব্যবহারকারীর নাম (ঐচ্ছিক)",
-    "adminRefreshInterval": "রিফ্রেশ ব্যবধান (ঘন্টা)",
     "adminProviderAdded": "প্রদানকারী যোগ করা হয়েছে",
     "adminProviderAddFailed": "প্রদানকারী যোগ করতে ব্যর্থ হয়েছে: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "কোন মিল লাইন",
     "adminMetadataEditorTitle": "মেটাডেটা সম্পাদক",
-    "adminMetadataRemote": "দূরবর্তী",
     "adminMetadataType": "টাইপ",
     "adminMetadataDetails": "বিস্তারিত",
     "adminMetadataExternalIds": "বাহ্যিক আইডি",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "এএসি স্টেরিও",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "পাসথ্রু (উন্নত)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "HDR ভিডিও প্লেব্যাকের জন্য স্বয়ংক্রিয়ভাবে HDR সক্ষম করুন এবং প্রস্থান করার সময় প্রদর্শন মোড পুনরুদ্ধার করুন।",
     "whenFullscreen": "যখন ফুলস্ক্রিন",
     "transcodingLimits": "ট্রান্সকোডিং সীমা",
-    "settingsSupportMoonfinSubtitle": "বিকাশকারীকে একটি কফি দান করুন"
+    "settingsSupportMoonfinSubtitle": "বিকাশকারীকে একটি কফি দান করুন",
+    "reportDownloadsActivity": "সার্ভারে ডাউনলোড দেখান",
+    "reportDownloadsActivitySubtitle": "সার্ভার অ্যাডমিনকে ড্যাশবোর্ডে আপনার ট্রান্সকোড করা ডাউনলোড দেখতে দিন",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "ইমেজ ক্যাশের সীমা",
+    "clearImageCache": "ইমেজ ক্যাশ পরিষ্কার করুন",
+    "imageCacheCleared": "ইমেজ ক্যাশ পরিষ্কার করা হয়েছে"
 }

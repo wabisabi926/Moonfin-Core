@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "ผู้ใช้เฉพาะ",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "ตรวจสอบสิทธิ์เสมอ",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "ค้นหาบุคคลระยะไกล",
     "adminNoRemoteMatches": "ไม่พบการแข่งขันระยะไกล",
     "adminRemoteResults": "ผลลัพธ์ระยะไกล",
     "adminRemoteMetadataApplied": "ใช้ข้อมูลเมตาระยะไกลแล้ว",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "เพิ่มจูนเนอร์",
     "adminTunerType": "ประเภทจูนเนอร์",
-    "adminTunerTypeHint": "HDHomeRun, M3U, อื่นๆ",
-    "adminUrlPath": "URL / เส้นทาง",
-    "adminNameOptional": "ชื่อ (ไม่บังคับ)",
     "adminTunerAdded": "เพิ่มจูนเนอร์แล้ว",
     "adminTunerAddFailed": "ไม่สามารถเพิ่มจูนเนอร์: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "เพิ่มผู้ให้บริการไกด์",
     "adminProviderType": "ประเภทผู้ให้บริการ",
-    "adminProviderTypeHint": "SchedulesDirect หรือ XMLTV",
-    "adminUsernameOptional": "ชื่อผู้ใช้ (ไม่บังคับ)",
-    "adminRefreshInterval": "ช่วงเวลารีเฟรช (ชั่วโมง)",
     "adminProviderAdded": "เพิ่มผู้ให้บริการแล้ว",
     "adminProviderAddFailed": "ไม่สามารถเพิ่มผู้ให้บริการ: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "ไม่มีบรรทัดที่ตรงกัน",
     "adminMetadataEditorTitle": "ตัวแก้ไขข้อมูลเมตา",
-    "adminMetadataRemote": "ระยะไกล",
     "adminMetadataType": "พิมพ์",
     "adminMetadataDetails": "รายละเอียด",
     "adminMetadataExternalIds": "รหัสภายนอก",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "เอเอซี สเตอริโอ",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "ส่งผ่าน (ขั้นสูง)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "เปิดใช้งาน HDR โดยอัตโนมัติสำหรับการเล่นวิดีโอ HDR และคืนค่าโหมดการแสดงผลเมื่อออก",
     "whenFullscreen": "เมื่อเปิดเต็มจอ",
     "transcodingLimits": "ขีดจำกัดการแปลงรหัส",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "แสดงการดาวน์โหลดบนเซิร์ฟเวอร์",
+    "reportDownloadsActivitySubtitle": "อนุญาตให้ผู้ดูแลเซิร์ฟเวอร์เห็นการดาวน์โหลดที่แปลงสัญญาณของคุณในแดชบอร์ด",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "ขีดจำกัดแคชรูปภาพ",
+    "clearImageCache": "ล้างแคชรูปภาพ",
+    "imageCacheCleared": "ล้างแคชรูปภาพแล้ว"
 }

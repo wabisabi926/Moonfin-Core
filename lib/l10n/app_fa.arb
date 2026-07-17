@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "کاربر خاص",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "همیشه احراز هویت",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "جستجوی شخص از راه دور",
     "adminNoRemoteMatches": "هیچ منطبق از راه دور پیدا نشد",
     "adminRemoteResults": "نتایج از راه دور",
     "adminRemoteMetadataApplied": "ابرداده از راه دور اعمال شد",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "تیونر را اضافه کنید",
     "adminTunerType": "نوع تیونر",
-    "adminTunerTypeHint": "HDHomeRun، M3U، سایر موارد",
-    "adminUrlPath": "URL / مسیر",
-    "adminNameOptional": "نام (اختیاری)",
     "adminTunerAdded": "تیونر اضافه شد",
     "adminTunerAddFailed": "تیونر اضافه نشد: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "ارائه دهنده راهنما را اضافه کنید",
     "adminProviderType": "نوع ارائه دهنده",
-    "adminProviderTypeHint": "SchedulesDirect یا XMLTV",
-    "adminUsernameOptional": "نام کاربری (اختیاری)",
-    "adminRefreshInterval": "فاصله بازخوانی (ساعت)",
     "adminProviderAdded": "ارائه دهنده اضافه شد",
     "adminProviderAddFailed": "ارائه دهنده اضافه نشد: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "بدون خطوط منطبق",
     "adminMetadataEditorTitle": "ویرایشگر فراداده",
-    "adminMetadataRemote": "از راه دور",
     "adminMetadataType": "تایپ کنید",
     "adminMetadataDetails": "جزئیات",
     "adminMetadataExternalIds": "شناسه های خارجی",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "استریو AAC",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "عبور (پیشرفته)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "به طور خودکار HDR را برای پخش ویدیوی HDR فعال کنید و حالت نمایش را در هنگام خروج بازیابی کنید.",
     "whenFullscreen": "وقتی تمام صفحه",
     "transcodingLimits": "محدودیت های رمزگذاری",
-    "settingsSupportMoonfinSubtitle": "یک قهوه به توسعه دهنده اهدا کنید"
+    "settingsSupportMoonfinSubtitle": "یک قهوه به توسعه دهنده اهدا کنید",
+    "reportDownloadsActivity": "نمایش دانلودها در سرور",
+    "reportDownloadsActivitySubtitle": "به مدیر سرور اجازه دهید دانلودهای ترنسکدشده شما را در داشبورد ببیند",
+    "mbValue": "{value} مگابایت",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "محدودیت حافظه پنهان تصاویر",
+    "clearImageCache": "پاک کردن حافظه پنهان تصاویر",
+    "imageCacheCleared": "حافظه پنهان تصاویر پاک شد"
 }

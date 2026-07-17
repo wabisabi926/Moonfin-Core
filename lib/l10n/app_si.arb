@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "විශේෂිත පරිශීලක",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "සැමවිටම සත්‍යාපනය කරන්න",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "දුරස්ථ පුද්ගලයා සොයන්න",
     "adminNoRemoteMatches": "දුරස්ථ ගැළපීමක් හමු නොවීය",
     "adminRemoteResults": "දුරස්ථ ප්රතිඵල",
     "adminRemoteMetadataApplied": "දුරස්ථ පාරදත්ත යොදන ලදී",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "සුසරකය එක් කරන්න",
     "adminTunerType": "සුසරක වර්ගය",
-    "adminTunerTypeHint": "HDHomeRun, M3U, වෙනත්",
-    "adminUrlPath": "URL / මාර්ගය",
-    "adminNameOptional": "නම (විකල්ප)",
     "adminTunerAdded": "සුසරකය එකතු කරන ලදී",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "මාර්ගෝපදේශ සපයන්නා එක් කරන්න",
     "adminProviderType": "සැපයුම්කරු වර්ගය",
-    "adminProviderTypeHint": "SchedulesDirect හෝ XMLTV",
-    "adminUsernameOptional": "පරිශීලක නාමය (විකල්ප)",
-    "adminRefreshInterval": "නැවුම් කාල පරතරය (පැය)",
     "adminProviderAdded": "සපයන්නා එකතු කරන ලදී",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "ගැළපෙන රේඛා නැත",
     "adminMetadataEditorTitle": "පාරදත්ත සංස්කාරකය",
-    "adminMetadataRemote": "දුරස්ථ",
     "adminMetadataType": "ටයිප් කරන්න",
     "adminMetadataDetails": "විස්තර",
     "adminMetadataExternalIds": "බාහිර හැඳුනුම්පත්",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "සේවාදායකයේ බාගැනීම් පෙන්වන්න",
+    "reportDownloadsActivitySubtitle": "ඔබේ ට්‍රාන්ස්කෝඩ් කළ බාගැනීම් උපකරණ පුවරුවේ බැලීමට සේවාදායක පරිපාලකයාට ඉඩ දෙන්න",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "රූප හැඹිලි සීමාව",
+    "clearImageCache": "රූප හැඹිලිය හිස් කරන්න",
+    "imageCacheCleared": "රූප හැඹිලිය හිස් කරන ලදී"
 }

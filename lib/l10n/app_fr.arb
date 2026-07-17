@@ -3671,10 +3671,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Utilisateur spécifique",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Toujours s’authentifier",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5282,7 +5278,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Rechercher une personne distante",
     "adminNoRemoteMatches": "Aucun résultat distant trouvé",
     "adminRemoteResults": "Résultats distants",
     "adminRemoteMetadataApplied": "Métadonnées distantes appliquées",
@@ -5378,9 +5373,6 @@
     },
     "adminAddTuner": "Ajouter un tuner",
     "adminTunerType": "Type de tuner",
-    "adminTunerTypeHint": "HDHomeRun, M3U, autre",
-    "adminUrlPath": "URL / Chemin",
-    "adminNameOptional": "Nom (facultatif)",
     "adminTunerAdded": "Tuner ajouté",
     "adminTunerAddFailed": "Échec de l'ajout du tuner : {error}",
     "@adminTunerAddFailed": {
@@ -5392,9 +5384,6 @@
     },
     "adminAddGuideProvider": "Ajouter un fournisseur de guide",
     "adminProviderType": "Type de fournisseur",
-    "adminProviderTypeHint": "SchedulesDirect ou XMLTV",
-    "adminUsernameOptional": "Nom d'utilisateur (facultatif)",
-    "adminRefreshInterval": "Intervalle d'actualisation (heures)",
     "adminProviderAdded": "Fournisseur ajouté",
     "adminProviderAddFailed": "Échec de l'ajout du fournisseur : {error}",
     "@adminProviderAddFailed": {
@@ -5563,7 +5552,6 @@
     },
     "adminLogViewerNoMatches": "Aucune ligne correspondante",
     "adminMetadataEditorTitle": "Éditeur de métadonnées",
-    "adminMetadataRemote": "Distant",
     "adminMetadataType": "Taper",
     "adminMetadataDetails": "Détails",
     "adminMetadataExternalIds": "ID externes",
@@ -6806,18 +6794,6 @@
     "settingsAudioFallbackCodec": "Codec audio de secours",
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
-    },
-    "settingsAudioFallbackAacStereo": "AAC Stéréo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
     },
     "settingsAudioPassthroughAdvanced": "Passthrough (avancé)",
     "@settingsAudioPassthroughAdvanced": {
@@ -8092,5 +8068,19 @@
     "detailScreenStyleModern": "Moderne",
     "@detailScreenStyleModern": {
         "description": "Detail screen style option: the responsive cinematic layout"
-    }
+    },
+    "reportDownloadsActivity": "Afficher les téléchargements sur le serveur",
+    "reportDownloadsActivitySubtitle": "Permettre à l'administrateur du serveur de voir vos téléchargements transcodés dans le tableau de bord",
+    "mbValue": "{value} Mo",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Limite du cache d'images",
+    "clearImageCache": "Vider le cache d'images",
+    "imageCacheCleared": "Cache d'images vidé"
 }

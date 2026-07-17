@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Konkrēts lietotājs",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Vienmēr autentificēt",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Meklēt attālo personu",
     "adminNoRemoteMatches": "Nav atrasta neviena attālināta atbilstība",
     "adminRemoteResults": "Attālinātie rezultāti",
     "adminRemoteMetadataApplied": "Lietoti attālie metadati",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Pievienojiet uztvērēju",
     "adminTunerType": "Uztvērēja tips",
-    "adminTunerTypeHint": "HDHomeRun, M3U, cits",
-    "adminUrlPath": "URL/ceļš",
-    "adminNameOptional": "Vārds (neobligāti)",
     "adminTunerAdded": "Pievienots uztvērējs",
     "adminTunerAddFailed": "Neizdevās pievienot uztvērēju: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Pievienot ceļveža nodrošinātāju",
     "adminProviderType": "Pakalpojumu sniedzēja veids",
-    "adminProviderTypeHint": "SchedulesDirect vai XMLTV",
-    "adminUsernameOptional": "Lietotājvārds (pēc izvēles)",
-    "adminRefreshInterval": "Atsvaidzināšanas intervāls (stundas)",
     "adminProviderAdded": "Pakalpojumu sniedzējs ir pievienots",
     "adminProviderAddFailed": "Neizdevās pievienot pakalpojumu sniedzēju: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Nav atbilstošu līniju",
     "adminMetadataEditorTitle": "Metadatu redaktors",
-    "adminMetadataRemote": "Tālvadības pults",
     "adminMetadataType": "Tips",
     "adminMetadataDetails": "Sīkāka informācija",
     "adminMetadataExternalIds": "Ārējie ID",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (papildu)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Rādīt lejupielādes serverī",
+    "reportDownloadsActivitySubtitle": "Ļaut servera administratoram redzēt jūsu pārkodētās lejupielādes vadības panelī",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Attēlu kešatmiņas ierobežojums",
+    "clearImageCache": "Notīrīt attēlu kešatmiņu",
+    "imageCacheCleared": "Attēlu kešatmiņa notīrīta"
 }

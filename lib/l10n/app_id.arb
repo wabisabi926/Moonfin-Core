@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Pengguna Tertentu",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Selalu Autentikasi",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Cari Orang Jarak Jauh",
     "adminNoRemoteMatches": "Tidak ditemukan kecocokan jarak jauh",
     "adminRemoteResults": "Hasil Jarak Jauh",
     "adminRemoteMetadataApplied": "Metadata jarak jauh diterapkan",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Tambah Tuner",
     "adminTunerType": "Tipe Tuner",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Lainnya",
-    "adminUrlPath": "URL / Path",
-    "adminNameOptional": "Nama (opsional)",
     "adminTunerAdded": "Tuner ditambahkan",
     "adminTunerAddFailed": "Gagal menambahkan tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Tambah Penyedia Panduan",
     "adminProviderType": "Tipe Penyedia",
-    "adminProviderTypeHint": "SchedulesDirect atau XMLTV",
-    "adminUsernameOptional": "Nama pengguna (opsional)",
-    "adminRefreshInterval": "Interval penyegaran (jam)",
     "adminProviderAdded": "Penyedia ditambahkan",
     "adminProviderAddFailed": "Gagal menambahkan penyedia: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Tidak ada baris yang cocok",
     "adminMetadataEditorTitle": "Editor Metadata",
-    "adminMetadataRemote": "Jarak Jauh",
     "adminMetadataType": "Tipe",
     "adminMetadataDetails": "Detail",
     "adminMetadataExternalIds": "ID Eksternal",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Lanjutan)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7658,5 +7634,19 @@
     "sources": "Sumber",
     "@sources": {
         "description": "Title of the artwork source-provider filter dialog"
-    }
+    },
+    "reportDownloadsActivity": "Tampilkan unduhan di server",
+    "reportDownloadsActivitySubtitle": "Izinkan admin server melihat unduhan hasil transcoding Anda di dasbor",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Batas cache gambar",
+    "clearImageCache": "Bersihkan cache gambar",
+    "imageCacheCleared": "Cache gambar telah dibersihkan"
 }

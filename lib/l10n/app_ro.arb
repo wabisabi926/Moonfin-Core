@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Utilizator specific",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Autentificați-vă întotdeauna",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Căutați Persoană de la distanță",
     "adminNoRemoteMatches": "Nu s-au găsit potriviri la distanță",
     "adminRemoteResults": "Rezultate de la distanță",
     "adminRemoteMetadataApplied": "S-au aplicat metadatele de la distanță",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Adăugați tuner",
     "adminTunerType": "Tip tuner",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Altele",
-    "adminUrlPath": "URL/Cale",
-    "adminNameOptional": "Nume (opțional)",
     "adminTunerAdded": "A adăugat tuner",
     "adminTunerAddFailed": "Nu s-a putut adăuga tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Adăugați furnizorul de ghid",
     "adminProviderType": "Tip de furnizor",
-    "adminProviderTypeHint": "SchedulesDirect sau XMLTV",
-    "adminUsernameOptional": "Nume de utilizator (opțional)",
-    "adminRefreshInterval": "Interval de reîmprospătare (ore)",
     "adminProviderAdded": "Furnizorul a fost adăugat",
     "adminProviderAddFailed": "Nu s-a putut adăuga furnizorul: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Fără linii care se potrivesc",
     "adminMetadataEditorTitle": "Editor de metadate",
-    "adminMetadataRemote": "Telecomanda",
     "adminMetadataType": "Tip",
     "adminMetadataDetails": "Detalii",
     "adminMetadataExternalIds": "ID-uri externe",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "Stereo AAC",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (avansat)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donează o cafea dezvoltatorului"
+    "settingsSupportMoonfinSubtitle": "Donează o cafea dezvoltatorului",
+    "reportDownloadsActivity": "Afișează descărcările pe server",
+    "reportDownloadsActivitySubtitle": "Permiteți administratorului serverului să vă vadă descărcările transcodate în panoul de control",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Limita memoriei cache pentru imagini",
+    "clearImageCache": "Golește memoria cache pentru imagini",
+    "imageCacheCleared": "Memoria cache pentru imagini a fost golită"
 }

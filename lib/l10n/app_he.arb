@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "משתמש ספציפי",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "אימות תמיד",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "חפש אדם מרוחק",
     "adminNoRemoteMatches": "לא נמצאו התאמות מרחוק",
     "adminRemoteResults": "תוצאות מרחוק",
     "adminRemoteMetadataApplied": "הוחלו מטא נתונים מרוחקים",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "הוסף טיונר",
     "adminTunerType": "סוג טיונר",
-    "adminTunerTypeHint": "HDHomeRun, M3U, אחר",
-    "adminUrlPath": "כתובת URL / נתיב",
-    "adminNameOptional": "שם (אופציונלי)",
     "adminTunerAdded": "טיונר נוסף",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "הוסף ספק מדריך",
     "adminProviderType": "סוג ספק",
-    "adminProviderTypeHint": "SchedulesDirect או XMLTV",
-    "adminUsernameOptional": "שם משתמש (אופציונלי)",
-    "adminRefreshInterval": "מרווח רענון (שעות)",
     "adminProviderAdded": "ספק נוסף",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "אין קווים תואמים",
     "adminMetadataEditorTitle": "עורך מטא נתונים",
-    "adminMetadataRemote": "מְרוּחָק",
     "adminMetadataType": "סוּג",
     "adminMetadataDetails": "פרטים",
     "adminMetadataExternalIds": "תעודות זהות חיצוניות",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "הצג הורדות בשרת",
+    "reportDownloadsActivitySubtitle": "אפשר למנהל השרת לראות את ההורדות המומרות שלך בלוח הבקרה",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "מגבלת מטמון תמונות",
+    "clearImageCache": "נקה מטמון תמונות",
+    "imageCacheCleared": "מטמון התמונות נוקה"
 }

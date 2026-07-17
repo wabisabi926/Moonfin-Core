@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Конкретен потребител",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Винаги удостоверявай",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Търсене на отдалечено лице",
     "adminNoRemoteMatches": "Няма открити отдалечени съвпадения",
     "adminRemoteResults": "Дистанционни резултати",
     "adminRemoteMetadataApplied": "Приложени са отдалечени метаданни",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Добавете тунер",
     "adminTunerType": "Тип тунер",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Други",
-    "adminUrlPath": "URL/път",
-    "adminNameOptional": "Име (по избор)",
     "adminTunerAdded": "Добавен тунер",
     "adminTunerAddFailed": "Неуспешно добавяне на тунер: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Добавете доставчик на ръководство",
     "adminProviderType": "Тип доставчик",
-    "adminProviderTypeHint": "SchedulesDirect или XMLTV",
-    "adminUsernameOptional": "потребителско име (по избор)",
-    "adminRefreshInterval": "Интервал на опресняване (часове)",
     "adminProviderAdded": "Доставчикът е добавен",
     "adminProviderAddFailed": "Неуспешно добавяне на доставчик: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Няма съответстващи редове",
     "adminMetadataEditorTitle": "Редактор на метаданни",
-    "adminMetadataRemote": "Дистанционно",
     "adminMetadataType": "Тип",
     "adminMetadataDetails": "Подробности",
     "adminMetadataExternalIds": "Външни идентификатори",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC стерео",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Преминаване (разширено)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Автоматично активиране на HDR за възпроизвеждане на HDR видео и възстановяване на режима на показване при излизане.",
     "whenFullscreen": "Когато е на цял екран",
     "transcodingLimits": "Ограничения за транскодиране",
-    "settingsSupportMoonfinSubtitle": "Дарете кафе на разработчика"
+    "settingsSupportMoonfinSubtitle": "Дарете кафе на разработчика",
+    "reportDownloadsActivity": "Показване на изтеглянията на сървъра",
+    "reportDownloadsActivitySubtitle": "Позволете на администратора на сървъра да вижда вашите прекодирани изтегляния в таблото за управление",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Лимит на кеша за изображения",
+    "clearImageCache": "Изчистване на кеша за изображения",
+    "imageCacheCleared": "Кешът за изображения е изчистен"
 }

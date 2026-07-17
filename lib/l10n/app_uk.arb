@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Конкретний користувач",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Завжди автентифікувати",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Пошук віддаленої особи",
     "adminNoRemoteMatches": "Віддалених збігів не знайдено",
     "adminRemoteResults": "Віддалені результати",
     "adminRemoteMetadataApplied": "Застосовано віддалені метадані",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Додати тюнер",
     "adminTunerType": "Тип тюнера",
-    "adminTunerTypeHint": "HDHomeRun, M3U, інше",
-    "adminUrlPath": "URL / шлях",
-    "adminNameOptional": "Ім'я (необов'язково)",
     "adminTunerAdded": "Додано тюнер",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Додати постачальника посібника",
     "adminProviderType": "Тип постачальника",
-    "adminProviderTypeHint": "SchedulesDirect або XMLTV",
-    "adminUsernameOptional": "Ім'я користувача (необов'язково)",
-    "adminRefreshInterval": "Інтервал оновлення (годин)",
     "adminProviderAdded": "Провайдер доданий",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Немає відповідних рядків",
     "adminMetadataEditorTitle": "Редактор метаданих",
-    "adminMetadataRemote": "Дистанційний",
     "adminMetadataType": "Тип",
     "adminMetadataDetails": "Подробиці",
     "adminMetadataExternalIds": "Зовнішні ідентифікатори",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Автоматично вмикайте HDR для відтворення відео HDR і відновлюйте режим відображення після виходу.",
     "whenFullscreen": "У повноекранному режимі",
     "transcodingLimits": "Обмеження перекодування",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Показувати завантаження на сервері",
+    "reportDownloadsActivitySubtitle": "Дозволити адміністратору сервера бачити ваші транскодовані завантаження на панелі керування",
+    "mbValue": "{value} МБ",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Ліміт кешу зображень",
+    "clearImageCache": "Очистити кеш зображень",
+    "imageCacheCleared": "Кеш зображень очищено"
 }

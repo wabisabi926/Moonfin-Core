@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Тодорхой хэрэглэгч",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Үргэлж баталгаажуулах",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Алсын хүн хайх",
     "adminNoRemoteMatches": "Алсын тохирох зүйл олдсонгүй",
     "adminRemoteResults": "Алсын үр дүн",
     "adminRemoteMetadataApplied": "Алсын мета өгөгдлийг ашигласан",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Таалагч нэмнэ үү",
     "adminTunerType": "Тохируулагчийн төрөл",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Бусад",
-    "adminUrlPath": "URL / Зам",
-    "adminNameOptional": "Нэр (заавал биш)",
     "adminTunerAdded": "Тохируулагч нэмсэн",
     "adminTunerAddFailed": "Тохируулагч нэмж чадсангүй: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Хөтөч нийлүүлэгч нэмнэ үү",
     "adminProviderType": "Үйлчилгээ үзүүлэгчийн төрөл",
-    "adminProviderTypeHint": "SchedulesDirect эсвэл XMLTV",
-    "adminUsernameOptional": "Хэрэглэгчийн нэр (заавал биш)",
-    "adminRefreshInterval": "Сэргээх интервал (цаг)",
     "adminProviderAdded": "Үйлчилгээ үзүүлэгч нэмэгдсэн",
     "adminProviderAddFailed": "Үйлчилгээ үзүүлэгчийг нэмж чадсангүй: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Тохирох шугам байхгүй",
     "adminMetadataEditorTitle": "Мета өгөгдөл засварлагч",
-    "adminMetadataRemote": "Алсын удирдлага",
     "adminMetadataType": "Төрөл",
     "adminMetadataDetails": "Дэлгэрэнгүй мэдээлэл",
     "adminMetadataExternalIds": "Гадаад ID",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC стерео",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Дамжуулах (Дэвшилтэт)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Татаж авалтыг сервер дээр харуулах",
+    "reportDownloadsActivitySubtitle": "Серверийн админд таны хөрвүүлсэн татаж авалтыг хяналтын самбараас харах боломж олгоно",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Зургийн кэшийн хязгаар",
+    "clearImageCache": "Зургийн кэшийг цэвэрлэх",
+    "imageCacheCleared": "Зургийн кэшийг цэвэрлэлээ"
 }

@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Người dùng cụ thể",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Luôn xác thực",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Tìm kiếm người ở xa",
     "adminNoRemoteMatches": "Không tìm thấy kết quả phù hợp từ xa",
     "adminRemoteResults": "Kết quả từ xa",
     "adminRemoteMetadataApplied": "Đã áp dụng siêu dữ liệu từ xa",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Thêm bộ chỉnh",
     "adminTunerType": "Loại bộ chỉnh",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Khác",
-    "adminUrlPath": "URL/Đường dẫn",
-    "adminNameOptional": "Tên (tùy chọn)",
     "adminTunerAdded": "Đã thêm bộ chỉnh",
     "adminTunerAddFailed": "Không thể thêm bộ điều chỉnh: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Thêm nhà cung cấp hướng dẫn",
     "adminProviderType": "Loại nhà cung cấp",
-    "adminProviderTypeHint": "Lịch trìnhDirect hoặc XMLTV",
-    "adminUsernameOptional": "Tên người dùng (tùy chọn)",
-    "adminRefreshInterval": "Khoảng thời gian làm mới (giờ)",
     "adminProviderAdded": "Đã thêm nhà cung cấp",
     "adminProviderAddFailed": "Không thể thêm nhà cung cấp: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Không có dòng phù hợp",
     "adminMetadataEditorTitle": "Trình chỉnh sửa siêu dữ liệu",
-    "adminMetadataRemote": "Xa",
     "adminMetadataType": "Kiểu",
     "adminMetadataDetails": "Chi tiết",
     "adminMetadataExternalIds": "ID bên ngoài",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "Âm thanh nổi AAC",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Truyền qua (Nâng cao)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Tự động bật HDR để phát lại video HDR và ​​khôi phục chế độ hiển thị khi thoát.",
     "whenFullscreen": "Khi toàn màn hình",
     "transcodingLimits": "Giới hạn chuyển mã",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Hiển thị lượt tải xuống trên máy chủ",
+    "reportDownloadsActivitySubtitle": "Cho phép quản trị viên máy chủ xem các lượt tải xuống đã chuyển mã của bạn trong bảng điều khiển",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Giới hạn bộ nhớ đệm hình ảnh",
+    "clearImageCache": "Xóa bộ nhớ đệm hình ảnh",
+    "imageCacheCleared": "Đã xóa bộ nhớ đệm hình ảnh"
 }

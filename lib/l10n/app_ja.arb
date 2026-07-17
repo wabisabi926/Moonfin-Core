@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "特定のユーザー",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "常に認証する",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "遠隔地にいる人の検索",
     "adminNoRemoteMatches": "リモート一致が見つかりません",
     "adminRemoteResults": "リモート結果",
     "adminRemoteMetadataApplied": "リモートメタデータの適用",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "チューナーの追加",
     "adminTunerType": "チューナーの種類",
-    "adminTunerTypeHint": "HDホームラン、M3U、その他",
-    "adminUrlPath": "URL/パス",
-    "adminNameOptional": "名前 (オプション)",
     "adminTunerAdded": "チューナーを追加しました",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "ガイドプロバイダーの追加",
     "adminProviderType": "プロバイダーの種類",
-    "adminProviderTypeHint": "スケジュールダイレクトまたは XMLTV",
-    "adminUsernameOptional": "ユーザー名 (オプション)",
-    "adminRefreshInterval": "更新間隔 (時間)",
     "adminProviderAdded": "プロバイダーが追加されました",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "一致する行はありません",
     "adminMetadataEditorTitle": "メタデータエディター",
-    "adminMetadataRemote": "リモート",
     "adminMetadataType": "タイプ",
     "adminMetadataDetails": "詳細",
     "adminMetadataExternalIds": "外部ID",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "サーバーにダウンロードを表示",
+    "reportDownloadsActivitySubtitle": "変換済みダウンロードをサーバー管理者がダッシュボードで確認できるようにします",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "画像キャッシュの上限",
+    "clearImageCache": "画像キャッシュを消去",
+    "imageCacheCleared": "画像キャッシュを消去しました"
 }

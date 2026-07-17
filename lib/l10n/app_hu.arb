@@ -8,7 +8,7 @@
     "@signIn": {
         "description": "Sign in heading and button label"
     },
-    "connectingToServer": "Kapcsolódás a {serverName} szerverhez",
+    "connectingToServer": "Csatlakozás {serverName}-hez",
     "@connectingToServer": {
         "description": "Subtitle showing which server the user is connecting to",
         "placeholders": {
@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Konkrét felhasználó",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Hitelesítés megkövetelése mindig",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Távoli személy keresése",
     "adminNoRemoteMatches": "Nem található távoli egyezés",
     "adminRemoteResults": "Távoli eredmények",
     "adminRemoteMetadataApplied": "Távoli metaadatok alkalmazva",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Hangoló hozzáadása",
     "adminTunerType": "Tuner típusa",
-    "adminTunerTypeHint": "HDHomeRun, M3U, egyéb",
-    "adminUrlPath": "URL / elérési út",
-    "adminNameOptional": "Név (nem kötelező)",
     "adminTunerAdded": "Tuner hozzáadva",
     "adminTunerAddFailed": "Nem sikerült hozzáadni a tunert: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Műsorújság-szolgáltató hozzáadása",
     "adminProviderType": "Szolgáltató típusa",
-    "adminProviderTypeHint": "SchedulesDirect vagy XMLTV",
-    "adminUsernameOptional": "Felhasználónév (nem kötelező)",
-    "adminRefreshInterval": "Frissítési időköz (óra)",
     "adminProviderAdded": "Szolgáltató hozzáadva",
     "adminProviderAddFailed": "Nem sikerült hozzáadni a szolgáltatót: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Nincsenek egyező sorok",
     "adminMetadataEditorTitle": "Metaadat-szerkesztő",
-    "adminMetadataRemote": "Távoli",
     "adminMetadataType": "Típus",
     "adminMetadataDetails": "Részletek",
     "adminMetadataExternalIds": "Külső azonosítók",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Hangátengedés (speciális)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7353,7 +7329,7 @@
     "@interfaceStyle": {
         "description": "Label for the Automatic/Apple/Material interface style setting"
     },
-    "interfaceLanguage": "Alkalmazás nyelvi beállításainak címkéje",
+    "interfaceLanguage": "Felület nyelve",
     "@interfaceLanguage": {
         "description": "Label for the app interface language setting"
     },
@@ -8967,5 +8943,68 @@
     "imdbMostPopularMovies": "IMDb legnépszerűbb filmek",
     "imdbMostPopularTvShows": "IMDb legnépszerűbb sorozatok",
     "imdbLowestRatedMovies": "IMDb legalacsonyabb értékelésű filmek",
-    "imdbTopEnglishMovies": "IMDb legjobb értékelésű angol nyelvű filmek"
+    "imdbTopEnglishMovies": "IMDb legjobb értékelésű angol nyelvű filmek",
+    "games": "Játékok",
+    "@games": {
+        "description": "Label for the games category tab in search results"
+    },
+    "reportDownloadsActivity": "Letöltések megjelenítése a szerveren",
+    "reportDownloadsActivitySubtitle": "A szerver adminisztrátora láthatja az átkódolt letöltéseidet az irányítópulton",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Képgyorsítótár korlátja",
+    "clearImageCache": "Képgyorsítótár törlése",
+    "imageCacheCleared": "Képgyorsítótár törölve",
+    "adminEditTuner": "Tuner szerkesztése",
+    "adminTunerTypeM3u": "M3U-tuner",
+    "adminTunerTypeHdHomerun": "HDHomeRun",
+    "adminTunerFileOrUrl": "Fájl vagy URL",
+    "adminTunerIpAddress": "Tuner IP-címe",
+    "adminTunerFriendlyName": "Barátságos név",
+    "adminTunerUserAgent": "User agent",
+    "adminTunerCount": "Egyidejű kapcsolatok korlátja",
+    "adminTunerCountHelp": "A tuner által egyidejűleg engedélyezett streamek maximális száma. Állítsd 0-ra a korlátlanhoz.",
+    "adminTunerFallbackBitrate": "Tartalék maximális streamelési bitráta",
+    "adminTunerImportFavoritesOnly": "Csak a kedvenc csatornák importálása",
+    "adminTunerAllowHwTranscoding": "Hardveres átkódolás engedélyezése",
+    "adminTunerAllowFmp4": "fMP4 átkódolási konténer engedélyezése",
+    "adminTunerAllowStreamSharing": "Streammegosztás engedélyezése",
+    "adminTunerEnableStreamLooping": "Streamismétlés engedélyezése",
+    "adminTunerIgnoreDts": "DTS figyelmen kívül hagyása",
+    "adminTunerReadAtNativeFramerate": "Bemenet olvasása natív képsebességgel",
+    "adminEditProvider": "Szolgáltató szerkesztése",
+    "adminProviderXmltv": "XMLTV",
+    "adminProviderSchedulesDirect": "Schedules Direct",
+    "adminXmltvPath": "Fájl vagy URL",
+    "adminXmltvMoviePrefix": "Filmelőtag",
+    "adminXmltvMovieCategories": "Filmkategóriák",
+    "adminXmltvCategoriesHelp": "Több kategória elválasztásához használj függőleges vonalat.",
+    "adminXmltvKidsCategories": "Gyerekkategóriák",
+    "adminXmltvNewsCategories": "Hírkategóriák",
+    "adminXmltvSportsCategories": "Sportkategóriák",
+    "adminSdUsername": "Felhasználónév",
+    "adminSdPassword": "Jelszó",
+    "adminSdCountry": "Ország",
+    "adminSdCountrySelect": "Válassz országot",
+    "adminSdPostalCode": "Irányítószám",
+    "adminSdGetListings": "Műsorlisták lekérése",
+    "adminSdListings": "Műsorlisták",
+    "adminEnableAllTuners": "Összes tuner engedélyezése",
+    "adminPlaybackVppTonemappingBrightness": "VPP-tónusleképezés fényereje",
+    "adminPlaybackVppTonemappingContrast": "VPP-tónusleképezés kontrasztja",
+    "adminPlaybackDeinterlaceDoubleRate": "Képsebesség duplázása váltottsorosság megszüntetésekor",
+    "adminPlaybackThrottleDelay": "Visszafogási késleltetés (másodperc)",
+    "adminPlaybackEnableSubtitleExtraction": "Feliratok menet közbeni kinyerésének engedélyezése",
+    "adminGeneralDisplayLanguage": "Előnyben részesített megjelenítési nyelv",
+    "hideBackdropsInLibraries": "Elrejted a háttérképeket böngészés közben?",
+    "@hideBackdropsInLibraries": {
+        "description": "Setting title to show/hide backdrops when browsing library pages"
+    }
 }

@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "నిర్దిష్ట వినియోగదారు",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "ఎల్లప్పుడూ ప్రమాణీకరించండి",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "రిమోట్ వ్యక్తిని శోధించండి",
     "adminNoRemoteMatches": "రిమోట్ సరిపోలికలు ఏవీ కనుగొనబడలేదు",
     "adminRemoteResults": "రిమోట్ ఫలితాలు",
     "adminRemoteMetadataApplied": "రిమోట్ మెటాడేటా వర్తింపజేయబడింది",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "ట్యూనర్‌ని జోడించండి",
     "adminTunerType": "ట్యూనర్ రకం",
-    "adminTunerTypeHint": "HDHomeRun, M3U, ఇతర",
-    "adminUrlPath": "URL / మార్గం",
-    "adminNameOptional": "పేరు (ఐచ్ఛికం)",
     "adminTunerAdded": "ట్యూనర్ జోడించబడింది",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "గైడ్ ప్రొవైడర్‌ని జోడించండి",
     "adminProviderType": "ప్రొవైడర్ రకం",
-    "adminProviderTypeHint": "షెడ్యూల్స్డైరెక్ట్ లేదా XMLTV",
-    "adminUsernameOptional": "వినియోగదారు పేరు (ఐచ్ఛికం)",
-    "adminRefreshInterval": "రిఫ్రెష్ విరామం (గంటలు)",
     "adminProviderAdded": "ప్రొవైడర్ జోడించబడింది",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "సరిపోలే పంక్తులు లేవు",
     "adminMetadataEditorTitle": "మెటాడేటా ఎడిటర్",
-    "adminMetadataRemote": "రిమోట్",
     "adminMetadataType": "టైప్ చేయండి",
     "adminMetadataDetails": "వివరాలు",
     "adminMetadataExternalIds": "బాహ్య IDలు",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "HDR వీడియో ప్లేబ్యాక్ కోసం HDRని స్వయంచాలకంగా ప్రారంభించండి మరియు నిష్క్రమణలో ప్రదర్శన మోడ్‌ని పునరుద్ధరించండి.",
     "whenFullscreen": "పూర్తి స్క్రీన్‌లో ఉన్నప్పుడు",
     "transcodingLimits": "ట్రాన్స్‌కోడింగ్ పరిమితులు",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "సర్వర్‌లో డౌన్‌లోడ్‌లను చూపించండి",
+    "reportDownloadsActivitySubtitle": "మీ ట్రాన్స్‌కోడ్ చేసిన డౌన్‌లోడ్‌లను డాష్‌బోర్డ్‌లో సర్వర్ అడ్మిన్ చూసేందుకు అనుమతించండి",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "ఇమేజ్ కాష్ పరిమితి",
+    "clearImageCache": "ఇమేజ్ కాష్‌ను క్లియర్ చేయండి",
+    "imageCacheCleared": "ఇమేజ్ కాష్ క్లియర్ చేయబడింది"
 }

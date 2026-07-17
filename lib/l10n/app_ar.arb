@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "مستخدم محدد",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "المصادقة دائما",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "البحث عن شخص بعيد",
     "adminNoRemoteMatches": "لم يتم العثور على تطابقات بعيدة",
     "adminRemoteResults": "النتائج عن بعد",
     "adminRemoteMetadataApplied": "تم تطبيق بيانات التعريف عن بعد",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "أضف موالف",
     "adminTunerType": "نوع الموالف",
-    "adminTunerTypeHint": "HDHomeRun، M3U، أخرى",
-    "adminUrlPath": "عنوان URL/المسار",
-    "adminNameOptional": "الاسم (اختياري)",
     "adminTunerAdded": "وأضاف موالف",
     "adminTunerAddFailed": "فشلت إضافة الموالف: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "إضافة موفر الدليل",
     "adminProviderType": "نوع المزود",
-    "adminProviderTypeHint": "جداول المباشر أو XMLTV",
-    "adminUsernameOptional": "اسم المستخدم (اختياري)",
-    "adminRefreshInterval": "الفاصل الزمني للتحديث (ساعات)",
     "adminProviderAdded": "تمت إضافة المزود",
     "adminProviderAddFailed": "فشلت إضافة الموفر: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "لا توجد خطوط مطابقة",
     "adminMetadataEditorTitle": "محرر البيانات الوصفية",
-    "adminMetadataRemote": "بعيد",
     "adminMetadataType": "يكتب",
     "adminMetadataDetails": "تفاصيل",
     "adminMetadataExternalIds": "معرفات خارجية",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "ستيريو AAC",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "العبور (متقدم)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "تمكين HDR تلقائيًا لتشغيل فيديو HDR واستعادة وضع العرض عند الخروج.",
     "whenFullscreen": "عندما ملء الشاشة",
     "transcodingLimits": "حدود تحويل الترميز",
-    "settingsSupportMoonfinSubtitle": "تبرع بالقهوة للمطور"
+    "settingsSupportMoonfinSubtitle": "تبرع بالقهوة للمطور",
+    "reportDownloadsActivity": "عرض التحميلات على الخادم",
+    "reportDownloadsActivitySubtitle": "السماح لمسؤول الخادم برؤية تحميلاتك المعاد ترميزها في لوحة التحكم",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "حد ذاكرة التخزين المؤقت للصور",
+    "clearImageCache": "مسح ذاكرة التخزين المؤقت للصور",
+    "imageCacheCleared": "تم مسح ذاكرة التخزين المؤقت للصور"
 }

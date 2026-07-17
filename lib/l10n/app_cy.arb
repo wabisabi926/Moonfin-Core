@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Defnyddiwr Penodol",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Dilysu bob amser",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Chwilio am Berson o Bell",
     "adminNoRemoteMatches": "Ni chanfuwyd unrhyw barau o bell",
     "adminRemoteResults": "Canlyniadau o Bell",
     "adminRemoteMetadataApplied": "Cymhwyswyd metadata o bell",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Ychwanegu Tuner",
     "adminTunerType": "Math Tiwniwr",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Arall",
-    "adminUrlPath": "URL / Llwybr",
-    "adminNameOptional": "Enw (dewisol)",
     "adminTunerAdded": "Ychwanegodd tuner",
     "adminTunerAddFailed": "Wedi methu ag ychwanegu tiwniwr: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Ychwanegu Darparwr Canllaw",
     "adminProviderType": "Math o Ddarparwr",
-    "adminProviderTypeHint": "SchedulesDirect neu XMLTV",
-    "adminUsernameOptional": "Enw defnyddiwr (dewisol)",
-    "adminRefreshInterval": "Cyfnod adnewyddu (oriau)",
     "adminProviderAdded": "Ychwanegodd y darparwr",
     "adminProviderAddFailed": "Wedi methu ag ychwanegu darparwr: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Dim llinellau cyfatebol",
     "adminMetadataEditorTitle": "Golygydd Metadata",
-    "adminMetadataRemote": "Anghysbell",
     "adminMetadataType": "Math",
     "adminMetadataDetails": "Manylion",
     "adminMetadataExternalIds": "IDau allanol",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "Stereo AAC",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Uwch)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Galluogi HDR yn awtomatig ar gyfer chwarae fideo HDR ac adfer modd arddangos wrth ymadael.",
     "whenFullscreen": "Pan fydd sgrin lawn",
     "transcodingLimits": "Terfynau Trawsgodio",
-    "settingsSupportMoonfinSubtitle": "Rhowch goffi i'r datblygwr"
+    "settingsSupportMoonfinSubtitle": "Rhowch goffi i'r datblygwr",
+    "reportDownloadsActivity": "Dangos lawrlwythiadau ar y gweinydd",
+    "reportDownloadsActivitySubtitle": "Gadael i weinyddwr y gweinydd weld eich lawrlwythiadau wedi'u trawsgodio yn y dangosfwrdd",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Terfyn storfa ddelweddau",
+    "clearImageCache": "Clirio'r storfa ddelweddau",
+    "imageCacheCleared": "Storfa ddelweddau wedi'i chlirio"
 }

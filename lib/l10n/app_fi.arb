@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Tietty käyttäjä",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Todenna aina",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Etsi etähenkilö",
     "adminNoRemoteMatches": "Etäosumia ei löytynyt",
     "adminRemoteResults": "Etätulokset",
     "adminRemoteMetadataApplied": "Etäsisällönkuvaustiedot otettu käyttöön",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Lisää viritin",
     "adminTunerType": "Virittimen tyyppi",
-    "adminTunerTypeHint": "HDHomeRun, M3U, muu",
-    "adminUrlPath": "URL / polku",
-    "adminNameOptional": "Nimi (valinnainen)",
     "adminTunerAdded": "Viritin lisätty",
     "adminTunerAddFailed": "Virittimen lisääminen epäonnistui: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Lisää oppaan tarjoaja",
     "adminProviderType": "Palveluntarjoajan tyyppi",
-    "adminProviderTypeHint": "SchedulesDirect tai XMLTV",
-    "adminUsernameOptional": "Käyttäjätunnus (valinnainen)",
-    "adminRefreshInterval": "Päivitysväli (tunteja)",
     "adminProviderAdded": "Palveluntarjoaja lisätty",
     "adminProviderAddFailed": "Palveluntarjoajan lisääminen epäonnistui: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Ei vastaavia rivejä",
     "adminMetadataEditorTitle": "Metatietoeditori",
-    "adminMetadataRemote": "Kauko",
     "adminMetadataType": "Tyyppi",
     "adminMetadataDetails": "Yksityiskohdat",
     "adminMetadataExternalIds": "Ulkoiset tunnukset",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Läpivienti (edistynyt)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Ota HDR automaattisesti käyttöön HDR-videon toistoa varten ja palauta näyttötila poistuessasi.",
     "whenFullscreen": "Kun koko näyttö",
     "transcodingLimits": "Transkoodausrajat",
-    "settingsSupportMoonfinSubtitle": "Lahjoita kahvi kehittäjälle"
+    "settingsSupportMoonfinSubtitle": "Lahjoita kahvi kehittäjälle",
+    "reportDownloadsActivity": "Näytä lataukset palvelimella",
+    "reportDownloadsActivitySubtitle": "Anna palvelimen ylläpitäjän nähdä transkoodatut lataukset hallintapaneelissa",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Kuvavälimuistin raja",
+    "clearImageCache": "Tyhjennä kuvavälimuisti",
+    "imageCacheCleared": "Kuvavälimuisti tyhjennetty"
 }

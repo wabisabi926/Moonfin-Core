@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Арнайы пайдаланушы",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Әрқашан аутентификация",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Қашықтағы адамды іздеу",
     "adminNoRemoteMatches": "Қашықтағы сәйкестіктер табылмады",
     "adminRemoteResults": "Қашықтағы нәтижелер",
     "adminRemoteMetadataApplied": "Қашықтағы метадеректер қолданылды",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Тюнер қосыңыз",
     "adminTunerType": "Тюнер түрі",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Басқа",
-    "adminUrlPath": "URL/жол",
-    "adminNameOptional": "Аты (міндетті емес)",
     "adminTunerAdded": "Тюнер қосылды",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Гид провайдерін қосыңыз",
     "adminProviderType": "Провайдер түрі",
-    "adminProviderTypeHint": "SchedulesDirect немесе XMLTV",
-    "adminUsernameOptional": "Пайдаланушы аты (міндетті емес)",
-    "adminRefreshInterval": "Жаңарту аралығы (сағат)",
     "adminProviderAdded": "Провайдер қосылды",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Сәйкес сызықтар жоқ",
     "adminMetadataEditorTitle": "Метадеректер редакторы",
-    "adminMetadataRemote": "Қашықтан",
     "adminMetadataType": "Түр",
     "adminMetadataDetails": "Мәліметтер",
     "adminMetadataExternalIds": "Сыртқы идентификаторлар",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Жүктеулерді серверде көрсету",
+    "reportDownloadsActivitySubtitle": "Сервер әкімшісіне басқару тақтасында транскодталған жүктеулеріңізді көруге рұқсат ету",
+    "mbValue": "{value} МБ",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Кескін кэшінің шегі",
+    "clearImageCache": "Кескін кэшін тазалау",
+    "imageCacheCleared": "Кескін кэші тазаланды"
 }

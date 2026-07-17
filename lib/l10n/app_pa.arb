@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "ਖਾਸ ਉਪਭੋਗਤਾ",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "ਹਮੇਸ਼ਾ ਪ੍ਰਮਾਣਿਤ ਕਰੋ",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "ਰਿਮੋਟ ਵਿਅਕਤੀ ਦੀ ਖੋਜ ਕਰੋ",
     "adminNoRemoteMatches": "ਕੋਈ ਰਿਮੋਟ ਮੇਲ ਨਹੀਂ ਮਿਲਿਆ",
     "adminRemoteResults": "ਰਿਮੋਟ ਨਤੀਜੇ",
     "adminRemoteMetadataApplied": "ਰਿਮੋਟ ਮੈਟਾਡੇਟਾ ਲਾਗੂ ਕੀਤਾ ਗਿਆ",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "ਟਿਊਨਰ ਸ਼ਾਮਲ ਕਰੋ",
     "adminTunerType": "ਟਿਊਨਰ ਦੀ ਕਿਸਮ",
-    "adminTunerTypeHint": "HDHomeRun, M3U, ਹੋਰ",
-    "adminUrlPath": "URL / ਮਾਰਗ",
-    "adminNameOptional": "ਨਾਮ (ਵਿਕਲਪਿਕ)",
     "adminTunerAdded": "ਟਿਊਨਰ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "ਗਾਈਡ ਪ੍ਰਦਾਤਾ ਸ਼ਾਮਲ ਕਰੋ",
     "adminProviderType": "ਪ੍ਰਦਾਤਾ ਦੀ ਕਿਸਮ",
-    "adminProviderTypeHint": "ਅਨੁਸੂਚੀ ਡਾਇਰੈਕਟ ਜਾਂ XMLTV",
-    "adminUsernameOptional": "ਉਪਭੋਗਤਾ ਨਾਮ (ਵਿਕਲਪਿਕ)",
-    "adminRefreshInterval": "ਰਿਫ੍ਰੈਸ਼ ਅੰਤਰਾਲ (ਘੰਟੇ)",
     "adminProviderAdded": "ਪ੍ਰਦਾਤਾ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "ਕੋਈ ਮੇਲ ਖਾਂਦੀਆਂ ਲਾਈਨਾਂ ਨਹੀਂ ਹਨ",
     "adminMetadataEditorTitle": "ਮੈਟਾਡੇਟਾ ਸੰਪਾਦਕ",
-    "adminMetadataRemote": "ਰਿਮੋਟ",
     "adminMetadataType": "ਟਾਈਪ ਕਰੋ",
     "adminMetadataDetails": "ਵੇਰਵੇ",
     "adminMetadataExternalIds": "ਬਾਹਰੀ ਆਈ.ਡੀ",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "ਸਰਵਰ 'ਤੇ ਡਾਊਨਲੋਡ ਦਿਖਾਓ",
+    "reportDownloadsActivitySubtitle": "ਸਰਵਰ ਐਡਮਿਨ ਨੂੰ ਡੈਸ਼ਬੋਰਡ ਵਿੱਚ ਤੁਹਾਡੇ ਟ੍ਰਾਂਸਕੋਡ ਕੀਤੇ ਡਾਊਨਲੋਡ ਦੇਖਣ ਦਿਓ",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "ਚਿੱਤਰ ਕੈਸ਼ ਸੀਮਾ",
+    "clearImageCache": "ਚਿੱਤਰ ਕੈਸ਼ ਸਾਫ਼ ਕਰੋ",
+    "imageCacheCleared": "ਚਿੱਤਰ ਕੈਸ਼ ਸਾਫ਼ ਕੀਤਾ"
 }

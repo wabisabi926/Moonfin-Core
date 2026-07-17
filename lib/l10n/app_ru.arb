@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Конкретный пользователь",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Всегда аутентифицироваться",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Поиск удаленного человека",
     "adminNoRemoteMatches": "Удаленных совпадений не найдено",
     "adminRemoteResults": "Удаленные результаты",
     "adminRemoteMetadataApplied": "Применены удаленные метаданные",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Добавить тюнер",
     "adminTunerType": "Тип тюнера",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Другое",
-    "adminUrlPath": "URL/путь",
-    "adminNameOptional": "Имя (необязательно)",
     "adminTunerAdded": "Тюнер добавлен",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Добавить поставщика руководств",
     "adminProviderType": "Тип поставщика",
-    "adminProviderTypeHint": "SchedulesDirect или XMLTV",
-    "adminUsernameOptional": "Имя пользователя (необязательно)",
-    "adminRefreshInterval": "Интервал обновления (часы)",
     "adminProviderAdded": "Провайдер добавлен",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Нет совпадающих строк",
     "adminMetadataEditorTitle": "Редактор метаданных",
-    "adminMetadataRemote": "Удаленный",
     "adminMetadataType": "Тип",
     "adminMetadataDetails": "Подробности",
     "adminMetadataExternalIds": "Внешние идентификаторы",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Показывать загрузки на сервере",
+    "reportDownloadsActivitySubtitle": "Разрешить администратору сервера видеть ваши транскодированные загрузки на панели управления",
+    "mbValue": "{value} МБ",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Лимит кэша изображений",
+    "clearImageCache": "Очистить кэш изображений",
+    "imageCacheCleared": "Кэш изображений очищен"
 }

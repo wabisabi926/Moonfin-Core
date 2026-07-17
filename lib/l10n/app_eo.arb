@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Specifa Uzanto",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Ĉiam Aŭtentikigi",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Serĉu Foran Personon",
     "adminNoRemoteMatches": "Neniuj foraj kongruoj trovitaj",
     "adminRemoteResults": "Foraj Rezultoj",
     "adminRemoteMetadataApplied": "Foraj metadatenoj aplikitaj",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Aldonu Agordilon",
     "adminTunerType": "Tuner Tipo",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Aliaj",
-    "adminUrlPath": "URL / Vojo",
-    "adminNameOptional": "Nomo (laŭvola)",
     "adminTunerAdded": "Tuner aldonis",
     "adminTunerAddFailed": "Malsukcesis aldoni agordilon: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Aldonu Gvidprovizanton",
     "adminProviderType": "Tipo de provizanto",
-    "adminProviderTypeHint": "HorarojDirect aŭ XMLTV",
-    "adminUsernameOptional": "Uzantnomo (laŭvola)",
-    "adminRefreshInterval": "Refreŝiga intervalo (horoj)",
     "adminProviderAdded": "Provizanto aldonis",
     "adminProviderAddFailed": "Malsukcesis aldoni provizanton: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Neniuj kongruaj linioj",
     "adminMetadataEditorTitle": "Redaktilo de metadatumoj",
-    "adminMetadataRemote": "Malproksima",
     "adminMetadataType": "Tajpu",
     "adminMetadataDetails": "Detaloj",
     "adminMetadataExternalIds": "Eksteraj identigiloj",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Trapaso (Altnivela)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Aŭtomate ebligu HDR por HDR-video-reproduktado kaj restarigu ekranreĝimon ĉe eliro.",
     "whenFullscreen": "Kiam plenekrana",
     "transcodingLimits": "Transkodigaj Limoj",
-    "settingsSupportMoonfinSubtitle": "Donacu kafon al la programisto"
+    "settingsSupportMoonfinSubtitle": "Donacu kafon al la programisto",
+    "reportDownloadsActivity": "Montri elŝutojn sur la servilo",
+    "reportDownloadsActivitySubtitle": "Permesi al la servila administranto vidi viajn transkoditajn elŝutojn en la panelo",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Limo de bildkaŝmemoro",
+    "clearImageCache": "Vakigi bildkaŝmemoron",
+    "imageCacheCleared": "Bildkaŝmemoro vakigita"
 }

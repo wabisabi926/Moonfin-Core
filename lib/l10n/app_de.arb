@@ -3671,10 +3671,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Bestimmter Benutzer",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Immer authentifizieren",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5282,7 +5278,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Remote-Person suchen",
     "adminNoRemoteMatches": "Keine Remote-Treffer gefunden",
     "adminRemoteResults": "Remote-Ergebnisse",
     "adminRemoteMetadataApplied": "Remote-Metadaten angewendet",
@@ -5378,9 +5373,6 @@
     },
     "adminAddTuner": "Tuner hinzufügen",
     "adminTunerType": "Tuner-Typ",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Andere",
-    "adminUrlPath": "URL / Pfad",
-    "adminNameOptional": "Name (optional)",
     "adminTunerAdded": "Tuner hinzugefügt",
     "adminTunerAddFailed": "Tuner konnte nicht hinzugefügt werden: {error}",
     "@adminTunerAddFailed": {
@@ -5392,9 +5384,6 @@
     },
     "adminAddGuideProvider": "Programmführer-Anbieter hinzufügen",
     "adminProviderType": "Anbietertyp",
-    "adminProviderTypeHint": "SchedulesDirect oder XMLTV",
-    "adminUsernameOptional": "Benutzername (optional)",
-    "adminRefreshInterval": "Aktualisierungsintervall (Stunden)",
     "adminProviderAdded": "Anbieter hinzugefügt",
     "adminProviderAddFailed": "Anbieter konnte nicht hinzugefügt werden: {error}",
     "@adminProviderAddFailed": {
@@ -5563,7 +5552,6 @@
     },
     "adminLogViewerNoMatches": "Keine übereinstimmenden Zeilen",
     "adminMetadataEditorTitle": "Metadaten-Editor",
-    "adminMetadataRemote": "Fernbedienung",
     "adminMetadataType": "Typ",
     "adminMetadataDetails": "Einzelheiten",
     "adminMetadataExternalIds": "Externe IDs",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC-Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Erweitert)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7418,5 +7394,19 @@
     "customThemeTitle": "Benutzerdefiniertes Theme",
     "@customThemeTitle": {
         "description": "Title for the custom theme settings section"
-    }
+    },
+    "reportDownloadsActivity": "Downloads auf dem Server anzeigen",
+    "reportDownloadsActivitySubtitle": "Der Server-Administrator kann Ihre transkodierten Downloads im Dashboard sehen",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Bildcache-Limit",
+    "clearImageCache": "Bildcache leeren",
+    "imageCacheCleared": "Bildcache geleert"
 }

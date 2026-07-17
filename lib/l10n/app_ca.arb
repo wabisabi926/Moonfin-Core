@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Usuari específic",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Autenticar-se sempre",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Cerca persona remota",
     "adminNoRemoteMatches": "No s'han trobat coincidències remotes",
     "adminRemoteResults": "Resultats a distància",
     "adminRemoteMetadataApplied": "S'han aplicat metadades remotes",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Afegeix un sintonitzador",
     "adminTunerType": "Tipus de sintonitzador",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Altres",
-    "adminUrlPath": "URL / Camí",
-    "adminNameOptional": "Nom (opcional)",
     "adminTunerAdded": "S'ha afegit el sintonitzador",
     "adminTunerAddFailed": "No s'ha pogut afegir el sintonitzador: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Afegeix un proveïdor de guia",
     "adminProviderType": "Tipus de proveïdor",
-    "adminProviderTypeHint": "SchedulesDirect o XMLTV",
-    "adminUsernameOptional": "Nom d'usuari (opcional)",
-    "adminRefreshInterval": "Interval d'actualització (hores)",
     "adminProviderAdded": "S'ha afegit el proveïdor",
     "adminProviderAddFailed": "No s'ha pogut afegir el proveïdor: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "No hi ha línies coincidents",
     "adminMetadataEditorTitle": "Editor de metadades",
-    "adminMetadataRemote": "Remot",
     "adminMetadataType": "Tipus",
     "adminMetadataDetails": "Detalls",
     "adminMetadataExternalIds": "Identificadors externs",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (avançat)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7662,5 +7638,19 @@
     "detailScreenStyleMoonfin": "Clàssic",
     "@detailScreenStyleMoonfin": {
         "description": "Detail screen style option: the classic centered layout"
-    }
+    },
+    "reportDownloadsActivity": "Mostra les descàrregues al servidor",
+    "reportDownloadsActivitySubtitle": "Permet que l'administrador del servidor vegi les teves descàrregues transcodificades al tauler",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Límit de la memòria cau d'imatges",
+    "clearImageCache": "Esborra la memòria cau d'imatges",
+    "imageCacheCleared": "S'ha esborrat la memòria cau d'imatges"
 }

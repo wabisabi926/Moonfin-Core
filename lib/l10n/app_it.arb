@@ -3671,10 +3671,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Utente Specifico",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Autentica Sempre",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5282,7 +5278,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Cerca Persona Remota",
     "adminNoRemoteMatches": "Nessuna corrispondenza remota trovata",
     "adminRemoteResults": "Risultati Remoti",
     "adminRemoteMetadataApplied": "Metadati remoti applicati",
@@ -5378,9 +5373,6 @@
     },
     "adminAddTuner": "Aggiungi Tuner",
     "adminTunerType": "Tipo Tuner",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Altro",
-    "adminUrlPath": "URL / Percorso",
-    "adminNameOptional": "Nome (opzionale)",
     "adminTunerAdded": "Tuner aggiunto",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5392,9 +5384,6 @@
     },
     "adminAddGuideProvider": "Aggiungi Provider Guida",
     "adminProviderType": "Tipo Provider",
-    "adminProviderTypeHint": "SchedulesDirect o XMLTV",
-    "adminUsernameOptional": "Nome utente (opzionale)",
-    "adminRefreshInterval": "Intervallo di aggiornamento (ore)",
     "adminProviderAdded": "Provider aggiunto",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5563,7 +5552,6 @@
     },
     "adminLogViewerNoMatches": "Nessuna riga corrispondente",
     "adminMetadataEditorTitle": "Editor Metadati",
-    "adminMetadataRemote": "Remoto",
     "adminMetadataType": "Tipo",
     "adminMetadataDetails": "Dettagli",
     "adminMetadataExternalIds": "ID Esterni",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7697,5 +7673,19 @@
     "glassQualitySubtitle": "Automatico seleziona l'effetto vetro più adatto al dispositivo. Completo utilizza la sfocatura reale per la migliore resa visiva. Ridotto usa un effetto più leggero per ridurre il consumo della GPU.",
     "@glassQualitySubtitle": {
         "description": "Explanation under the glass quality setting"
-    }
+    },
+    "reportDownloadsActivity": "Mostra i download sul server",
+    "reportDownloadsActivitySubtitle": "Consenti all'amministratore del server di vedere i tuoi download transcodificati nella dashboard",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Limite cache immagini",
+    "clearImageCache": "Svuota cache immagini",
+    "imageCacheCleared": "Cache immagini svuotata"
 }

@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "विशिष्ट उपयोगकर्ता",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "हमेशा प्रमाणित करें",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "दूरस्थ व्यक्ति खोजें",
     "adminNoRemoteMatches": "कोई दूरस्थ मिलान नहीं मिला",
     "adminRemoteResults": "दूरस्थ परिणाम",
     "adminRemoteMetadataApplied": "दूरस्थ मेटाडेटा लागू किया गया",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "ट्यूनर जोड़ें",
     "adminTunerType": "ट्यूनर प्रकार",
-    "adminTunerTypeHint": "HDHomeRun, M3U, अन्य",
-    "adminUrlPath": "यूआरएल/पथ",
-    "adminNameOptional": "नाम: (वैकल्पिक)",
     "adminTunerAdded": "ट्यूनर जोड़ा गया",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "गाइड प्रदाता जोड़ें",
     "adminProviderType": "प्रदाता प्रकार",
-    "adminProviderTypeHint": "शेड्यूलडायरेक्ट या एक्सएमएलटीवी",
-    "adminUsernameOptional": "उपयोगकर्ता नाम (वैकल्पिक)",
-    "adminRefreshInterval": "ताज़ा अंतराल (घंटे)",
     "adminProviderAdded": "प्रदाता जोड़ा गया",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "कोई मेल खाती पंक्तियाँ नहीं",
     "adminMetadataEditorTitle": "मेटाडेटा संपादक",
-    "adminMetadataRemote": "दूर",
     "adminMetadataType": "प्रकार",
     "adminMetadataDetails": "विवरण",
     "adminMetadataExternalIds": "बाहरी आईडी",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "सर्वर पर डाउनलोड दिखाएँ",
+    "reportDownloadsActivitySubtitle": "सर्वर एडमिन को डैशबोर्ड में आपके ट्रांसकोड किए गए डाउनलोड देखने दें",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "इमेज कैश सीमा",
+    "clearImageCache": "इमेज कैश साफ़ करें",
+    "imageCacheCleared": "इमेज कैश साफ़ हो गया"
 }

@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Συγκεκριμένος χρήστης",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Πάντα έλεγχος ταυτότητας",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Αναζήτηση απομακρυσμένου ατόμου",
     "adminNoRemoteMatches": "Δεν βρέθηκαν απομακρυσμένες αντιστοιχίσεις",
     "adminRemoteResults": "Απομακρυσμένα αποτελέσματα",
     "adminRemoteMetadataApplied": "Εφαρμόστηκαν απομακρυσμένα μεταδεδομένα",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Προσθήκη δέκτη",
     "adminTunerType": "Τύπος δέκτη",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Άλλο",
-    "adminUrlPath": "URL / Διαδρομή",
-    "adminNameOptional": "Όνομα (προαιρετικό)",
     "adminTunerAdded": "Προστέθηκε ο δέκτης",
     "adminTunerAddFailed": "Αποτυχία προσθήκης δέκτη: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Προσθήκη παρόχου οδηγού",
     "adminProviderType": "Τύπος παρόχου",
-    "adminProviderTypeHint": "SchedulesDirect ή XMLTV",
-    "adminUsernameOptional": "Όνομα χρήστη (προαιρετικό)",
-    "adminRefreshInterval": "Διάστημα ανανέωσης (ώρες)",
     "adminProviderAdded": "Προστέθηκε πάροχος",
     "adminProviderAddFailed": "Αποτυχία προσθήκης παρόχου: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Δεν υπάρχουν αντίστοιχες γραμμές",
     "adminMetadataEditorTitle": "Επεξεργαστής Μεταδεδομένων",
-    "adminMetadataRemote": "Μακρινός",
     "adminMetadataType": "Τύπος",
     "adminMetadataDetails": "Καθέκαστα",
     "adminMetadataExternalIds": "Εξωτερικές ταυτότητες",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "Στερεοφωνικό AAC",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Για προχωρημένους)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Ενεργοποιήστε αυτόματα το HDR για αναπαραγωγή βίντεο HDR και επαναφέρετε τη λειτουργία προβολής κατά την έξοδο.",
     "whenFullscreen": "Σε πλήρη οθόνη",
     "transcodingLimits": "Όρια διακωδικοποίησης",
-    "settingsSupportMoonfinSubtitle": "Δωρίστε έναν καφέ στον προγραμματιστή"
+    "settingsSupportMoonfinSubtitle": "Δωρίστε έναν καφέ στον προγραμματιστή",
+    "reportDownloadsActivity": "Εμφάνιση λήψεων στον διακομιστή",
+    "reportDownloadsActivitySubtitle": "Επιτρέψτε στον διαχειριστή του διακομιστή να βλέπει τις διακωδικοποιημένες λήψεις σας στον πίνακα ελέγχου",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Όριο προσωρινής μνήμης εικόνων",
+    "clearImageCache": "Εκκαθάριση προσωρινής μνήμης εικόνων",
+    "imageCacheCleared": "Η προσωρινή μνήμη εικόνων εκκαθαρίστηκε"
 }

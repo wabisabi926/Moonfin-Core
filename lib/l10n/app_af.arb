@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Spesifieke gebruiker",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Verifieer altyd",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Soek afgeleë persoon",
     "adminNoRemoteMatches": "Geen afstandpassings gevind nie",
     "adminRemoteResults": "Afgeleë resultate",
     "adminRemoteMetadataApplied": "Afgeleë metadata toegepas",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Voeg Tuner by",
     "adminTunerType": "Tuner Tipe",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Ander",
-    "adminUrlPath": "URL / Pad",
-    "adminNameOptional": "Naam (opsioneel)",
     "adminTunerAdded": "Tuner bygevoeg",
     "adminTunerAddFailed": "Kon nie ontvanger byvoeg nie: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Voeg gidsverskaffer by",
     "adminProviderType": "Verskaffer tipe",
-    "adminProviderTypeHint": "SkedulesDirect of XMLTV",
-    "adminUsernameOptional": "Gebruikersnaam (opsioneel)",
-    "adminRefreshInterval": "Herlaai interval (ure)",
     "adminProviderAdded": "Verskaffer bygevoeg",
     "adminProviderAddFailed": "Kon nie verskaffer byvoeg nie: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Geen ooreenstemmende lyne nie",
     "adminMetadataEditorTitle": "Metadata-redigeerder",
-    "adminMetadataRemote": "Afgeleë",
     "adminMetadataType": "Tik",
     "adminMetadataDetails": "Besonderhede",
     "adminMetadataExternalIds": "Eksterne ID's",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Deurloop (Gevorderd)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Aktiveer HDR outomaties vir HDR-videoterugspeel en herstel vertoonmodus by uitgang.",
     "whenFullscreen": "Wanneer volskerm",
     "transcodingLimits": "Transkoderingslimiete",
-    "settingsSupportMoonfinSubtitle": "Skenk 'n koffie aan die ontwikkelaar"
+    "settingsSupportMoonfinSubtitle": "Skenk 'n koffie aan die ontwikkelaar",
+    "reportDownloadsActivity": "Wys aflaaie op die bediener",
+    "reportDownloadsActivitySubtitle": "Laat die bedieneradministrateur jou getranskodeerde aflaaie in die kontrolepaneel sien",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Beeldkas-limiet",
+    "clearImageCache": "Maak beeldkas skoon",
+    "imageCacheCleared": "Beeldkas skoongemaak"
 }

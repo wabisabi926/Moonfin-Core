@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Konkretny użytkownik",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Zawsze uwierzytelniaj",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Wyszukaj osobę zdalną",
     "adminNoRemoteMatches": "Nie znaleziono zdalnych dopasowań",
     "adminRemoteResults": "Wyniki zdalne",
     "adminRemoteMetadataApplied": "Zastosowano zdalne metadane",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Dodaj tuner",
     "adminTunerType": "Typ tunera",
-    "adminTunerTypeHint": "HDHomeRun, M3U, inne",
-    "adminUrlPath": "Adres URL / ścieżka",
-    "adminNameOptional": "Imię (opcjonalnie)",
     "adminTunerAdded": "Dodano tunera",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Dodaj dostawcę przewodników",
     "adminProviderType": "Typ dostawcy",
-    "adminProviderTypeHint": "SchedulesDirect lub XMLTV",
-    "adminUsernameOptional": "Nazwa użytkownika (opcjonalnie)",
-    "adminRefreshInterval": "Interwał odświeżania (godziny)",
     "adminProviderAdded": "Dodano dostawcę",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Brak pasujących linii",
     "adminMetadataEditorTitle": "Edytor metadanych",
-    "adminMetadataRemote": "Zdalny",
     "adminMetadataType": "Typ",
     "adminMetadataDetails": "Bliższe dane",
     "adminMetadataExternalIds": "Identyfikatory zewnętrzne",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (zaawansowane)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7852,5 +7828,19 @@
     "subtitleModeForeignDescription": "Automatycznie włącza napisy, jeśli domyślna ścieżka audio jest w innym języku niż wybrany.",
     "@subtitleModeForeignDescription": {
         "description": "Description for foreign subtitle mode"
-    }
+    },
+    "reportDownloadsActivity": "Pokazuj pobierania na serwerze",
+    "reportDownloadsActivitySubtitle": "Pozwól administratorowi serwera widzieć Twoje transkodowane pobrania w panelu",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Limit pamięci podręcznej obrazów",
+    "clearImageCache": "Wyczyść pamięć podręczną obrazów",
+    "imageCacheCleared": "Wyczyszczono pamięć podręczną obrazów"
 }

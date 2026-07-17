@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Одређени корисник",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Увек аутентификујте",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Претражите удаљену особу",
     "adminNoRemoteMatches": "Нису пронађена удаљена подударања",
     "adminRemoteResults": "Ремоте Ресултс",
     "adminRemoteMetadataApplied": "Примењени су удаљени метаподаци",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Додај тјунер",
     "adminTunerType": "Тип тјунера",
-    "adminTunerTypeHint": "ХДХомеРун, М3У, друго",
-    "adminUrlPath": "УРЛ / Путања",
-    "adminNameOptional": "Име (опционо)",
     "adminTunerAdded": "Тунер је додао",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Додајте добављача водича",
     "adminProviderType": "Тип провајдера",
-    "adminProviderTypeHint": "СцхедулесДирецт или КСМЛТВ",
-    "adminUsernameOptional": "Корисничко име (опционо)",
-    "adminRefreshInterval": "Интервал освежавања (сати)",
     "adminProviderAdded": "Провајдер је додат",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Нема одговарајућих линија",
     "adminMetadataEditorTitle": "Уређивач метаподатака",
-    "adminMetadataRemote": "Ремоте",
     "adminMetadataType": "Тип",
     "adminMetadataDetails": "Детаљи",
     "adminMetadataExternalIds": "Екстерни ИД",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Прикажи преузимања на серверу",
+    "reportDownloadsActivitySubtitle": "Дозволите администратору сервера да на контролној табли види ваша транскодирана преузимања",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Ограничење кеша слика",
+    "clearImageCache": "Очисти кеш слика",
+    "imageCacheCleared": "Кеш слика је очишћен"
 }

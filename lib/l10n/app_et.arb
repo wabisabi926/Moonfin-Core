@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Konkreetne kasutaja",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Autentige alati",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Otsige kaugisikut",
     "adminNoRemoteMatches": "Kaugvasteid ei leitud",
     "adminRemoteResults": "Kaugtulemused",
     "adminRemoteMetadataApplied": "Kaugmetaandmed on rakendatud",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Lisage tuuner",
     "adminTunerType": "Tuneri tüüp",
-    "adminTunerTypeHint": "HDHomeRun, M3U, muu",
-    "adminUrlPath": "URL / tee",
-    "adminNameOptional": "Nimi (valikuline)",
     "adminTunerAdded": "Tuner lisatud",
     "adminTunerAddFailed": "Tuneri lisamine nurjus: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Lisage juhendi pakkuja",
     "adminProviderType": "Pakkuja tüüp",
-    "adminProviderTypeHint": "SchedulesDirect või XMLTV",
-    "adminUsernameOptional": "Kasutajanimi (valikuline)",
-    "adminRefreshInterval": "Värskendusintervall (tunnid)",
     "adminProviderAdded": "Pakkuja lisatud",
     "adminProviderAddFailed": "Teenusepakkuja lisamine ebaõnnestus: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Ühtegi sobivat rida pole",
     "adminMetadataEditorTitle": "Metaandmete redaktor",
-    "adminMetadataRemote": "Kaugjuhtimispult",
     "adminMetadataType": "Tüüp",
     "adminMetadataDetails": "Üksikasjad",
     "adminMetadataExternalIds": "Välised ID-d",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Läbimine (täpsem)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Lubage HDR-i automaatselt HDR-video taasesitamiseks ja taastage väljumisel kuvarežiim.",
     "whenFullscreen": "Täisekraanil",
     "transcodingLimits": "Ümberkodeerimise piirangud",
-    "settingsSupportMoonfinSubtitle": "Annetage arendajale kohv"
+    "settingsSupportMoonfinSubtitle": "Annetage arendajale kohv",
+    "reportDownloadsActivity": "Näita allalaadimisi serveris",
+    "reportDownloadsActivitySubtitle": "Luba serveri administraatoril näha juhtpaneelil sinu transkodeeritud allalaadimisi",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Pildipuhvri piirang",
+    "clearImageCache": "Tühjenda pildipuhver",
+    "imageCacheCleared": "Pildipuhver tühjendatud"
 }

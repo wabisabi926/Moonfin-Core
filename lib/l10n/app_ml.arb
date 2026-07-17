@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "നിർദ്ദിഷ്ട ഉപയോക്താവ്",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "എപ്പോഴും പ്രാമാണീകരിക്കുക",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "വിദൂര വ്യക്തിയെ തിരയുക",
     "adminNoRemoteMatches": "വിദൂര പൊരുത്തങ്ങളൊന്നും കണ്ടെത്തിയില്ല",
     "adminRemoteResults": "റിമോട്ട് ഫലങ്ങൾ",
     "adminRemoteMetadataApplied": "റിമോട്ട് മെറ്റാഡാറ്റ പ്രയോഗിച്ചു",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "ട്യൂണർ ചേർക്കുക",
     "adminTunerType": "ട്യൂണർ തരം",
-    "adminTunerTypeHint": "HDHomeRun, M3U, മറ്റുള്ളവ",
-    "adminUrlPath": "URL / പാത",
-    "adminNameOptional": "പേര് (ഓപ്ഷണൽ)",
     "adminTunerAdded": "ട്യൂണർ കൂട്ടിച്ചേർത്തു",
     "adminTunerAddFailed": "ട്യൂണർ ചേർക്കുന്നതിൽ പരാജയപ്പെട്ടു: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "ഗൈഡ് ദാതാവിനെ ചേർക്കുക",
     "adminProviderType": "ദാതാവിൻ്റെ തരം",
-    "adminProviderTypeHint": "ഷെഡ്യൂൾസ്ഡയറക്ട് അല്ലെങ്കിൽ XMLTV",
-    "adminUsernameOptional": "ഉപയോക്തൃനാമം (ഓപ്ഷണൽ)",
-    "adminRefreshInterval": "പുതുക്കിയ ഇടവേള (മണിക്കൂറുകൾ)",
     "adminProviderAdded": "ദാതാവ് ചേർത്തു",
     "adminProviderAddFailed": "ദാതാവിനെ ചേർക്കുന്നതിൽ പരാജയപ്പെട്ടു: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "പൊരുത്തപ്പെടുന്ന വരികളൊന്നുമില്ല",
     "adminMetadataEditorTitle": "മെറ്റാഡാറ്റ എഡിറ്റർ",
-    "adminMetadataRemote": "റിമോട്ട്",
     "adminMetadataType": "ടൈപ്പ് ചെയ്യുക",
     "adminMetadataDetails": "വിശദാംശങ്ങൾ",
     "adminMetadataExternalIds": "ബാഹ്യ ഐഡികൾ",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "HDR വീഡിയോ പ്ലേബാക്കിനായി HDR സ്വയമേവ പ്രവർത്തനക്ഷമമാക്കുകയും പുറത്തുകടക്കുമ്പോൾ ഡിസ്പ്ലേ മോഡ് പുനഃസ്ഥാപിക്കുകയും ചെയ്യുക.",
     "whenFullscreen": "ഫുൾസ്ക്രീൻ ആയിരിക്കുമ്പോൾ",
     "transcodingLimits": "ട്രാൻസ്കോഡിംഗ് പരിധികൾ",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "സെർവറിൽ ഡൗൺലോഡുകൾ കാണിക്കുക",
+    "reportDownloadsActivitySubtitle": "ഡാഷ്ബോർഡിൽ നിങ്ങളുടെ ട്രാൻസ്കോഡ് ചെയ്ത ഡൗൺലോഡുകൾ കാണാൻ സെർവർ അഡ്മിനെ അനുവദിക്കുക",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "ചിത്ര കാഷെ പരിധി",
+    "clearImageCache": "ചിത്ര കാഷെ മായ്ക്കുക",
+    "imageCacheCleared": "ചിത്ര കാഷെ മായ്ച്ചു"
 }

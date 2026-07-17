@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Usuário específico",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Sempre autenticar",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Pesquisar Pessoa Remota",
     "adminNoRemoteMatches": "Nenhuma correspondência remota encontrada",
     "adminRemoteResults": "Resultados remotos",
     "adminRemoteMetadataApplied": "Metadados remotos aplicados",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Adicionar sintonizador",
     "adminTunerType": "Tipo de sintonizador",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Outro",
-    "adminUrlPath": "URL/Caminho",
-    "adminNameOptional": "Nome (opcional)",
     "adminTunerAdded": "Sintonizador adicionado",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Adicionar provedor de guia",
     "adminProviderType": "Tipo de provedor",
-    "adminProviderTypeHint": "HoráriosDirect ou XMLTV",
-    "adminUsernameOptional": "Nome de usuário (opcional)",
-    "adminRefreshInterval": "Intervalo de atualização (horas)",
     "adminProviderAdded": "Provedor adicionado",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Nenhuma linha correspondente",
     "adminMetadataEditorTitle": "Editor de metadados",
-    "adminMetadataRemote": "Remoto",
     "adminMetadataType": "Tipo",
     "adminMetadataDetails": "Detalhes",
     "adminMetadataExternalIds": "IDs externos",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "Quando em tela cheia",
     "transcodingLimits": "Limites de transcodificação",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Mostrar downloads no servidor",
+    "reportDownloadsActivitySubtitle": "Permitir que o administrador do servidor veja seus downloads transcodificados no painel",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Limite do cache de imagens",
+    "clearImageCache": "Limpar cache de imagens",
+    "imageCacheCleared": "Cache de imagens limpo"
 }

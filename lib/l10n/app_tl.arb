@@ -3729,10 +3729,6 @@
     "@lastUser": {
         "description": "Option: last user"
     },
-    "specificUser": "Partikular na Gumagamit",
-    "@specificUser": {
-        "description": "Option: specific user"
-    },
     "alwaysAuthenticate": "Palaging Authenticate",
     "@alwaysAuthenticate": {
         "description": "Setting for always authenticate"
@@ -5447,7 +5443,6 @@
             }
         }
     },
-    "adminSearchRemotePerson": "Maghanap ng Malayong Tao",
     "adminNoRemoteMatches": "Walang nakitang malalayong tugma",
     "adminRemoteResults": "Malayong Resulta",
     "adminRemoteMetadataApplied": "Inilapat ang malayuang metadata",
@@ -5543,9 +5538,6 @@
     },
     "adminAddTuner": "Magdagdag ng Tuner",
     "adminTunerType": "Uri ng Tuner",
-    "adminTunerTypeHint": "HDHomeRun, M3U, Iba pa",
-    "adminUrlPath": "URL / Landas",
-    "adminNameOptional": "Pangalan (opsyonal)",
     "adminTunerAdded": "Idinagdag ni Tuner",
     "adminTunerAddFailed": "Failed to add tuner: {error}",
     "@adminTunerAddFailed": {
@@ -5557,9 +5549,6 @@
     },
     "adminAddGuideProvider": "Magdagdag ng Tagabigay ng Gabay",
     "adminProviderType": "Uri ng Provider",
-    "adminProviderTypeHint": "SchedulesDirect o XMLTV",
-    "adminUsernameOptional": "Username (opsyonal)",
-    "adminRefreshInterval": "Refresh interval (oras)",
     "adminProviderAdded": "Idinagdag ng provider",
     "adminProviderAddFailed": "Failed to add provider: {error}",
     "@adminProviderAddFailed": {
@@ -5729,7 +5718,6 @@
     },
     "adminLogViewerNoMatches": "Walang tugmang linya",
     "adminMetadataEditorTitle": "Metadata Editor",
-    "adminMetadataRemote": "Remote",
     "adminMetadataType": "Uri",
     "adminMetadataDetails": "Mga Detalye",
     "adminMetadataExternalIds": "Mga panlabas na ID",
@@ -6807,18 +6795,6 @@
     "@settingsAudioFallbackCodec": {
         "description": "Setting for fallback audio codec"
     },
-    "settingsAudioFallbackAacStereo": "AAC Stereo",
-    "@settingsAudioFallbackAacStereo": {
-        "description": "Fallback codec option for AAC stereo"
-    },
-    "settingsAudioFallbackAc35_1": "AC3 5.1",
-    "@settingsAudioFallbackAc35_1": {
-        "description": "Fallback codec option for AC3 5.1"
-    },
-    "settingsAudioFallbackEac35_1": "EAC3 5.1",
-    "@settingsAudioFallbackEac35_1": {
-        "description": "Fallback codec option for EAC3 5.1"
-    },
     "settingsAudioPassthroughAdvanced": "Passthrough (Advanced)",
     "@settingsAudioPassthroughAdvanced": {
         "description": "Section title for advanced passthrough controls"
@@ -7333,5 +7309,19 @@
     "autoHdrSwitchingDescription": "Automatically enable HDR for HDR video playback and restore display mode on exit.",
     "whenFullscreen": "When fullscreen",
     "transcodingLimits": "Transcoding Limits",
-    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer"
+    "settingsSupportMoonfinSubtitle": "Donate a coffee to the developer",
+    "reportDownloadsActivity": "Ipakita ang mga download sa server",
+    "reportDownloadsActivitySubtitle": "Hayaang makita ng admin ng server ang iyong mga transcoded na download sa dashboard",
+    "mbValue": "{value} MB",
+    "@mbValue": {
+        "description": "Megabyte value display",
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "imageCacheLimit": "Limitasyon ng image cache",
+    "clearImageCache": "I-clear ang image cache",
+    "imageCacheCleared": "Na-clear ang image cache"
 }
