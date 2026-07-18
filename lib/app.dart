@@ -26,6 +26,7 @@ import 'data/services/topshelf_service.dart';
 import 'data/services/watch_next_service.dart';
 import 'di/providers.dart';
 import 'l10n/app_localizations.dart';
+import 'preference/preference_constants.dart' show GlassSettledQuality;
 import 'preference/user_preferences.dart';
 import 'syncplay/syncplay_manager.dart';
 import 'ui/navigation/app_router.dart';
@@ -107,11 +108,41 @@ class _MoonfinAppState extends State<MoonfinApp> {
   }
 
   void _syncGlassFromPrefs() {
-    final before = GlassSettings.tier;
+    final beforeTier = GlassSettings.tier;
+    final beforePackage = GlassSettings.usePackageRenderer;
     GlassCapability.apply(_prefs.get(UserPreferences.glassQuality));
-    if (GlassSettings.tier != before && mounted) {
+    if ((GlassSettings.tier != beforeTier ||
+            GlassSettings.usePackageRenderer != beforePackage) &&
+        mounted) {
       setState(() {});
     }
+  }
+
+  /// The settled quality persisted by [_onGlassQualityChanged] last session,
+  /// or null to run the warm-up benchmark on a first launch.
+  GlassQuality? _settledGlassInitialQuality() {
+    switch (_prefs.get(UserPreferences.glassSettledQuality)) {
+      case GlassSettledQuality.minimal:
+        return GlassQuality.minimal;
+      case GlassSettledQuality.standard:
+        return GlassQuality.standard;
+      case GlassSettledQuality.premium:
+        return GlassQuality.premium;
+      case GlassSettledQuality.unset:
+        return null;
+    }
+  }
+
+  void _onGlassQualityChanged(GlassQuality from, GlassQuality to) {
+    GlassCapability.onAdaptiveQualityChanged(from, to);
+    unawaited(_prefs.set(UserPreferences.glassSettledQuality, switch (to) {
+      GlassQuality.minimal => GlassSettledQuality.minimal,
+      GlassQuality.standard => GlassSettledQuality.standard,
+      GlassQuality.premium => GlassSettledQuality.premium,
+    }));
+    // GlassBackdrop reads GlassSettings.cheapBackdrop in build, so a
+    // throttle step needs a shell rebuild to collapse or restore the bloom.
+    if (mounted) setState(() {});
   }
 
   void _syncLocaleFromPrefs() {
@@ -223,7 +254,7 @@ class _MoonfinAppState extends State<MoonfinApp> {
                         // never restructures the shell below it. Restructuring
                         // would tear down the navigator subtree and drop the
                         // screen the user is on (e.g. an open settings page).
-                        final Widget content = Stack(
+                        Widget content = Stack(
                           fit: StackFit.expand,
                           children: [
                             Positioned.fill(
@@ -237,6 +268,20 @@ class _MoonfinAppState extends State<MoonfinApp> {
                             if (PlatformDetection.isTV) const ScreensaverHost(),
                           ],
                         );
+                        if (GlassSettings.usePackageRenderer) {
+                          // Governs every package-rendered glass pane below.
+                          // Benchmarks the device, throttles quality under
+                          // GPU and thermal pressure, and recovers when it
+                          // cools. The persisted settled quality skips the
+                          // warm-up on repeat launches.
+                          // ignore: experimental_member_use
+                          content = GlassAdaptiveScope(
+                            maxQuality: GlassCapability.adaptiveMaxQuality,
+                            initialQuality: _settledGlassInitialQuality(),
+                            onQualityChanged: _onGlassQualityChanged,
+                            child: content,
+                          );
+                        }
                         // Has to sit inside MaterialApp for ScrollIntent to
                         // resolve, above the router so every route is covered,
                         // and inside the Overlay so dialogs and sheets share

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get_it/get_it.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:moonfin_design/moonfin_design.dart' show LiquidGlassWidgets;
 import 'package:path_provider/path_provider.dart';
 import 'package:playback_core/playback_core.dart';
 import 'package:window_manager/window_manager.dart';
@@ -355,6 +356,12 @@ Future<void> watchNextBackgroundMain() => watch_next_bg.watchNextBackgroundMain(
 void main() async {
   configureHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Pre-warms the liquid_glass_widgets shader programs so the first glass
+  // pane doesn't white-flash. Cheap no-op on tiers where the package
+  // renderer is disabled, and the Impeller pipeline warm-up is deferred
+  // past the first frame internally.
+  await LiquidGlassWidgets.initialize();
 
   if (PlatformDetection.isAppleTV) {
     registerGameCoreLicenses();

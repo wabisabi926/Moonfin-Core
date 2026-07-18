@@ -871,6 +871,15 @@ class UserPreferences extends ChangeNotifier {
     values: GlassQualityMode.values,
   );
 
+  /// Settled quality of the adaptive glass renderer from the last session.
+  /// Seeds GlassAdaptiveScope's initialQuality so repeat launches skip the
+  /// warm-up benchmark. [GlassSettledQuality.unset] means benchmark again.
+  static final glassSettledQuality = EnumPreference(
+    key: 'pref_glass_settled_quality',
+    defaultValue: GlassSettledQuality.unset,
+    values: GlassSettledQuality.values,
+  );
+
   /// Structural style for the media detail screen. Global (not scoped per
   /// server/user), so it is deliberately omitted from [_scopedPreferenceKeys].
   static final detailScreenStyle = EnumPreference(
