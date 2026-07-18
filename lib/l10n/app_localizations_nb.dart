@@ -110,7 +110,7 @@ class AppLocalizationsNb extends AppLocalizations {
   }
 
   @override
-  String get cancel => 'Kansellere';
+  String get cancel => 'Kanseller';
 
   @override
   String get remove => 'Fjern';
@@ -246,7 +246,7 @@ class AppLocalizationsNb extends AppLocalizations {
       'Nåværende Moonfin-utseende du alle har blitt glad i';
 
   @override
-  String get themeNeonPulse => 'Neonpuls';
+  String get themeNeonPulse => 'Neon Pulse';
 
   @override
   String get themeNeonPulseSubtitle =>
@@ -324,7 +324,7 @@ class AppLocalizationsNb extends AppLocalizations {
   String get exitAppConfirmation => 'Er du sikker på at du vil avslutte?';
 
   @override
-  String get exit => 'Gå';
+  String get exit => 'Avslutt';
 
   @override
   String get gameMenu => 'Meny';
@@ -366,22 +366,22 @@ class AppLocalizationsNb extends AppLocalizations {
       'Prøv å oppdatere eller redusere aktive hjemmeseksjoner.';
 
   @override
-  String get retryHomeRows => 'Prøv Hjem-rader på nytt';
+  String get retryHomeRows => 'Prøv Hjemrader på nytt';
 
   @override
-  String get guide => 'Guide';
+  String get guide => 'TV-Guide';
 
   @override
   String get recordings => 'Opptak';
 
   @override
-  String get schedule => 'Rute';
+  String get schedule => 'Sendeskjema';
 
   @override
   String get series => 'Serier';
 
   @override
-  String get noItemsFound => 'Ingen varer funnet';
+  String get noItemsFound => 'Ingen elementer funnet';
 
   @override
   String get home => 'Hjem';

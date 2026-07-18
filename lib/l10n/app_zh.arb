@@ -17,7 +17,7 @@
             }
         }
     },
-    "quickConnect": "快速连接",
+    "quickConnect": "Quick Connect",
     "@quickConnect": {
         "description": "Quick Connect toggle button label"
     },
@@ -49,7 +49,7 @@
     "@loginFailed": {
         "description": "Generic login failure message"
     },
-    "quickConnectUnavailable": "快速连接不可用：{detail}",
+    "quickConnectUnavailable": "QuickConnect 不可用：{detail}",
     "@quickConnectUnavailable": {
         "description": "Quick Connect generic error message",
         "placeholders": {
@@ -58,7 +58,7 @@
             }
         }
     },
-    "quickConnectUnavailableWithStatus": "快速连接不可用（{status}）：{detail}",
+    "quickConnectUnavailableWithStatus": "QuickConnect 不可用（{status}）：{detail}",
     "@quickConnectUnavailableWithStatus": {
         "description": "Quick Connect error message with HTTP status info",
         "placeholders": {
@@ -277,7 +277,7 @@
     "@guide": {
         "description": "Live TV guide button label"
     },
-    "recordings": "录制",
+    "recordings": "录制内容",
     "@recordings": {
         "description": "Live TV recordings button label"
     },
@@ -1727,7 +1727,7 @@
     "@longPressToUnlock": {
         "description": "OSD lock overlay hint"
     },
-    "off": "关闭",
+    "off": "关",
     "@off": {
         "description": "Label for subtitle off option"
     },
@@ -1854,7 +1854,7 @@
     "@videoBitrate": {
         "description": "Stream info label for video bitrate"
     },
-    "track": "轨道",
+    "track": "音轨",
     "@track": {
         "description": "Stream info label for track name"
     },
@@ -2241,7 +2241,7 @@
             }
         }
     },
-    "no": "不",
+    "no": "否",
     "@no": {
         "description": "Negative dialog button label"
     },
@@ -3569,7 +3569,7 @@
     "@mediaBarModeMakd": {
         "description": "Media bar style option: MakD"
     },
-    "mediaBarModeOff": "关闭",
+    "mediaBarModeOff": "关",
     "@mediaBarModeOff": {
         "description": "Media bar style option: Off"
     },
@@ -4084,11 +4084,11 @@
     "@discoverRows": {
         "description": "Section title for discover rows"
     },
-    "discoverRowsDescriptionPlugin": "启用首页展示栏目，拖动调整排序，自定义顺序将同步至 Moonfin 服务端。",
+    "discoverRowsDescriptionPlugin": "启用要在 Seerr 首页显示的栏目，拖动可调整排序。自定义顺序将与 Moonbase 同步。",
     "@discoverRowsDescriptionPlugin": {
         "description": "Description for discover rows with plugin"
     },
-    "discoverRowsDescription": "启用首页展示栏目，拖动调整排序，自定义顺序将同步至 Moonfin 服务端。",
+    "discoverRowsDescription": "启用要在 Seerr 首页显示的栏目，拖动可调整排序。自定义顺序将与 Moonbase 同步。",
     "@discoverRowsDescription": {
         "description": "Description for discover rows without plugin"
     },
@@ -4507,7 +4507,7 @@
     "@originalLanguageLabel": {
         "description": "Stat label for original language"
     },
-    "seasonsLabel": "季",
+    "seasonsLabel": "季数",
     "@seasonsLabel": {
         "description": "Stat label for number of seasons"
     },
@@ -4536,7 +4536,7 @@
     "interval": "间隔",
     "name": "名称",
     "networking": "网络",
-    "next": "下一项",
+    "next": "下一个",
     "path": "路径",
     "paused": "已暂停",
     "permissions": "权限",
@@ -4544,7 +4544,7 @@
     "profile": "资料",
     "provider": "提供方",
     "refresh": "刷新",
-    "remote": "远程",
+    "remote": "遥控",
     "rename": "重命名",
     "revoke": "撤销",
     "role": "角色",
@@ -4574,7 +4574,7 @@
     "adminDrawerUsers": "用户",
     "adminDrawerLibraries": "媒体库",
     "adminDrawerTranscoding": "转码",
-    "adminDrawerResume": "播放进度",
+    "adminDrawerResume": "继续播放",
     "adminDrawerStreaming": "串流",
     "adminDrawerTrickplay": "Trickplay 预览图",
     "adminDrawerDevices": "设备",
@@ -4671,7 +4671,7 @@
     "sessionPrev": "上一项",
     "sessionRewind": "快退",
     "sessionForward": "快进",
-    "sessionNext": "下一项",
+    "sessionNext": "下一个",
     "sessionVolumeDown": "音量 -",
     "sessionVolumeUp": "音量 +",
     "uhd4k": "4K",
@@ -6328,14 +6328,14 @@
     "pinForgot": "忘记 PIN 码？",
     "pinClear": "清除",
     "pinBackspace": "退格键",
-    "quickConnectAuthorized": "快速连接请求已获授权。",
-    "quickConnectInvalidOrExpired": "快速连接代码无效或已过期。",
-    "quickConnectNotSupported": "此服务器不支持快速连接。",
-    "quickConnectAuthorizeFailed": "无法授权快速连接代码。",
-    "quickConnectDisabled": "此服务器上禁用了快速连接。",
-    "quickConnectForbidden": "你的账号无法授权此快速连接请求。",
-    "quickConnectNotFound": "未找到快速连接代码。请尝试新的代码。",
-    "quickConnectFailedWithMessage": "快速连接失败：{message}",
+    "quickConnectAuthorized": "Quick Connect 请求已获授权。",
+    "quickConnectInvalidOrExpired": "Quick Connect 代码无效或已过期。",
+    "quickConnectNotSupported": "此服务器不支持 Quick Connect。",
+    "quickConnectAuthorizeFailed": "无法授权 Quick Connect 代码。",
+    "quickConnectDisabled": "此服务器上禁用了 Quick Connect。",
+    "quickConnectForbidden": "你的账号无法授权此 Quick Connect 请求。",
+    "quickConnectNotFound": "未找到 Quick Connect 代码。请尝试新的代码。",
+    "quickConnectFailedWithMessage": "Quick Connect 失败：{message}",
     "@quickConnectFailedWithMessage": {
         "placeholders": {
             "message": {
@@ -6479,7 +6479,7 @@
     "@playerTooltipUnlockOrientation": {
         "description": "Tooltip label for unlocking orientation lock in player"
     },
-    "playerTooltipPrevious": "上一项",
+    "playerTooltipPrevious": "上一个",
     "@playerTooltipPrevious": {
         "description": "Tooltip label for previous item control in player"
     },
@@ -7321,7 +7321,7 @@
     "writer": "编剧",
     "settingsScrollWheelAction": "鼠标滚轮",
     "settingsScrollWheelActionDescription": "选择播放时在视频上滚动鼠标滚轮会触发什么操作。",
-    "scrollWheelActionOff": "关闭",
+    "scrollWheelActionOff": "关",
     "scrollWheelActionSeek": "快进/快退",
     "scrollWheelActionVolume": "音量",
     "playerTooltipVolume": "音量",
@@ -7980,7 +7980,7 @@
     "adminRunningTasks": "正在运行的任务",
     "adminNetworkingPublicHttpPort": "公共 HTTP 端口",
     "adminNetworkingRequireHttpsHint": "将所有远程请求重定向到 HTTPS。如果服务器没有有效证书则无效。",
-    "adminGeneralQuickConnect": "启用快速连接",
+    "adminGeneralQuickConnect": "启用 Quick Connect",
     "adminGeneralSectionPaths": "路径",
     "adminGeneralSectionPerformance": "性能",
     "settingsConnectionSection": "连接",
@@ -8195,7 +8195,7 @@
     "adminLibChapterImageExtraction": "提取章节图片",
     "adminLibChapterImagesDuringScan": "在媒体库扫描期间提取章节图片",
     "impellerAuto": "自动",
-    "impellerOn": "开启",
+    "impellerOn": "开",
     "impellerRestartTitle": "需要重启",
     "@impellerRestartTitle": {
         "description": "Title of the dialog shown after changing the rendering engine."
@@ -8293,7 +8293,7 @@
     },
     "adminLibraryTabOptions": "选项",
     "audiobookSleepTimer": "睡眠定时",
-    "audiobookSleepOff": "关闭",
+    "audiobookSleepOff": "关",
     "audiobookNoNotes": "还没有笔记",
     "adminLibRefreshNever": "从不",
     "adminAddSchedule": "添加时间表",
@@ -8392,7 +8392,7 @@
     "@interviews": {
         "description": "Tab label for interviews special features"
     },
-    "impellerOff": "关闭",
+    "impellerOff": "关",
     "externalLists": "外部榜单",
     "forced": "强制",
     "transcodeVideoResolutionNotSupported": "视频分辨率不受此设备支持。",
