@@ -29,7 +29,15 @@ void retro_set_audio_sample_batch(retro_audio_sample_batch_t cb) {
 void retro_set_input_poll(retro_input_poll_t cb) { input_poll_cb = cb; }
 void retro_set_input_state(retro_input_state_t cb) { input_state_cb = cb; }
 
-void retro_init(void) { frame_counter = 0; }
+// Real cores log from retro_init and call the pointer without checking it, so
+// the stub does the same to keep the host honest about GET_LOG_INTERFACE.
+void retro_init(void) {
+  frame_counter = 0;
+  struct retro_log_callback logging;
+  memset(&logging, 0, sizeof(logging));
+  env_cb(RETRO_ENVIRONMENT_GET_LOG_INTERFACE, &logging);
+  logging.log(RETRO_LOG_DEBUG, "stub core init %d\n", 0);
+}
 void retro_deinit(void) {}
 unsigned retro_api_version(void) { return RETRO_API_VERSION; }
 

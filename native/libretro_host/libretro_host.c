@@ -1,5 +1,6 @@
 #include "libretro_host.h"
 
+#include <stdarg.h>
 #include <stdatomic.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -313,6 +314,19 @@ static void notify_geometry(struct lh_host *h, unsigned width, unsigned height,
   }
 }
 
+// Cores are allowed to log during retro_init and some call this pointer
+// without checking that the frontend handed one over, so it always has to be
+// a real function.
+static void RETRO_CALLCONV log_printf_cb(enum retro_log_level level,
+                                         const char *fmt, ...) {
+  (void)level;
+  if (!fmt) return;
+  va_list args;
+  va_start(args, fmt);
+  vfprintf(stderr, fmt, args);
+  va_end(args);
+}
+
 static bool RETRO_CALLCONV environment_cb(unsigned cmd, void *data) {
   struct lh_host *h = g_session;
   if (!h) return false;
@@ -403,7 +417,9 @@ static bool RETRO_CALLCONV environment_cb(unsigned cmd, void *data) {
       if (data) *(unsigned *)data = 0;  // force legacy SET_VARIABLES
       return true;
     case RETRO_ENVIRONMENT_GET_LOG_INTERFACE:
-      return false;  // cores fall back to stderr
+      if (!data) return false;
+      ((struct retro_log_callback *)data)->log = log_printf_cb;
+      return true;
     case RETRO_ENVIRONMENT_GET_PREFERRED_HW_RENDER:
       return false;
     default:
