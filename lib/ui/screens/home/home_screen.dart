@@ -690,6 +690,10 @@ class _ContentRowsState extends State<_ContentRows>
   set _infoRevealed(bool value) {
     if (_infoRevealedNotifier.value != value) {
       _infoRevealedNotifier.value = value;
+      _updateOffsets();
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -1030,7 +1034,9 @@ class _ContentRowsState extends State<_ContentRows>
         ? (widget.mediaBarViewModel.state as MediaBarReady).items.length
         : 0;
     if (!_isMediaBarEnabledByMode()) {
-      _infoRevealed = true;
+      // Seed the revealed state directly. The setter recomputes offsets, which
+      // reads MediaQuery, and that is not available yet during initState.
+      _infoRevealedNotifier.value = true;
     }
   }
 
@@ -1095,7 +1101,11 @@ class _ContentRowsState extends State<_ContentRows>
 
     final rowExtents = _computeRowExtents(rows, posterSize, prefs);
     final rowTopOffsets = <double>[];
-    var currentTop = listTopPadding + (bannerMode ? 0.0 : infoOverlayPlaceholder);
+    var currentTop =
+        listTopPadding +
+        (bannerMode
+            ? (_infoRevealed ? infoOverlayPlaceholder : 0.0)
+            : infoOverlayPlaceholder);
     if (includeMediaBar) {
       currentTop += _mediaBarHeight();
     }
@@ -2170,9 +2180,10 @@ class _ContentRowsState extends State<_ContentRows>
       widget.onItemSelected(null);
       if (mounted) {
         setState(() {
-          _infoRevealed = false;
+          _infoRevealedNotifier.value = false;
           _mediaBarVisible = true;
           _activeFocusedRowIndex = null;
+          _updateOffsets();
         });
       }
       if (!_isMediaBarIncluded()) {
@@ -2930,9 +2941,6 @@ class _ContentRowsState extends State<_ContentRows>
         if (_infoRevealed) {
           _infoRevealed = false;
           _scrollOffset = offset;
-          if (mounted) {
-            setState(() {});
-          }
         }
         return;
       }
@@ -3926,6 +3934,7 @@ class _ContentRowsState extends State<_ContentRows>
           itemExtent: squarePosterSide,
           itemSpacing: 12,
           leadingPadding: _isHomeRowsStyleV2() ? _kHomeRowLabelInset : 0,
+          clipBehavior: cardExpansion ? Clip.none : Clip.hardEdge,
           padding: const EdgeInsets.fromLTRB(_kHomeRowLabelInset, 5, 20, 5),
           onIndexChanged: (_, _) {
             _onHomeRowTileFocused(null);
@@ -3987,6 +3996,7 @@ class _ContentRowsState extends State<_ContentRows>
           itemExtent: squarePosterSide,
           itemSpacing: 12,
           leadingPadding: _isHomeRowsStyleV2() ? _kHomeRowLabelInset : 0,
+          clipBehavior: cardExpansion ? Clip.none : Clip.hardEdge,
           padding: const EdgeInsets.fromLTRB(_kHomeRowLabelInset, 5, 20, 5),
           onIndexChanged: (_, item) {
             _onHomeRowTileFocused(item);
@@ -4144,7 +4154,7 @@ class _ContentRowsState extends State<_ContentRows>
           itemExtent: firstCardWidth,
           itemSpacing: 12,
           leadingPadding: isRowsV2 ? _kHomeRowLabelInset : 0,
-          clipBehavior: isRowsV2 ? Clip.none : Clip.hardEdge,
+          clipBehavior: (isRowsV2 || cardExpansion) ? Clip.none : Clip.hardEdge,
           padding: const EdgeInsets.fromLTRB(_kHomeRowLabelInset, 5, 20, 5),
           onFocusChange: (has) => _onRowFocusTracked(rowIndex, has),
           onVerticalNavigation: (isUp) => _onRowVerticalNavigation(
