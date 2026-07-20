@@ -1132,6 +1132,11 @@ class AppLocalizationsLt extends AppLocalizations {
   String get failedToDeleteItem => 'Nepavyko ištrinti elemento';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Pervardyti grojaraštį';
 
   @override
@@ -3385,6 +3390,13 @@ class AppLocalizationsLt extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Rodyti tik po vieną pradžios ekrano eilutę';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Eilutės vaizdo tipas';

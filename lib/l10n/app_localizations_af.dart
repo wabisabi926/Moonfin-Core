@@ -1134,6 +1134,11 @@ class AppLocalizationsAf extends AppLocalizations {
   String get failedToDeleteItem => 'Kon nie item uitvee nie';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Hernoem snitlys';
 
   @override
@@ -3368,6 +3373,13 @@ class AppLocalizationsAf extends AppLocalizations {
 
   @override
   String get fullScreenRowsDescription => 'Beperk tuisrye tot 1 ry per skerm';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Per ry tipe beeld';

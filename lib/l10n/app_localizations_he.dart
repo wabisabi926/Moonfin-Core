@@ -1120,6 +1120,11 @@ class AppLocalizationsHe extends AppLocalizations {
   String get failedToDeleteItem => 'מחיקת הפריט נכשלה';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'שנה שם רשימת השמעה';
 
   @override
@@ -3336,6 +3341,13 @@ class AppLocalizationsHe extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'הגבל את שורות מסך הבית לשורה אחת לכל מסך';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'סוג תמונה לפי שורה';

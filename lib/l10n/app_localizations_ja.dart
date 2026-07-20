@@ -1099,6 +1099,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get failedToDeleteItem => 'アイテムの削除に失敗しました';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'プレイリストの名前を変更する';
 
   @override
@@ -3290,6 +3295,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get fullScreenRowsDescription => '1 画面に表示するホーム行を 1 行に制限します';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => '行ごとの画像タイプ';

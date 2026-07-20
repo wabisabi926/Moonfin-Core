@@ -1140,6 +1140,11 @@ class AppLocalizationsEl extends AppLocalizations {
   String get failedToDeleteItem => 'Η διαγραφή του στοιχείου απέτυχε';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Μετονομασία λίστας αναπαραγωγής';
 
   @override
@@ -3401,6 +3406,13 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Περιορισμός των σειρών της αρχικής σε 1 σειρά ανά οθόνη';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Τύπος εικόνας ανά σειρά';

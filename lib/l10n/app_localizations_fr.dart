@@ -1136,6 +1136,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get failedToDeleteItem => 'Échec de la suppression de l\'élément';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Renommer la Playlist';
 
   @override
@@ -3410,6 +3415,13 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Limiter les rangées d\'accueil à une par écran';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Type d’image par rangée';

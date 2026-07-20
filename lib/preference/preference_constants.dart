@@ -166,6 +166,13 @@ enum DesktopScrollWheelAction {
 /// `reduced` forces the zero-blur sheen everywhere.
 enum GlassQualityMode { auto, full, reduced }
 
+/// Persisted settled quality of the adaptive glass renderer, mirroring the
+/// package's GlassQuality tiers. `unset` means no benchmark has settled yet,
+/// so the adaptive scope runs its warm-up pass on next launch. Kept as a
+/// Moonfin enum so the preference layer doesn't depend on
+/// liquid_glass_widgets.
+enum GlassSettledQuality { unset, minimal, standard, premium }
+
 enum AppTheme {
   white(0xFFFFFFFF),
   black(0xFF000000),
@@ -245,6 +252,15 @@ enum MediaSegmentCountdown {
   both,
   none,
 }
+
+/// Banner artwork is authored at 1000x185. Card geometry and image requests
+/// both use this so the artwork that comes back matches what gets drawn.
+const double kBannerAspectRatio = 1000 / 185;
+
+/// Card height for banner mode. Banner mode hides the poster size control, so
+/// it reads this instead of PosterSize.landscapeHeight, which would otherwise
+/// keep resizing banners with no way to change them.
+const double kBannerCardHeight = 110;
 
 enum ImageType {
   poster,

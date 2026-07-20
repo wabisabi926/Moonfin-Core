@@ -1135,6 +1135,11 @@ class AppLocalizationsTa extends AppLocalizations {
   String get failedToDeleteItem => 'உருப்படியை நீக்க முடியவில்லை';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'பிளேலிஸ்ட்டை மறுபெயரிடவும்';
 
   @override
@@ -3389,6 +3394,13 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'ஒரு திரைக்கு 1 முகப்பு வரிசை என வரம்பிடும்';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'ஒவ்வொரு வரிசை பட வகை';

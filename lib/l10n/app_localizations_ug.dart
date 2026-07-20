@@ -1128,6 +1128,11 @@ class AppLocalizationsUg extends AppLocalizations {
   String get failedToDeleteItem => 'تۈرنى ئۆچۈرەلمىدى';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'قويۇش تىزىملىكىنىڭ نامىنى ئۆزگەرتىڭ';
 
   @override
@@ -3374,6 +3379,13 @@ class AppLocalizationsUg extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'ھەر ئېكرانغا باش بەت قۇرىنى 1 قۇر بىلەن چەكلەيدۇ';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'ھەر بىر قۇر رەسىم تىپى';

@@ -1510,6 +1510,16 @@
   "@failedToDeleteItem": {
     "description": "Error message when item deletion fails"
   },
+  "failedToDeleteItemWithError": "Deletion operation failed with the following error: {error}",
+  "@failedToDeleteItemWithError": {
+    "description": "Error message when item deletion fails, including the specific error details",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
   "renamePlaylist": "Rename Playlist",
   "@renamePlaylist": {
     "description": "Dialog title for renaming a playlist"
@@ -4616,6 +4626,14 @@
   "fullScreenRowsDescription": "Limit home rows to 1 row per screen",
   "@fullScreenRowsDescription": {
     "description": "Description for full screen home rows"
+  },
+  "homeRowsPadding": "Home Row Padding",
+  "@homeRowsPadding": {
+    "description": "Title for home rows padding setting"
+  },
+  "homeRowsPaddingDescription": "Customize padding between home rows",
+  "@homeRowsPaddingDescription": {
+    "description": "Description for home rows padding setting"
   },
   "perRowImageType": "Per Row Image Type",
   "@perRowImageType": {

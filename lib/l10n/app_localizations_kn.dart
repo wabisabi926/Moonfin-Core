@@ -1131,6 +1131,11 @@ class AppLocalizationsKn extends AppLocalizations {
   String get failedToDeleteItem => 'ಐಟಂ ಅಳಿಸಲು ವಿಫಲವಾಗಿದೆ';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'ಪ್ಲೇಪಟ್ಟಿಗೆ ಮರುಹೆಸರಿಸಿ';
 
   @override
@@ -3383,6 +3388,13 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'ಹೋಮ್ ಸಾಲುಗಳನ್ನು ಪ್ರತಿ ಪರದೆಗೆ 1 ಸಾಲಿಗೆ ಮಿತಿಗೊಳಿಸಿ';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'ಪ್ರತಿ ಸಾಲಿನ ಚಿತ್ರ ಪ್ರಕಾರ';

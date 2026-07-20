@@ -1130,6 +1130,11 @@ class AppLocalizationsMn extends AppLocalizations {
   String get failedToDeleteItem => 'Зүйлийг устгаж чадсангүй';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Тоглуулах жагсаалтын нэрийг өөрчлөх';
 
   @override
@@ -3370,6 +3375,13 @@ class AppLocalizationsMn extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Нэг дэлгэцэд нүүр хуудасны 1 эгнээ харуулна';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Мөр бүрийн зургийн төрөл';

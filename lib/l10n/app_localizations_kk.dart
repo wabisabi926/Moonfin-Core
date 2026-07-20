@@ -1130,6 +1130,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get failedToDeleteItem => 'Элементті жою мүмкін болмады';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Ойнату тізімінің атын өзгерту';
 
   @override
@@ -3377,6 +3382,13 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Негізгі бет жолдарын әр экранға бір жолмен шектеу';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Әр жолдағы кескін түрі';

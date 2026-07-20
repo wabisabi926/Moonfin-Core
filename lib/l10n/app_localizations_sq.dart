@@ -1136,6 +1136,11 @@ class AppLocalizationsSq extends AppLocalizations {
   String get failedToDeleteItem => 'Fshirja e artikullit dështoi';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Riemërto listën e luajtjes';
 
   @override
@@ -3395,6 +3400,13 @@ class AppLocalizationsSq extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Kufizo rreshtat e kreut në 1 rresht për ekran';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Lloji i imazhit për rresht';

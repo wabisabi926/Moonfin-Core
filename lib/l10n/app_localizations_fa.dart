@@ -1124,6 +1124,11 @@ class AppLocalizationsFa extends AppLocalizations {
   String get failedToDeleteItem => 'مورد حذف نشد';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'تغییر نام لیست پخش';
 
   @override
@@ -3343,6 +3348,13 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'محدود کردن ردیف‌های صفحه اصلی به 1 ردیف در هر صفحه';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'نوع تصویر در هر ردیف';

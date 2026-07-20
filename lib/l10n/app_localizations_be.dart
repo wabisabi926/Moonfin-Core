@@ -1134,6 +1134,11 @@ class AppLocalizationsBe extends AppLocalizations {
   String get failedToDeleteItem => 'Не ўдалося выдаліць элемент';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Перайменаваць спіс прайгравання';
 
   @override
@@ -3384,6 +3389,13 @@ class AppLocalizationsBe extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Паказваць не больш за адзін радок галоўнай на экран';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Тып выявы ў радку';

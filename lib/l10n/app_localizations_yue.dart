@@ -1092,6 +1092,11 @@ class AppLocalizationsYue extends AppLocalizations {
   String get failedToDeleteItem => '刪除項目失敗';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => '重新命名播放列表';
 
   @override
@@ -3257,6 +3262,13 @@ class AppLocalizationsYue extends AppLocalizations {
 
   @override
   String get fullScreenRowsDescription => '每個畫面淨係顯示一行主畫面列表';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => '每行圖像類型';

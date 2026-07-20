@@ -1136,6 +1136,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get failedToDeleteItem => 'فشل حذف العنصر';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'إعادة تسمية قائمة التشغيل';
 
   @override
@@ -3375,6 +3380,13 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'قصر صفوف الرئيسية على صف واحد لكل شاشة';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'نوع الصورة لكل صف';

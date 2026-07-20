@@ -1135,6 +1135,11 @@ class AppLocalizationsMl extends AppLocalizations {
   String get failedToDeleteItem => 'ഇനം ഇല്ലാതാക്കുന്നതിൽ പരാജയപ്പെട്ടു';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'പ്ലേലിസ്റ്റ് പേരുമാറ്റുക';
 
   @override
@@ -3386,6 +3391,13 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'ഹോം വരികൾ ഒരു സ്ക്രീനിന് 1 വരിയായി പരിമിതപ്പെടുത്തുക';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'ഓരോ വരി ചിത്ര തരം';

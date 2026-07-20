@@ -1195,6 +1195,11 @@ class AppLocalizationsSr extends AppLocalizations {
   String get failedToDeleteItem => 'Брисање ставке није успело';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Преименуј плејлисту';
 
   @override
@@ -3487,6 +3492,13 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get fullScreenRowsDescription => 'Ограничи на 1 ред по екрану';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Тип слике по реду';

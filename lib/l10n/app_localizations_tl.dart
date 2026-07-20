@@ -1134,6 +1134,11 @@ class AppLocalizationsTl extends AppLocalizations {
   String get failedToDeleteItem => 'Nabigong tanggalin ang item';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Palitan ang pangalan ng Playlist';
 
   @override
@@ -3394,6 +3399,13 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Limitahan ang mga home row sa 1 row bawat screen';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Uri ng Larawan sa Bawat Hilera';

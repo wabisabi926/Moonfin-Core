@@ -1139,6 +1139,11 @@ class AppLocalizationsSl extends AppLocalizations {
   String get failedToDeleteItem => 'Elementa ni bilo mogoče izbrisati';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Preimenuj seznam predvajanja';
 
   @override
@@ -3392,6 +3397,13 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Omeji domačo stran na 1 vrstico naenkrat';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Vrsta slike na vrstico';

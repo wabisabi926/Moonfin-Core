@@ -68,7 +68,7 @@ class RowDataSource {
   }
 
   // Cap image tags to one per type (server returns all by default)
-  static const _imageTypes = 'Primary,Backdrop,Thumb';
+  static const _imageTypes = 'Primary,Backdrop,Thumb,Banner';
   static const _imageTypeLimit = 1;
 
   // ParentIds that returned 401/403 (no library access) this session. They are
@@ -644,13 +644,28 @@ class RowDataSource {
     String serverId, [
     HomeRowType rowType = HomeRowType.libraryTiles,
   ]) async {
-    final response = await _client.userViewsApi.getUserViews();
+    final viewsFuture = _client.userViewsApi.getUserViews();
+    final configFuture = _client.usersApi
+        .getUserConfiguration()
+        .then<Set<String>>((config) => config.myMediaExcludes.toSet())
+        .catchError((_) => const <String>{});
+
+    final response = await viewsFuture;
+    final Set<String> excludes = await configFuture;
+    final items = response['Items'] as List? ?? [];
+
+    final filteredItems = items.where((item) {
+      final data = item as Map<String, dynamic>;
+      final id = data['Id']?.toString() ?? '';
+      return !excludes.contains(id);
+    }).toList();
+
     return _buildRow(
       id: rowType == HomeRowType.libraryTilesSmall
           ? 'libraryTilesSmall'
           : 'libraryTiles',
       title: _l10n.myMedia,
-      response: response,
+      response: {...response, 'Items': filteredItems},
       serverId: serverId,
       rowType: rowType,
     );

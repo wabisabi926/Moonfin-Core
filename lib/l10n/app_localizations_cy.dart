@@ -1137,6 +1137,11 @@ class AppLocalizationsCy extends AppLocalizations {
   String get failedToDeleteItem => 'Wedi methu dileu\'r eitem';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Ailenwi Rhestr Chwarae';
 
   @override
@@ -3391,6 +3396,13 @@ class AppLocalizationsCy extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Cyfyngu rhesi cartref i 1 rhes fesul sgrin';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Math Delwedd Fesul Rhes';

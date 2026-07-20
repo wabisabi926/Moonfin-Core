@@ -1122,6 +1122,11 @@ class AppLocalizationsTh extends AppLocalizations {
   String get failedToDeleteItem => 'ลบรายการไม่สำเร็จ';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'เปลี่ยนชื่อเพลย์ลิสต์';
 
   @override
@@ -3342,6 +3347,13 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'จำกัดแถวหน้าแรกให้เหลือ 1 แถวต่อหน้าจอ';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'ประเภทรูปภาพต่อแถว';

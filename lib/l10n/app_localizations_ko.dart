@@ -1101,6 +1101,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get failedToDeleteItem => '항목을 삭제하지 못했습니다.';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => '재생목록 이름 바꾸기';
 
   @override
@@ -3282,6 +3287,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get fullScreenRowsDescription => '화면당 홈 행을 1개로 제한합니다';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => '행별 이미지 유형';

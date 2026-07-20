@@ -2200,6 +2200,12 @@ abstract class AppLocalizations {
   /// **'Failed to delete item'**
   String get failedToDeleteItem;
 
+  /// Error message when item deletion fails, including the specific error details
+  ///
+  /// In en, this message translates to:
+  /// **'Deletion operation failed with the following error: {error}'**
+  String failedToDeleteItemWithError(String error);
+
   /// Dialog title for renaming a playlist
   ///
   /// In en, this message translates to:
@@ -6123,6 +6129,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Limit home rows to 1 row per screen'**
   String get fullScreenRowsDescription;
+
+  /// Title for home rows padding setting
+  ///
+  /// In en, this message translates to:
+  /// **'Home Row Padding'**
+  String get homeRowsPadding;
+
+  /// Description for home rows padding setting
+  ///
+  /// In en, this message translates to:
+  /// **'Customize padding between home rows'**
+  String get homeRowsPaddingDescription;
 
   /// Title for per-row image type screen
   ///

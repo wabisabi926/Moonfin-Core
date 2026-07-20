@@ -1141,6 +1141,11 @@ class AppLocalizationsSk extends AppLocalizations {
   String get failedToDeleteItem => 'Položku sa nepodarilo odstrániť';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Premenovať zoznam skladieb';
 
   @override
@@ -3388,6 +3393,13 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Obmedziť domovskú obrazovku na 1 riadok naraz';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Typ obrázka na riadok';

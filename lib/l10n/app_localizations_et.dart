@@ -1132,6 +1132,11 @@ class AppLocalizationsEt extends AppLocalizations {
   String get failedToDeleteItem => 'Üksuse kustutamine ebaõnnestus';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Esitusloendi ümbernimetamine';
 
   @override
@@ -3370,6 +3375,13 @@ class AppLocalizationsEt extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Näita korraga ainult üht avaekraani rida';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Rea pilditüübi kohta';

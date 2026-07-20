@@ -1124,6 +1124,11 @@ class AppLocalizationsSi extends AppLocalizations {
   String get failedToDeleteItem => 'අයිතමය මැකීමට අසමත් විය';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'ධාවන ලැයිස්තුව නැවත නම් කරන්න';
 
   @override
@@ -3362,6 +3367,13 @@ class AppLocalizationsSi extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'මුල් තිර පේළි එක් තිරයකට පේළි 1කට සීමා කරන්න';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'පේළි රූප වර්ගය අනුව';

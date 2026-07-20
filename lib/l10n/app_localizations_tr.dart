@@ -1129,6 +1129,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get failedToDeleteItem => 'Öğe silinemedi';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Oynatma Listesini Yeniden Adlandır';
 
   @override
@@ -3377,6 +3382,13 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Ana sayfa satırlarını ekran başına 1 satırla sınırla';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Satır Başına Görüntü Türü';
@@ -6182,7 +6194,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminAddTuner => 'Tuner Ekle';
 
   @override
-  String get adminEditTuner => 'Tuner Düzenle';
+  String get adminEditTuner => 'Tuner\'i Düzenle';
 
   @override
   String get adminTunerTypeM3u => 'M3U Tuner';
@@ -6194,50 +6206,49 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminTunerFileOrUrl => 'Dosya veya URL';
 
   @override
-  String get adminTunerIpAddress => 'Tuner IP adresi';
+  String get adminTunerIpAddress => 'Tuner IP Adresi';
 
   @override
-  String get adminTunerFriendlyName => 'Görünen ad';
+  String get adminTunerFriendlyName => 'Görünen Ad';
 
   @override
-  String get adminTunerUserAgent => 'Kullanıcı aracısı';
+  String get adminTunerUserAgent => 'Kullanıcı Aracısı';
 
   @override
-  String get adminTunerCount => 'Eşzamanlı bağlantı sınırı';
+  String get adminTunerCount => 'Eşzamanlı Bağlantı Sınırı';
 
   @override
   String get adminTunerCountHelp =>
-      'Tuner\'ın aynı anda izin verdiği maksimum akış sayısı. Sınırsız için 0 girin.';
+      'Alıcının aynı anda izin verdiği maksimum akış sayısı. Sınırsız yapmak için 0 olarak ayarlayın.';
 
   @override
-  String get adminTunerFallbackBitrate => 'Yedek maksimum akış bit hızı';
+  String get adminTunerFallbackBitrate => 'Yedek Maksimum Akış Hızı';
 
   @override
-  String get adminTunerImportFavoritesOnly =>
-      'Yalnızca favori kanalları içe aktar';
+  String get adminTunerImportFavoritesOnly => 'Sadece favori kanalları aktar';
 
   @override
   String get adminTunerAllowHwTranscoding =>
       'Donanım kod dönüştürmeye izin ver';
 
   @override
-  String get adminTunerAllowFmp4 =>
-      'fMP4 kod dönüştürme kapsayıcısına izin ver';
+  String get adminTunerAllowFmp4 => 'fMP4 kod dönüştürme taşıyıcısına izin ver';
 
   @override
-  String get adminTunerAllowStreamSharing => 'Akış paylaşımına izin ver';
+  String get adminTunerAllowStreamSharing => 'Yayın paylaşımına izin ver';
 
   @override
-  String get adminTunerEnableStreamLooping => 'Akış döngüsünü etkinleştir';
+  String get adminTunerEnableStreamLooping => 'Yayın döngüsünü etkinleştir';
 
   @override
-  String get adminTunerIgnoreDts => 'DTS yoksay';
+  String get adminTunerIgnoreDts => 'DTS Ses Desteğini Yok Say';
 
   @override
-  String get adminTunerReadAtNativeFramerate => 'Girişi doğal kare hızında oku';
+  String get adminTunerReadAtNativeFramerate =>
+      'Girdiyi yerel kare hızında oku';
 
   @override
-  String get adminEditProvider => 'Sağlayıcı Düzenle';
+  String get adminEditProvider => 'Sağlayıcıyı Düzenle';
 
   @override
   String get adminProviderXmltv => 'XMLTV';
@@ -6249,23 +6260,23 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminXmltvPath => 'Dosya veya URL';
 
   @override
-  String get adminXmltvMoviePrefix => 'Film ön eki';
+  String get adminXmltvMoviePrefix => 'Film Ön Adı';
 
   @override
-  String get adminXmltvMovieCategories => 'Film kategorileri';
+  String get adminXmltvMovieCategories => 'Film Kategorileri';
 
   @override
   String get adminXmltvCategoriesHelp =>
-      'Birden fazla kategoriyi dikey çizgi ile ayırın.';
+      'Birden çok kategoriyi dikey çizgi ile ayırın.';
 
   @override
-  String get adminXmltvKidsCategories => 'Çocuk kategorileri';
+  String get adminXmltvKidsCategories => 'Çocuk Kategorileri';
 
   @override
-  String get adminXmltvNewsCategories => 'Haber kategorileri';
+  String get adminXmltvNewsCategories => 'Haber Kategorileri';
 
   @override
-  String get adminXmltvSportsCategories => 'Spor kategorileri';
+  String get adminXmltvSportsCategories => 'Spor Kategorileri';
 
   @override
   String get adminSdUsername => 'Kullanıcı Adı';
@@ -6277,19 +6288,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminSdCountry => 'Ülke';
 
   @override
-  String get adminSdCountrySelect => 'Bir ülke seçin';
+  String get adminSdCountrySelect => 'Ülke Seç';
 
   @override
-  String get adminSdPostalCode => 'Posta kodu';
+  String get adminSdPostalCode => 'Posta Kodu';
 
   @override
-  String get adminSdGetListings => 'Listeleri getir';
+  String get adminSdGetListings => 'Yayın Akışını Al';
 
   @override
-  String get adminSdListings => 'Listeler';
+  String get adminSdListings => 'Yayın Akışları';
 
   @override
-  String get adminEnableAllTuners => 'Tüm tuner\'ları etkinleştir';
+  String get adminEnableAllTuners => 'Tüm tunerleri aktif et';
 
   @override
   String get adminTunerType => 'Tuner Türü';
@@ -7092,10 +7103,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get adminPlaybackVppTonemappingBrightness =>
-      'VPP ton eşleme parlaklığı';
+      'VPP ton haritalama parlaklığı';
 
   @override
-  String get adminPlaybackVppTonemappingContrast => 'VPP ton eşleme kontrastı';
+  String get adminPlaybackVppTonemappingContrast =>
+      'VPP ton haritalama kontrastı';
 
   @override
   String get adminPlaybackPresetsQuality => 'Ön Ayar & Kalite';
@@ -7114,7 +7126,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get adminPlaybackDeinterlaceDoubleRate =>
-      'Tarama giderirken kare hızını iki katına çıkar';
+      'Taramasızlaştırma yaparken kare hızını ikiye katla';
 
   @override
   String get adminPlaybackAudioSection => 'Ses';
@@ -7478,7 +7490,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get adminPlaybackEnableSubtitleExtraction =>
-      'Anlık altyazı ayıklamaya izin ver';
+      'Anında altyazı çıkarılmasına izin ver';
 
   @override
   String get adminResumeMinPct => 'Minimum devam etme yüzdesi';
@@ -7562,7 +7574,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminGeneralServerName => 'Sunucu adı';
 
   @override
-  String get adminGeneralDisplayLanguage => 'Tercih edilen görüntüleme dili';
+  String get adminGeneralDisplayLanguage => 'Tercih edilen görünüm dili';
 
   @override
   String get adminSettingsLoadFailed => 'Ayarlar yüklenemedi';
@@ -8768,7 +8780,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get hideBackdropsInLibraries =>
-      'Gezinirken Arka Plan Görselleri Gizlensin mi?';
+      'Göz atarken arka plan resimleri gizlensin mi?';
 
   @override
   String get useDetailedSubHeadings => 'Detaylı alt başlıklar kullan';

@@ -1127,6 +1127,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get failedToDeleteItem => 'आइटम हटाने में विफल';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'प्लेलिस्ट का नाम बदलें';
 
   @override
@@ -3356,6 +3361,13 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'प्रति स्क्रीन होम पंक्तियाँ 1 तक सीमित करें';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'प्रति पंक्ति छवि प्रकार';

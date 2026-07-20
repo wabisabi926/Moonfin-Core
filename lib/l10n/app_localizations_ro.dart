@@ -1134,6 +1134,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get failedToDeleteItem => 'Elementul nu a putut fi șters';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Redenumiți lista de redare';
 
   @override
@@ -3390,6 +3395,13 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Limitează ecranul principal la un singur rând';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Tip de imagine pe rând';

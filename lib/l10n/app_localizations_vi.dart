@@ -1133,6 +1133,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get failedToDeleteItem => 'Không thể xóa mục';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Đổi tên danh sách phát';
 
   @override
@@ -3369,6 +3374,13 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Giới hạn còn 1 hàng trang chủ mỗi màn hình';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Loại hình ảnh trên mỗi hàng';

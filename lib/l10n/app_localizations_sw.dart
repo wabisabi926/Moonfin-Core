@@ -1138,6 +1138,11 @@ class AppLocalizationsSw extends AppLocalizations {
   String get failedToDeleteItem => 'Imeshindwa kufuta kipengee';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Badilisha Jina la Orodha ya Kucheza';
 
   @override
@@ -3390,6 +3395,13 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Punguza safu za nyumbani hadi safu 1 kwa kila skrini';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Aina ya Picha kwa Safu Mlalo';

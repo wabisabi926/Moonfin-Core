@@ -1134,6 +1134,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get failedToDeleteItem => 'Kohteen poistaminen epäonnistui';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Nimeä soittolista uudelleen';
 
   @override
@@ -3377,6 +3382,13 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Näytä vain yksi aloitusnäytön rivi kerrallaan';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Rivikuvatyypin mukaan';

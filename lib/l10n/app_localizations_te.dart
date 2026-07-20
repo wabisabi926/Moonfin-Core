@@ -1132,6 +1132,11 @@ class AppLocalizationsTe extends AppLocalizations {
   String get failedToDeleteItem => 'అంశాన్ని తొలగించడంలో విఫలమైంది';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'ప్లేజాబితా పేరు మార్చండి';
 
   @override
@@ -3383,6 +3388,13 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'హోమ్ వరుసలను స్క్రీన్‌కు 1 వరుసకు పరిమితం చేయండి';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'ప్రతి వరుస చిత్రం రకం';

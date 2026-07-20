@@ -1135,6 +1135,11 @@ class AppLocalizationsLv extends AppLocalizations {
   String get failedToDeleteItem => 'Neizdevās izdzēst vienumu';
 
   @override
+  String failedToDeleteItemWithError(String error) {
+    return 'Deletion operation failed with the following error: $error';
+  }
+
+  @override
   String get renamePlaylist => 'Pārdēvēt atskaņošanas sarakstu';
 
   @override
@@ -3383,6 +3388,13 @@ class AppLocalizationsLv extends AppLocalizations {
   @override
   String get fullScreenRowsDescription =>
       'Rādīt tikai vienu sākuma ekrāna rindu';
+
+  @override
+  String get homeRowsPadding => 'Home Row Padding';
+
+  @override
+  String get homeRowsPaddingDescription =>
+      'Customize padding between home rows';
 
   @override
   String get perRowImageType => 'Rindas attēla veids';
