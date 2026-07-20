@@ -229,10 +229,11 @@ class DeviceProfileBuilder {
     );
     final effectiveMaxChannels = maxAudioChannels <= 0
         ? (capabilityProfile.maxPcmChannels > 0
-            ? capabilityProfile.maxPcmChannels
-            : 8)
+              ? capabilityProfile.maxPcmChannels
+              : 8)
         : maxAudioChannels;
-    final forceStereo = effectiveMaxChannels <= 2 ||
+    final forceStereo =
+        effectiveMaxChannels <= 2 ||
         audioOutputMode == AudioOutputMode.forceStereo;
     // Server-facing channel cap: an explicit user cap always wins; otherwise a
     // universal-decode player advertises 8ch regardless of the detected sink,
@@ -246,7 +247,8 @@ class DeviceProfileBuilder {
     // (a video-forced transcode would otherwise collapse to 2ch and
     // contradict the 8ch direct-play advertisement). An explicit user cap of
     // 1-2 channels is a stated intent and stays honored end to end.
-    final capTranscodeToStereo = limitStereoDirectPlay ||
+    final capTranscodeToStereo =
+        limitStereoDirectPlay ||
         (maxAudioChannels > 0 && maxAudioChannels <= 2);
     final effectiveAudioFallbackCodec = _resolveAudioFallbackCodec(
       requested: audioFallbackCodec,
@@ -832,8 +834,22 @@ class DeviceProfileBuilder {
       AudioFallbackCodec.auto => _hlsMpegTsAudioCodecs,
       AudioFallbackCodec.aac => const <String>['aac', 'opus', 'mp3'],
       AudioFallbackCodec.ac3 => const <String>['ac3', 'opus', 'aac', 'mp3'],
-      AudioFallbackCodec.eac3 => const <String>['eac3', 'ac3', 'opus', 'aac', 'mp3'],
-      AudioFallbackCodec.truehd => const <String>['truehd', 'flac', 'eac3', 'ac3', 'opus', 'aac', 'mp3'],
+      AudioFallbackCodec.eac3 => const <String>[
+        'eac3',
+        'ac3',
+        'opus',
+        'aac',
+        'mp3',
+      ],
+      AudioFallbackCodec.truehd => const <String>[
+        'truehd',
+        'flac',
+        'eac3',
+        'ac3',
+        'opus',
+        'aac',
+        'mp3',
+      ],
       AudioFallbackCodec.mp3 => const <String>['mp3', 'opus', 'aac'],
       AudioFallbackCodec.opus => const <String>['opus', 'aac', 'mp3'],
       AudioFallbackCodec.flac => const <String>['flac', 'opus', 'aac', 'mp3'],
@@ -1322,13 +1338,19 @@ class DeviceProfileBuilder {
       detectedHeight: maxResolutionVc1Height,
     );
 
-    final unsupportedRangeTypesAv1 = <String>{'DOVI_INVALID'};
+    final unsupportedRangeTypesAv1 = <String>{};
     if (!supportsAv1DolbyVision) {
       unsupportedRangeTypesAv1.add('DOVI');
       unsupportedRangeTypesAv1.add('DOVI_WITH_SDR');
       unsupportedRangeTypesAv1.add('DOVI_WITH_HLG');
       if (!supportsAv1Hdr10) {
         unsupportedRangeTypesAv1.add('DOVI_WITH_HDR10');
+        // A Dolby Vision Profile 10 stream whose DV metadata the server can't
+        // classify arrives tagged DOVIInvalid, but its base layer is a
+        // standard AV1 HDR10 bitstream that decodes directly. It only needs a
+        // transcode when the client can't render AV1 HDR10, so gate it the
+        // same way as DOVIWithHDR10 rather than always rejecting it.
+        unsupportedRangeTypesAv1.add('DOVI_INVALID');
       }
       if (!supportsAv1Hdr10Plus) {
         unsupportedRangeTypesAv1.add('DOVI_WITH_HDR10_PLUS');
@@ -1342,7 +1364,7 @@ class DeviceProfileBuilder {
       }
     }
 
-    final unsupportedRangeTypesHevc = <String>{'DOVI_INVALID'};
+    final unsupportedRangeTypesHevc = <String>{};
     if (!supportsHevcDolbyVisionEl) {
       if (!allowDolbyVisionProfile7ElDirectPlay) {
         unsupportedRangeTypesHevc.add('DOVI_WITH_EL');
@@ -1362,6 +1384,10 @@ class DeviceProfileBuilder {
     if (!supportsHevcHdr10) {
       unsupportedRangeTypesHevc.add('HDR10');
       unsupportedRangeTypesHevc.add('HLG');
+      // A DOVIInvalid HEVC stream's base layer is a standard HEVC HDR10
+      // bitstream, so it only needs a transcode when the client can't render
+      // HEVC HDR10.
+      unsupportedRangeTypesHevc.add('DOVI_INVALID');
       if (!supportsHevcHdr10Plus) {
         unsupportedRangeTypesHevc.add('HDR10_PLUS');
       }
