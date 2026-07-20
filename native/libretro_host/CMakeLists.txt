@@ -10,6 +10,12 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 add_library(libretro_host STATIC libretro_host.c)
 target_include_directories(libretro_host PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+# MSVC keeps C11 atomics behind an opt-in flag, so stdatomic.h errors out
+# without it. The desktop runners are the only MSVC consumers.
+if(MSVC)
+  target_compile_options(libretro_host PRIVATE /experimental:c11atomics)
+endif()
+
 # The per-frame pixel conversion and audio mixing are far too slow at -O0, so
 # debug builds still compile the host optimized. The flag lands after the
 # toolchain's -O0 and the last -O wins.
@@ -29,6 +35,9 @@ if(LIBRETRO_HOST_AUDIO)
   add_library(lh_audio STATIC lh_audio.c)
   target_include_directories(lh_audio PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
   target_compile_options(lh_audio PRIVATE ${LH_DEBUG_OPT})
+  if(MSVC)
+    target_compile_options(lh_audio PRIVATE /experimental:c11atomics)
+  endif()
   target_link_libraries(lh_audio PUBLIC libretro_host)
   if(APPLE)
     target_link_libraries(lh_audio PUBLIC "-framework CoreAudio"
