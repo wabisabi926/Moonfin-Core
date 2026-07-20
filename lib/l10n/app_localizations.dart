@@ -14866,6 +14866,102 @@ abstract class AppLocalizations {
   /// **'Offline Downloads'**
   String get settingsOfflineDownloads;
 
+  /// Settings toggle title. When on, retro games run through native libretro emulator cores instead of the EmulatorJS browser-based emulator.
+  ///
+  /// In en, this message translates to:
+  /// **'Native Emulation'**
+  String get useNativeEmulator;
+
+  /// Subtitle under the Native Emulation settings toggle. EmulatorJS is a product name and should not be translated.
+  ///
+  /// In en, this message translates to:
+  /// **'Play games with native cores instead of the EmulatorJS web player'**
+  String get useNativeEmulatorSubtitle;
+
+  /// No description provided for @emulatorCores.
+  ///
+  /// In en, this message translates to:
+  /// **'Emulator Cores'**
+  String get emulatorCores;
+
+  /// No description provided for @emulatorCoresSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download systems to play games natively'**
+  String get emulatorCoresSubtitle;
+
+  /// No description provided for @emulatorCoresDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which systems to install. Cores are provided by the libretro project and let games run natively instead of in a browser view.'**
+  String get emulatorCoresDescription;
+
+  /// No description provided for @emulatorCoreDownloading.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading'**
+  String get emulatorCoreDownloading;
+
+  /// No description provided for @emulatorCoreUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available for this device'**
+  String get emulatorCoreUnavailable;
+
+  /// No description provided for @emulatorCoreDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not download the core. Check your connection and try again.'**
+  String get emulatorCoreDownloadFailed;
+
+  /// Settings screen title for managing game files stored on the device
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded Games'**
+  String get downloadedGames;
+
+  /// Subtitle for the Downloaded Games settings entry
+  ///
+  /// In en, this message translates to:
+  /// **'Free up space used by game files'**
+  String get downloadedGamesSubtitle;
+
+  /// Explanation at the top of the Downloaded Games settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Games are copied to this device before they play. Remove the ones you have finished to free up space. Saves are kept on the server and are not deleted.'**
+  String get downloadedGamesDescription;
+
+  /// Shown on the Downloaded Games screen when nothing is cached
+  ///
+  /// In en, this message translates to:
+  /// **'No games have been downloaded to this device yet.'**
+  String get downloadedGamesEmpty;
+
+  /// Summary of how many games are stored and how much space they take, where size is a formatted amount such as 1.4 GB
+  ///
+  /// In en, this message translates to:
+  /// **'{count} games, {size}'**
+  String downloadedGamesTotal(int count, String size);
+
+  /// Button that deletes every downloaded game from the device
+  ///
+  /// In en, this message translates to:
+  /// **'Remove All'**
+  String get removeAllDownloadedGames;
+
+  /// Confirmation prompt before deleting a single downloaded game, where title is the game name
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {title} from this device? It will download again the next time you play it.'**
+  String removeDownloadedGameConfirm(String title);
+
+  /// Confirmation prompt before deleting every downloaded game
+  ///
+  /// In en, this message translates to:
+  /// **'Remove all downloaded games from this device? They will download again the next time you play them.'**
+  String get removeAllDownloadedGamesConfirm;
+
   /// No description provided for @settingsHigh.
   ///
   /// In en, this message translates to:

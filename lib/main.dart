@@ -400,9 +400,7 @@ void main() async {
   // past the first frame internally.
   await LiquidGlassWidgets.initialize();
 
-  if (PlatformDetection.isAppleTV) {
-    registerGameCoreLicenses();
-  }
+  registerGameCoreLicenses();
 
   if (!PlatformDetection.isWeb && PlatformDetection.isWindows) {
     try {
