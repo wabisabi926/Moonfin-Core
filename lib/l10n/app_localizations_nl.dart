@@ -1075,6 +1075,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get cast => 'Casten';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override

@@ -1075,6 +1075,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get cast => 'Transmisikan';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override

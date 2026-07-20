@@ -1138,6 +1138,9 @@ class AppLocalizationsHr extends AppLocalizations {
   String get cast => 'Prenesi';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Najava';
 
   @override

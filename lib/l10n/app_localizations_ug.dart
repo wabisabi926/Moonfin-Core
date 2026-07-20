@@ -1070,6 +1070,9 @@ class AppLocalizationsUg extends AppLocalizations {
   String get cast => 'ئېكرانغا چىقىرىش';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ئالدىن كۆرۈنۈش';
 
   @override

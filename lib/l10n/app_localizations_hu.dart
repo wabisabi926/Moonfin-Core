@@ -1076,6 +1076,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get cast => 'Átküldés';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Előzetes';
 
   @override

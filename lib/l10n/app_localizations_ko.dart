@@ -1044,6 +1044,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get cast => '전송';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => '예고편';
 
   @override

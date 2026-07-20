@@ -1078,6 +1078,9 @@ class AppLocalizationsSq extends AppLocalizations {
   String get cast => 'Transmeto';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override

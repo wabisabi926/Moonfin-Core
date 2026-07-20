@@ -1078,6 +1078,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cast => 'إرسال';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'الإعلان التشويقي';
 
   @override

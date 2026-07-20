@@ -1042,6 +1042,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cast => 'キャスト';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => '予告編';
 
   @override

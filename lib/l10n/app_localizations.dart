@@ -2086,6 +2086,12 @@ abstract class AppLocalizations {
   /// **'Cast'**
   String get cast;
 
+  /// Section title for the list of actors and performers in movie and TV metadata. Not the casting-to-a-device action
+  ///
+  /// In en, this message translates to:
+  /// **'Cast'**
+  String get castMembers;
+
   /// Action button label for trailer playback
   ///
   /// In en, this message translates to:

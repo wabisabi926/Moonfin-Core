@@ -1077,6 +1077,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String get cast => 'அலைபரப்பு';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'டிரெய்லர்';
 
   @override

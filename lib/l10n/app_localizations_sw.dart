@@ -1079,6 +1079,9 @@ class AppLocalizationsSw extends AppLocalizations {
   String get cast => 'Tuma';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trela';
 
   @override

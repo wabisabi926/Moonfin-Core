@@ -1077,6 +1077,9 @@ class AppLocalizationsBe extends AppLocalizations {
   String get cast => 'Трансляваць';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Трэйлер';
 
   @override

@@ -1140,6 +1140,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cast => 'Übertragen';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override

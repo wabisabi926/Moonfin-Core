@@ -1070,6 +1070,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get cast => 'Предаване';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Трейлър';
 
   @override

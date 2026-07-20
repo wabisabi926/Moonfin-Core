@@ -1079,6 +1079,9 @@ class AppLocalizationsCy extends AppLocalizations {
   String get cast => 'Castio';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Rhaghysbyseb';
 
   @override

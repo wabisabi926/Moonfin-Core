@@ -1082,6 +1082,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get cast => 'Preniesť';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Ukážka';
 
   @override

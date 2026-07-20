@@ -1076,6 +1076,9 @@ class AppLocalizationsAf extends AppLocalizations {
   String get cast => 'Cast';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Lokprent';
 
   @override

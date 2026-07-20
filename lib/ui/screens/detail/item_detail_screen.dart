@@ -1755,7 +1755,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (viewModel.actors.isNotEmpty) ...[
         const SizedBox(height: 32),
         HorizontalScrollSection(
-          title: l10n.cast,
+          title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
@@ -1982,7 +1982,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (hasCast) ...[
         const SizedBox(height: 32),
         HorizontalScrollSection(
-          title: l10n.cast,
+          title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
@@ -2268,7 +2268,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (hasCast) ...[
         const SizedBox(height: 32),
         HorizontalScrollSection(
-          title: l10n.cast,
+          title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
@@ -3518,7 +3518,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (viewModel.actors.isNotEmpty) ...[
         const SizedBox(height: 32),
         HorizontalScrollSection(
-          title: l10n.cast,
+          title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface

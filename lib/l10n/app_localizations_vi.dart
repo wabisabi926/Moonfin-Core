@@ -1076,6 +1076,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get cast => 'Truyền';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override

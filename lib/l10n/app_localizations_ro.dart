@@ -1076,6 +1076,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get cast => 'Proiectează';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override

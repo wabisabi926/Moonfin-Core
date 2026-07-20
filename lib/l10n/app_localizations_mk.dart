@@ -1074,6 +1074,9 @@ class AppLocalizationsMk extends AppLocalizations {
   String get cast => 'Емитувај';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Трејлер';
 
   @override

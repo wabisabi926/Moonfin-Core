@@ -1072,6 +1072,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get cast => 'Przesyłaj';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Zwiastun';
 
   @override

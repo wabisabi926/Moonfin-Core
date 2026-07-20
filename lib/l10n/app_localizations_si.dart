@@ -1067,6 +1067,9 @@ class AppLocalizationsSi extends AppLocalizations {
   String get cast => 'කාස්ට් කරන්න';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ට්‍රේලරය';
 
   @override

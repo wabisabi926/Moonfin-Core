@@ -1074,6 +1074,9 @@ class AppLocalizationsEt extends AppLocalizations {
   String get cast => 'Cast';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Treiler';
 
   @override

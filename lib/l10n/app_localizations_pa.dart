@@ -1072,6 +1072,9 @@ class AppLocalizationsPa extends AppLocalizations {
   String get cast => 'ਕਾਸਟ ਕਰੋ';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ਟ੍ਰੇਲਰ';
 
   @override

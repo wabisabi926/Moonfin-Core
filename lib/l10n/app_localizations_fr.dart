@@ -1079,6 +1079,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get cast => 'Diffuser';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Bande-annonce';
 
   @override

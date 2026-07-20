@@ -1076,6 +1076,9 @@ class AppLocalizationsMl extends AppLocalizations {
   String get cast => 'കാസ്റ്റ് ചെയ്യുക';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ട്രെയിലർ';
 
   @override

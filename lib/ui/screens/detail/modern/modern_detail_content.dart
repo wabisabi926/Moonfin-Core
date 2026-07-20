@@ -727,7 +727,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
         }
         if (extraCat != null) {
           _featuresFirstFocusNodes[extraCat]?.requestFocus();
-        } else if (label == l10n.cast) {
+        } else if (label == l10n.castMembers) {
           _castFirstFocusNode.requestFocus();
         } else if (label == l10n.crewSection) {
           _crewFirstFocusNode.requestFocus();
@@ -814,7 +814,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       }
     }
 
-    final cast = _ModernTab(l10n.cast, _castTab);
+    final cast = _ModernTab(l10n.castMembers, _castTab);
     final crew = _ModernTab(l10n.crewSection, _crewTab);
     final studios = _ModernTab(l10n.studios, _studiosTab);
     final chapters = _ModernTab(l10n.chapters, _chaptersTab);
@@ -994,7 +994,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
             _ModernTab(l10n.movies, (context, item) => _mediaGrid(context, moviesList, firstFocusNode: _moviesFirstFocusNode)),
           if (seriesList.isNotEmpty)
             _ModernTab(l10n.series, (context, item) => _mediaGrid(context, seriesList, firstFocusNode: _seriesFirstFocusNode)),
-          if (hasCast) _ModernTab(l10n.cast, _boxSetCastTab),
+          if (hasCast) _ModernTab(l10n.castMembers, _boxSetCastTab),
           if (hasCrew) _ModernTab(l10n.crewSection, _boxSetCrewTab),
           if (hasStudios) studios,
         ];

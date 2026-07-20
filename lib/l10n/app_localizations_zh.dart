@@ -1034,6 +1034,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cast => '投屏';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => '预告片';
 
   @override

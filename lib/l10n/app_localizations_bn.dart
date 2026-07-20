@@ -1067,6 +1067,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get cast => 'কাস্ট করুন';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ট্রেলার';
 
   @override

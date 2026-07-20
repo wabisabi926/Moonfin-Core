@@ -1072,6 +1072,9 @@ class AppLocalizationsMn extends AppLocalizations {
   String get cast => 'Дамжуулах';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Трейлер';
 
   @override

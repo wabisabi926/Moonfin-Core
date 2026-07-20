@@ -1076,6 +1076,9 @@ class AppLocalizationsTl extends AppLocalizations {
   String get cast => 'I-cast';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override

@@ -1071,6 +1071,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get cast => 'Yayınla';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Fragman';
 
   @override

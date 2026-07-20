@@ -1035,6 +1035,9 @@ class AppLocalizationsYue extends AppLocalizations {
   String get cast => '投放';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => '預告片';
 
   @override

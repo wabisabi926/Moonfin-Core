@@ -1080,6 +1080,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get cast => 'Μετάδοση';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Τρέιλερ';
 
   @override

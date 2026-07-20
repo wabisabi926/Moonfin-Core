@@ -1065,6 +1065,9 @@ class AppLocalizationsTh extends AppLocalizations {
   String get cast => 'แคสต์';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ตัวอย่าง';
 
   @override

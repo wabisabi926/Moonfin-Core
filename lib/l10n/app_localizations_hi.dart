@@ -1070,6 +1070,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get cast => 'कास्ट करें';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ट्रेलर';
 
   @override

@@ -1071,6 +1071,9 @@ class AppLocalizationsEo extends AppLocalizations {
   String get cast => 'Elsendi';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Antaŭfilmo';
 
   @override

@@ -1071,6 +1071,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get cast => 'Casta';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override

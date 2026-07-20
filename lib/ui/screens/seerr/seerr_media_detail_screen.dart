@@ -1396,7 +1396,7 @@ class _SeerrMediaDetailScreenState extends State<SeerrMediaDetailScreen> {
   Widget _buildCastRow(List<SeerrCastMember> cast, AppLocalizations l10n) {
     final visible = cast.length > 20 ? cast.sublist(0, 20) : cast;
     return LibraryRow(
-      title: l10n.cast,
+      title: l10n.castMembers,
       rowHeight: 170,
       children: visible.asMap().entries.map((entry) {
         final index = entry.key;

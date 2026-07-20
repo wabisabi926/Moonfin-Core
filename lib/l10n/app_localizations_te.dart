@@ -1075,6 +1075,9 @@ class AppLocalizationsTe extends AppLocalizations {
   String get cast => 'కాస్ట్ చేయండి';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ట్రైలర్';
 
   @override

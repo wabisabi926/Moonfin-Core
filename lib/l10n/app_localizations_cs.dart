@@ -1080,6 +1080,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get cast => 'Odeslat';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Upoutávka';
 
   @override

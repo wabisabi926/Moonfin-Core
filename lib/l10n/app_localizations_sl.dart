@@ -1080,6 +1080,9 @@ class AppLocalizationsSl extends AppLocalizations {
   String get cast => 'Predvajaj v napravi';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Napovednik';
 
   @override

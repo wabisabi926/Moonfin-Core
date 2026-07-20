@@ -1136,6 +1136,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get cast => 'Пребаци';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Најава';
 
   @override

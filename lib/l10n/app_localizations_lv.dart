@@ -1076,6 +1076,9 @@ class AppLocalizationsLv extends AppLocalizations {
   String get cast => 'Apraidīt';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Treileris';
 
   @override

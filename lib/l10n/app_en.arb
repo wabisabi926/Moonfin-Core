@@ -1430,6 +1430,10 @@
   "@cast": {
     "description": "Action button label for casting to a device"
   },
+  "castMembers": "Cast",
+  "@castMembers": {
+    "description": "Section title for the list of actors and performers in movie and TV metadata. Not the casting-to-a-device action"
+  },
   "trailer": "Trailer",
   "@trailer": {
     "description": "Action button label for trailer playback"

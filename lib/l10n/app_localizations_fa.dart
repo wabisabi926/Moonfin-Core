@@ -1067,6 +1067,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get cast => 'ارسال به دستگاه';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'تریلر';
 
   @override

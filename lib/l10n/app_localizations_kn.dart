@@ -1074,6 +1074,9 @@ class AppLocalizationsKn extends AppLocalizations {
   String get cast => 'ಬಿತ್ತರಿಸಿ';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'ಟ್ರೇಲರ್';
 
   @override

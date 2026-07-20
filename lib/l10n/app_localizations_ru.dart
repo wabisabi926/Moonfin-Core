@@ -1080,6 +1080,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cast => 'Транслировать';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Трейлер';
 
   @override
