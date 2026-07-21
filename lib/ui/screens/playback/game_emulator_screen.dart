@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:server_core/server_core.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../widgets/adaptive/adaptive_glass.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../util/game_cores.dart';
 import '../../../util/platform_detection.dart';
 import '../../../util/focus/gamepad/gamepad_suppressor.dart';
 import '../../../util/focus/gamepad/android_gamepad_channel.dart';
@@ -137,7 +139,7 @@ class _GameEmulatorScreenState extends State<GameEmulatorScreen> {
 
     var hasSave = false;
     try {
-      final existing = await games.getSave(widget.gameId);
+      final existing = await games.getSave(gameStateKey(widget.gameId));
       hasSave = existing != null && existing.isNotEmpty;
     } catch (_) {}
     _hasSave = hasSave;
@@ -443,7 +445,7 @@ class _GameEmulatorScreenState extends State<GameEmulatorScreen> {
     final games = _client.gamesApi;
     if (games != null) {
       try {
-        final bytes = await games.getSave(widget.gameId);
+        final bytes = await games.getSave(gameStateKey(widget.gameId));
         if (bytes != null && bytes.isNotEmpty) {
           final b64 = base64.encode(bytes);
           await _controller?.evaluateJavascript(
@@ -481,7 +483,7 @@ class _GameEmulatorScreenState extends State<GameEmulatorScreen> {
       final value = result?.value;
       if (value is String && value.isNotEmpty) {
         final bytes = base64.decode(value);
-        await games.putSave(widget.gameId, bytes);
+        await games.putSave(gameStateKey(widget.gameId), bytes);
       }
     } catch (_) {}
   }
@@ -505,13 +507,23 @@ class _GameEmulatorScreenState extends State<GameEmulatorScreen> {
   Future<void> _exit() async {
     if (_saving) return;
     _saving = true;
-    await _saveState();
-    await _saveSettings();
+    // The save reads state back out of the WebView, and on Windows and web that
+    // round-trip can stall on a large PSP state. Give it a few seconds and leave
+    // anyway, otherwise the WebView stays on screen and swallows every input.
+    try {
+      await _persistOnExit().timeout(const Duration(seconds: 3));
+    } catch (_) {
+    } finally {
+      _saving = false;
+    }
     await _restoreSystemUi();
     await WakelockPlus.disable();
-    if (mounted && Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
-    }
+    if (mounted) context.pop();
+  }
+
+  Future<void> _persistOnExit() async {
+    await _saveState();
+    await _saveSettings();
   }
 
   @override

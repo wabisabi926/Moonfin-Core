@@ -1430,6 +1430,10 @@
   "@cast": {
     "description": "Action button label for casting to a device"
   },
+  "castMembers": "Cast",
+  "@castMembers": {
+    "description": "Section title for the list of actors and performers in movie and TV metadata. Not the casting-to-a-device action"
+  },
   "trailer": "Trailer",
   "@trailer": {
     "description": "Action button label for trailer playback"
@@ -1457,6 +1461,10 @@
   "downloaded": "Downloaded",
   "@downloaded": {
     "description": "Status label for a downloaded item"
+  },
+  "finalizingDownload": "Finalizing…",
+  "@finalizingDownload": {
+    "description": "Status label shown while a finished download is being moved to its final location and validated"
   },
   "downloadAll": "Download All",
   "@downloadAll": {
@@ -3253,6 +3261,10 @@
   "detailsBackgroundBlur": "Details Background Blur",
   "@detailsBackgroundBlur": {
     "description": "Setting for details background blur"
+  },
+  "detailsBackgroundOpacity": "Details Background Opacity",
+  "@detailsBackgroundOpacity": {
+    "description": "Setting for details background opacity on modern screens"
   },
   "pixelValue": "{value}px",
   "@pixelValue": {
@@ -7917,6 +7929,65 @@
   "settingsMetadataAndRatings": "Metadata & Ratings",
   "settingsPluginScreenDescription": "Moonbase powers server-side integrations including additional rating sources, Seerr requests, and synced preferences.",
   "settingsOfflineDownloads": "Offline Downloads",
+  "useNativeEmulator": "Native Emulation",
+  "@useNativeEmulator": {
+    "description": "Settings toggle title. When on, retro games run through native libretro emulator cores instead of the EmulatorJS browser-based emulator."
+  },
+  "useNativeEmulatorSubtitle": "Play games with native cores instead of the EmulatorJS web player",
+  "@useNativeEmulatorSubtitle": {
+    "description": "Subtitle under the Native Emulation settings toggle. EmulatorJS is a product name and should not be translated."
+  },
+  "emulatorCores": "Emulator Cores",
+  "emulatorCoresSubtitle": "Download systems to play games natively",
+  "emulatorCoresDescription": "Choose which systems to install. Cores are provided by the libretro project and let games run natively instead of in a browser view.",
+  "emulatorCoreDownloading": "Downloading",
+  "emulatorCoreUnavailable": "Not available for this device",
+  "emulatorCoreDownloadFailed": "Could not download the core. Check your connection and try again.",
+  "downloadedGames": "Downloaded Games",
+  "@downloadedGames": {
+    "description": "Settings screen title for managing game files stored on the device"
+  },
+  "downloadedGamesSubtitle": "Free up space used by game files",
+  "@downloadedGamesSubtitle": {
+    "description": "Subtitle for the Downloaded Games settings entry"
+  },
+  "downloadedGamesDescription": "Games are copied to this device before they play. Remove the ones you have finished to free up space. Saves are kept on the server and are not deleted.",
+  "@downloadedGamesDescription": {
+    "description": "Explanation at the top of the Downloaded Games settings screen"
+  },
+  "downloadedGamesEmpty": "No games have been downloaded to this device yet.",
+  "@downloadedGamesEmpty": {
+    "description": "Shown on the Downloaded Games screen when nothing is cached"
+  },
+  "downloadedGamesTotal": "{count} games, {size}",
+  "@downloadedGamesTotal": {
+    "description": "Summary of how many games are stored and how much space they take, where size is a formatted amount such as 1.4 GB",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "removeAllDownloadedGames": "Remove All",
+  "@removeAllDownloadedGames": {
+    "description": "Button that deletes every downloaded game from the device"
+  },
+  "removeDownloadedGameConfirm": "Remove {title} from this device? It will download again the next time you play it.",
+  "@removeDownloadedGameConfirm": {
+    "description": "Confirmation prompt before deleting a single downloaded game, where title is the game name",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "removeAllDownloadedGamesConfirm": "Remove all downloaded games from this device? They will download again the next time you play them.",
+  "@removeAllDownloadedGamesConfirm": {
+    "description": "Confirmation prompt before deleting every downloaded game"
+  },
   "settingsHigh": "High",
   "settingsLow": "Low",
   "settingsCustomPath": "Custom Path",

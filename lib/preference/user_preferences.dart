@@ -858,6 +858,14 @@ class UserPreferences extends ChangeNotifier {
     defaultValue: true,
   );
 
+  /// Plays retro games through the native libretro backend instead of the
+  /// EmulatorJS WebView, on platforms that have both. Deliberately not synced:
+  /// the right backend is a per-device choice.
+  static final useNativeEmulator = Preference(
+    key: 'pref_use_native_emulator',
+    defaultValue: true,
+  );
+
   static final seriesThumbnailsEnabled = Preference(
     key: 'pref_enable_series_thumbnails',
     defaultValue: false,
@@ -1798,8 +1806,6 @@ class UserPreferences extends ChangeNotifier {
 
   static ImageType _defaultHomeRowImageType(HomeSectionType sectionType) {
     return switch (sectionType) {
-      HomeSectionType.resume ||
-      HomeSectionType.nextUp => ImageType.banner,
       HomeSectionType.libraryTilesSmall => ImageType.thumb,
       _ => ImageType.poster,
     };
@@ -2255,6 +2261,14 @@ class UserPreferences extends ChangeNotifier {
   static final downloadWifiOnly = Preference(
     key: 'download_wifi_only',
     defaultValue: false,
+  );
+
+  // JSON-encoded list of server base URLs whose TLS certificate the native
+  // download engine rejected (typically self-signed). Downloads for these
+  // servers run on the legacy in-process engine, which accepts any cert.
+  static final legacyDownloadEngineServers = Preference(
+    key: 'download_legacy_engine_servers',
+    defaultValue: '',
   );
 
   static final downloadStorageLimitMb = Preference(

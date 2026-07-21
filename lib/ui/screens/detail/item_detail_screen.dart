@@ -1755,7 +1755,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (viewModel.actors.isNotEmpty) ...[
         const SizedBox(height: 32),
         HorizontalScrollSection(
-          title: l10n.cast,
+          title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
@@ -1982,7 +1982,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (hasCast) ...[
         const SizedBox(height: 32),
         HorizontalScrollSection(
-          title: l10n.cast,
+          title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
@@ -2268,7 +2268,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (hasCast) ...[
         const SizedBox(height: 32),
         HorizontalScrollSection(
-          title: l10n.cast,
+          title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
@@ -3518,7 +3518,7 @@ class _DetailContentState extends State<_DetailContent> {
       if (viewModel.actors.isNotEmpty) ...[
         const SizedBox(height: 32),
         HorizontalScrollSection(
-          title: l10n.cast,
+          title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
                 ? AppColorScheme.onSurface
@@ -9321,9 +9321,15 @@ class _DownloadButtonState extends State<_DownloadButton> {
         if (progress != null &&
             !progress.isComplete &&
             progress.error == null) {
-          final label = progress.progress >= 0
+          // Transcoded downloads on the native engine report no byte counts,
+          // so show an ellipsis rather than a misleading "0.0 MB".
+          final label = progress.isFinalizing
+              ? AppLocalizations.of(context).finalizingDownload
+              : progress.progress >= 0
               ? '${(progress.progress * 100).toInt()}%'
-              : '${(progress.bytesReceived / 1048576).toStringAsFixed(1)} MB';
+              : progress.bytesReceived > 0
+              ? '${(progress.bytesReceived / 1048576).toStringAsFixed(1)} MB'
+              : '…';
           return wire(
             label: label,
             icon: Icons.close,

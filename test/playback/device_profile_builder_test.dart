@@ -5,12 +5,15 @@ import 'package:moonfin/playback/device_profile_builder.dart';
 import 'package:moonfin/playback/known_defects.dart';
 import 'package:moonfin/preference/preference_constants.dart';
 
-Set<String> _hevcUnsupportedRangeTypes(Map<String, dynamic> profile) {
+Set<String> _codecUnsupportedRangeTypes(
+  Map<String, dynamic> profile,
+  String codec,
+) {
   final codecProfiles = profile['CodecProfiles'] as List<dynamic>? ?? const [];
 
   for (final rawProfile in codecProfiles) {
     final codecProfile = rawProfile as Map<dynamic, dynamic>;
-    if (codecProfile['Type'] != 'Video' || codecProfile['Codec'] != 'hevc') {
+    if (codecProfile['Type'] != 'Video' || codecProfile['Codec'] != codec) {
       continue;
     }
 
@@ -112,6 +115,37 @@ Set<String> _videoDirectPlayAudioCodecs(Map<String, dynamic> profile) {
   return <String>{};
 }
 
+List<String> _videoTranscodingVideoCodecs(Map<String, dynamic> profile) {
+  final transcodingProfiles =
+      profile['TranscodingProfiles'] as List<dynamic>? ?? const [];
+
+  return transcodingProfiles
+      .where((raw) => (raw as Map<dynamic, dynamic>)['Type'] == 'Video')
+      .map((raw) => (raw as Map<dynamic, dynamic>)['VideoCodec']?.toString() ?? '')
+      .toList(growable: false);
+}
+
+Set<String> _videoDirectPlayVideoCodecs(Map<String, dynamic> profile) {
+  final directPlayProfiles =
+      profile['DirectPlayProfiles'] as List<dynamic>? ?? const [];
+
+  for (final rawProfile in directPlayProfiles) {
+    final directPlay = rawProfile as Map<dynamic, dynamic>;
+    if (directPlay['Type'] != 'Video') {
+      continue;
+    }
+
+    final value = directPlay['VideoCodec']?.toString() ?? '';
+    return value
+        .split(',')
+        .map((token) => token.trim())
+        .where((token) => token.isNotEmpty)
+        .toSet();
+  }
+
+  return <String>{};
+}
+
 Set<String> _hlsMpegTsAudioCodecs(Map<String, dynamic> profile) {
   final transcodingProfiles =
       profile['TranscodingProfiles'] as List<dynamic>? ?? const [];
@@ -191,7 +225,7 @@ void main() {
         knownHevcDoviHdr10PlusBug: false,
       );
 
-      final unsupportedRanges = _hevcUnsupportedRangeTypes(profile);
+      final unsupportedRanges = _codecUnsupportedRangeTypes(profile, 'hevc');
 
       expect(unsupportedRanges, contains('DOVI_WITH_HDR10'));
       expect(unsupportedRanges, isNot(contains('DOVI_WITH_HDR10_PLUS')));
@@ -211,7 +245,7 @@ void main() {
         knownHevcDoviHdr10PlusBug: true,
       );
 
-      final unsupportedRanges = _hevcUnsupportedRangeTypes(profile);
+      final unsupportedRanges = _codecUnsupportedRangeTypes(profile, 'hevc');
 
       expect(unsupportedRanges, contains('DOVI_WITH_HDR10_PLUS'));
       expect(unsupportedRanges, contains('DOVI_WITH_ELHDR10_PLUS'));
@@ -235,12 +269,89 @@ void main() {
           applyKnownDeviceDefects: false,
         );
 
-        final unsupportedRanges = _hevcUnsupportedRangeTypes(profile);
+        final unsupportedRanges = _codecUnsupportedRangeTypes(profile, 'hevc');
 
         expect(unsupportedRanges, isNot(contains('DOVI_WITH_HDR10_PLUS')));
         expect(unsupportedRanges, isNot(contains('DOVI_WITH_ELHDR10_PLUS')));
       },
     );
+  });
+
+  group('DeviceProfileBuilder DOVIInvalid range filtering', () {
+    test('allows AV1 DOVIInvalid direct play when the client supports AV1 '
+        'HDR10', () {
+      final profile = DeviceProfileBuilder.build(
+        supportsAv1: true,
+        supportsAv1Main10: true,
+        supportsAv1Hdr10: true,
+        supportsAv1DolbyVision: false,
+      );
+
+      final unsupportedRanges = _codecUnsupportedRangeTypes(profile, 'av1');
+
+      expect(unsupportedRanges, isNot(contains('DOVI_INVALID')));
+    });
+
+    test("blocks AV1 DOVIInvalid when the client can't render AV1 HDR10", () {
+      final profile = DeviceProfileBuilder.build(
+        supportsAv1: true,
+        supportsAv1Main10: true,
+        supportsAv1Hdr10: false,
+        supportsAv1DolbyVision: false,
+      );
+
+      final unsupportedRanges = _codecUnsupportedRangeTypes(profile, 'av1');
+
+      expect(unsupportedRanges, contains('DOVI_INVALID'));
+    });
+
+    test('allows HEVC DOVIInvalid direct play when the client supports HEVC '
+        'HDR10', () {
+      final profile = DeviceProfileBuilder.build(
+        supportsHevc: true,
+        supportsHevcMain10: true,
+        supportsHevcHdr10: true,
+      );
+
+      final unsupportedRanges = _codecUnsupportedRangeTypes(profile, 'hevc');
+
+      expect(unsupportedRanges, isNot(contains('DOVI_INVALID')));
+    });
+
+    test("blocks HEVC DOVIInvalid when the client can't render HEVC HDR10", () {
+      final profile = DeviceProfileBuilder.build(
+        supportsHevc: true,
+        supportsHevcMain10: true,
+        supportsHevcHdr10: false,
+      );
+
+      final unsupportedRanges = _codecUnsupportedRangeTypes(profile, 'hevc');
+
+      expect(unsupportedRanges, contains('DOVI_INVALID'));
+    });
+  });
+
+  group('DeviceProfileBuilder HLS transcode video codec', () {
+    test('transcodes only to h264 even when hevc decode is supported', () {
+      final profile = DeviceProfileBuilder.build(
+        supportsHevc: true,
+        supportsHevcMain10: true,
+        supportsHevcHdr10: true,
+      );
+
+      // The server encodes to the first codec it's offered with no capability
+      // check, so every video HLS transcoding profile must target h264 only to
+      // avoid forcing a software HEVC re-encode.
+      final videoTargets = _videoTranscodingVideoCodecs(profile);
+      expect(videoTargets, isNotEmpty);
+      for (final codec in videoTargets) {
+        expect(codec, 'h264');
+      }
+
+      // Direct play still advertises hevc, so HEVC content plays without
+      // transcoding.
+      expect(_videoDirectPlayVideoCodecs(profile), contains('hevc'));
+    });
   });
 
   group('DeviceProfileBuilder stereo AAC fallback', () {

@@ -1140,6 +1140,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cast => 'Übertragen';
 
   @override
+  String get castMembers => 'Cast';
+
+  @override
   String get trailer => 'Trailer';
 
   @override
@@ -1156,6 +1159,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get downloaded => 'Heruntergeladen';
+
+  @override
+  String get finalizingDownload => 'Finalizing…';
 
   @override
   String get downloadAll => 'Alle herunterladen';
@@ -2395,6 +2401,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get detailsBackgroundBlur => 'Detail-Hintergrundunschärfe';
+
+  @override
+  String get detailsBackgroundOpacity => 'Details Background Opacity';
 
   @override
   String pixelValue(int value) {
@@ -8468,6 +8477,64 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settingsOfflineDownloads => 'Offline-Downloads';
+
+  @override
+  String get useNativeEmulator => 'Native Emulation';
+
+  @override
+  String get useNativeEmulatorSubtitle =>
+      'Play games with native cores instead of the EmulatorJS web player';
+
+  @override
+  String get emulatorCores => 'Emulator Cores';
+
+  @override
+  String get emulatorCoresSubtitle => 'Download systems to play games natively';
+
+  @override
+  String get emulatorCoresDescription =>
+      'Choose which systems to install. Cores are provided by the libretro project and let games run natively instead of in a browser view.';
+
+  @override
+  String get emulatorCoreDownloading => 'Downloading';
+
+  @override
+  String get emulatorCoreUnavailable => 'Not available for this device';
+
+  @override
+  String get emulatorCoreDownloadFailed =>
+      'Could not download the core. Check your connection and try again.';
+
+  @override
+  String get downloadedGames => 'Downloaded Games';
+
+  @override
+  String get downloadedGamesSubtitle => 'Free up space used by game files';
+
+  @override
+  String get downloadedGamesDescription =>
+      'Games are copied to this device before they play. Remove the ones you have finished to free up space. Saves are kept on the server and are not deleted.';
+
+  @override
+  String get downloadedGamesEmpty =>
+      'No games have been downloaded to this device yet.';
+
+  @override
+  String downloadedGamesTotal(int count, String size) {
+    return '$count games, $size';
+  }
+
+  @override
+  String get removeAllDownloadedGames => 'Remove All';
+
+  @override
+  String removeDownloadedGameConfirm(String title) {
+    return 'Remove $title from this device? It will download again the next time you play it.';
+  }
+
+  @override
+  String get removeAllDownloadedGamesConfirm =>
+      'Remove all downloaded games from this device? They will download again the next time you play them.';
 
   @override
   String get settingsHigh => 'Hoch';
