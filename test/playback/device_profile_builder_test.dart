@@ -169,6 +169,29 @@ Set<String> _hlsMpegTsAudioCodecs(Map<String, dynamic> profile) {
   return <String>{};
 }
 
+Set<String> _hlsFmp4AudioCodecs(Map<String, dynamic> profile) {
+  final transcodingProfiles =
+      profile['TranscodingProfiles'] as List<dynamic>? ?? const [];
+
+  for (final rawProfile in transcodingProfiles) {
+    final transcoding = rawProfile as Map<dynamic, dynamic>;
+    if (transcoding['Type'] != 'Video' ||
+        transcoding['Container'] != 'mp4' ||
+        transcoding['Protocol'] != 'hls') {
+      continue;
+    }
+
+    final value = transcoding['AudioCodec']?.toString() ?? '';
+    return value
+        .split(',')
+        .map((token) => token.trim())
+        .where((token) => token.isNotEmpty)
+        .toSet();
+  }
+
+  return <String>{};
+}
+
 AudioCapabilityProfile _capabilityProfile({
   bool canDecodeAc3 = true,
   bool canDecodeEac3 = true,
@@ -385,6 +408,20 @@ void main() {
       // decoder handles them, so they stay advertised there.
       expect(codecs, contains('truehd'));
       expect(codecs, contains('mlp'));
+    });
+
+    test('keeps TrueHD for direct play but not the fmp4 transcode target', () {
+      final profile = DeviceProfileBuilder.build();
+
+      expect(_videoDirectPlayAudioCodecs(profile), contains('truehd'));
+
+      final fmp4 = _hlsFmp4AudioCodecs(profile);
+      expect(fmp4, isNot(contains('truehd')));
+      expect(
+        fmp4.any({'aac', 'ac3', 'eac3'}.contains),
+        isTrue,
+        reason: 'the transcode target still needs a re-encodable fallback',
+      );
     });
 
     test('keeps codec when local decode is available even without passthrough', () {
