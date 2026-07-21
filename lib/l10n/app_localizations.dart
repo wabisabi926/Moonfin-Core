@@ -5998,6 +5998,18 @@ abstract class AppLocalizations {
   /// **'Enable audio for trailers in media bar'**
   String get enableTrailerAudio;
 
+  /// Setting for YouTube trailer captions
+  ///
+  /// In en, this message translates to:
+  /// **'Trailer Captions'**
+  String get trailerCaptions;
+
+  /// Description for YouTube trailer captions
+  ///
+  /// In en, this message translates to:
+  /// **'Show captions on YouTube trailers in the media bar'**
+  String get trailerCaptionsDescription;
+
   /// Setting for episode preview
   ///
   /// In en, this message translates to:

@@ -3320,6 +3320,13 @@ class AppLocalizationsMl extends AppLocalizations {
       'മീഡിയ ബാറിലെ ട്രെയിലറുകൾക്ക് ഓഡിയോ പ്രവർത്തനക്ഷമമാക്കുക';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'എപ്പിസോഡ് പ്രിവ്യൂ';
 
   @override

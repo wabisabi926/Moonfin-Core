@@ -3312,6 +3312,13 @@ class AppLocalizationsKk extends AppLocalizations {
       'Медиажолақтағы трейлерлер үшін дыбысты қосу';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Эпизодты алдын ала қарау';
 
   @override

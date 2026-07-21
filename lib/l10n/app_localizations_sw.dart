@@ -3323,6 +3323,13 @@ class AppLocalizationsSw extends AppLocalizations {
       'Washa sauti ya trela kwenye upau wa maudhui';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Muhtasari wa Kipindi';
 
   @override

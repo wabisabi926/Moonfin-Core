@@ -3322,6 +3322,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Activează sunetul pentru trailerele din bara media';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Previzualizarea episodului';
 
   @override

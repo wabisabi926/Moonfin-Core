@@ -3318,6 +3318,13 @@ class AppLocalizationsTe extends AppLocalizations {
       'మీడియా బార్‌లో ట్రైలర్‌ల కోసం ఆడియోను ప్రారంభించండి';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'ఎపిసోడ్ ప్రివ్యూ';
 
   @override

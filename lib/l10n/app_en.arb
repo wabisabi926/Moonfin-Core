@@ -4535,6 +4535,14 @@
   "@enableTrailerAudio": {
     "description": "Description for trailer audio"
   },
+  "trailerCaptions": "Trailer Captions",
+  "@trailerCaptions": {
+    "description": "Setting for YouTube trailer captions"
+  },
+  "trailerCaptionsDescription": "Show captions on YouTube trailers in the media bar",
+  "@trailerCaptionsDescription": {
+    "description": "Description for YouTube trailer captions"
+  },
   "episodePreview": "Episode Preview",
   "@episodePreview": {
     "description": "Setting for episode preview"

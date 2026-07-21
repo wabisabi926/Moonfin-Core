@@ -2688,6 +2688,9 @@ class _MediaBarState extends State<MediaBar>
                           UserPreferences.mediaBarTrailerAudio,
                         ),
                         showControls: false,
+                        showCaptions: widget.prefs.get(
+                          UserPreferences.mediaBarTrailerCaptions,
+                        ),
                         ignorePointer: true,
                         // Loop only when this is the sole slide. Otherwise an
                         // ended trailer should advance rather than replay.

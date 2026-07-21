@@ -3391,6 +3391,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Ton für Trailer in der Medienleiste aktivieren';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Episodenvorschau';
 
   @override

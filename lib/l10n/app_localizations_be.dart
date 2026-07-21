@@ -3318,6 +3318,13 @@ class AppLocalizationsBe extends AppLocalizations {
   String get enableTrailerAudio => 'Уключыць гук трэйлераў у медыяпанэлі';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Папярэдні прагляд эпізоду';
 
   @override

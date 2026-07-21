@@ -398,6 +398,7 @@ class UserPreferences extends ChangeNotifier {
     'mediaBarIntervalMs',
     'mediaBarTrailerPreview',
     'mediaBarTrailerAudio',
+    'mediaBarTrailerCaptions',
     'episodePreviewEnabled',
     'previewAudioEnabled',
     'mediaBarLibraryIds',
@@ -1758,6 +1759,11 @@ class UserPreferences extends ChangeNotifier {
 
   static final mediaBarTrailerAudio = Preference(
     key: 'mediaBarTrailerAudio',
+    defaultValue: false,
+  );
+
+  static final mediaBarTrailerCaptions = Preference(
+    key: 'mediaBarTrailerCaptions',
     defaultValue: false,
   );
 

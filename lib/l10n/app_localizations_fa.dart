@@ -3278,6 +3278,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get enableTrailerAudio => 'فعال کردن صدا برای تریلرها در نوار رسانه';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'پیش نمایش قسمت';
 
   @override

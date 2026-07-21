@@ -3322,6 +3322,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Activar el audio de los tráileres en la barra de medios';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Vista previa de episodio';
 
   @override

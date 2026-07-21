@@ -3289,6 +3289,13 @@ class AppLocalizationsPa extends AppLocalizations {
   String get enableTrailerAudio => 'ਮੀਡੀਆ ਬਾਰ ਵਿੱਚ ਟ੍ਰੇਲਰਾਂ ਲਈ ਆਡੀਓ ਸਮਰੱਥ ਕਰੋ';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'ਐਪੀਸੋਡ ਪੂਰਵ-ਝਲਕ';
 
   @override

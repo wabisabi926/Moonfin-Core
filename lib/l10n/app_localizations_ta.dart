@@ -3323,6 +3323,13 @@ class AppLocalizationsTa extends AppLocalizations {
       'மீடியா பட்டியில் டிரெய்லர்களுக்கு ஆடியோவை இயக்கும்';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'எபிசோட் முன்னோட்டம்';
 
   @override

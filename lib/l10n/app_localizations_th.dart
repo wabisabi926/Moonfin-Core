@@ -3278,6 +3278,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get enableTrailerAudio => 'เปิดเสียงสำหรับตัวอย่างในแถบสื่อ';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'ดูตัวอย่างตอน';
 
   @override
