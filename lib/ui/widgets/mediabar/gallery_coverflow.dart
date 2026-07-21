@@ -132,8 +132,10 @@ class _GalleryCoverflowState extends State<GalleryCoverflow> {
               ),
             ),
               _Info(item: active, ratings: widget.activeRatings),
-              const SizedBox(height: 10),
-              _Dots(count: widget.items.length, active: widget.activeIndex),
+              if (!widget.trailerActive) ...[
+                const SizedBox(height: 10),
+                _Dots(count: widget.items.length, active: widget.activeIndex),
+              ],
               const SizedBox(height: 8),
             ],
           ),

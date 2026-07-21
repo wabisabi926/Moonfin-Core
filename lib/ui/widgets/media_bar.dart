@@ -1858,7 +1858,7 @@ class _MediaBarState extends State<MediaBar>
                       color: overlayColor,
                       opacity: overlayOpacity,
                     ),
-                  if (items.length > 1)
+                  if (items.length > 1 && !_isTrailerPlaying)
                     Positioned(
                       bottom: 8,
                       left: 0,
