@@ -2379,11 +2379,22 @@ class Media3VideoView(
                 Gravity.CENTER,
             )
 
-        // Keep the subtitle canvas aligned to the active video box so PGS cues
-        // and the ASS overlay position against the video, not the full frame.
+        // ASS is positioned against the video picture, so its overlay tracks
+        // the video box. PGS and VOBSUB cues instead carry positions relative
+        // to their own full-frame plane, so pinning them to a letterboxed box
+        // would push them toward the center. Keep bitmap cues on the full frame.
         fun applyBounds(width: Int, height: Int) {
             applyLayoutBounds(videoView, videoLayoutParams, width, height)
-            applyLayoutBounds(subtitleView, subtitleLayoutParams, width, height)
+            if (selectedSubtitleIsBitmap) {
+                applyLayoutBounds(
+                    subtitleView,
+                    subtitleLayoutParams,
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                )
+            } else {
+                applyLayoutBounds(subtitleView, subtitleLayoutParams, width, height)
+            }
         }
 
         if (zoomMode == ZoomMode.STRETCH) {
@@ -2495,6 +2506,10 @@ class Media3VideoView(
         if (desiredMode != resolvedMode && !fallbackReason.isNullOrBlank()) {
             emitSubtitleRendererFallback(desiredMode, resolvedMode, fallbackReason)
         }
+
+        // Bitmap and vector subtitles anchor to different frames, so re-sync
+        // the canvas size for whichever kind is now active.
+        applyVideoLayout()
     }
 
     private fun emitSubtitleRendererFallback(
