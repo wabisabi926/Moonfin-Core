@@ -66,7 +66,7 @@ class _PlaybackCategoryScreen extends StatelessWidget {
                       title: Text(l10n.settingsOfflineDownloads),
                       subtitle: Text(l10n.settingsOfflineDownloadsSubtitle),
                       onTap: () => context.pushSettingsScreen(
-                        const _OfflineDownloadsScreen(),
+                        const DownloadSettingsScreen(),
                       ),
                     ),
                   if (canToggleGameBackend)

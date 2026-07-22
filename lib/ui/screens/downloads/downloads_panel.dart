@@ -15,6 +15,7 @@ import '../../../di/providers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../preference/user_preferences.dart';
 import '../../../util/download_utils.dart';
+import '../../../util/platform_detection.dart';
 import '../../widgets/adaptive/adaptive_dialog.dart';
 import '../../widgets/adaptive/adaptive_slider.dart';
 import '../../widgets/overlay_sheet.dart';
@@ -169,11 +170,12 @@ class _DownloadsPanelState extends ConsumerState<DownloadsPanel> {
                 if (!_selectMode) _selected.clear();
               }),
             ),
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () =>
-                context.pushSettingsScreen(const DownloadSettingsScreen()),
-          ),
+          if (!PlatformDetection.isTV)
+            IconButton(
+              icon: const Icon(Icons.settings_outlined),
+              onPressed: () =>
+                  context.pushSettingsScreen(const DownloadSettingsScreen()),
+            ),
         ],
       ),
       body: ListView(
