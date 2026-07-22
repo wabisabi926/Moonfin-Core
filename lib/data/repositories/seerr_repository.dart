@@ -25,6 +25,11 @@ class SeerrRepository {
   bool _isMoonfinMode = false;
   bool _serverReportsEnabled = false;
 
+  // Blocks further silent Quick Connect attempts after the server says it
+  // can't support them. Kept in memory only so an upgrade or restart retries
+  // instead of staying blocked forever.
+  bool _quickConnectSsoBlocked = false;
+
   int _lastSessionCheckMs = 0;
   int _lastInitAttemptMs = 0;
   bool _lastSessionValid = false;
@@ -242,12 +247,17 @@ class SeerrRepository {
     );
 
     if (status.authenticated) return;
+    if (!status.enabled) return;
 
-    if (!status.enabled ||
-        username == null ||
-        username.isEmpty ||
-        password == null ||
-        password.isEmpty) {
+    final hasPassword = username != null &&
+        username.isNotEmpty &&
+        password != null &&
+        password.isNotEmpty;
+
+    // Quick Connect and restored-token logins never held a password, so they
+    // sign in through the plugin's Quick Connect bridge instead.
+    if (!hasPassword) {
+      await tryQuickConnectSignIn(username: username);
       return;
     }
 
@@ -257,6 +267,47 @@ class SeerrRepository {
     try {
       await loginWithMoonbase(username: username, password: password);
     } catch (_) {}
+  }
+
+  /// Attempts the password-less Quick Connect sign in through the plugin.
+  /// Returns true when a session was minted. Failures never throw: the server
+  /// saying it can't support the flow blocks further attempts this run, and
+  /// anything else, including an old plugin answering with a generic error, is
+  /// treated as transient so the startup retries can recover from it.
+  Future<bool> tryQuickConnectSignIn({String? username}) async {
+    if (_quickConnectSsoBlocked) return false;
+    final client = _httpClient;
+    if (client == null) return false;
+
+    try {
+      final result = await client.moonfinQuickConnectLogin(username: username);
+      if (result.success) {
+        await _store.setString(
+          _moonfinDisplayNameKey,
+          result.displayName ?? '',
+        );
+        await _store.setString(
+          _moonfinUserIdKey,
+          result.seerrUserId?.toString() ?? '',
+        );
+        await _store.setString(_authMethodKey, 'moonfin');
+        await _store.setBool(_enabledKey, true);
+        await _store.setBool(_lastConnectionSuccessKey, true);
+        _isMoonfinMode = true;
+        _isAvailable = true;
+        _serverReportsEnabled = true;
+        _invalidateSessionCache();
+        return true;
+      }
+
+      if (result.errorCode == 'sso_unsupported' ||
+          result.errorCode == 'quickconnect_disabled') {
+        _quickConnectSsoBlocked = true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<MoonfinLoginResponse> loginWithMoonbase({
