@@ -45,6 +45,7 @@ class PluginSyncService extends ChangeNotifier {
 
   String? _selectedCustomizationProfile;
   int _syncRetryCount = 0;
+  Timer? _syncRetryTimer;
 
   String? _seerrUrl;
   String? get seerrUrl => _seerrUrl;
@@ -154,6 +155,7 @@ class PluginSyncService extends ChangeNotifier {
   }
 
   void resetState({bool notify = true, bool stopStream = true}) {
+    _syncRetryTimer?.cancel();
     if (stopStream) {
       _stopSettingsStream();
     }
@@ -287,6 +289,17 @@ class PluginSyncService extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Retries the plugin check a few times after login so a slow cellular link has
+  // time to come up.
+  void _scheduleSyncRetry(MediaServerClient client, {String? serverId}) {
+    if (_syncRetryCount >= 3) return;
+    _syncRetryCount++;
+    _syncRetryTimer?.cancel();
+    _syncRetryTimer = Timer(const Duration(seconds: 5), () {
+      syncOnLogin(client, serverId: serverId);
+    });
+  }
+
   Future<void> syncOnLogin(MediaServerClient client, {String? serverId}) async {
     try {
       _activeThemeCacheServerId = serverId;
@@ -314,22 +327,14 @@ class PluginSyncService extends ChangeNotifier {
           await _startSettingsStream(client);
         }
 
-        if (availability == _PluginAvailabilityStatus.unknown && _syncRetryCount < 3) {
-          _syncRetryCount++;
-          Timer(const Duration(seconds: 5), () {
-            syncOnLogin(client, serverId: serverId);
-          });
+        if (availability == _PluginAvailabilityStatus.unknown) {
+          _scheduleSyncRetry(client, serverId: serverId);
         }
         return;
       }
 
       if (availability == _PluginAvailabilityStatus.unknown) {
-        if (_syncRetryCount < 3) {
-          _syncRetryCount++;
-          Timer(const Duration(seconds: 5), () {
-            syncOnLogin(client, serverId: serverId);
-          });
-        }
+        _scheduleSyncRetry(client, serverId: serverId);
         return;
       }
 
@@ -1677,6 +1682,7 @@ class PluginSyncService extends ChangeNotifier {
   void dispose() {
     _prefs.removeListener(_onPrefsChanged);
     _pushDebounceTimer?.cancel();
+    _syncRetryTimer?.cancel();
     _stopSettingsStream();
     super.dispose();
   }
