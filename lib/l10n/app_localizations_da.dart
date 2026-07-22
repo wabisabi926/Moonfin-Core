@@ -3299,6 +3299,13 @@ class AppLocalizationsDa extends AppLocalizations {
   String get enableTrailerAudio => 'Aktivér lyd for trailere i mediebaren';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Forhåndsvisning af episode';
 
   @override

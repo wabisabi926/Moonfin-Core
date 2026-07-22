@@ -3301,6 +3301,13 @@ class AppLocalizationsId extends AppLocalizations {
       'Aktifkan audio untuk trailer di bilah media';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Pratinjau Episode';
 
   @override

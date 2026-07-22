@@ -78,8 +78,9 @@ const _textShadows = [Shadow(blurRadius: 4, color: Colors.black54)];
 const _kCompactBreakpoint = 600.0;
 
 bool _isCompact(BuildContext context) =>
-    PlatformDetection.useMobileUi ||
-    MediaQuery.sizeOf(context).width < _kCompactBreakpoint;
+    !PlatformDetection.isTV &&
+    (PlatformDetection.useMobileUi ||
+        MediaQuery.sizeOf(context).width < _kCompactBreakpoint);
 
 bool _useDesktopDetailLayout(BuildContext context) {
   final size = MediaQuery.sizeOf(context);
@@ -6761,15 +6762,19 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
     }
 
     final prefs = GetIt.instance<UserPreferences>();
+    final manager = GetIt.instance<PlaybackManager>();
     return computeEffectiveAudioIndex(
       audioStreams: audioStreams,
-      preferredAudioLanguage: prefs.get(UserPreferences.defaultAudioLanguage),
+      preferredAudioLanguage: manager.lastExplicitAudioLanguage ??
+          prefs.get(UserPreferences.defaultAudioLanguage),
       fallbackAudioLanguage: prefs.get(UserPreferences.fallbackAudioLanguage),
       preferDefaultAudioTrack: prefs.get(
         UserPreferences.preferDefaultAudioTrack,
       ),
       preferAudioDescription: prefs.get(UserPreferences.preferAudioDescription),
       explicitAudioIndex: null,
+      lastExplicitAudioIndex: manager.lastExplicitAudioIndex,
+      lastExplicitAudioTitle: manager.lastExplicitAudioTitle,
     );
   }
 

@@ -3196,6 +3196,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get enableTrailerAudio => '媒体栏预告片开启音效';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => '剧集预览';
 
   @override

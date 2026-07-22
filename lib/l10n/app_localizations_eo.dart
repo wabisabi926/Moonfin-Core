@@ -3298,6 +3298,13 @@ class AppLocalizationsEo extends AppLocalizations {
       'Ebligi aŭdion por antaŭfilmoj en la aŭdvida breto';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Epizoda Antaŭrigardo';
 
   @override

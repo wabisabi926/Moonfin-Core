@@ -3318,6 +3318,13 @@ class AppLocalizationsLv extends AppLocalizations {
   String get enableTrailerAudio => 'Iespējot treileru audio multivides joslā';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Sērijas priekšskatījums';
 
   @override

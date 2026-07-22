@@ -76,7 +76,6 @@ class DeviceProfileBuilder {
     'flac',
     'opus',
     'dts',
-    'truehd',
   ];
 
   static const List<String> _audioDirectPlayContainers = <String>[

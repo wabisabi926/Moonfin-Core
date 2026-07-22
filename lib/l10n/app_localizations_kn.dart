@@ -3318,6 +3318,13 @@ class AppLocalizationsKn extends AppLocalizations {
       'ಮೀಡಿಯಾ ಬಾರ್‌ನಲ್ಲಿ ಟ್ರೇಲರ್‌ಗಳಿಗೆ ಆಡಿಯೋ ಸಕ್ರಿಯಗೊಳಿಸಿ';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'ಸಂಚಿಕೆ ಮುನ್ನೋಟ';
 
   @override

@@ -3424,6 +3424,13 @@ class AppLocalizationsHr extends AppLocalizations {
   String get enableTrailerAudio => 'Omogući zvuk za najave u medijskoj traci';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Pregled epizode';
 
   @override

@@ -3313,6 +3313,13 @@ class AppLocalizationsCs extends AppLocalizations {
   String get enableTrailerAudio => 'Zapnout zvuk upoutávek v mediální liště';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Náhled epizody';
 
   @override

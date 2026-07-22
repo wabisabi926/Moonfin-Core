@@ -3309,6 +3309,13 @@ class AppLocalizationsUg extends AppLocalizations {
       'مېدىيا بالداقتىكى ئالدىن كۆرسىتىلمىلەرنىڭ ئاۋازىنى قوزغىتىدۇ';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'بۆلۈمنى ئالدىن كۆرۈش';
 
   @override

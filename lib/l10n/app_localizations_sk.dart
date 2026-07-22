@@ -3323,6 +3323,13 @@ class AppLocalizationsSk extends AppLocalizations {
   String get enableTrailerAudio => 'Zapnúť zvuk ukážok v mediálnom paneli';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => 'Ukážka epizódy';
 
   @override

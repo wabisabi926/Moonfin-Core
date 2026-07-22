@@ -3221,6 +3221,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get enableTrailerAudio => '미디어 바의 예고편에서 소리를 재생합니다';
 
   @override
+  String get trailerCaptions => 'Trailer Captions';
+
+  @override
+  String get trailerCaptionsDescription =>
+      'Show captions on YouTube trailers in the media bar';
+
+  @override
   String get episodePreview => '에피소드 미리보기';
 
   @override

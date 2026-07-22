@@ -662,7 +662,11 @@ class _GlobalShortcutScopeState extends State<_GlobalShortcutScope>
       return true;
     }
 
-    if (PlatformDetection.useDesktopUi && key == LogicalKeyboardKey.f11) {
+    final altPressed = keys.contains(LogicalKeyboardKey.altLeft) ||
+        keys.contains(LogicalKeyboardKey.altRight);
+
+    if (PlatformDetection.useDesktopUi &&
+        (key == LogicalKeyboardKey.f11 || (key == LogicalKeyboardKey.enter && altPressed))) {
       unawaited(FullscreenHelper.toggle());
       return true;
     }
@@ -807,7 +811,14 @@ class _GlobalShortcutScopeState extends State<_GlobalShortcutScope>
 
   Future<void> _handleWindowClose() async {
     _geometrySaveTimer?.cancel();
+    // Read the window bounds before hiding so the saved geometry stays correct
+    // on platforms where a hidden window reports stale size or position.
     await _saveWindowGeometry();
+    // Hide right away so the window disappears instantly while the slower
+    // database and preference teardown finishes.
+    try {
+      await windowManager.hide();
+    } catch (_) {}
     await AppExit.prepareForExit();
     await windowManager.destroy();
   }
@@ -827,8 +838,11 @@ class _GlobalShortcutScopeState extends State<_GlobalShortcutScope>
     }
 
     final key = event.logicalKey;
+    final keys = HardwareKeyboard.instance.logicalKeysPressed;
+    final altPressed = keys.contains(LogicalKeyboardKey.altLeft) ||
+        keys.contains(LogicalKeyboardKey.altRight);
 
-    if (key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.select) {
+    if ((key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.select) && !altPressed) {
       final targetContext =
           FocusManager.instance.primaryFocus?.context ?? context;
       final activated = Actions.maybeInvoke(
