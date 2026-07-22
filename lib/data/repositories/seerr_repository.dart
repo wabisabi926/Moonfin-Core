@@ -23,6 +23,7 @@ class SeerrRepository {
 
   bool _isAvailable = false;
   bool _isMoonfinMode = false;
+  bool _serverReportsEnabled = false;
 
   int _lastSessionCheckMs = 0;
   int _lastInitAttemptMs = 0;
@@ -38,6 +39,11 @@ class SeerrRepository {
   bool get isAvailable => _isAvailable;
   bool get isMoonfinMode => _isMoonfinMode;
 
+  /// Whether the server has Seerr configured and enabled, regardless of whether
+  /// this user has a session yet. Lets callers tell "not set up on the server"
+  /// apart from "set up but not signed in".
+  bool get serverReportsEnabled => _serverReportsEnabled;
+
   SeerrRepository(this._store, this._session, this._client);
 
   String _userKey(String key) {
@@ -51,7 +57,6 @@ class SeerrRepository {
   String get _moonfinDisplayNameKey => _userKey('moonfin_display_name');
   String get _moonfinUserIdKey => _userKey('moonfin_user_id');
   String get _lastConnectionSuccessKey => _userKey('last_connection_success');
-  String get _autoLoginFailedKey => _userKey('moonfin_autologin_failed');
 
   void _invalidateSessionCache() {
     _lastSessionCheckMs = 0;
@@ -106,6 +111,7 @@ class SeerrRepository {
     try {
       if (currentUserId == null) {
         _isAvailable = false;
+        _serverReportsEnabled = false;
         _initialized = true;
         return;
       }
@@ -137,8 +143,10 @@ class SeerrRepository {
     try {
       final status = await _httpClient!.getMoonfinStatus();
       _isAvailable = status.authenticated;
+      _serverReportsEnabled = status.enabled;
     } catch (_) {
       _isAvailable = false;
+      _serverReportsEnabled = false;
     }
   }
 
@@ -197,6 +205,7 @@ class SeerrRepository {
 
     final status = await _httpClient!.getMoonfinStatus();
     final effectiveEnabled = status.enabled && status.authenticated;
+    _serverReportsEnabled = status.enabled;
 
     await _store.setBool(_moonfinModeKey, true);
     await _store.setBool(_enabledKey, effectiveEnabled);
@@ -232,10 +241,7 @@ class SeerrRepository {
       jellyfinToken: jellyfinToken,
     );
 
-    if (status.authenticated) {
-      await _store.setBool(_autoLoginFailedKey, false);
-      return;
-    }
+    if (status.authenticated) return;
 
     if (!status.enabled ||
         username == null ||
@@ -245,14 +251,12 @@ class SeerrRepository {
       return;
     }
 
-    if (_store.getBool(_autoLoginFailedKey) ?? false) return;
-
+    // Try to establish the session on each login. The caller retries this a few
+    // times across a startup window, so a server that is briefly unreachable
+    // recovers on its own instead of staying logged out until the next login.
     try {
       await loginWithMoonbase(username: username, password: password);
-      await _store.setBool(_autoLoginFailedKey, false);
-    } catch (_) {
-      await _store.setBool(_autoLoginFailedKey, true);
-    }
+    } catch (_) {}
   }
 
   Future<MoonfinLoginResponse> loginWithMoonbase({
@@ -288,9 +292,9 @@ class SeerrRepository {
     await _store.setString(_authMethodKey, 'moonfin');
     await _store.setBool(_enabledKey, true);
     await _store.setBool(_lastConnectionSuccessKey, true);
-    await _store.setBool(_autoLoginFailedKey, false);
     _isMoonfinMode = true;
     _isAvailable = true;
+    _serverReportsEnabled = true;
     _invalidateSessionCache();
 
     return response;

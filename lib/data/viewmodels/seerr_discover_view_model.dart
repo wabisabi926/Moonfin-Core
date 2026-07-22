@@ -137,7 +137,9 @@ class SeerrDiscoverViewModel extends ChangeNotifier {
       await _repo.ensureInitialized(force: true);
       if (!_repo.isAvailable) {
         _isLoading = false;
-        _error = 'Seerr is not configured or unavailable';
+        _error = _repo.serverReportsEnabled
+            ? 'Sign in to Seerr to see recommendations'
+            : 'Seerr is not configured or unavailable';
         notifyListeners();
         return;
       }
