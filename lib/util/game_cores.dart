@@ -232,7 +232,17 @@ String coreFileName(String coreId) {
 String? coreDownloadUrl(String coreId) {
   final target = _buildbotTarget();
   if (target == null) return null;
-  return 'https://buildbot.libretro.com/nightly/${target.dir}/$coreId${target.suffix}';
+  return 'https://buildbot.libretro.com/nightly/${target.dir}/${_buildbotCoreName(coreId)}${target.suffix}';
+}
+
+/// The buildbot file name for a core, which usually matches the id. Android
+/// only publishes Nintendo 64 as the GLES build, so it needs a different name
+/// there while the downloaded file still lands under the plain id.
+String _buildbotCoreName(String coreId) {
+  if (coreId == 'mupen64plus_next' && PlatformDetection.isAndroid) {
+    return 'mupen64plus_next_gles3';
+  }
+  return coreId;
 }
 
 /// Where downloaded cores live, tagged by ABI so a shared support directory
