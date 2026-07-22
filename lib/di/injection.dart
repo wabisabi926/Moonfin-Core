@@ -188,29 +188,6 @@ Future<void> _migrateLegacyBitrateCap(PreferenceStore store) async {
   await store.setBool(migrationKey, true);
 }
 
-Future<void> _migrateLegacyMediaBarMode(PreferenceStore store) async {
-  const migrationKey = 'pref_media_bar_mode_migrated_v1';
-  if (store.getBool(migrationKey) == true) {
-    return;
-  }
-
-  final existingMode = store.getString(UserPreferences.mediaBarMode.key);
-  if (existingMode == null || existingMode.trim().isEmpty) {
-    final legacyEnabled = store.getBool(UserPreferences.mediaBarEnabled.key);
-    final nextMode = legacyEnabled == false
-        ? UserPreferences.mediaBarModeOff
-        : UserPreferences.mediaBarModeMoonfin;
-    await store.setString(UserPreferences.mediaBarMode.key, nextMode);
-  } else {
-    final normalized = UserPreferences.normalizeMediaBarMode(existingMode);
-    if (normalized != existingMode) {
-      await store.setString(UserPreferences.mediaBarMode.key, normalized);
-    }
-  }
-
-  await store.setBool(migrationKey, true);
-}
-
 Future<void> _migrateAndroidTvPassthroughDefaults(
   PreferenceStore store,
 ) async {
@@ -387,7 +364,6 @@ Future<void> configureDependencies() async {
   await preferenceStore.init();
   final appVersion = await _resolveAppVersion();
   await _migrateLegacyBitrateCap(preferenceStore);
-  await _migrateLegacyMediaBarMode(preferenceStore);
   await _migrateAndroidTvPassthroughDefaults(preferenceStore);
   await _migrateAndroidMobileStereoAacFallbackDefault(preferenceStore);
   await _migrateAndroidMobileAudioDefaults(preferenceStore);
