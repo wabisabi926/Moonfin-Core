@@ -30,7 +30,6 @@ import '../../../data/utils/bounded_concurrency.dart';
 import '../../../util/platform_detection.dart';
 import '../../../preference/seerr_preferences.dart';
 import '../../../data/viewmodels/seerr_discover_view_model.dart';
-import 'package:dio/dio.dart';
 import '../../../data/services/custom_external_lists_service.dart';
 
 class HomeViewModel extends ChangeNotifier {
@@ -465,90 +464,91 @@ class HomeViewModel extends ChangeNotifier {
         }
       }
 
-      final completers = <Future<void>>[];
-      for (final cfg in nonResumeEffectiveConfigs) {
-        completers.add(() async {
-          List<HomeRow> sectionRows;
-          try {
-            sectionRows = await _loadConfig(cfg, forceRefresh: forceRefresh);
-          } catch (e) {
-            debugPrint('[Home] Failed to load section $cfg: $e');
-            // A thrown load is a transient failure, not a genuinely empty
-            // result. When we are refreshing and a populated row is already on
-            // screen, keep it instead of wiping it. Only fall through to
-            // clearing when there is nothing to preserve, so a cold load still
-            // drops its loading placeholder.
-            final hasVisibleRow = _rowsForConfig(
-              _rows,
-              cfg,
-            ).any((r) => !r.isLoading);
-            if (preserveExisting && hasVisibleRow) {
-              return;
-            }
-            sectionRows = const <HomeRow>[];
+      Future<void> loadConfigItem(HomeSectionConfig cfg) async {
+        List<HomeRow> sectionRows;
+        try {
+          sectionRows = await _loadConfig(cfg, forceRefresh: forceRefresh);
+        } catch (e) {
+          debugPrint('[Home] Failed to load section $cfg: $e');
+          // A thrown load is a transient failure, not a genuinely empty
+          // result. When we are refreshing and a populated row is already on
+          // screen, keep it instead of wiping it. Only fall through to
+          // clearing when there is nothing to preserve, so a cold load still
+          // drops its loading placeholder.
+          final hasVisibleRow = _rowsForConfig(
+            _rows,
+            cfg,
+          ).any((r) => !r.isLoading);
+          if (preserveExisting && hasVisibleRow) {
+            return;
           }
-          final currentConfigs = _prefs.activeHomeSectionConfigs;
-          final isStillActive = currentConfigs.any((c) => c.stableId == cfg.stableId);
-          if (!isStillActive) return;
-          // Cleanup runs even when the load failed, so the section's loading
-          // placeholder is cleared instead of spinning forever.
-          final loadedRows = sectionRows
-              .map((r) => r.copyWith(items: _filterEmptyElements(r.items)))
-              .where(
-                (r) => r.items.isNotEmpty || r.rowType == HomeRowType.liveTv,
-              )
-              .toList();
-          final placeholder = _placeholderForConfig(cfg);
-          final loadedIds = loadedRows.map((r) => r.id).toSet();
-          // Find the row that immediately follows this section's placeholder /
-          // existing rows, so we can re-anchor after removals.
+          sectionRows = const <HomeRow>[];
+        }
+        final currentConfigs = _prefs.activeHomeSectionConfigs;
+        final isStillActive = currentConfigs.any((c) => c.stableId == cfg.stableId);
+        if (!isStillActive) return;
+        // Cleanup runs even when the load failed, so the section's loading
+        // placeholder is cleared instead of spinning forever.
+        final loadedRows = sectionRows
+            .map((r) => r.copyWith(items: _filterEmptyElements(r.items)))
+            .where(
+              (r) => r.items.isNotEmpty || r.rowType == HomeRowType.liveTv,
+            )
+            .toList();
+        final placeholder = _placeholderForConfig(cfg);
+        final loadedIds = loadedRows.map((r) => r.id).toSet();
+        // Find the row that immediately follows this section's placeholder /
+        // existing rows, so we can re-anchor after removals.
 
-          String? anchorId;
-          {
-            // Walk forward past the section's current rows to find the next
-            // sibling row that won't be removed.
-            bool pastSection = false;
-            for (final r in _rows) {
-              final willRemove =
-                  (placeholder != null && r.id == placeholder.id) ||
-                  loadedIds.contains(r.id) ||
-                  _rowBelongsToConfig(r, cfg);
-              if (willRemove) {
-                pastSection = true;
-              } else if (pastSection) {
-                anchorId = r.id;
-                break;
-              }
-            }
-          }
-          final newRows = List<HomeRow>.from(_rows);
-          newRows.removeWhere(
-            (r) =>
+        String? anchorId;
+        {
+          // Walk forward past the section's current rows to find the next
+          // sibling row that won't be removed.
+          bool pastSection = false;
+          for (final r in _rows) {
+            final willRemove =
                 (placeholder != null && r.id == placeholder.id) ||
                 loadedIds.contains(r.id) ||
-                // Also clear any stale rows that belonged to this section from a
-                // prior load but were not included in the fresh result. This
-                // prevents phantom rows when the section's row-set changes
-                // (e.g. library added/removed, latestItemsExcludes updated).
-                _rowBelongsToConfig(r, cfg),
-          );
-
-          if (loadedRows.isNotEmpty) {
-            final insertIndex = anchorId != null
-                ? newRows.indexWhere((r) => r.id == anchorId)
-                : -1;
-            if (insertIndex < 0) {
-              newRows.addAll(loadedRows);
-            } else {
-              newRows.insertAll(insertIndex, loadedRows);
+                _rowBelongsToConfig(r, cfg);
+            if (willRemove) {
+              pastSection = true;
+            } else if (pastSection) {
+              anchorId = r.id;
+              break;
             }
           }
-          _rows = newRows;
-          notifyListeners();
-        }());
+        }
+        final newRows = List<HomeRow>.from(_rows);
+        newRows.removeWhere(
+          (r) =>
+              (placeholder != null && r.id == placeholder.id) ||
+              loadedIds.contains(r.id) ||
+              // Also clear any stale rows that belonged to this section from a
+              // prior load but were not included in the fresh result. This
+              // prevents phantom rows when the section's row-set changes
+              // (e.g. library added/removed, latestItemsExcludes updated).
+              _rowBelongsToConfig(r, cfg),
+        );
+
+        if (loadedRows.isNotEmpty) {
+          final insertIndex = anchorId != null
+              ? newRows.indexWhere((r) => r.id == anchorId)
+              : -1;
+          if (insertIndex < 0) {
+            newRows.addAll(loadedRows);
+          } else {
+            newRows.insertAll(insertIndex, loadedRows);
+          }
+        }
+        _rows = newRows;
+        notifyListeners();
       }
 
-      await Future.wait(completers);
+      await mapBounded<HomeSectionConfig, void>(
+        nonResumeEffectiveConfigs,
+        3,
+        (cfg) => loadConfigItem(cfg),
+      );
 
       unawaited(_cacheStore.write(_homeCacheKey(), _rows));
       _topShelf.update(_rows);
@@ -2696,37 +2696,13 @@ class HomeViewModel extends ChangeNotifier {
   Future<List<AggregatedItem>?> _fetchRadarrCalendarFromApi() async {
     try {
       final repo = await GetIt.instance.getAsync<SeerrRepository>();
-      final radarrServers = await repo.getRadarrSettings();
-      if (radarrServers.isEmpty) return null;
-      final server = radarrServers.first;
-
-      final protocol = server.useSsl ? 'https' : 'http';
-      final host = server.hostname;
-      final port = server.port;
-      final basePath = server.baseUrl ?? '';
-      final cleanBasePath = basePath.endsWith('/') ? basePath.substring(0, basePath.length - 1) : basePath;
-      final apiKey = server.apiKey;
-
       final now = DateTime.now();
       final start = now.toIso8601String().substring(0, 10);
       final end = now.add(const Duration(days: 90)).toIso8601String().substring(0, 10);
 
-      final dio = Dio();
-      final url = '$protocol://$host:$port$cleanBasePath/api/v3/calendar';
-      final response = await dio.get(
-        url,
-        queryParameters: {
-          'apikey': apiKey,
-          'start': start,
-          'end': end,
-        },
-      ).timeout(const Duration(seconds: 15));
-
-      if (response.statusCode != 200 || response.data == null) {
-        return null;
-      }
-
-      final results = response.data as List;
+      // The plugin fetches the Radarr calendar server side, so the API key stays on the server and
+      // this still works when a remote client cant reach a LAN only Radarr.
+      final results = await repo.getRadarrCalendar(start: start, end: end);
 
       final enrichCompleters = await mapBounded(
         results,
@@ -2773,14 +2749,13 @@ class HomeViewModel extends ChangeNotifier {
               if (img is! Map) continue;
               final type = img['coverType'] as String?;
               final remoteUrl = img['remoteUrl'] as String? ?? img['url'] as String?;
-              if (remoteUrl != null && remoteUrl.isNotEmpty) {
-                final fullUrl = remoteUrl.startsWith('http')
-                    ? remoteUrl
-                    : '$protocol://$host:$port$cleanBasePath$remoteUrl${remoteUrl.contains('?') ? '&' : '?'}apikey=$apiKey';
+              // Only external image URLs are used. A local arr image would need the API key and
+              // wouldnt be reachable from a remote client anyway.
+              if (remoteUrl != null && remoteUrl.startsWith('http')) {
                 if (type == 'poster') {
-                  posterPath = fullUrl;
+                  posterPath = remoteUrl;
                 } else if (type == 'fanart') {
-                  backdropPath = fullUrl;
+                  backdropPath = remoteUrl;
                 }
               }
             }
@@ -2831,38 +2806,13 @@ class HomeViewModel extends ChangeNotifier {
   Future<List<AggregatedItem>?> _fetchSonarrCalendarFromApi() async {
     try {
       final repo = await GetIt.instance.getAsync<SeerrRepository>();
-      final sonarrServers = await repo.getSonarrSettings();
-      if (sonarrServers.isEmpty) return null;
-      final server = sonarrServers.first;
-
-      final protocol = server.useSsl ? 'https' : 'http';
-      final host = server.hostname;
-      final port = server.port;
-      final basePath = server.baseUrl ?? '';
-      final cleanBasePath = basePath.endsWith('/') ? basePath.substring(0, basePath.length - 1) : basePath;
-      final apiKey = server.apiKey;
-
       final now = DateTime.now();
       final start = now.toIso8601String().substring(0, 10);
       final end = now.add(const Duration(days: 90)).toIso8601String().substring(0, 10);
 
-      final dio = Dio();
-      final url = '$protocol://$host:$port$cleanBasePath/api/v3/calendar';
-      final response = await dio.get(
-        url,
-        queryParameters: {
-          'apikey': apiKey,
-          'start': start,
-          'end': end,
-          'includeSeries': 'true',
-        },
-      ).timeout(const Duration(seconds: 15));
-
-      if (response.statusCode != 200 || response.data == null) {
-        return null;
-      }
-
-      final results = response.data as List;
+      // The plugin fetches the Sonarr calendar server side, so the API key stays on the server and
+      // this still works when a remote client cant reach a LAN only Sonarr.
+      final results = await repo.getSonarrCalendar(start: start, end: end);
 
       final groupedEpisodes = <int, Map<String, dynamic>>{};
       for (final res in results) {
@@ -2927,14 +2877,13 @@ class HomeViewModel extends ChangeNotifier {
               if (img is! Map) continue;
               final type = img['coverType'] as String?;
               final remoteUrl = img['remoteUrl'] as String? ?? img['url'] as String?;
-              if (remoteUrl != null && remoteUrl.isNotEmpty) {
-                final fullUrl = remoteUrl.startsWith('http')
-                    ? remoteUrl
-                    : '$protocol://$host:$port$cleanBasePath$remoteUrl${remoteUrl.contains('?') ? '&' : '?'}apikey=$apiKey';
+              // Only external image URLs are used. A local arr image would need the API key and
+              // wouldnt be reachable from a remote client anyway.
+              if (remoteUrl != null && remoteUrl.startsWith('http')) {
                 if (type == 'poster') {
-                  posterPath = fullUrl;
+                  posterPath = remoteUrl;
                 } else if (type == 'fanart') {
-                  backdropPath = fullUrl;
+                  backdropPath = remoteUrl;
                 }
               }
             }
