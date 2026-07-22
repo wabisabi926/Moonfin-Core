@@ -16,7 +16,18 @@ abstract class MediaStreamResolver {
     if (sources == null || sources.isEmpty) return mediaSourceId;
     final staticIds = sources.map(_mediaSourceId).toSet();
     if (staticIds.contains(mediaSourceId)) return mediaSourceId;
-    return staticIds.first;
+    // A live session id maps back to the static source that opened it.
+    for (final source in sources) {
+      if (source is Map && source['LiveStreamId']?.toString() == mediaSourceId) {
+        return _mediaSourceId(source);
+      }
+    }
+    // With one version the id can only be a stale session id, so remap it.
+    // With several versions the id is the caller's explicit pick, and servers
+    // whose ids drift from the cached item, like remux, still resolve it, so
+    // collapsing to the first version here would discard the selection.
+    if (staticIds.length == 1) return staticIds.first;
+    return mediaSourceId;
   }
 
   static List<dynamic>? _staticMediaSources(dynamic mediaItem) {

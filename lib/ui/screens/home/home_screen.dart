@@ -735,6 +735,8 @@ class _ContentRowsState extends State<_ContentRows>
   bool _windowHasFocus = true;
   bool _holdMediaBarWhileSidebarFocused = false;
 
+  String? _pendingPreviewKey;
+
   final ValueNotifier<String?> _activePreviewKeyNotifier = ValueNotifier(null);
   String? get _activePreviewKey => _activePreviewKeyNotifier.value;
   set _activePreviewKey(String? value) {
@@ -1369,13 +1371,13 @@ class _ContentRowsState extends State<_ContentRows>
     int? rowIndex,
   }) {
     final previewKey = _previewKeyFor(item, rowIndex);
-    if (_activePreviewKey == previewKey) {
+    if (_activePreviewKey == previewKey || _pendingPreviewKey == previewKey) {
       return;
     }
 
     _previewDelayTimer?.cancel();
     _previewDelayTimer = null;
-    if (_activePreviewKey != null) {
+    if (_activePreviewKey != null || _pendingPreviewKey != null) {
       _finishSharedPreview();
     }
 
@@ -1395,17 +1397,18 @@ class _ContentRowsState extends State<_ContentRows>
         return;
       }
       _previewStartScrollOffset = _scrollController.offset;
-      _activePreviewKey = previewKey;
-      _previewReady = false;
+      _pendingPreviewKey = previewKey;
       await _startSharedPreview(item, previewKey);
     });
     _previewDelayTimer = thisTimer;
   }
 
-  bool _isPreviewRequestActive(int requestId, String previewKey) {
+  bool _isPreviewRequestActive(int requestId, String? previewKey) {
     return mounted &&
         requestId == _previewRequestId &&
-        _activePreviewKey == previewKey &&
+        (previewKey == null ||
+            _pendingPreviewKey == previewKey ||
+            _activePreviewKey == previewKey) &&
         _isHomeRouteActive();
   }
 
@@ -1413,7 +1416,8 @@ class _ContentRowsState extends State<_ContentRows>
     final previewKey = _previewKeyFor(item, rowIndex);
     _previewDelayTimer?.cancel();
     _previewDelayTimer = null;
-    if (_activePreviewKey == previewKey && mounted) {
+    if ((_activePreviewKey == previewKey || _pendingPreviewKey == previewKey) &&
+        mounted) {
       _finishSharedPreview();
     }
   }
@@ -1451,9 +1455,10 @@ class _ContentRowsState extends State<_ContentRows>
       _appleTvPreviewPlayer = null;
     }
 
-    if (_activePreviewKey != null || _previewReady) {
+    if (_activePreviewKey != null || _previewReady || _pendingPreviewKey != null) {
       _activePreviewKey = null;
       _previewReady = false;
+      _pendingPreviewKey = null;
     }
     _themeMusicService.setExternalAudioActive(false);
   }
@@ -1499,7 +1504,7 @@ class _ContentRowsState extends State<_ContentRows>
         return;
       }
       final target = await _resolvePreviewTargetItem(client, item);
-      if (!_isPreviewRequestActive(requestId, previewKey) || target == null) {
+      if (!_isPreviewRequestActive(requestId, null) || target == null) {
         return;
       }
 
@@ -1519,9 +1524,16 @@ class _ContentRowsState extends State<_ContentRows>
       final previewVolume = kIsWeb ? 0.0 : (previewAudioEnabled ? 100.0 : 0.0);
       final useMedia3 = _useMedia3InlinePreview();
       await _audioArbiter.acquire(AudioProducer.inlinePreview);
+
       if (!_isPreviewRequestActive(requestId, previewKey)) {
         return;
       }
+
+      // Set the key to trigger the video widget once arbiter finishes aquire.
+      _activePreviewKey = previewKey;
+      _pendingPreviewKey = null;
+      _previewReady = false;
+
       if (useMedia3) {
         _previewUsingMedia3 = true;
         await _media3PreviewBackend!.setVolume(previewVolume);
