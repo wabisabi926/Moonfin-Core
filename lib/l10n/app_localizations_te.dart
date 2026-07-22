@@ -3691,6 +3691,9 @@ class AppLocalizationsTe extends AppLocalizations {
   String get seerrDiscoveryRows => 'Seerr డిస్కవరీ వరుసలు';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'అడ్డు వరుసలను డిఫాల్ట్‌లకు రీసెట్ చేయండి';
 
   @override
@@ -10212,4 +10215,10 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb టాప్ రేటెడ్ ఇంగ్లీష్ సినిమాలు';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

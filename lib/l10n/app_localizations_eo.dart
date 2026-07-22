@@ -3667,6 +3667,9 @@ class AppLocalizationsEo extends AppLocalizations {
   String get seerrDiscoveryRows => 'Malkovraj vicoj de Seerr';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Restarigu vicojn al defaŭltoj';
 
   @override
@@ -10131,4 +10134,10 @@ class AppLocalizationsEo extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb Plej Bone Taksitaj Anglaj Filmoj';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

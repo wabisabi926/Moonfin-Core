@@ -3698,6 +3698,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get seerrDiscoveryRows => 'Rânduri de descoperire Seerr';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Resetați rândurile la valorile implicite';
 
   @override
@@ -10230,4 +10233,10 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'Cele mai bine cotate filme în engleză pe IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

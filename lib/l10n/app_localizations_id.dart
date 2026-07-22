@@ -3673,6 +3673,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get seerrDiscoveryRows => 'Baris Discovery Seerr';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Reset baris ke default';
 
   @override
@@ -10141,4 +10144,10 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'Film Berbahasa Inggris dengan Rating Tertinggi IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

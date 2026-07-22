@@ -3704,6 +3704,9 @@ class AppLocalizationsTl extends AppLocalizations {
   String get seerrDiscoveryRows => 'Mga Seerr Discovery Row';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'I-reset ang mga hilera sa mga default';
 
   @override
@@ -10256,4 +10259,10 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb Pinakamataas na Rating na Mga Pelikulang Ingles';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

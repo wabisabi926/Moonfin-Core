@@ -3676,6 +3676,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get seerrDiscoveryRows => 'Wiersze odkrywania Seerr';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Zresetuj wiersze do wartości domyślnych';
 
   @override
@@ -10203,4 +10206,10 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb Najwyżej oceniane filmy anglojęzyczne';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

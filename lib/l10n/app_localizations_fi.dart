@@ -3684,6 +3684,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get seerrDiscoveryRows => 'Seerr-löytörivit';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Palauta rivit oletusarvoihin';
 
   @override
@@ -10167,4 +10170,10 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb:n parhaat englanninkieliset elokuvat';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

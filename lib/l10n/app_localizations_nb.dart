@@ -3666,6 +3666,9 @@ class AppLocalizationsNb extends AppLocalizations {
   String get seerrDiscoveryRows => 'Seerr-oppdagelsesrader';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Tilbakestill rader til standardverdier';
 
   @override
@@ -10134,4 +10137,10 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb topprangerte engelske filmer';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

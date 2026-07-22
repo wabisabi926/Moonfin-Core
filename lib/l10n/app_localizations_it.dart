@@ -3693,6 +3693,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get seerrDiscoveryRows => 'Righe Scoperta Seerr';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Ripristina righe predefinite';
 
   @override
@@ -10226,4 +10229,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'Migliori Film in Inglese su IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

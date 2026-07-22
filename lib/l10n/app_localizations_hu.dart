@@ -3698,6 +3698,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get seerrDiscoveryRows => 'Seerr felfedezési sorok';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults =>
       'A sorok visszaállítása az alapértelmezett értékekre';
 
@@ -10237,4 +10240,10 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb legjobb értékelésű angol nyelvű filmek';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

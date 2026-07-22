@@ -3678,6 +3678,9 @@ class AppLocalizationsMn extends AppLocalizations {
   String get seerrDiscoveryRows => 'Seerr-ийн танилцах эгнээ';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults =>
       'Мөрүүдийг өгөгдмөл болгож дахин тохируулна уу';
 
@@ -10161,4 +10164,10 @@ class AppLocalizationsMn extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb-ийн шилдэг үнэлгээтэй англи кино';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

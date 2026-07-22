@@ -3679,6 +3679,9 @@ class AppLocalizationsUg extends AppLocalizations {
   String get seerrDiscoveryRows => 'Seerr بايقاش قۇرلىرى';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'قۇرلارنى سۈكۈتتىكى ھالەتكە قايتۇرۇش';
 
   @override
@@ -10177,4 +10180,10 @@ class AppLocalizationsUg extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb ئەڭ يۇقىرى باھالانغان ئىنگلىزچە كىنولار';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }

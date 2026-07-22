@@ -3691,6 +3691,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get seerrDiscoveryRows => 'Linhas de Descoberta do Seerr';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Restaurar linhas para os padrões';
 
   @override
@@ -10226,6 +10229,12 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'Filmes em Inglês Mais Bem Avaliados do IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

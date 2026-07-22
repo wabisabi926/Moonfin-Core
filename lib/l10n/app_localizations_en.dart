@@ -3649,6 +3649,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seerrDiscoveryRows => 'Seerr Discovery Rows';
 
   @override
+  String get yourWatchlist => 'Your Watchlist';
+
+  @override
   String get resetRowsToDefaults => 'Reset rows to defaults';
 
   @override
@@ -10055,6 +10058,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb Top Rated English Movies';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
