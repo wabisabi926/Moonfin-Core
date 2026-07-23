@@ -1,10 +1,11 @@
-import 'dart:ffi' show Abi;
 import 'dart:io';
 
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../preference/user_preferences.dart';
+import 'game_cores_abi_stub.dart'
+    if (dart.library.io) 'game_cores_abi_io.dart';
 import 'platform_detection.dart';
 
 /// EmulatorJS core name to libretro core id, for the native libretro backend
@@ -144,7 +145,7 @@ bool get bundlesGameCores =>
 bool get supportsCoreDownloads =>
     !bundlesGameCores &&
     (PlatformDetection.isAndroid || PlatformDetection.isDesktop) &&
-    _buildbotTarget() != null;
+    currentBuildbotTarget() != null;
 
 /// Whether the player screen accepts keyboard gameplay, mapping keys to a
 /// RetroPad mask sent down to the core. All desktops do, so a game is playable
@@ -203,34 +204,11 @@ String coreFileName(String coreId) {
   return '${coreId}_libretro.$ext';
 }
 
-/// The buildbot path segment and in-zip file suffix for this device, or null
-/// when libretro publishes no build for the architecture.
-({String dir, String suffix})? _buildbotTarget() {
-  switch (Abi.current()) {
-    case Abi.androidArm64:
-      return (dir: 'android/latest/arm64-v8a', suffix: '_libretro_android.so.zip');
-    case Abi.androidArm:
-      return (dir: 'android/latest/armeabi-v7a', suffix: '_libretro_android.so.zip');
-    case Abi.androidX64:
-      return (dir: 'android/latest/x86_64', suffix: '_libretro_android.so.zip');
-    case Abi.linuxX64:
-      return (dir: 'linux/x86_64/latest', suffix: '_libretro.so.zip');
-    case Abi.macosArm64:
-      return (dir: 'apple/osx/arm64/latest', suffix: '_libretro.dylib.zip');
-    case Abi.macosX64:
-      return (dir: 'apple/osx/x86_64/latest', suffix: '_libretro.dylib.zip');
-    case Abi.windowsX64:
-      return (dir: 'windows/x86_64/latest', suffix: '_libretro.dll.zip');
-    default:
-      return null;
-  }
-}
-
 /// The buildbot download URL for a core on this device, or null when libretro
 /// has no build for the architecture. The zip holds one core file, which the
 /// downloader extracts to [coreFileName] regardless of its name inside.
 String? coreDownloadUrl(String coreId) {
-  final target = _buildbotTarget();
+  final target = currentBuildbotTarget();
   if (target == null) return null;
   return 'https://buildbot.libretro.com/nightly/${target.dir}/${_buildbotCoreName(coreId)}${target.suffix}';
 }
@@ -249,7 +227,7 @@ String _buildbotCoreName(String coreId) {
 /// stays correct across architectures.
 Future<Directory> coresDirectory() async {
   final support = await getApplicationSupportDirectory();
-  final abi = Abi.current().toString().replaceAll(RegExp('[^A-Za-z0-9]'), '');
+  final abi = currentAbiTag();
   return Directory('${support.path}/cores/$abi');
 }
 
