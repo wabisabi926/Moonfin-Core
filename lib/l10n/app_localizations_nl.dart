@@ -3320,11 +3320,11 @@ class AppLocalizationsNl extends AppLocalizations {
       'Audio inschakelen voor trailers in de mediabalk';
 
   @override
-  String get trailerCaptions => 'Trailer Captions';
+  String get trailerCaptions => 'Trailerondertitels';
 
   @override
   String get trailerCaptionsDescription =>
-      'Show captions on YouTube trailers in the media bar';
+      'Laat ondertitels zien in de YouTube-trailers in de mediabalk';
 
   @override
   String get episodePreview => 'Aflevering voorbeeld';

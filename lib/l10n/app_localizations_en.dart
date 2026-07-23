@@ -10194,6 +10194,22 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get settingsAppearanceTheme => 'App Theme';
 
   @override
+  String get detailScreenStyle => 'Detail screen style';
+
+  @override
+  String get detailScreenStyleSubtitle =>
+      'Classic is the original centered moonfin layout. Modern is a responsive cinematic layout.';
+
+  @override
+  String get detailScreenStyleMoonfin => 'Classic';
+
+  @override
+  String get detailScreenStyleModern => 'Modern';
+
+  @override
+  String get expandedTabs => 'Expanded Tabs';
+
+  @override
   String get settingsAppearanceThemeSubtitle =>
       'Switch between Moonfin and Neon Pulse without restarting the app';
 
