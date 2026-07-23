@@ -1317,6 +1317,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get shuffle => '随机播放';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => '随机播放所有音乐';
 
   @override
@@ -3543,6 +3546,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr 发现栏目';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => '将栏目重置为默认值';
@@ -9730,6 +9736,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb 高分英语电影';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).

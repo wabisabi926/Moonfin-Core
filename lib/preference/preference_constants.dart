@@ -301,6 +301,7 @@ enum HomeSectionType {
   genres('genres'),
   liveTv('livetv'),
   seerrRecentRequests('seerr_recent_requests'),
+  seerrWatchlist('seerr_watchlist'),
   seerrRecentlyAdded('seerr_recently_added'),
   seerrPopularMovies('seerr_popular_movies'),
   seerrUpcomingMovies('seerr_upcoming_movies'),
@@ -360,7 +361,10 @@ enum LibrarySortBy {
   runtime('Runtime', 'Runtime'),
   random('Random', 'Random'),
   criticRating('CriticRating', 'Critic Rating'),
-  communityRating('CommunityRating', 'Community Rating');
+  communityRating('CommunityRating', 'Community Rating'),
+  albumArtist('AlbumArtist,Album,SortName', 'Album Artist'),
+  album('Album,SortName', 'Album'),
+  genre('Genre,SortName', 'Genre');
 
   const LibrarySortBy(this.apiValue, this.displayName);
   final String apiValue;
@@ -468,6 +472,7 @@ enum SeerrFetchLimit {
 
 enum SeerrRowType {
   recentRequests('recent_requests'),
+  yourWatchlist('watchlist'),
   recentlyAdded('recently_added'),
   trending('trending'),
   popularMovies('popular_movies'),
@@ -492,6 +497,7 @@ enum SeerrRowType {
 extension SeerrRowTypeHomeSection on SeerrRowType {
   HomeSectionType get homeSectionType => switch (this) {
         SeerrRowType.recentRequests => HomeSectionType.seerrRecentRequests,
+        SeerrRowType.yourWatchlist => HomeSectionType.seerrWatchlist,
         SeerrRowType.recentlyAdded => HomeSectionType.seerrRecentlyAdded,
         SeerrRowType.trending => HomeSectionType.seerrTrending,
         SeerrRowType.popularMovies => HomeSectionType.seerrPopularMovies,
@@ -508,6 +514,7 @@ extension SeerrRowTypeHomeSection on SeerrRowType {
 extension HomeSectionTypeSeerrRow on HomeSectionType {
   SeerrRowType? get seerrRowType => switch (this) {
         HomeSectionType.seerrRecentRequests => SeerrRowType.recentRequests,
+        HomeSectionType.seerrWatchlist => SeerrRowType.yourWatchlist,
         HomeSectionType.seerrRecentlyAdded => SeerrRowType.recentlyAdded,
         HomeSectionType.seerrTrending => SeerrRowType.trending,
         HomeSectionType.seerrPopularMovies => SeerrRowType.popularMovies,

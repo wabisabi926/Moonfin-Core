@@ -2542,6 +2542,12 @@ abstract class AppLocalizations {
   /// **'Shuffle'**
   String get shuffle;
 
+  /// Action button label for shuffling all tracks of an artist
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle All'**
+  String get shuffleAll;
+
   /// Car browse action that shuffles the whole music library
   ///
   /// In en, this message translates to:
@@ -6675,6 +6681,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Seerr Discovery Rows'**
   String get seerrDiscoveryRows;
+
+  /// Seerr row: watchlist
+  ///
+  /// In en, this message translates to:
+  /// **'Your Watchlist'**
+  String get yourWatchlist;
 
   /// Tooltip for reset rows to defaults
   ///
@@ -17991,6 +18003,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'IMDb Top Rated English Movies'**
   String get imdbTopEnglishMovies;
+
+  /// Button label to add media to the user's Seerr watchlist
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Watchlist'**
+  String get addToWatchlist;
+
+  /// Button label to remove media from the user's Seerr watchlist
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from Watchlist'**
+  String get removeFromWatchlist;
+
+  /// Snackbar shown when adding/removing a Seerr watchlist item fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update watchlist'**
+  String get watchlistUpdateFailed;
 }
 
 class _AppLocalizationsDelegate

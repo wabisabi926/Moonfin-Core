@@ -262,54 +262,59 @@ class HomeSectionConfig {
       order: 21,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrRecentlyAdded,
+      type: HomeSectionType.seerrWatchlist,
       enabled: false,
       order: 22,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrPopularMovies,
+      type: HomeSectionType.seerrRecentlyAdded,
       enabled: false,
       order: 23,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrUpcomingMovies,
+      type: HomeSectionType.seerrPopularMovies,
       enabled: false,
       order: 24,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrPopularSeries,
+      type: HomeSectionType.seerrUpcomingMovies,
       enabled: false,
       order: 25,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrUpcomingSeries,
+      type: HomeSectionType.seerrPopularSeries,
       enabled: false,
       order: 26,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrTrending,
+      type: HomeSectionType.seerrUpcomingSeries,
       enabled: false,
       order: 27,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrMovieGenres,
+      type: HomeSectionType.seerrTrending,
       enabled: false,
       order: 28,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrStudios,
+      type: HomeSectionType.seerrMovieGenres,
       enabled: false,
       order: 29,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrSeriesGenres,
+      type: HomeSectionType.seerrStudios,
       enabled: false,
       order: 30,
     ),
     HomeSectionConfig(
-      type: HomeSectionType.seerrNetworks,
+      type: HomeSectionType.seerrSeriesGenres,
       enabled: false,
       order: 31,
+    ),
+    HomeSectionConfig(
+      type: HomeSectionType.seerrNetworks,
+      enabled: false,
+      order: 32,
     ),
     HomeSectionConfig(
       type: HomeSectionType.radarrCalendar,
@@ -343,10 +348,31 @@ class HomeSectionConfig {
           parsed.add(cfg);
         }
       }
-      return parsed;
+      return _appendMissingBuiltins(parsed);
     } catch (_) {
       return defaults();
     }
+  }
+
+  /// Adds any built-in sections missing from a user's saved config, like the
+  /// Seerr watchlist, so they show up without needing a reset. New sections
+  /// keep their default enabled state and go at the end to keep the user's
+  /// existing order.
+  static List<HomeSectionConfig> _appendMissingBuiltins(
+    List<HomeSectionConfig> parsed,
+  ) {
+    final presentTypes = parsed
+        .where((c) => c.isBuiltin)
+        .map((c) => c.type)
+        .toSet();
+    final merged = List<HomeSectionConfig>.of(parsed);
+    var order = parsed.fold<int>(-1, (m, c) => c.order > m ? c.order : m) + 1;
+    for (final def in defaults()) {
+      if (def.isBuiltin && !presentTypes.contains(def.type)) {
+        merged.add(def.copyWith(order: order++));
+      }
+    }
+    return merged;
   }
 
   static String toJsonString(List<HomeSectionConfig> configs) =>

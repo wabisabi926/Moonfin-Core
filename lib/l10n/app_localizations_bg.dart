@@ -1359,6 +1359,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get shuffle => 'Разбъркай';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Разбъркване на цялата музика';
 
   @override
@@ -3685,6 +3688,9 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Редове за откриване в Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults =>
@@ -10245,4 +10251,13 @@ class AppLocalizationsBg extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb Най-високо оценени филми на английски';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

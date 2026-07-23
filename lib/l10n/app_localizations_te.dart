@@ -1361,6 +1361,9 @@ class AppLocalizationsTe extends AppLocalizations {
   String get shuffle => 'షఫుల్ చేయండి';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'మొత్తం సంగీతాన్ని షఫుల్ చేయండి';
 
   @override
@@ -3686,6 +3689,9 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr డిస్కవరీ వరుసలు';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'అడ్డు వరుసలను డిఫాల్ట్‌లకు రీసెట్ చేయండి';
@@ -10209,4 +10215,13 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb టాప్ రేటెడ్ ఇంగ్లీష్ సినిమాలు';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

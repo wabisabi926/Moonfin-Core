@@ -1373,6 +1373,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get shuffle => 'Náhodne';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Prehrať všetku hudbu náhodne';
 
   @override
@@ -3688,6 +3691,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Objavovacie riadky Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Obnovte predvolené hodnoty riadkov';
@@ -10209,4 +10215,13 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'Najlepšie hodnotené anglické filmy na IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

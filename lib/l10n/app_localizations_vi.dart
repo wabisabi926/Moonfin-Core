@@ -1361,6 +1361,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get shuffle => 'Phát ngẫu nhiên';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Phát ngẫu nhiên toàn bộ nhạc';
 
   @override
@@ -3671,6 +3674,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Hàng khám phá Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Đặt lại các hàng về mặc định';
@@ -10141,4 +10147,13 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'Phim tiếng Anh được đánh giá cao nhất trên IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

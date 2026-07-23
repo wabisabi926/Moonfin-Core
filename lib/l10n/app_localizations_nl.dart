@@ -1362,6 +1362,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get shuffle => 'Willekeurig';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Alle muziek willekeurig afspelen';
 
   @override
@@ -3317,11 +3320,11 @@ class AppLocalizationsNl extends AppLocalizations {
       'Audio inschakelen voor trailers in de mediabalk';
 
   @override
-  String get trailerCaptions => 'Trailer Captions';
+  String get trailerCaptions => 'Trailerondertitels';
 
   @override
   String get trailerCaptionsDescription =>
-      'Show captions on YouTube trailers in the media bar';
+      'Laat ondertitels zien in de YouTube-trailers in de mediabalk';
 
   @override
   String get episodePreview => 'Aflevering voorbeeld';
@@ -3680,6 +3683,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr-ontdekkingsrijen';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Zet rijen terug naar de standaardwaarden';
@@ -10190,4 +10196,13 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb best beoordeelde Engelstalige films';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

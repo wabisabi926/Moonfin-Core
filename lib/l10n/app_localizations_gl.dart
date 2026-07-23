@@ -1371,6 +1371,9 @@ class AppLocalizationsGl extends AppLocalizations {
   String get shuffle => 'Aleatorio';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Reproducir toda a música en modo aleatorio';
 
   @override
@@ -3708,6 +3711,9 @@ class AppLocalizationsGl extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Filas de descubrimento de Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults =>
@@ -10283,4 +10289,13 @@ class AppLocalizationsGl extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'Mellores películas en inglés de IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

@@ -1357,6 +1357,9 @@ class AppLocalizationsNb extends AppLocalizations {
   String get shuffle => 'Tilfeldig';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Spill all musikk i tilfeldig rekkefølge';
 
   @override
@@ -3661,6 +3664,9 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr-oppdagelsesrader';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Tilbakestill rader til standardverdier';
@@ -10131,4 +10137,13 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb topprangerte engelske filmer';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

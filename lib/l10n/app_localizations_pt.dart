@@ -1361,6 +1361,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get shuffle => 'Aleatório';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Reproduzir toda a música aleatoriamente';
 
   @override
@@ -3686,6 +3689,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Linhas de Descoberta do Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Restaurar linhas para os padrões';
@@ -10223,6 +10229,15 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'Filmes em Inglês Mais Bem Avaliados do IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

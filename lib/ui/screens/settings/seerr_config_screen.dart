@@ -219,10 +219,10 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
     try {
       final repo = await GetIt.instance.getAsync<SeerrRepository>();
       await repo.logoutMoonfin();
-      await _seerrPrefs.setEnabled(false);
+      await _seerrPrefs.setEnabled(true);
       await GetIt.instance<UserPreferences>().set(
         UserPreferences.seerrEnabled,
-        false,
+        true,
       );
       await _pushSync();
       await _loadSeerrStatus();
@@ -402,6 +402,7 @@ class _SeerrConfigScreenState extends State<SeerrConfigScreen> {
     SeerrRowType.seriesGenres => l10n.seriesGenres,
     SeerrRowType.upcomingSeries => l10n.upcomingSeries,
     SeerrRowType.networks => l10n.networks,
+    SeerrRowType.yourWatchlist => l10n.yourWatchlist,
   };
 
   @override

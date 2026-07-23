@@ -1356,6 +1356,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get shuffle => 'शफ़ल';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'सारा संगीत शफ़ल करें';
 
   @override
@@ -3655,6 +3658,9 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr डिस्कवरी पंक्तियाँ';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'पंक्तियों को डिफ़ॉल्ट पर रीसेट करें';
@@ -10109,4 +10115,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb टॉप रेटेड अंग्रेज़ी फ़िल्में';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

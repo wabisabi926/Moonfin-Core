@@ -1358,6 +1358,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get shuffle => 'Karıştır';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Tüm müzikleri karıştır';
 
   @override
@@ -3071,7 +3074,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get transcodingTimeRemainingUnavailable =>
-      'Transcoding: Time Remaining Unavailable';
+      'Kod Dönüştürme: Kalan Süre Bilinmiyor';
 
   @override
   String get enable => 'Etkinleştir';
@@ -3316,11 +3319,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Medya çubuğundaki fragmanlar için sesi etkinleştir';
 
   @override
-  String get trailerCaptions => 'Trailer Captions';
+  String get trailerCaptions => 'Fragman Altyazıları';
 
   @override
   String get trailerCaptionsDescription =>
-      'Show captions on YouTube trailers in the media bar';
+      'YouTube fragmanlarında medya çubuğunda altyazıları göster';
 
   @override
   String get episodePreview => 'Bölüm Önizlemesi';
@@ -3679,6 +3682,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr Keşfet Satırları';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Satırları varsayılanlara sıfırla';
@@ -10153,4 +10159,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDB En Yüksek Puanlı İngilizce Filmler';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

@@ -1357,6 +1357,9 @@ class AppLocalizationsEo extends AppLocalizations {
   String get shuffle => 'Miksi';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Miksi la tutan muzikon';
 
   @override
@@ -3662,6 +3665,9 @@ class AppLocalizationsEo extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Malkovraj vicoj de Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Restarigu vicojn al defaŭltoj';
@@ -10128,4 +10134,13 @@ class AppLocalizationsEo extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb Plej Bone Taksitaj Anglaj Filmoj';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

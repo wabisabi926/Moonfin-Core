@@ -1363,6 +1363,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get shuffle => 'Keverés';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Összes zene keverése';
 
   @override
@@ -3693,6 +3696,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr felfedezési sorok';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults =>
@@ -10234,4 +10240,13 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb legjobb értékelésű angol nyelvű filmek';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

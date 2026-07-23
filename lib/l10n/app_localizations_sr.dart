@@ -1435,6 +1435,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get shuffle => 'Насумично';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Насумично пусти сву музику';
 
   @override
@@ -3785,6 +3788,9 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr редови откривања';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults =>
@@ -10350,4 +10356,13 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb најбоље оцењени енглески филмови';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

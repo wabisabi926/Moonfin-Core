@@ -1364,6 +1364,9 @@ class AppLocalizationsAf extends AppLocalizations {
   String get shuffle => 'Skommel';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Skommel alle musiek';
 
   @override
@@ -3670,6 +3673,9 @@ class AppLocalizationsAf extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr-ontdekkingsrye';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Stel rye terug na verstek';
@@ -10142,4 +10148,13 @@ class AppLocalizationsAf extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb se topgegradeerde Engelse flieks';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

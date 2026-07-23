@@ -1357,6 +1357,9 @@ class AppLocalizationsMn extends AppLocalizations {
   String get shuffle => 'Холих';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Бүх хөгжмийг холих';
 
   @override
@@ -3673,6 +3676,9 @@ class AppLocalizationsMn extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr-ийн танилцах эгнээ';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults =>
@@ -10158,4 +10164,13 @@ class AppLocalizationsMn extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb-ийн шилдэг үнэлгээтэй англи кино';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

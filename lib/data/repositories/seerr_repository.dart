@@ -213,7 +213,11 @@ class SeerrRepository {
     _serverReportsEnabled = status.enabled;
 
     await _store.setBool(_moonfinModeKey, true);
-    await _store.setBool(_enabledKey, effectiveEnabled);
+    if (effectiveEnabled) {
+      await _store.setBool(_enabledKey, true);
+    } else if (!status.enabled) {
+      await _store.setBool(_enabledKey, false);
+    }
     await _store.setString(_authMethodKey, 'moonfin');
     _isMoonfinMode = true;
 
@@ -415,6 +419,16 @@ class SeerrRepository {
     (c) async => SeerrDiscoverPage.fromJson(await c.getUpcomingTv()),
   );
 
+  Future<SeerrDiscoverPage> getWatchlist({int page = 1}) => _withClient(
+    (c) async => SeerrDiscoverPage.fromJson(await c.getWatchlist(page: page)),
+  );
+
+  Future<void> addToWatchlist({required int tmdbId, required String mediaType}) =>
+      _withClient((c) => c.addToWatchlist(tmdbId: tmdbId, mediaType: mediaType));
+
+  Future<void> removeFromWatchlist({required int tmdbId, required String mediaType}) =>
+      _withClient((c) => c.removeFromWatchlist(tmdbId: tmdbId, mediaType: mediaType));
+
   Future<SeerrDiscoverPage> discoverMovies({
     int page = 1,
     String sortBy = 'popularity.desc',
@@ -477,6 +491,24 @@ class SeerrRepository {
   Future<SeerrTvDetails> getTvDetailsByTvdb(int tvdbId) => _withClient(
     (c) async => SeerrTvDetails.fromJson(await c.getTvDetailsByTvdb(tvdbId)),
   );
+
+  Future<(SeerrMovieDetails, bool)> getMovieDetailsWithWatchlist(int tmdbId) =>
+      _withClient((c) async {
+        final json = await c.getMovieDetails(tmdbId);
+        return (
+          SeerrMovieDetails.fromJson(json),
+          json['onUserWatchlist'] as bool? ?? false,
+        );
+      });
+
+  Future<(SeerrTvDetails, bool)> getTvDetailsWithWatchlist(int tmdbId) =>
+      _withClient((c) async {
+        final json = await c.getTvDetails(tmdbId);
+        return (
+          SeerrTvDetails.fromJson(json),
+          json['onUserWatchlist'] as bool? ?? false,
+        );
+      });
 
   Future<SeerrDiscoverPage> getSimilarMovies(int tmdbId, {int page = 1}) =>
       _withClient(

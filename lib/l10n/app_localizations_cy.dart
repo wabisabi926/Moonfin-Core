@@ -1376,6 +1376,9 @@ class AppLocalizationsCy extends AppLocalizations {
   String get shuffle => 'Cymysgu';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Hapchwarae\'r holl gerddoriaeth';
 
   @override
@@ -3690,6 +3693,9 @@ class AppLocalizationsCy extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Rhesi Darganfod Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Ailosod rhesi i ragosodiadau';
@@ -10197,4 +10203,13 @@ class AppLocalizationsCy extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'Ffilmiau Saesneg â\'r Sgôr Uchaf ar IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

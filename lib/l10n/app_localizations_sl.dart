@@ -1372,6 +1372,9 @@ class AppLocalizationsSl extends AppLocalizations {
   String get shuffle => 'Naključno';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Naključno predvajaj vso glasbo';
 
   @override
@@ -3691,6 +3694,9 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Vrstice za odkrivanje Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Ponastavi vrstice na privzete';
@@ -10203,4 +10209,13 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'Najbolje ocenjeni angleški filmi na IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

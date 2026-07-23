@@ -1372,6 +1372,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get shuffle => 'Τυχαία αναπαραγωγή';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Τυχαία αναπαραγωγή όλης της μουσικής';
 
   @override
@@ -3707,6 +3710,9 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Σειρές ανακάλυψης Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Επαναφέρετε τις σειρές στις προεπιλογές';
@@ -10300,4 +10306,13 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb: Κορυφαίες αγγλόφωνες ταινίες';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

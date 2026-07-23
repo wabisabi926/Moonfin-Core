@@ -1356,6 +1356,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get shuffle => 'Losowo';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Odtwarzaj muzykę losowo';
 
   @override
@@ -3671,6 +3674,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Wiersze odkrywania Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Zresetuj wiersze do wartości domyślnych';
@@ -10200,4 +10206,13 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb Najwyżej oceniane filmy anglojęzyczne';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

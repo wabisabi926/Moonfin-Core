@@ -1363,6 +1363,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get shuffle => 'Sekoita';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Soita kaikki musiikki satunnaisesti';
 
   @override
@@ -3679,6 +3682,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr-löytörivit';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Palauta rivit oletusarvoihin';
@@ -10164,4 +10170,13 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb:n parhaat englanninkieliset elokuvat';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

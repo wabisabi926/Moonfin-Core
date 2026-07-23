@@ -1352,6 +1352,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shuffle => 'Shuffle';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'Shuffle all music';
 
   @override
@@ -3644,6 +3647,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr Discovery Rows';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'Reset rows to defaults';
@@ -10052,6 +10058,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'IMDb Top Rated English Movies';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -10189,6 +10204,22 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get settingsAppearanceTheme => 'App Theme';
+
+  @override
+  String get detailScreenStyle => 'Detail screen style';
+
+  @override
+  String get detailScreenStyleSubtitle =>
+      'Classic is the original centered moonfin layout. Modern is a responsive cinematic layout.';
+
+  @override
+  String get detailScreenStyleMoonfin => 'Classic';
+
+  @override
+  String get detailScreenStyleModern => 'Modern';
+
+  @override
+  String get expandedTabs => 'Expanded Tabs';
 
   @override
   String get settingsAppearanceThemeSubtitle =>

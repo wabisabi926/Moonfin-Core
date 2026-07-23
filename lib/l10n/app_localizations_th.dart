@@ -1349,6 +1349,9 @@ class AppLocalizationsTh extends AppLocalizations {
   String get shuffle => 'สุ่มเล่น';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'สุ่มเล่นเพลงทั้งหมด';
 
   @override
@@ -3637,6 +3640,9 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'แถวสำรวจของ Seerr';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'รีเซ็ตแถวเป็นค่าเริ่มต้น';
@@ -10060,4 +10066,13 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get imdbTopEnglishMovies => 'ภาพยนตร์ภาษาอังกฤษคะแนนสูงสุดของ IMDb';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }

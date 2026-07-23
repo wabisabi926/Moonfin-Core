@@ -1366,6 +1366,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String get shuffle => 'ஷஃபிள்';
 
   @override
+  String get shuffleAll => 'Shuffle All';
+
+  @override
   String get shuffleAllMusic => 'எல்லா இசையையும் கலைத்து இயக்கு';
 
   @override
@@ -3694,6 +3697,9 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get seerrDiscoveryRows => 'Seerr கண்டுபிடிப்பு வரிசைகள்';
+
+  @override
+  String get yourWatchlist => 'Your Watchlist';
 
   @override
   String get resetRowsToDefaults => 'வரிசைகளை இயல்புநிலைக்கு மீட்டமைக்கவும்';
@@ -10223,4 +10229,13 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get imdbTopEnglishMovies =>
       'IMDb சிறந்த மதிப்பிடப்பட்ட ஆங்கிலத் திரைப்படங்கள்';
+
+  @override
+  String get addToWatchlist => 'Add to Watchlist';
+
+  @override
+  String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }
