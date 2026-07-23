@@ -3074,7 +3074,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get transcodingTimeRemainingUnavailable =>
-      'Transcoding: Time Remaining Unavailable';
+      'Kod Dönüştürme: Kalan Süre Bilinmiyor';
 
   @override
   String get enable => 'Etkinleştir';
@@ -3319,11 +3319,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Medya çubuğundaki fragmanlar için sesi etkinleştir';
 
   @override
-  String get trailerCaptions => 'Trailer Captions';
+  String get trailerCaptions => 'Fragman Altyazıları';
 
   @override
   String get trailerCaptionsDescription =>
-      'Show captions on YouTube trailers in the media bar';
+      'YouTube fragmanlarında medya çubuğunda altyazıları göster';
 
   @override
   String get episodePreview => 'Bölüm Önizlemesi';
