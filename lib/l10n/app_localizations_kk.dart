@@ -10196,4 +10196,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get removeFromWatchlist => 'Remove from Watchlist';
+
+  @override
+  String get watchlistUpdateFailed => 'Couldn\'t update watchlist';
 }
