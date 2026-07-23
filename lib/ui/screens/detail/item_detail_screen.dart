@@ -7780,7 +7780,6 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
               throw PlaybackStartupRecoveryAbortedException();
             }
             int albumStartIndex = 0;
-            Duration albumStartPos = Duration.zero;
             if (resume) {
               final resumeIdx = tracks.indexWhere(
                 (e) =>
@@ -7790,13 +7789,13 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
               );
               if (resumeIdx >= 0) {
                 albumStartIndex = resumeIdx;
-                albumStartPos = tracks[resumeIdx].playbackPosition ?? Duration.zero;
               }
             }
+            // Music remembers which track was playing but starts it from the
+            // beginning, matching standard music player behavior.
             await manager.playItems(
               tracks,
               startIndex: albumStartIndex,
-              startPosition: albumStartPos,
             );
             break;
 

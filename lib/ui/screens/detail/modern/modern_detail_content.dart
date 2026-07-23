@@ -3465,7 +3465,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                 parts.add(item.productionYear.toString());
               }
               final runtime = item.runtime;
-              if (runtime != null && runtime.inMinutes > 0) {
+              if (isBookLayout && runtime != null && runtime.inMinutes > 0) {
                 parts.add(_formatDuration(runtime));
               } else if (!isBookLayout && _vm.tracks.isNotEmpty) {
                 final count = _vm.tracks.length;
@@ -3509,7 +3509,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
               downTarget: _vm.tracks.isNotEmpty
                   ? _trackFocusNodes.putIfAbsent(_vm.tracks.first.id, () => FocusNode())
                   : null,
-              upTarget: authorOrArtistName != null ? _artistFocusNode : null,
+              upTarget:
+                  authorOrArtistName != null && authorOrArtistName.trim().isNotEmpty
+                      ? _artistFocusNode
+                      : null,
               autoPlay: widget.autoPlay,
               modernStyle: true,
               fullWidthPrimary: !_landscape,
