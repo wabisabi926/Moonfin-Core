@@ -126,15 +126,6 @@ class DownloadSettingsScreen extends ConsumerWidget {
                   onTap: () =>
                       _pickStorageLimit(context, prefs, storageLimitMb),
                 ),
-                if (PlatformDetection.useDesktopUi)
-                  ListTile(
-                    leading: const Icon(Icons.folder_open),
-                    title: Text(l10n.downloadLocation),
-                    subtitle: Text(
-                      customPath.isEmpty ? l10n.defaultLabel : customPath,
-                    ),
-                    onTap: () => _pickFolder(context, prefs),
-                  ),
                 if (PlatformDetection.isAndroid)
                   SwitchListTile.adaptive(
                     secondary: const Icon(Icons.folder_open),
@@ -142,6 +133,16 @@ class DownloadSettingsScreen extends ConsumerWidget {
                     subtitle: Text(l10n.downloadsVisibleToOtherApps),
                     value: customPath == 'mediastore',
                     onChanged: (v) => _toggleMediaStore(context, prefs, v),
+                  ),
+                if (PlatformDetection.useDesktopUi ||
+                    (PlatformDetection.isAndroid && customPath != 'mediastore'))
+                  ListTile(
+                    leading: const Icon(Icons.folder_special),
+                    title: Text(l10n.downloadLocation),
+                    subtitle: Text(
+                      customPath.isEmpty ? l10n.defaultLabel : customPath,
+                    ),
+                    onTap: () => _pickFolder(context, prefs),
                   ),
                 if (!PlatformDetection.isWeb) ...[
                   ListTile(
