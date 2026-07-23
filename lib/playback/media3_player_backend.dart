@@ -11,6 +11,7 @@ import '../util/platform_detection.dart';
 
 import 'device_profile_builder.dart';
 import 'known_defects.dart';
+import 'server_transcode_capabilities.dart';
 
 class Media3PlayerBackend extends PlayerBackend {
   static const _discontinuityWindowMs = 15000;
@@ -709,6 +710,7 @@ class Media3PlayerBackend extends PlayerBackend {
       avcHigh10Level: PlatformDetection.avcHigh10Level,
       supportsHevc: PlatformDetection.supportsHevc,
       supportsHevcMain10: PlatformDetection.supportsHevcMain10,
+      transcodeHevcAllowed: serverAllowsHevcTranscode(),
       hevcMainLevel: PlatformDetection.hevcMainLevel,
       supportsHevcDolbyVision: PlatformDetection.supportsHevcDolbyVision,
       supportsHevcDolbyVisionEl: PlatformDetection.supportsHevcDolbyVisionEl,

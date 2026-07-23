@@ -134,6 +134,10 @@ class DeviceProfileBuilder {
     int avcHigh10Level = 0,
     bool supportsHevc = false,
     bool supportsHevcMain10 = false,
+    // Offers hevc ahead of h264 as the HLS transcode target. Only set from
+    // the probed Jellyfin encoding options so servers that never enabled
+    // HEVC encoding keep receiving an H264-only offer.
+    bool transcodeHevcAllowed = false,
     int hevcMainLevel = 0,
     bool supportsHevcDolbyVision = false,
     bool supportsHevcDolbyVisionEl = false,
@@ -290,12 +294,16 @@ class DeviceProfileBuilder {
       allowedAudioCodecs: effectiveAllowedAudioCodecs,
     );
 
-    // Transcode video only to H264. The server encodes to the first codec it's
-    // offered with no check that it can do so, so listing HEVC forces a software
-    // libx265 re-encode with no H264 fallback, which stalls or fails on servers
-    // without a hardware HEVC encoder. HEVC content still direct plays through
-    // the direct-play profile, which advertises hevc separately.
-    const hlsVideoCodecs = 'h264';
+    // Offer HEVC as a transcode target only when the server's encoding options
+    // were probed and the admin allowed HEVC encoding, since the server picks
+    // the first codec it can and a bare HEVC offer would force a software
+    // libx265 re-encode on servers that never opted in. H264 always stays in
+    // the list: the server demotes disallowed codecs instead of rejecting
+    // them, and a single-codec HEVC list would be encoded unconditionally.
+    final hlsVideoCodecs = <String>[
+      if (transcodeHevcAllowed && effectiveSupportsHevc) 'hevc',
+      'h264',
+    ].join(',');
 
     final hasKnownHevcDoviHdr10PlusBug =
         applyKnownDeviceDefects &&
