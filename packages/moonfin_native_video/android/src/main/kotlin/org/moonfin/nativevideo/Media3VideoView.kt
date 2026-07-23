@@ -1127,6 +1127,9 @@ class Media3VideoView(
     // ceiling so direct play keeps a real runway, leaving local playback
     // durations at their defaults.
     private fun buildLoadControl(): DefaultLoadControl {
+        // Low RAM boxes cant spare a third of the heap for runway on top of
+        // decode buffers, so they keep the stock budgets.
+        if (isLowRamDevice) return DefaultLoadControl.Builder().build()
         val targetBufferBytes = (Runtime.getRuntime().maxMemory() / 3)
             .coerceAtMost(MAX_TARGET_BUFFER_BYTES)
             .coerceAtLeast(DefaultLoadControl.DEFAULT_MUXED_BUFFER_SIZE.toLong())
@@ -1168,6 +1171,8 @@ class Media3VideoView(
 
         httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setAllowCrossProtocolRedirects(true)
+            .setConnectTimeoutMs(120_000)
+            .setReadTimeoutMs(120_000)
         val bootDataSourceFactory = DefaultDataSource.Factory(context, httpDataSourceFactory)
         val assHandler = AssHandler(AssRenderType.OVERLAY_CANVAS)
         registerAssFonts(assHandler)

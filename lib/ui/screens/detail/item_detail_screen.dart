@@ -7336,6 +7336,32 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
     return true;
   }
 
+  /// Resolves where a mixed video queue should start playing. Resumes an item
+  /// left partway through, otherwise the first unwatched one, and the top when
+  /// everything is watched or nothing has been started.
+  static (int, Duration) _resolveQueueResumeStart(List<AggregatedItem> items) {
+    final allWatched = items.every((e) => e.isPlayed);
+    final allUnwatched = items.every(
+      (e) =>
+          !e.isPlayed &&
+          (e.playbackPosition == null || e.playbackPosition == Duration.zero),
+    );
+    if (allWatched || allUnwatched) return (0, Duration.zero);
+
+    final resumeIndex = items.indexWhere(
+      (e) =>
+          !e.isPlayed &&
+          e.playbackPosition != null &&
+          e.playbackPosition! > Duration.zero,
+    );
+    if (resumeIndex >= 0) {
+      return (resumeIndex, items[resumeIndex].playbackPosition ?? Duration.zero);
+    }
+
+    final nextUnwatchedIndex = items.indexWhere((e) => !e.isPlayed);
+    return (nextUnwatchedIndex >= 0 ? nextUnwatchedIndex : 0, Duration.zero);
+  }
+
   Future<void> _playInternal(
     BuildContext context,
     AggregatedItem item, {
@@ -7664,40 +7690,9 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
               throw PlaybackStartupRecoveryAbortedException();
             }
 
-            final allWatched = playableQueue.every((e) => e.isPlayed);
-            final allUnwatched = playableQueue.every(
-              (e) =>
-                  !e.isPlayed &&
-                  (e.playbackPosition == null ||
-                      e.playbackPosition == Duration.zero),
+            final (startIndex, startPosition) = _resolveQueueResumeStart(
+              playableQueue,
             );
-
-            int startIndex = 0;
-            Duration startPosition = Duration.zero;
-
-            if (allWatched || allUnwatched) {
-              startIndex = 0;
-              startPosition = Duration.zero;
-            } else {
-              final resumeIndex = playableQueue.indexWhere(
-                (e) =>
-                    !e.isPlayed &&
-                    (e.playbackPosition != null &&
-                        e.playbackPosition! > Duration.zero),
-              );
-              if (resumeIndex >= 0) {
-                startIndex = resumeIndex;
-                startPosition =
-                    playableQueue[resumeIndex].playbackPosition ??
-                    Duration.zero;
-              } else {
-                final nextUnwatchedIndex = playableQueue.indexWhere(
-                  (e) => !e.isPlayed,
-                );
-                startIndex = nextUnwatchedIndex >= 0 ? nextUnwatchedIndex : 0;
-                startPosition = Duration.zero;
-              }
-            }
 
             if (!context.mounted) return;
             var targetItem = playableQueue[startIndex];
@@ -7765,7 +7760,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
                 parentId: item.id,
                 includeItemTypes: const ['Audio'],
                 sortBy: 'ParentIndexNumber,IndexNumber,SortName',
-                fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+                fields: 'PrimaryImageAspectRatio,BasicSyncInfo,UserData,RunTimeTicks',
               );
               tracks = _mapRawItemsForServer(data['Items'], item.serverId);
             }
@@ -7779,7 +7774,24 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
               }
               throw PlaybackStartupRecoveryAbortedException();
             }
-            await manager.playItems(tracks);
+            int albumStartIndex = 0;
+            if (resume) {
+              final resumeIdx = tracks.indexWhere(
+                (e) =>
+                    !e.isPlayed &&
+                    ((e.playbackPosition?.inMilliseconds ?? 0) > 0 ||
+                        (e.playedPercentage ?? 0) > 0),
+              );
+              if (resumeIdx >= 0) {
+                albumStartIndex = resumeIdx;
+              }
+            }
+            // Music remembers which track was playing but starts it from the
+            // beginning, matching standard music player behavior.
+            await manager.playItems(
+              tracks,
+              startIndex: albumStartIndex,
+            );
             break;
 
           case 'Playlist':
@@ -7800,6 +7812,11 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
               throw PlaybackStartupRecoveryAbortedException();
             }
             if (!context.mounted) return;
+
+            // Start at the first unwatched item, or resume the one left partway
+            // through, instead of always restarting from the top.
+            final (startIndex, startPosition) = _resolveQueueResumeStart(tracks);
+
             // Playlists can contain video, so honor the Dolby Vision
             // force-transcode check before allowing direct play/stream.
             final dvForceTranscode = await _shouldForceTranscodeForDolbyVision(
@@ -7809,6 +7826,8 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
             final directAllowed = !dvForceTranscode && !forceTranscode;
             await manager.playItems(
               tracks,
+              startIndex: startIndex,
+              startPosition: startPosition,
               enableDirectPlay: directAllowed,
               enableDirectStream: directAllowed,
             );
@@ -7817,7 +7836,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
           case 'AudioBook':
             final client = _clientForItem(item);
             const audioChildFields =
-                'BasicSyncInfo,PrimaryImageAspectRatio,RunTimeTicks,MediaSources,MediaSourceCount,MediaType,IndexNumber,ParentIndexNumber,Artists,AlbumArtist,Genres,Chapters';
+                'BasicSyncInfo,PrimaryImageAspectRatio,RunTimeTicks,MediaSources,MediaSourceCount,MediaType,IndexNumber,ParentIndexNumber,Artists,AlbumArtist,Genres,Chapters,UserData';
             bool isAudioChild(dynamic e) {
               final childType = e is Map ? e['Type']?.toString() : null;
               return childType == 'Audio' || childType == 'AudioBook';
@@ -7836,8 +7855,31 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
             final rawChildren = (data['Items'] as List?) ?? const [];
             final childItems = rawChildren.where(isAudioChild).toList();
             if (childItems.isNotEmpty) {
+              final children = _mapRawItemsForServer(childItems, item.serverId);
+              int startIndex = 0;
+              Duration startPos = Duration.zero;
+              if (resume) {
+                final resumeIdx = children.indexWhere(
+                  (e) =>
+                      !e.isPlayed &&
+                      ((e.playbackPosition?.inMilliseconds ?? 0) > 0 ||
+                          (e.playedPercentage ?? 0) > 0),
+                );
+                if (resumeIdx >= 0) {
+                  startIndex = resumeIdx;
+                  startPos =
+                      children[resumeIdx].playbackPosition ?? Duration.zero;
+                } else {
+                  final nextUnplayed = children.indexWhere((e) => !e.isPlayed);
+                  if (nextUnplayed >= 0) {
+                    startIndex = nextUnplayed;
+                  }
+                }
+              }
               await manager.playItems(
-                _mapRawItemsForServer(childItems, item.serverId),
+                children,
+                startIndex: startIndex,
+                startPosition: startPos,
               );
               break;
             }
@@ -7859,7 +7901,17 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
               );
               final startIndex = siblings.indexWhere((t) => t.id == item.id);
               if (siblings.isNotEmpty && startIndex >= 0) {
-                await manager.playItems(siblings, startIndex: startIndex);
+                final targetSibling = siblings[startIndex];
+                final startPos = resume
+                    ? (targetSibling.playbackPosition ??
+                        item.playbackPosition ??
+                        Duration.zero)
+                    : Duration.zero;
+                await manager.playItems(
+                  siblings,
+                  startIndex: startIndex,
+                  startPosition: startPos,
+                );
                 break;
               }
             }
@@ -14072,17 +14124,55 @@ class _TrackTileState extends State<_TrackTile> with FocusStateMixin {
         ),
         child: ClipRRect(
           borderRadius: AppRadius.circular(2.5),
-          child: OfflineAwareImage(
-            imageUrl: imageUrl,
-            fit: fit,
-            errorWidget: (context, url, error) => Container(
-              color: Colors.white.withValues(alpha: 0.05),
-              child: const Icon(
-                Icons.movie_outlined,
-                color: Colors.white24,
-                size: 16,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              OfflineAwareImage(
+                imageUrl: imageUrl,
+                fit: fit,
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.white.withValues(alpha: 0.05),
+                  child: const Icon(
+                    Icons.movie_outlined,
+                    color: Colors.white24,
+                    size: 16,
+                  ),
+                ),
               ),
-            ),
+              if (widget.track.isPlayed)
+                Positioned(
+                  top: 2,
+                  right: 2,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: AppColorScheme.accent,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(2),
+                      child: AdaptiveIcon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 9,
+                      ),
+                    ),
+                  ),
+                )
+              else if ((widget.track.playedPercentage ?? 0) > 0)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: LinearProgressIndicator(
+                    value: widget.track.playedPercentage! / 100.0,
+                    minHeight: 3,
+                    backgroundColor: Colors.black54,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppColorScheme.accent,
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
       );

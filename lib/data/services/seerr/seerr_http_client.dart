@@ -725,6 +725,31 @@ class SeerrHttpClient {
     return result;
   }
 
+  /// Attempts the password-less Quick Connect sign in. Never throws on a non
+  /// success status so the caller can inspect the plugin's errorCode and tell
+  /// an unsupported server apart from a transient failure.
+  Future<MoonfinQuickConnectResult> moonfinQuickConnectLogin({
+    String? username,
+  }) async {
+    final response = await _dio.post(
+      _moonfinUrl('Login'),
+      data: {
+        if (username != null && username.isNotEmpty) 'username': username,
+        'authType': 'quickconnect',
+      },
+      options: _authJsonOptions(),
+    );
+
+    final data = response.data;
+    final map = data is Map<String, dynamic> ? data : const <String, dynamic>{};
+    return MoonfinQuickConnectResult(
+      success: response.statusCode == 200 && map['success'] == true,
+      errorCode: map['errorCode']?.toString(),
+      seerrUserId: (map['seerrUserId'] as num?)?.toInt(),
+      displayName: map['displayName']?.toString(),
+    );
+  }
+
   Future<void> moonfinLogout() async {
     final response = await _dio.delete(
       _moonfinUrl('Logout'),

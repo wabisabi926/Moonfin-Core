@@ -23,6 +23,12 @@ class SeerrRepository {
 
   bool _isAvailable = false;
   bool _isMoonfinMode = false;
+  bool _serverReportsEnabled = false;
+
+  // Blocks further silent Quick Connect attempts after the server says it
+  // can't support them. Kept in memory only so an upgrade or restart retries
+  // instead of staying blocked forever.
+  bool _quickConnectSsoBlocked = false;
 
   int _lastSessionCheckMs = 0;
   int _lastInitAttemptMs = 0;
@@ -38,6 +44,11 @@ class SeerrRepository {
   bool get isAvailable => _isAvailable;
   bool get isMoonfinMode => _isMoonfinMode;
 
+  /// Whether the server has Seerr configured and enabled, regardless of whether
+  /// this user has a session yet. Lets callers tell "not set up on the server"
+  /// apart from "set up but not signed in".
+  bool get serverReportsEnabled => _serverReportsEnabled;
+
   SeerrRepository(this._store, this._session, this._client);
 
   String _userKey(String key) {
@@ -51,7 +62,6 @@ class SeerrRepository {
   String get _moonfinDisplayNameKey => _userKey('moonfin_display_name');
   String get _moonfinUserIdKey => _userKey('moonfin_user_id');
   String get _lastConnectionSuccessKey => _userKey('last_connection_success');
-  String get _autoLoginFailedKey => _userKey('moonfin_autologin_failed');
 
   void _invalidateSessionCache() {
     _lastSessionCheckMs = 0;
@@ -106,6 +116,7 @@ class SeerrRepository {
     try {
       if (currentUserId == null) {
         _isAvailable = false;
+        _serverReportsEnabled = false;
         _initialized = true;
         return;
       }
@@ -137,8 +148,10 @@ class SeerrRepository {
     try {
       final status = await _httpClient!.getMoonfinStatus();
       _isAvailable = status.authenticated;
+      _serverReportsEnabled = status.enabled;
     } catch (_) {
       _isAvailable = false;
+      _serverReportsEnabled = false;
     }
   }
 
@@ -197,6 +210,7 @@ class SeerrRepository {
 
     final status = await _httpClient!.getMoonfinStatus();
     final effectiveEnabled = status.enabled && status.authenticated;
+    _serverReportsEnabled = status.enabled;
 
     await _store.setBool(_moonfinModeKey, true);
     await _store.setBool(_enabledKey, effectiveEnabled);
@@ -232,26 +246,67 @@ class SeerrRepository {
       jellyfinToken: jellyfinToken,
     );
 
-    if (status.authenticated) {
-      await _store.setBool(_autoLoginFailedKey, false);
+    if (status.authenticated) return;
+    if (!status.enabled) return;
+
+    final hasPassword = username != null &&
+        username.isNotEmpty &&
+        password != null &&
+        password.isNotEmpty;
+
+    // Quick Connect and restored-token logins never held a password, so they
+    // sign in through the plugin's Quick Connect bridge instead.
+    if (!hasPassword) {
+      await tryQuickConnectSignIn(username: username);
       return;
     }
 
-    if (!status.enabled ||
-        username == null ||
-        username.isEmpty ||
-        password == null ||
-        password.isEmpty) {
-      return;
-    }
-
-    if (_store.getBool(_autoLoginFailedKey) ?? false) return;
-
+    // Try to establish the session on each login. The caller retries this a few
+    // times across a startup window, so a server that is briefly unreachable
+    // recovers on its own instead of staying logged out until the next login.
     try {
       await loginWithMoonbase(username: username, password: password);
-      await _store.setBool(_autoLoginFailedKey, false);
+    } catch (_) {}
+  }
+
+  /// Attempts the password-less Quick Connect sign in through the plugin.
+  /// Returns true when a session was minted. Failures never throw: the server
+  /// saying it can't support the flow blocks further attempts this run, and
+  /// anything else, including an old plugin answering with a generic error, is
+  /// treated as transient so the startup retries can recover from it.
+  Future<bool> tryQuickConnectSignIn({String? username}) async {
+    if (_quickConnectSsoBlocked) return false;
+    final client = _httpClient;
+    if (client == null) return false;
+
+    try {
+      final result = await client.moonfinQuickConnectLogin(username: username);
+      if (result.success) {
+        await _store.setString(
+          _moonfinDisplayNameKey,
+          result.displayName ?? '',
+        );
+        await _store.setString(
+          _moonfinUserIdKey,
+          result.seerrUserId?.toString() ?? '',
+        );
+        await _store.setString(_authMethodKey, 'moonfin');
+        await _store.setBool(_enabledKey, true);
+        await _store.setBool(_lastConnectionSuccessKey, true);
+        _isMoonfinMode = true;
+        _isAvailable = true;
+        _serverReportsEnabled = true;
+        _invalidateSessionCache();
+        return true;
+      }
+
+      if (result.errorCode == 'sso_unsupported' ||
+          result.errorCode == 'quickconnect_disabled') {
+        _quickConnectSsoBlocked = true;
+      }
+      return false;
     } catch (_) {
-      await _store.setBool(_autoLoginFailedKey, true);
+      return false;
     }
   }
 
@@ -288,9 +343,9 @@ class SeerrRepository {
     await _store.setString(_authMethodKey, 'moonfin');
     await _store.setBool(_enabledKey, true);
     await _store.setBool(_lastConnectionSuccessKey, true);
-    await _store.setBool(_autoLoginFailedKey, false);
     _isMoonfinMode = true;
     _isAvailable = true;
+    _serverReportsEnabled = true;
     _invalidateSessionCache();
 
     return response;

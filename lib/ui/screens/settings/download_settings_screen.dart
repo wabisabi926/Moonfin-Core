@@ -1,14 +1,17 @@
 import 'dart:async';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:moonfin_design/moonfin_design.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/models/download_quality.dart';
 import '../../../data/providers/offline_providers.dart';
 import '../../../data/services/download_service.dart';
+import '../../../data/services/macos_download_dir.dart';
 import '../../../data/services/storage_path_service.dart';
 import '../../../di/providers.dart';
 import '../../../preference/user_preferences.dart';
@@ -38,6 +41,7 @@ class DownloadSettingsScreen extends ConsumerWidget {
     final reportActivity = prefs.get(UserPreferences.reportDownloadsAsActivity);
     final storageLimitMb = prefs.get(UserPreferences.downloadStorageLimitMb);
     final imageCacheLimitMb = prefs.get(UserPreferences.imageCacheLimitMb);
+    final concurrentCount = prefs.get(UserPreferences.downloadConcurrentCount);
     final customPath = prefs.get(UserPreferences.customDownloadPath);
     final storage = ref.watch(storageUsedProvider);
     final l10n = AppLocalizations.of(context);
@@ -81,6 +85,14 @@ class DownloadSettingsScreen extends ConsumerWidget {
                     onChanged: (v) => prefs.set(
                         UserPreferences.reportDownloadsAsActivity, v),
                   ),
+                ListTile(
+                  leading: const Icon(Icons.queue),
+                  title: Text(l10n.settingsConcurrentDownloads),
+                  subtitle: Text(l10n.settingsConcurrentDownloadsDescription),
+                  trailing: Text('$concurrentCount'),
+                  onTap: () =>
+                      _pickConcurrentDownloads(context, prefs, concurrentCount),
+                ),
               ],
             ),
             _Section(title: l10n.storage),
@@ -116,15 +128,6 @@ class DownloadSettingsScreen extends ConsumerWidget {
                   onTap: () =>
                       _pickStorageLimit(context, prefs, storageLimitMb),
                 ),
-                if (PlatformDetection.useDesktopUi)
-                  ListTile(
-                    leading: const Icon(Icons.folder_open),
-                    title: Text(l10n.downloadLocation),
-                    subtitle: Text(
-                      customPath.isEmpty ? l10n.defaultLabel : customPath,
-                    ),
-                    onTap: () => _pickFolder(context, prefs),
-                  ),
                 if (PlatformDetection.isAndroid)
                   SwitchListTile.adaptive(
                     secondary: const Icon(Icons.folder_open),
@@ -132,6 +135,16 @@ class DownloadSettingsScreen extends ConsumerWidget {
                     subtitle: Text(l10n.downloadsVisibleToOtherApps),
                     value: customPath == 'mediastore',
                     onChanged: (v) => _toggleMediaStore(context, prefs, v),
+                  ),
+                if (PlatformDetection.useDesktopUi ||
+                    (PlatformDetection.isAndroid && customPath != 'mediastore'))
+                  ListTile(
+                    leading: const Icon(Icons.folder_special),
+                    title: Text(l10n.downloadLocation),
+                    subtitle: Text(
+                      customPath.isEmpty ? l10n.defaultLabel : customPath,
+                    ),
+                    onTap: () => _pickFolder(context, prefs),
                   ),
                 if (!PlatformDetection.isWeb) ...[
                   ListTile(
@@ -291,6 +304,34 @@ class DownloadSettingsScreen extends ConsumerWidget {
     );
   }
 
+  void _pickConcurrentDownloads(
+    BuildContext context,
+    UserPreferences prefs,
+    int current,
+  ) {
+    showFocusRestoringModalBottomSheet(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: RadioGroup<int>(
+          groupValue: current,
+          onChanged: (v) {
+            if (v != null) {
+              prefs.set(UserPreferences.downloadConcurrentCount, v);
+            }
+            Navigator.pop(ctx);
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var n = 1; n <= 8; n++)
+                RadioListTile<int>(title: Text('$n'), value: n),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<void> _clearImageCache(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
     await clearImageDiskCache();
@@ -301,7 +342,18 @@ class DownloadSettingsScreen extends ConsumerWidget {
   }
 
   Future<void> _pickFolder(BuildContext context, UserPreferences prefs) async {
-    final result = await FilePicker.getDirectoryPath();
+    // macOS is sandboxed: pick natively and keep a security-scoped bookmark so
+    // the folder stays writable across launches. Windows and Linux can use the
+    // picked path directly once we confirm it is writable.
+    final String? result;
+    String? bookmark;
+    if (PlatformDetection.isMacOS) {
+      final picked = await MacosDownloadDir.pick();
+      result = picked?.path;
+      bookmark = picked?.bookmark;
+    } else {
+      result = await FilePicker.getDirectoryPath();
+    }
     if (result == null) return;
 
     final oldPath = prefs.get(UserPreferences.customDownloadPath);
@@ -329,7 +381,9 @@ class DownloadSettingsScreen extends ConsumerWidget {
     if (confirmed != true) return;
 
     final storage = GetIt.instance<StoragePathService>();
-    if (!await storage.canWriteTo(result)) {
+    // On macOS the bookmark carries write access, so the probe would fail
+    // outside the security scope. Other desktops probe the raw path.
+    if (bookmark == null && !await storage.canWriteTo(result)) {
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
@@ -338,6 +392,9 @@ class DownloadSettingsScreen extends ConsumerWidget {
       return;
     }
 
+    if (bookmark != null) {
+      await prefs.set(UserPreferences.customDownloadPathBookmark, bookmark);
+    }
     await prefs.set(UserPreferences.customDownloadPath, result);
     storage.clearCache();
   }
@@ -373,6 +430,23 @@ class DownloadSettingsScreen extends ConsumerWidget {
       ),
     );
     if (confirmed != true) return;
+
+    // Android 10 and below write to the public Downloads folder through raw
+    // file paths, which needs the storage permission at runtime. Android 11
+    // and up can contribute files without it, and the permission no longer
+    // exists there, so only ask on the old versions.
+    final sdkInt = (await DeviceInfoPlugin().androidInfo).version.sdkInt;
+    if (sdkInt <= 29) {
+      final status = await Permission.storage.request();
+      if (!status.isGranted) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.cannotWriteToFolder)));
+        }
+        return;
+      }
+    }
 
     await prefs.set(UserPreferences.customDownloadPath, 'mediastore');
     GetIt.instance<StoragePathService>().clearCache();

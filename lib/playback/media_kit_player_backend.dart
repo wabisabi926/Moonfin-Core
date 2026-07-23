@@ -15,6 +15,7 @@ import '../util/platform_detection.dart';
 import 'audio_capability_profile.dart';
 import 'device_profile_builder.dart';
 import 'known_defects.dart';
+import 'server_transcode_capabilities.dart';
 
 class _ParsedMpvConfCacheEntry {
   final DateTime modified;
@@ -394,8 +395,12 @@ class MediaKitPlayerBackend extends PlayerBackend {
       _nativeSetProperty(platform, 'network-timeout', '120');
       // mpv stops reading ahead at 150MiB, which a high bitrate remux burns
       // through in seconds, so bursty networks stutter. A larger demuxer
-      // budget keeps a real runway.
-      _nativeSetProperty(platform, 'demuxer-max-bytes', '256MiB');
+      // budget keeps a real runway on desktop, but a filled 256MiB cache on
+      // top of decode buffers can get the app killed on phones and TV boxes,
+      // so those stay at the mpv default.
+      if (!PlatformDetection.isAndroid && !PlatformDetection.isIOS) {
+        _nativeSetProperty(platform, 'demuxer-max-bytes', '256MiB');
+      }
       _nativeSetProperty(
         platform,
         'stream-lavf-o',
@@ -531,6 +536,7 @@ class MediaKitPlayerBackend extends PlayerBackend {
       avcHigh10Level: capabilities.avcHigh10Level,
       supportsHevc: capabilities.supportsHevc,
       supportsHevcMain10: capabilities.supportsHevcMain10,
+      transcodeHevcAllowed: serverAllowsHevcTranscode(),
       hevcMainLevel: capabilities.hevcMainLevel,
       supportsHevcDolbyVision: capabilities.supportsHevcDolbyVision,
       supportsHevcDolbyVisionEl: capabilities.supportsHevcDolbyVisionEl,
@@ -1148,7 +1154,9 @@ class MediaKitPlayerBackend extends PlayerBackend {
     if (_player.platform is! NativePlayer) return;
     try {
       final native = _player.platform as NativePlayer;
-      final fontsDirPath = (await native.getProperty('sub-fonts-dir')).trim();
+      final fontsDirPath =
+          ((await (native as dynamic).getProperty('sub-fonts-dir')) as String)
+              .trim();
       if (fontsDirPath.isEmpty) return;
       final fontsDir = Directory(fontsDirPath);
       if (!await fontsDir.exists()) return;

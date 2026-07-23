@@ -627,7 +627,60 @@ class EmbyItemsApi implements ItemsApi {
 
   @override
   Future<List<Map<String, dynamic>>> getMediaSegments(String itemId) async {
-    return const [];
+    // Emby has no MediaSegments API. It marks intros and credits as chapter
+    // markers on the item instead, so pull the chapters and translate the
+    // markers into the same segment shape the app already understands.
+    final Map<String, dynamic> item;
+    try {
+      item = await getItem(itemId, fields: 'Chapters');
+    } catch (_) {
+      return const [];
+    }
+
+    final chapters = (item['Chapters'] as List?) ?? const [];
+    if (chapters.isEmpty) return const [];
+
+    int? introStart;
+    int? introEnd;
+    int? creditsStart;
+    for (final raw in chapters) {
+      if (raw is! Map) continue;
+      final ticks = (raw['StartPositionTicks'] as num?)?.toInt();
+      if (ticks == null) continue;
+      switch (raw['MarkerType']?.toString()) {
+        case 'IntroStart':
+          introStart ??= ticks;
+        case 'IntroEnd':
+          introEnd ??= ticks;
+        case 'CreditsStart':
+          creditsStart ??= ticks;
+      }
+    }
+
+    final segments = <Map<String, dynamic>>[];
+    if (introStart != null && introEnd != null && introEnd > introStart) {
+      segments.add({
+        'Id': 'emby-intro-$itemId',
+        'ItemId': itemId,
+        'Type': 'Intro',
+        'StartTicks': introStart,
+        'EndTicks': introEnd,
+      });
+    }
+
+    // Credits have no end marker, so they run to the end of the item.
+    final runtime = (item['RunTimeTicks'] as num?)?.toInt();
+    if (creditsStart != null && runtime != null && runtime > creditsStart) {
+      segments.add({
+        'Id': 'emby-credits-$itemId',
+        'ItemId': itemId,
+        'Type': 'Outro',
+        'StartTicks': creditsStart,
+        'EndTicks': runtime,
+      });
+    }
+
+    return segments;
   }
 
   @override

@@ -10,6 +10,7 @@ import 'audio_capability_profile.dart';
 
 import 'device_profile_builder.dart';
 import 'known_defects.dart';
+import 'server_transcode_capabilities.dart';
 
 class AppleTvMpvBackend implements PlayerBackend {
   AppleTvMpvBackend(this._prefs) {
@@ -413,6 +414,7 @@ class AppleTvMpvBackend implements PlayerBackend {
       avcHigh10Level: PlatformDetection.avcHigh10Level,
       supportsHevc: PlatformDetection.supportsHevc,
       supportsHevcMain10: PlatformDetection.supportsHevcMain10,
+      transcodeHevcAllowed: serverAllowsHevcTranscode(),
       hevcMainLevel: PlatformDetection.hevcMainLevel,
       supportsHevcDolbyVision: PlatformDetection.supportsHevcDolbyVision,
       supportsHevcDolbyVisionEl: PlatformDetection.supportsHevcDolbyVisionEl,
