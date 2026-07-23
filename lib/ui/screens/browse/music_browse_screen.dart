@@ -88,6 +88,8 @@ class _MusicBrowseScreenState extends State<MusicBrowseScreen> {
   final _prefs = GetIt.instance<UserPreferences>();
   StreamSubscription<String?>? _backgroundSub;
   String? _backdropUrl;
+  Timer? _backdropDebounce;
+  bool _initialBackdropApplied = false;
 
   @override
   void initState() {
@@ -102,13 +104,13 @@ class _MusicBrowseScreenState extends State<MusicBrowseScreen> {
     _backgroundSub = _backgroundService.backgroundStream.listen((url) {
       if (mounted) setState(() => _backdropUrl = url);
     });
-    _backdropUrl = _backgroundService.currentUrl;
     _prefs.addListener(_onChanged);
   }
 
   @override
   void dispose() {
     _backgroundSub?.cancel();
+    _backdropDebounce?.cancel();
     _vm.removeListener(_onChanged);
     _prefs.removeListener(_onChanged);
     _vm.dispose();
@@ -116,12 +118,33 @@ class _MusicBrowseScreenState extends State<MusicBrowseScreen> {
   }
 
   void _onChanged() {
-    if (mounted) setState(() {});
+    if (!mounted) return;
+    // Seed the backdrop from this library's own featured item once it loads,
+    // instead of inheriting whatever the previous screen left in the shared
+    // service. Focus and hover take over from here.
+    if (!_initialBackdropApplied) {
+      final featured = _vm.featuredItem;
+      if (featured != null) {
+        _initialBackdropApplied = true;
+        _backgroundService.setBackground(featured);
+      }
+    }
+    setState(() {});
   }
 
   void _onItemFocused(AggregatedItem item) {
     _vm.setFocusedItem(item);
-    _backgroundService.setBackground(item);
+    _setBackdrop(item);
+  }
+
+  // Debounced so sweeping the mouse or holding a d-pad direction across cards
+  // doesnt thrash the shared background service with every card in between.
+  void _setBackdrop(AggregatedItem item) {
+    _backdropDebounce?.cancel();
+    _backdropDebounce = Timer(const Duration(milliseconds: 250), () {
+      if (!mounted) return;
+      _backgroundService.setBackground(item);
+    });
   }
 
   void _onItemTap(AggregatedItem item) {
@@ -250,6 +273,7 @@ class _MusicBrowseScreenState extends State<MusicBrowseScreen> {
                                           imageUrl: _vm.getMusicImageUrl(featured),
                                           subtitle: _vm.getMusicSubtitle(featured),
                                           onFocused: () => _onItemFocused(featured),
+                                          onHover: () => _setBackdrop(featured),
                                         ),
                                       if (!isDesktop)
                                         _MusicCategoryBar(
@@ -271,6 +295,7 @@ class _MusicBrowseScreenState extends State<MusicBrowseScreen> {
                                   getSubtitle: _vm.getMusicSubtitle,
                                   getImageUrl: _vm.getMusicImageUrl,
                                   onFocused: _onItemFocused,
+                                  onHovered: _setBackdrop,
                                   onTap: _onItemTap,
                                   onLoadMore: () => _vm.loadMoreForRow(index - 1),
                                   onSeeAll: _seeAllForRow(row.id),
@@ -437,6 +462,7 @@ class _MusicHero extends StatefulWidget {
   final String? imageUrl;
   final String subtitle;
   final VoidCallback onFocused;
+  final VoidCallback? onHover;
 
   const _MusicHero({
     super.key,
@@ -444,6 +470,7 @@ class _MusicHero extends StatefulWidget {
     required this.imageUrl,
     required this.subtitle,
     required this.onFocused,
+    this.onHover,
   });
 
   @override
@@ -482,7 +509,10 @@ class _MusicHeroState extends State<_MusicHero> with FocusStateMixin {
       ),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        onEnter: (_) => setHovered(true),
+        onEnter: (_) {
+          setHovered(true);
+          widget.onHover?.call();
+        },
         onExit: (_) => setHovered(false),
         child: Focus(
           onFocusChange: (hasFocus) {
@@ -863,6 +893,7 @@ class _MusicItemRow extends StatefulWidget {
   final String Function(AggregatedItem) getSubtitle;
   final String? Function(AggregatedItem) getImageUrl;
   final ValueChanged<AggregatedItem> onFocused;
+  final ValueChanged<AggregatedItem>? onHovered;
   final ValueChanged<AggregatedItem> onTap;
   final VoidCallback? onLoadMore;
   final VoidCallback? onSeeAll;
@@ -875,6 +906,7 @@ class _MusicItemRow extends StatefulWidget {
     required this.getSubtitle,
     required this.getImageUrl,
     required this.onFocused,
+    this.onHovered,
     required this.onTap,
     this.onLoadMore,
     this.onSeeAll,
@@ -995,6 +1027,7 @@ class _MusicItemRowState extends State<_MusicItemRow> with AutomaticKeepAliveCli
                     widget.onLoadMore?.call();
                   }
                 },
+                onHover: () => widget.onHovered?.call(item),
                 onTap: () => widget.onTap(item),
                 isFirst: isFirst,
                 isLast: i == widget.items.length - 1,
@@ -1012,6 +1045,7 @@ class _MusicSquareCard extends StatefulWidget {
   final String subtitle;
   final String? imageUrl;
   final VoidCallback? onFocus;
+  final VoidCallback? onHover;
   final VoidCallback? onTap;
   final bool isFirst;
   final bool isLast;
@@ -1022,6 +1056,7 @@ class _MusicSquareCard extends StatefulWidget {
     required this.subtitle,
     this.imageUrl,
     this.onFocus,
+    this.onHover,
     this.onTap,
     this.isFirst = false,
     this.isLast = false,
@@ -1057,7 +1092,10 @@ class _MusicSquareCardState extends State<_MusicSquareCard>
       width: _cardSize,
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        onEnter: (_) => setHovered(true),
+        onEnter: (_) {
+          setHovered(true);
+          widget.onHover?.call();
+        },
         onExit: (_) => setHovered(false),
         child: Focus(
           onFocusChange: (hasFocus) {

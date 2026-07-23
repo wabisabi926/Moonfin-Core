@@ -355,16 +355,14 @@ void main() {
   });
 
   group('DeviceProfileBuilder HLS transcode video codec', () {
-    test('transcodes only to h264 even when hevc decode is supported', () {
+    test('transcodes only to h264 when the server was not probed as allowing '
+        'HEVC encoding', () {
       final profile = DeviceProfileBuilder.build(
         supportsHevc: true,
         supportsHevcMain10: true,
         supportsHevcHdr10: true,
       );
 
-      // The server encodes to the first codec it's offered with no capability
-      // check, so every video HLS transcoding profile must target h264 only to
-      // avoid forcing a software HEVC re-encode.
       final videoTargets = _videoTranscodingVideoCodecs(profile);
       expect(videoTargets, isNotEmpty);
       for (final codec in videoTargets) {
@@ -374,6 +372,36 @@ void main() {
       // Direct play still advertises hevc, so HEVC content plays without
       // transcoding.
       expect(_videoDirectPlayVideoCodecs(profile), contains('hevc'));
+    });
+
+    test('offers hevc ahead of h264 when the server allows HEVC encoding and '
+        'the device decodes it', () {
+      final profile = DeviceProfileBuilder.build(
+        supportsHevc: true,
+        supportsHevcMain10: true,
+        supportsHevcHdr10: true,
+        transcodeHevcAllowed: true,
+      );
+
+      final videoTargets = _videoTranscodingVideoCodecs(profile);
+      expect(videoTargets, isNotEmpty);
+      for (final codec in videoTargets) {
+        expect(codec, 'hevc,h264');
+      }
+    });
+
+    test('keeps h264 only when the server allows HEVC encoding but the device '
+        'lacks hevc decode', () {
+      final profile = DeviceProfileBuilder.build(
+        supportsHevc: false,
+        transcodeHevcAllowed: true,
+      );
+
+      final videoTargets = _videoTranscodingVideoCodecs(profile);
+      expect(videoTargets, isNotEmpty);
+      for (final codec in videoTargets) {
+        expect(codec, 'h264');
+      }
     });
   });
 

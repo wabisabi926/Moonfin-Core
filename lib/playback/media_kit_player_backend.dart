@@ -15,6 +15,7 @@ import '../util/platform_detection.dart';
 import 'audio_capability_profile.dart';
 import 'device_profile_builder.dart';
 import 'known_defects.dart';
+import 'server_transcode_capabilities.dart';
 
 class _ParsedMpvConfCacheEntry {
   final DateTime modified;
@@ -535,6 +536,7 @@ class MediaKitPlayerBackend extends PlayerBackend {
       avcHigh10Level: capabilities.avcHigh10Level,
       supportsHevc: capabilities.supportsHevc,
       supportsHevcMain10: capabilities.supportsHevcMain10,
+      transcodeHevcAllowed: serverAllowsHevcTranscode(),
       hevcMainLevel: capabilities.hevcMainLevel,
       supportsHevcDolbyVision: capabilities.supportsHevcDolbyVision,
       supportsHevcDolbyVisionEl: capabilities.supportsHevcDolbyVisionEl,
@@ -1152,7 +1154,9 @@ class MediaKitPlayerBackend extends PlayerBackend {
     if (_player.platform is! NativePlayer) return;
     try {
       final native = _player.platform as NativePlayer;
-      final fontsDirPath = (await native.getProperty('sub-fonts-dir')).trim();
+      final fontsDirPath =
+          ((await (native as dynamic).getProperty('sub-fonts-dir')) as String)
+              .trim();
       if (fontsDirPath.isEmpty) return;
       final fontsDir = Directory(fontsDirPath);
       if (!await fontsDir.exists()) return;

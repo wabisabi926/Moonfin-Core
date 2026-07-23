@@ -13,6 +13,16 @@ enum BlurContext { details, browsing, none }
 class BackgroundService {
   static const backdropMaxWidth = 1920;
 
+  // Item types whose art is a cover, not a backdrop, so the backdrop layer
+  // falls back to their primary image.
+  static const _audioTypes = {
+    'Audio',
+    'AudioBook',
+    'MusicAlbum',
+    'MusicArtist',
+    'AlbumArtist',
+  };
+
   // Decode width for a blurred backdrop. Kept here, alongside backdropMaxWidth
   // for the unblurred case, so _evictBackgrounds can rebuild the same cache
   // keys the backdrop widgets insert.
@@ -72,6 +82,29 @@ class BackgroundService {
             maxWidth: backdropMaxWidth,
             index: i,
             tag: parentTags[i],
+          ));
+        }
+      }
+    }
+
+    // Albums, artists, and tracks carry no backdrop art, so fall back to their
+    // cover blurred behind the library rather than clearing to nothing.
+    if (urls.isEmpty && _audioTypes.contains(item.type)) {
+      final primaryTag = item.primaryImageTag;
+      if (primaryTag != null && primaryTag.isNotEmpty) {
+        urls.add(client.imageApi.getPrimaryImageUrl(
+          item.id,
+          maxWidth: backdropMaxWidth,
+          tag: primaryTag,
+        ));
+      } else {
+        final albumId = item.rawData['AlbumId']?.toString();
+        final albumTag = item.rawData['AlbumPrimaryImageTag'] as String?;
+        if (albumId != null && albumTag != null && albumTag.isNotEmpty) {
+          urls.add(client.imageApi.getPrimaryImageUrl(
+            albumId,
+            maxWidth: backdropMaxWidth,
+            tag: albumTag,
           ));
         }
       }

@@ -19,7 +19,7 @@ class MediaSegmentService {
 
   MediaSegmentService(this._client, this._featureDetector, this._prefs);
 
-  bool get isSupported => _featureDetector.supportsMediaSegments;
+  bool get isSupported => _featureDetector.supportsSkipSegments;
 
   Future<void> loadSegments(String itemId) async {
     _segments = [];

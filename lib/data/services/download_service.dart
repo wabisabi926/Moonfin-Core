@@ -36,6 +36,7 @@ class DownloadProgress {
   final int bytesReceived;
   final bool isComplete;
   final String? error;
+  final DownloadQuality quality;
 
   const DownloadProgress({
     required this.itemId,
@@ -44,7 +45,10 @@ class DownloadProgress {
     this.bytesReceived = 0,
     this.isComplete = false,
     this.error,
+    this.quality = DownloadQuality.original,
   });
+
+  bool get isTranscoded => quality.isTranscoded;
 
   /// True while the transfer has effectively finished but the file is still
   /// being moved to its final location and validated. Progress is clamped to
@@ -598,6 +602,13 @@ class DownloadService extends ChangeNotifier {
       );
     }
 
+    if (PlatformDetection.isAndroid && _storagePath.isUsingMediaStore) {
+      await runBestEffort(
+        MediaStoreService.scanFile(savePath),
+        const Duration(seconds: 5),
+      );
+    }
+
     if (!_usesPluginNotifications &&
         (_totalQueued <= 1 || _completedCount >= _totalQueued)) {
       await runBestEffort(
@@ -896,11 +907,22 @@ class DownloadService extends ChangeNotifier {
     final finalSize = await file.length();
     await _offlineRepo.setLocalFilePath(itemId, savePath, fileSize: finalSize);
     await _offlineRepo.updateDownloadStatus(itemId, 2);
-    if (PlatformDetection.isIOS) {
-      try {
-        await IosStorage.excludeFromBackup(savePath);
-      } catch (_) {}
-    }
+
+    final row = await _offlineRepo.getItem(itemId);
+    if (row == null) return;
+    final item = AggregatedItem(
+      id: itemId,
+      serverId: row.serverId,
+      rawData: _offlineRepo.rowToRawData(row),
+    );
+    unawaited(
+      _runPostCompletionTasks(
+        item: item,
+        savePath: savePath,
+        dir: file.parent,
+        fileName: file.uri.pathSegments.last,
+      ),
+    );
   }
 
   /// Finalizes a media download that completed without a live
@@ -1373,6 +1395,7 @@ class DownloadService extends ChangeNotifier {
         itemId: item.id,
         fileName: item.name,
         error: 'WiFi-only mode enabled. Connect to WiFi to download.',
+        quality: quality,
       );
       _emitError(
         '${item.name}: WiFi-only mode enabled. Connect to WiFi to download.',
@@ -1389,6 +1412,7 @@ class DownloadService extends ChangeNotifier {
           itemId: item.id,
           fileName: item.name,
           error: 'Storage limit reached. Free up space or increase the limit.',
+          quality: quality,
         );
         _emitError(
           '${item.name}: Storage limit reached. Free up space or increase the limit.',
@@ -1449,6 +1473,7 @@ class DownloadService extends ChangeNotifier {
         itemId: item.id,
         fileName: fileName,
         progress: initialProgress,
+        quality: quality,
       );
       if (!_usesPluginNotifications) {
         await _notificationService.showProgress(
@@ -1517,6 +1542,7 @@ class DownloadService extends ChangeNotifier {
           fileName: fileName,
           progress: progress,
           bytesReceived: received,
+          quality: quality,
         );
         if (_shouldPersistProgress(item.id, progress)) {
           unawaited(
@@ -1625,6 +1651,7 @@ class DownloadService extends ChangeNotifier {
         fileName: fileName,
         progress: 1.0,
         bytesReceived: bytesReceived,
+        quality: quality,
       );
       await _offlineRepo.updateDownloadStatus(item.id, 1, progress: 1.0);
       notifyListeners();
@@ -1658,6 +1685,7 @@ class DownloadService extends ChangeNotifier {
         fileName: fileName,
         progress: 1.0,
         isComplete: true,
+        quality: quality,
       );
       _completedCount++;
       notifyListeners();
@@ -1690,6 +1718,7 @@ class DownloadService extends ChangeNotifier {
           itemId: item.id,
           fileName: item.name,
           error: friendlyError,
+          quality: quality,
         );
         await _offlineRepo.updateDownloadStatus(
           item.id,
@@ -1713,6 +1742,7 @@ class DownloadService extends ChangeNotifier {
         itemId: item.id,
         fileName: item.name,
         error: friendlyError,
+        quality: quality,
       );
       await _offlineRepo.updateDownloadStatus(item.id, 3, error: friendlyError);
       if (!_usesPluginNotifications) {
@@ -1735,6 +1765,7 @@ class DownloadService extends ChangeNotifier {
         itemId: item.id,
         fileName: item.name,
         error: friendlyError,
+        quality: quality,
       );
       await _offlineRepo.updateDownloadStatus(item.id, 3, error: friendlyError);
       if (!_usesPluginNotifications) {
@@ -2267,15 +2298,26 @@ class DownloadService extends ChangeNotifier {
     Directory dir,
     String fileNameBase,
   ) async {
-    final mediaSources = item.mediaSources;
-    if (mediaSources.isEmpty) return;
-    final source = mediaSources.first;
-    final mediaSourceId = source['Id']?.toString() ?? item.id;
-    final streams = (source['MediaStreams'] as List?) ?? [];
+    final mediaSourceId = _primaryMediaSourceId(item);
+    final rawMediaSources = (item.rawData['MediaSources'] as List?) ?? const [];
+    final streams = item.mediaStreams.isNotEmpty
+        ? item.mediaStreams
+        : (rawMediaSources.isNotEmpty &&
+                rawMediaSources.first is Map &&
+                (rawMediaSources.first as Map)['MediaStreams'] is List
+            ? ((rawMediaSources.first as Map)['MediaStreams'] as List)
+                .whereType<Map>()
+                .map((m) => m.cast<String, dynamic>())
+                .toList()
+            : const <Map<String, dynamic>>[]);
+    if (streams.isEmpty) return;
+
     final authOptions = Options(headers: _buildAuthHeaders());
     for (final stream in streams) {
-      if (stream is! Map<String, dynamic>) continue;
       if (stream['Type'] != 'Subtitle') continue;
+      // External files download as-is. Embedded text subs that the server can
+      // extract also get saved as sidecars, which is the only subtitle path a
+      // transcoded download has since the transcoded file carries none.
       final isExternal = stream['IsExternal'] == true;
       final supportsExternal = stream['SupportsExternalStream'] == true;
       if (!isExternal && !supportsExternal) continue;
@@ -2520,6 +2562,7 @@ class DownloadService extends ChangeNotifier {
           fileName: fileName,
           progress: progress,
           bytesReceived: received,
+          quality: quality,
         );
         if (_shouldPersistProgress(itemId, progress)) {
           unawaited(
@@ -2548,6 +2591,7 @@ class DownloadService extends ChangeNotifier {
       progress: record.progress > 0 && record.progress <= 1
           ? record.progress
           : _initialProgressForQuality(quality),
+      quality: quality,
     );
     notifyListeners();
 
@@ -2562,6 +2606,7 @@ class DownloadService extends ChangeNotifier {
               fileName: fileName,
               progress: 1.0,
               isComplete: true,
+              quality: quality,
             );
           } catch (e) {
             try {
@@ -2576,6 +2621,7 @@ class DownloadService extends ChangeNotifier {
               itemId: itemId,
               fileName: fileName,
               error: e.toString(),
+              quality: quality,
             );
           }
           notifyListeners();
@@ -2601,6 +2647,7 @@ class DownloadService extends ChangeNotifier {
               itemId: itemId,
               fileName: fileName,
               error: message,
+              quality: quality,
             );
             _emitError('${row.name}: $message');
           }

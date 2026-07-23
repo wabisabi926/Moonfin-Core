@@ -10,6 +10,7 @@ import '../../data/services/media_server_client_factory.dart';
 import '../../data/services/push_messaging_service.dart';
 import '../../data/services/seerr_notification_service.dart';
 import '../../data/services/storage_path_service.dart';
+import '../../playback/server_transcode_capabilities.dart';
 
 final _getIt = GetIt.instance;
 
@@ -45,6 +46,12 @@ void registerServerModule() {
       () => PushMessagingService(),
     );
   }
+
+  if (!_getIt.isRegistered<ServerTranscodeCapabilities>()) {
+    _getIt.registerLazySingleton<ServerTranscodeCapabilities>(
+      () => ServerTranscodeCapabilities(),
+    );
+  }
 }
 
 void setActiveServerClient(MediaServerClient client) {
@@ -76,4 +83,8 @@ void setActiveServerClient(MediaServerClient client) {
   _getIt.registerSingleton<DownloadService>(downloadService);
 
   downloadService.recoverIncompleteDownloads();
+
+  // Fire and forget: device profiles read the cached result and fall back to
+  // the H264-only transcode offer until the probe lands.
+  _getIt<ServerTranscodeCapabilities>().refresh(rawClient);
 }
