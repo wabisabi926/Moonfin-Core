@@ -51,6 +51,8 @@ for core in "${cores[@]}"; do
   fi
   install_name_tool -id "@rpath/${name}.framework/Versions/A/${name}" "$fw/Versions/A/$name"
 
+  # CFBundleIdentifier forbids underscores, so map them to hyphens.
+  bundle_id="io.moonfin.cores.$(echo "$core" | tr '_' '-')"
   cat >"$fw/Versions/A/Resources/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -59,7 +61,7 @@ for core in "${cores[@]}"; do
 	<key>CFBundleExecutable</key>
 	<string>${name}</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.moonfin.cores.${core}</string>
+	<string>${bundle_id}</string>
 	<key>CFBundleName</key>
 	<string>${name}</string>
 	<key>CFBundlePackageType</key>

@@ -95,7 +95,7 @@ echo "Resolving packages..."
 # prebuilt cores for a dev build. The default builds them from pinned sources
 # with no JIT for the App Store. Set IOS_CORES_FORCE=1 to reprovision.
 GAME_HOST_DIR="$REPO_ROOT/ios/game_host"
-if [ -z "$(ls "$GAME_HOST_DIR"/cores/*.framework 2>/dev/null)" ] || [ "${IOS_CORES_FORCE:-0}" = "1" ]; then
+if [ ! -f "$GAME_HOST_DIR/cores/fceumm_libretro.framework/fceumm_libretro" ] || [ "${IOS_CORES_FORCE:-0}" = "1" ]; then
   echo "Provisioning bundled libretro cores (mode: ${IOS_CORES_MODE:-build})..."
   if [ "${IOS_CORES_MODE:-build}" = "fetch" ]; then
     "$GAME_HOST_DIR/fetch_cores.sh"
