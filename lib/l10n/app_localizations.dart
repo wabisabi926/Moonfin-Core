@@ -18021,6 +18021,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t update watchlist'**
   String get watchlistUpdateFailed;
+
+  /// Column header above the editable fields used to search metadata providers in the Identify dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Search Parameters'**
+  String get adminSearchParameters;
+
+  /// Column header above the read-only values currently stored on the item in the Identify dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Current Metadata'**
+  String get adminCurrentMetadata;
+
+  /// Label for the release year field in the Identify dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get adminLabelYear;
+
+  /// Label for the IMDb identifier field in the Identify dialog. IMDb is a brand name and is normally left untranslated
+  ///
+  /// In en, this message translates to:
+  /// **'IMDb Id'**
+  String get adminLabelImdbId;
+
+  /// Label for the TheMovieDb movie identifier field in the Identify dialog. TheMovieDb is a brand name and is normally left untranslated
+  ///
+  /// In en, this message translates to:
+  /// **'TheMovieDb Movie Id'**
+  String get adminLabelTmdbMovieId;
+
+  /// Label for the TheMovieDb collection identifier field in the Identify dialog. TheMovieDb is a brand name and is normally left untranslated
+  ///
+  /// In en, this message translates to:
+  /// **'TheMovieDb Box Set Id'**
+  String get adminLabelTmdbBoxSetId;
+
+  /// Label for the TheTVDB collection identifier field in the Identify dialog. TheTVDB is a brand name and is normally left untranslated
+  ///
+  /// In en, this message translates to:
+  /// **'TheTVDB Box Set Id'**
+  String get adminLabelTvdbBoxSetId;
+
+  /// Label for the numeric TheTVDB identifier field in the Identify dialog. TheTVDB is a brand name and is normally left untranslated
+  ///
+  /// In en, this message translates to:
+  /// **'TheTVDB Numerical Id'**
+  String get adminLabelTvdbId;
+
+  /// Label for the TheTVDB slug identifier field in the Identify dialog. TheTVDB is a brand name and is normally left untranslated
+  ///
+  /// In en, this message translates to:
+  /// **'TheTVDB Slug Movie Id'**
+  String get adminLabelTvdbSlug;
+
+  /// Checkbox label in the confirmation dialog shown before applying an identified metadata match
+  ///
+  /// In en, this message translates to:
+  /// **'Replace existing images'**
+  String get adminReplaceImages;
+
+  /// Tooltip on the button that returns from the Identify results list to the search form
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Search Criteria'**
+  String get adminBackToSearch;
 }
 
 class _AppLocalizationsDelegate

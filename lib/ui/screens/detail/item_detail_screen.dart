@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:ui';
 
 import '../../widgets/offline_aware_image.dart';
+import '../../widgets/identify_dialog.dart';
+import '../../widgets/focus/context_action.dart' show canIdentifyItemType;
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6568,6 +6570,114 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              if (canIdentifyItemType(item.type))
+                Focus(
+                  onKeyEvent: (_, event) {
+                    if (isActivateKey(event)) {
+                      Navigator.of(dialogCtx).pop();
+                      IdentifyDialog.show(
+                        context,
+                        itemId: item.id,
+                        itemType: item.type,
+                        itemName: item.name,
+                        itemYear: item.productionYear,
+                      ).then((applied) {
+                        if (applied == true) {
+                          viewModel.load();
+                        }
+                      });
+                      return KeyEventResult.handled;
+                    }
+                    return KeyEventResult.ignored;
+                  },
+                  child: Builder(
+                    builder: (buttonCtx) {
+                      final hasFocus = Focus.of(buttonCtx).hasFocus;
+                      return InkWell(
+                        onTap: () async {
+                          Navigator.of(dialogCtx).pop();
+                          final applied = await IdentifyDialog.show(
+                            context,
+                            itemId: item.id,
+                            itemType: item.type,
+                            itemName: item.name,
+                            itemYear: item.productionYear,
+                          );
+                          if (applied == true) {
+                            viewModel.load();
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 16,
+                          ),
+                          decoration: BoxDecoration(
+                            color: hasFocus ? Colors.white12 : Colors.transparent,
+                            borderRadius: AppRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.search, color: Colors.white70),
+                              const SizedBox(width: 12),
+                              Text(
+                                l10n.adminMetadataIdentify,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              if (!PlatformDetection.isTV)
+                Focus(
+                  onKeyEvent: (_, event) {
+                    if (isActivateKey(event)) {
+                      Navigator.of(dialogCtx).pop();
+                      context.push(Destinations.adminMetadata(item.id));
+                      return KeyEventResult.handled;
+                    }
+                    return KeyEventResult.ignored;
+                  },
+                  child: Builder(
+                    builder: (buttonCtx) {
+                      final hasFocus = Focus.of(buttonCtx).hasFocus;
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(dialogCtx).pop();
+                          context.push(Destinations.adminMetadata(item.id));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 16,
+                          ),
+                          decoration: BoxDecoration(
+                            color: hasFocus
+                                ? Colors.white12
+                                : Colors.transparent,
+                            borderRadius: AppRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.edit_note,
+                                color: Colors.white70,
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                l10n.editMetadata,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               Focus(
                 onKeyEvent: (_, event) {
                   if (isActivateKey(event)) {
@@ -6621,53 +6731,6 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
                   },
                 ),
               ),
-              if (!PlatformDetection.isTV)
-                Focus(
-                  onKeyEvent: (_, event) {
-                    if (isActivateKey(event)) {
-                      Navigator.of(dialogCtx).pop();
-                      context.push(Destinations.adminMetadata(item.id));
-                      return KeyEventResult.handled;
-                    }
-                    return KeyEventResult.ignored;
-                  },
-                  child: Builder(
-                    builder: (buttonCtx) {
-                      final hasFocus = Focus.of(buttonCtx).hasFocus;
-                      return InkWell(
-                        onTap: () {
-                          Navigator.of(dialogCtx).pop();
-                          context.push(Destinations.adminMetadata(item.id));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 16,
-                          ),
-                          decoration: BoxDecoration(
-                            color: hasFocus
-                                ? Colors.white12
-                                : Colors.transparent,
-                            borderRadius: AppRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.edit_note,
-                                color: Colors.white70,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                l10n.editMetadata,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
               if (item.canDelete)
                 Focus(
                   onKeyEvent: (_, event) {
