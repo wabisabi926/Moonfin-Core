@@ -3016,6 +3016,10 @@
   "@settings": {
     "description": "Settings screen title"
   },
+  "settingsSearchHint": "Search settings",
+  "@settingsSearchHint": {
+    "description": "Hint text in the settings search field"
+  },
   "authentication": "Authentication",
   "@authentication": {
     "description": "Auth settings section title"
@@ -3370,6 +3374,50 @@
   "osdLockButtonDescription": "Show a lock button that blocks touch input until long-pressed",
   "@osdLockButtonDescription": {
     "description": "Description for OSD lock button"
+  },
+  "osdButtons": "Player Buttons",
+  "@osdButtons": {
+    "description": "Settings screen for choosing which buttons the player shows"
+  },
+  "osdButtonsDescription": "Choose which buttons the player shows",
+  "@osdButtonsDescription": {
+    "description": "Subtitle for the player buttons settings tile"
+  },
+  "osdButtonsSectionDescription": "Playback controls are always shown. Everything below is up to you, and each kind of device keeps its own list.",
+  "@osdButtonsSectionDescription": {
+    "description": "Explains that transport controls can't be hidden and that the list is per device kind"
+  },
+  "detailButtons": "Action Buttons",
+  "@detailButtons": {
+    "description": "Settings screen for choosing which buttons the details screen shows"
+  },
+  "detailButtonsDescription": "Choose which buttons the details screen shows",
+  "@detailButtonsDescription": {
+    "description": "Subtitle for the details action buttons settings tile"
+  },
+  "detailButtonsSectionDescription": "Play is always first and the locked buttons are always shown. Everything else is up to you, and each kind of device keeps its own list.",
+  "@detailButtonsSectionDescription": {
+    "description": "Explains that the play buttons can't be hidden and that the list is per device kind"
+  },
+  "moveUp": "Move Up",
+  "@moveUp": {
+    "description": "Moves a button one place earlier in its row"
+  },
+  "moveDown": "Move Down",
+  "@moveDown": {
+    "description": "Moves a button one place later in its row"
+  },
+  "buttonOrderHint": "Use the arrows to change the order. On a remote, left and right move the highlighted button. Switching one off drops it below the rest.",
+  "@buttonOrderHint": {
+    "description": "Explains how to reorder the buttons in a row"
+  },
+  "orientationLock": "Orientation Lock",
+  "@orientationLock": {
+    "description": "Player button that locks the screen orientation"
+  },
+  "fullscreen": "Fullscreen",
+  "@fullscreen": {
+    "description": "Player button that toggles fullscreen"
   },
   "audioBehavior": "Audio Behavior",
   "@audioBehavior": {

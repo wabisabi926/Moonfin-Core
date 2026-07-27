@@ -27,6 +27,7 @@ import '../../../util/subtitle_track_logic.dart';
 import '../../../util/play_method_label.dart';
 import '../../../util/platform_detection.dart';
 import '../../widgets/adaptive/sf_symbol.dart';
+import '../../widgets/aether_video_view.dart';
 import '../../widgets/playback/stream_info_dialog.dart';
 import '../../widgets/subtitle_preview.dart';
 import '../../widgets/track_selector_dialog.dart';
@@ -52,10 +53,12 @@ class LiveTvPlayerScreen extends StatefulWidget {
 class _LiveTvPlayerScreenState extends State<LiveTvPlayerScreen>
     with WidgetsBindingObserver {
   final _manager = GetIt.instance<PlaybackManager>();
+  // media_kit isn't registered on platforms that run a different backend, so
+  // ask the container rather than listing them.
   final MediaKitPlayerBackend? _backend =
-      (PlatformDetection.isTizen || PlatformDetection.isAppleTV)
-      ? null
-      : GetIt.instance<MediaKitPlayerBackend>();
+      GetIt.instance.isRegistered<MediaKitPlayerBackend>()
+      ? GetIt.instance<MediaKitPlayerBackend>()
+      : null;
   final _client = GetIt.instance<MediaServerClient>();
   final _prefs = GetIt.instance<UserPreferences>();
   final _screensaverController = GetIt.instance<ScreensaverController>();
@@ -1465,6 +1468,10 @@ class _LiveTvPlayerScreenState extends State<LiveTvPlayerScreen>
   Widget _buildVideoChild() {
     if (PlatformDetection.isTizen) {
       return _buildTizenVideoChild();
+    }
+
+    if (PlatformDetection.isIOS || PlatformDetection.isMacOS) {
+      return const AetherVideoView();
     }
 
     final prefersMedia3 =

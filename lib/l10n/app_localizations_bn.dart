@@ -2121,6 +2121,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get settings => 'সেটিংস';
 
   @override
+  String get settingsSearchHint => 'Search settings';
+
+  @override
   String get authentication => 'প্রমাণীকরণ';
 
   @override
@@ -2391,6 +2394,43 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get osdLockButtonDescription =>
       'একটি লক বোতাম দেখান যা দীর্ঘক্ষণ চাপ না হওয়া পর্যন্ত স্পর্শ ইনপুটকে অবরুদ্ধ করে';
+
+  @override
+  String get osdButtons => 'Player Buttons';
+
+  @override
+  String get osdButtonsDescription => 'Choose which buttons the player shows';
+
+  @override
+  String get osdButtonsSectionDescription =>
+      'Playback controls are always shown. Everything below is up to you, and each kind of device keeps its own list.';
+
+  @override
+  String get detailButtons => 'Action Buttons';
+
+  @override
+  String get detailButtonsDescription =>
+      'Choose which buttons the details screen shows';
+
+  @override
+  String get detailButtonsSectionDescription =>
+      'Play is always first and the locked buttons are always shown. Everything else is up to you, and each kind of device keeps its own list.';
+
+  @override
+  String get moveUp => 'Move Up';
+
+  @override
+  String get moveDown => 'Move Down';
+
+  @override
+  String get buttonOrderHint =>
+      'Use the arrows to change the order. On a remote, left and right move the highlighted button. Switching one off drops it below the rest.';
+
+  @override
+  String get orientationLock => 'Orientation Lock';
+
+  @override
+  String get fullscreen => 'Fullscreen';
 
   @override
   String get audioBehavior => 'অডিও আচরণ';

@@ -2235,6 +2235,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settings => 'Подешавања';
 
   @override
+  String get settingsSearchHint => 'Search settings';
+
+  @override
   String get authentication => 'Аутентификација';
 
   @override
@@ -2517,6 +2520,43 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get osdLockButtonDescription =>
       'Прикажи дугме за закључавање које блокира унос додиром док се не притисне дуго';
+
+  @override
+  String get osdButtons => 'Player Buttons';
+
+  @override
+  String get osdButtonsDescription => 'Choose which buttons the player shows';
+
+  @override
+  String get osdButtonsSectionDescription =>
+      'Playback controls are always shown. Everything below is up to you, and each kind of device keeps its own list.';
+
+  @override
+  String get detailButtons => 'Action Buttons';
+
+  @override
+  String get detailButtonsDescription =>
+      'Choose which buttons the details screen shows';
+
+  @override
+  String get detailButtonsSectionDescription =>
+      'Play is always first and the locked buttons are always shown. Everything else is up to you, and each kind of device keeps its own list.';
+
+  @override
+  String get moveUp => 'Move Up';
+
+  @override
+  String get moveDown => 'Move Down';
+
+  @override
+  String get buttonOrderHint =>
+      'Use the arrows to change the order. On a remote, left and right move the highlighted button. Switching one off drops it below the rest.';
+
+  @override
+  String get orientationLock => 'Orientation Lock';
+
+  @override
+  String get fullscreen => 'Fullscreen';
 
   @override
   String get audioBehavior => 'Аудио Бехавиор';

@@ -644,7 +644,8 @@ class _ContentRowsState extends State<_ContentRows>
   final _playbackManager = GetIt.instance<PlaybackManager>();
   final _audioArbiter = GetIt.instance<PlaybackArbiter>();
   final Media3PlayerBackend? _media3PreviewBackend =
-      (PlatformDetection.isTizen || PlatformDetection.isAppleTV)
+      (PlatformDetection.isTizen || PlatformDetection.isAppleTV ||
+              PlatformDetection.isIOS)
       ? null
       : GetIt.instance<Media3PlayerBackend>();
   final _themeMusicService = GetIt.instance<ThemeMusicService>();
@@ -792,7 +793,6 @@ class _ContentRowsState extends State<_ContentRows>
   final ValueNotifier<Map<String, Map<String, double>>> _v2AdditionalRatingsNotifier = ValueNotifier({});
   Map<String, Map<String, double>> get _v2AdditionalRatingsByKey => _v2AdditionalRatingsNotifier.value;
   final Map<String, Future<void>> _v2RatingsRequests = {};
-  final Map<String, String?> _v2TmdbIdByKey = {};
   late bool _lastMedia3PreviewPreference;
   List<double> _rowTopOffsets = [];
   List<double> _rowExtents = [];
@@ -1552,12 +1552,12 @@ class _ContentRowsState extends State<_ContentRows>
           await _media3PreviewBackend.stop();
           return;
         }
-      } else if (PlatformDetection.isAppleTV) {
+      } else if (PlatformDetection.useApplePreviewPlayer) {
         _previewUsingMedia3 = false;
         _previewUsingAppleTv = true;
         final player = _ensureAppleTvSharedPreviewPlayer();
         await player
-            .open(previewUrl, volume: previewVolume, backend: 'mpv')
+            .open(previewUrl, volume: previewVolume)
             .timeout(_previewOpenTimeout);
         if (!_isPreviewRequestActive(requestId, previewKey)) {
           await player.stop();
@@ -1967,32 +1967,16 @@ class _ContentRowsState extends State<_ContentRows>
     AggregatedItem item,
     String itemKey,
   ) async {
-    var tmdbId = item.tmdbId;
-    if (tmdbId == null) {
-      if (_v2TmdbIdByKey.containsKey(itemKey)) {
-        tmdbId = _v2TmdbIdByKey[itemKey];
-      } else {
-        final clientFactory = GetIt.instance<MediaServerClientFactory>();
-        final client =
-            clientFactory.getClientIfExists(item.serverId) ??
-            clientFactory.getActiveClient();
-        try {
-          final details = await client.itemsApi.getItem(item.id);
-          tmdbId = (details['ProviderIds'] as Map?)?['Tmdb'] as String?;
-        } catch (_) {
-          tmdbId = null;
-        }
-        _v2TmdbIdByKey[itemKey] = tmdbId;
-      }
-    }
+    final clientFactory = GetIt.instance<MediaServerClientFactory>();
+    final resolveClient =
+        clientFactory.getClientIfExists(item.serverId) ??
+        clientFactory.getActiveClient();
 
-    if (tmdbId == null || tmdbId.isEmpty) {
-      return;
-    }
-
-    final result = await GetIt.instance<MdbListRepository>().getRatings(
-      tmdbId: tmdbId,
-      mediaType: item.type ?? 'Movie',
+    final result = await GetIt.instance<MdbListRepository>().getRatingsForItem(
+      item,
+      resolveClient: resolveClient,
+      episodeRatingsEnabled:
+          widget.prefs.get(UserPreferences.enableEpisodeRatings),
     );
     if (!mounted || result == null || result.isEmpty) {
       return;
@@ -4547,7 +4531,7 @@ class _ContentRowsState extends State<_ContentRows>
                   final ratingText = '${displayVal.toInt()}%';
                   final ratingColor = isNeon
                       ? AppColorScheme.accent
-                      : const Color(0xFF00B0FF); // matching TMDb theme color or active neon color
+                      : const Color(0xFF00B0FF); // matching TMDB theme color or active neon color
                   ratingWidget = Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(

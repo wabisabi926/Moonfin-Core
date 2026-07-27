@@ -246,6 +246,42 @@ Future<void> _detectAndSetCodecCapabilities() async {
   } catch (_) {}
 }
 
+Future<void> _detectAndSetAetherCapabilities() async {
+  const channel = MethodChannel('moonfin/ios_aether_control');
+  Map<String, dynamic>? caps;
+  try {
+    final raw = await channel.invokeMethod<Map<dynamic, dynamic>>(
+      'getCapabilities',
+    );
+    if (raw != null) {
+      caps = raw.map((key, value) => MapEntry(key.toString(), value));
+    }
+  } catch (_) {}
+
+  // Fallback mirrors AetherEngine's guaranteed baseline on the hardware the
+  // deployment floors allow (iOS 16, macOS 14).
+  PlatformDetection.setMediaCodecCapabilities(
+    caps ??
+        const {
+          'supportsAvc': true,
+          'avcMainLevel': 52,
+          'supportsAvcHigh10': true,
+          'avcHigh10Level': 52,
+          'supportsHevc': true,
+          'hevcMainLevel': 153,
+          'supportsHevcMain10': true,
+          'hevcMain10Level': 153,
+          'supportsHevcDolbyVision': true,
+          'supportsHevcHdr10': true,
+          'supportsDvP5': true,
+          'supportsDvP7': true,
+          'supportsDvP8': true,
+          'maxResolutionAvc': {'width': 3840, 'height': 2160},
+          'maxResolutionHevc': {'width': 3840, 'height': 2160},
+        },
+  );
+}
+
 Future<void> _detectAndSetAppleTvCapabilities() async {
   const channel = MethodChannel('moonfin/appletv_video_control');
   Map<String, dynamic>? caps;
@@ -443,7 +479,11 @@ void main() async {
     await windowManager.ensureInitialized();
   }
 
-  if (!PlatformDetection.isTizen && !PlatformDetection.isAppleTV) {
+  // iOS runs entirely on AetherEngine, so media_kit isn't initialized there
+  // and its native libs are stubbed out of the build.
+  if (!PlatformDetection.isTizen &&
+      !PlatformDetection.isAppleTV &&
+      !PlatformDetection.isIOS) {
     MediaKit.ensureInitialized();
   }
 
@@ -455,6 +495,9 @@ void main() async {
 
   if (PlatformDetection.isAppleTV) {
     await _detectAndSetAppleTvCapabilities();
+  }
+  if (PlatformDetection.isIOS || PlatformDetection.isMacOS) {
+    await _detectAndSetAetherCapabilities();
   }
 
   _configureImageCache();

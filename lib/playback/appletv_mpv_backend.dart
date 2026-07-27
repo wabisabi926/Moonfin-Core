@@ -6,7 +6,6 @@ import 'package:playback_core/playback_core.dart';
 import '../preference/preference_constants.dart';
 import '../preference/user_preferences.dart';
 import '../util/platform_detection.dart';
-import 'audio_capability_profile.dart';
 
 import 'device_profile_builder.dart';
 import 'known_defects.dart';
@@ -236,14 +235,8 @@ class AppleTvMpvBackend implements PlayerBackend {
       'audioCodec': payload['audioCodec']?.toString(),
       'audioProfile': payload['audioProfile']?.toString(),
       'audioChannels': payload['audioChannels'],
-      'audioChannelsMode': _resolveAudioChannelsMode(),
-      'hybridAudioUrl': ?_resolveHybridAudioUrl(payload),
-      'hybridAudioStreamIndex': (payload['audioStreamIndex'] as num?)?.toInt() ?? -1,
-      'audioPassthrough': _audioPassthroughEligible(payload),
-      'nativeDvEnabled': _nativeDvDecodeEnabled,
-      'atmosPassthrough':
-          _prefs.resolveEac3JocPassthroughEnabled() ||
-          _prefs.resolveTrueHdAtmosPassthroughEnabled(),
+      'audioStreamIndex': (payload['audioStreamIndex'] as num?)?.toInt() ?? -1,
+      'isLive': payload['isLive'] == true,
       'mediaType': payload['mediaType']?.toString() ?? 'video',
       'normalizationGainDb': (payload['normalizationGainDb'] as num?)?.toDouble(),
       'dolbyVisionFallbackBehavior':
@@ -327,59 +320,6 @@ class AppleTvMpvBackend implements PlayerBackend {
   @override
   Stream<bool> get completedStream => _completedStream.stream;
 
-  bool get _nativeDvDecodeEnabled =>
-      _prefs.get(UserPreferences.dolbyVisionProfile7DirectPlayBehavior) !=
-      DolbyVisionProfile7DirectPlayBehavior.disabled;
-
-  String _resolveAudioChannelsMode() {
-    if (_prefs.resolveAudioOutputMode() == AudioOutputMode.forceStereo) {
-      return 'stereo';
-    }
-    final profile = _prefs.detectedAudioCapabilities;
-    if (profile.maxPcmChannels <= 2) {
-      return 'stereo';
-    }
-    // A multichannel HDMI route (a normal 7.1 AVR, or a tvOS Continuous Audio
-    // Connection / Dolby MAT link, which is always a fixed 8-channel 7.1 bed)
-    // doesn't expose a layout mpv's auto detection can map, so it collapses to
-    // stereo. Force a full 7.1 bed. mpv pads 5.1 into it and tvOS wraps it into
-    // MAT.
-    if (profile.activeRouteType == AudioRouteType.hdmi &&
-        profile.maxPcmChannels >= 8) {
-      return '7.1';
-    }
-    return 'auto-safe';
-  }
-
-  static final bool _hybridAtmosPathEnabled = false;
-
-  bool _hybridAtmosEligible(Map<dynamic, dynamic> payload) {
-    if (!_hybridAtmosPathEnabled) return false;
-    if (!_prefs.get(UserPreferences.appleTvHybridAtmosEnabled)) return false;
-    final codec = (payload['audioCodec']?.toString() ?? '').toLowerCase();
-    if (codec != 'eac3') return false;
-    final channels = (payload['audioChannels'] as num?)?.toInt() ?? 0;
-    return channels > 2;
-  }
-
-  String? _resolveHybridAudioUrl(Map<dynamic, dynamic> payload) {
-    if (!_hybridAtmosEligible(payload)) return null;
-    final url = payload['hybridAudioUrl']?.toString();
-    if (url == null || url.isEmpty) return null;
-    return url;
-  }
-
-  static final bool _audioPassthroughPathEnabled = false;
-
-  bool _audioPassthroughEligible(Map<dynamic, dynamic> payload) {
-    if (!_audioPassthroughPathEnabled) return false;
-    if (!_prefs.get(UserPreferences.appleTvAudioPassthroughEnabled)) return false;
-    final codec = (payload['audioCodec']?.toString() ?? '').toLowerCase();
-    if (codec != 'eac3' && codec != 'ac3') return false;
-    final channels = (payload['audioChannels'] as num?)?.toInt() ?? 0;
-    return channels > 2;
-  }
-
   @override
   Map<String, dynamic> getDeviceProfile({
     bool useProgressiveTranscode = false,
@@ -402,8 +342,10 @@ class AppleTvMpvBackend implements PlayerBackend {
       trueHdPassthroughEnabled: _prefs.resolveTrueHdPassthroughEnabled(),
       trueHdAtmosPassthroughEnabled: _prefs
           .resolveTrueHdAtmosPassthroughEnabled(),
-      // MPVKit decodes all advertised audio codecs in software and downmixes
-      // locally, so stereo routes never need a server-side audio transcode.
+      // AetherEngine plays every advertised audio codec: AAC/AC3/EAC3(+JOC
+      // Atmos)/FLAC/ALAC are stream-copied intact, and TrueHD/DTS/MP3/Opus/
+      // Vorbis/PCM are bridged to EAC3 or FLAC on-device, so stereo routes
+      // never need a server-side audio transcode.
       universalAudioDecode: true,
       maxResolution: maxResolution,
       pgsDirectPlay: _prefs.get(UserPreferences.pgsDirectPlay),
@@ -435,8 +377,9 @@ class AppleTvMpvBackend implements PlayerBackend {
       maxResolutionVc1Width: PlatformDetection.maxResolutionVc1Width,
       maxResolutionVc1Height: PlatformDetection.maxResolutionVc1Height,
       supportsDvProfile5: PlatformDetection.supportsDoViProfile5,
-      supportsDvProfile7:
-          PlatformDetection.supportsDoViProfile7 && _nativeDvDecodeEnabled,
+      // AetherEngine converts P7 (dual-layer) to P8.1 per-packet via libdovi,
+      // so P7 direct play no longer depends on a native-decode preference.
+      supportsDvProfile7: PlatformDetection.supportsDoViProfile7,
       supportsDvProfile8: PlatformDetection.supportsDoViProfile8,
       knownHevcDoviHdr10PlusBug: PlatformDetection.knownHevcDoviHdr10PlusBug,
       allowDolbyVisionProfile7ElDirectPlay:

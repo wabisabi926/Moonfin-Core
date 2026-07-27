@@ -240,10 +240,19 @@ class UserPreferences extends ChangeNotifier {
     'audio_night_mode',
     'confirm_exit',
     'defaultFavoritesFilter',
+    'detailButtonOrderDesktop',
+    'detailButtonOrderMobile',
+    'detailButtonOrderTv',
     'download_default_quality',
     'download_report_as_activity',
     'download_storage_limit_mb',
     'download_wifi_only',
+    'hiddenDetailButtonsDesktop',
+    'hiddenDetailButtonsMobile',
+    'hiddenDetailButtonsTv',
+    'hiddenOsdButtonsDesktop',
+    'hiddenOsdButtonsMobile',
+    'hiddenOsdButtonsTv',
     'imdb_lowest_rated_movies_enabled',
     'imdb_most_popular_movies_enabled',
     'imdb_most_popular_tv_shows_enabled',
@@ -251,6 +260,9 @@ class UserPreferences extends ChangeNotifier {
     'imdb_top_250_tv_shows_enabled',
     'imdb_top_english_movies_enabled',
     'live_tv_channel_sort_by',
+    'osdButtonOrderDesktop',
+    'osdButtonOrderMobile',
+    'osdButtonOrderTv',
     'osdLockEnabled',
     'pgs_enabled',
     'player_zoom_mode',
@@ -592,9 +604,7 @@ class UserPreferences extends ChangeNotifier {
           PlatformDetection.audioCapabilitiesSnapshot,
           audioOutputMode: resolveAudioOutputMode(),
         )
-      : PlatformDetection.isIOS
-          ? const AudioCapabilityProfile.appleMobile()
-          : const AudioCapabilityProfile.optimistic();
+      : const AudioCapabilityProfile.optimistic();
 
   // Tri-state passthrough resolution: an explicitly-set toggle wins (On or
   // Off); when unset, the resolved value follows the detected hardware
@@ -767,6 +777,35 @@ class UserPreferences extends ChangeNotifier {
 
   void notifyPreferenceChanged() {
     notifyListeners();
+  }
+
+  bool _notificationsSuppressed = false;
+  bool _notificationPending = false;
+
+  @override
+  void notifyListeners() {
+    if (_notificationsSuppressed) {
+      _notificationPending = true;
+      return;
+    }
+    super.notifyListeners();
+  }
+
+  /// Runs [action] with listener notifications held back, then emits a single
+  /// notification if any write fired during it. Lets the settings sync apply
+  /// a whole profile without notifying every listener once per key.
+  Future<T> batchNotifications<T>(Future<T> Function() action) async {
+    if (_notificationsSuppressed) return action();
+    _notificationsSuppressed = true;
+    try {
+      return await action();
+    } finally {
+      _notificationsSuppressed = false;
+      if (_notificationPending) {
+        _notificationPending = false;
+        super.notifyListeners();
+      }
+    }
   }
 
   static String normalizeMediaBarMode(String? mode) {
@@ -1487,16 +1526,6 @@ class UserPreferences extends ChangeNotifier {
     defaultValue: false,
   );
 
-  static final appleTvHybridAtmosEnabled = Preference(
-    key: 'pref_appletv_hybrid_atmos',
-    defaultValue: true,
-  );
-
-  static final appleTvAudioPassthroughEnabled = Preference(
-    key: 'pref_appletv_audio_passthrough',
-    defaultValue: false,
-  );
-
   static final audioPrefsAutoDetected = Preference(
     key: 'pref_audio_caps_auto_detected',
     defaultValue: false,
@@ -1700,6 +1729,54 @@ class UserPreferences extends ChangeNotifier {
   static final osdLockEnabled = Preference(
     key: 'osdLockEnabled',
     defaultValue: false,
+  );
+  static final detailButtonOrderTv = Preference(
+    key: 'detailButtonOrderTv',
+    defaultValue: '',
+  );
+  static final detailButtonOrderMobile = Preference(
+    key: 'detailButtonOrderMobile',
+    defaultValue: '',
+  );
+  static final detailButtonOrderDesktop = Preference(
+    key: 'detailButtonOrderDesktop',
+    defaultValue: '',
+  );
+  static final osdButtonOrderTv = Preference(
+    key: 'osdButtonOrderTv',
+    defaultValue: '',
+  );
+  static final osdButtonOrderMobile = Preference(
+    key: 'osdButtonOrderMobile',
+    defaultValue: '',
+  );
+  static final osdButtonOrderDesktop = Preference(
+    key: 'osdButtonOrderDesktop',
+    defaultValue: '',
+  );
+  static final hiddenDetailButtonsTv = Preference(
+    key: 'hiddenDetailButtonsTv',
+    defaultValue: '',
+  );
+  static final hiddenDetailButtonsMobile = Preference(
+    key: 'hiddenDetailButtonsMobile',
+    defaultValue: '',
+  );
+  static final hiddenDetailButtonsDesktop = Preference(
+    key: 'hiddenDetailButtonsDesktop',
+    defaultValue: '',
+  );
+  static final hiddenOsdButtonsTv = Preference(
+    key: 'hiddenOsdButtonsTv',
+    defaultValue: '',
+  );
+  static final hiddenOsdButtonsMobile = Preference(
+    key: 'hiddenOsdButtonsMobile',
+    defaultValue: '',
+  );
+  static final hiddenOsdButtonsDesktop = Preference(
+    key: 'hiddenOsdButtonsDesktop',
+    defaultValue: '',
   );
   static final mediaBarEnabled = Preference(
     key: 'mediaBarEnabled',

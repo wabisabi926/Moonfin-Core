@@ -3826,6 +3826,12 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
+  /// Hint text in the settings search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search settings'**
+  String get settingsSearchHint;
+
   /// Auth settings section title
   ///
   /// In en, this message translates to:
@@ -4335,6 +4341,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show a lock button that blocks touch input until long-pressed'**
   String get osdLockButtonDescription;
+
+  /// Settings screen for choosing which buttons the player shows
+  ///
+  /// In en, this message translates to:
+  /// **'Player Buttons'**
+  String get osdButtons;
+
+  /// Subtitle for the player buttons settings tile
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which buttons the player shows'**
+  String get osdButtonsDescription;
+
+  /// Explains that transport controls can't be hidden and that the list is per device kind
+  ///
+  /// In en, this message translates to:
+  /// **'Playback controls are always shown. Everything below is up to you, and each kind of device keeps its own list.'**
+  String get osdButtonsSectionDescription;
+
+  /// Settings screen for choosing which buttons the details screen shows
+  ///
+  /// In en, this message translates to:
+  /// **'Action Buttons'**
+  String get detailButtons;
+
+  /// Subtitle for the details action buttons settings tile
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which buttons the details screen shows'**
+  String get detailButtonsDescription;
+
+  /// Explains that the play buttons can't be hidden and that the list is per device kind
+  ///
+  /// In en, this message translates to:
+  /// **'Play is always first and the locked buttons are always shown. Everything else is up to you, and each kind of device keeps its own list.'**
+  String get detailButtonsSectionDescription;
+
+  /// Moves a button one place earlier in its row
+  ///
+  /// In en, this message translates to:
+  /// **'Move Up'**
+  String get moveUp;
+
+  /// Moves a button one place later in its row
+  ///
+  /// In en, this message translates to:
+  /// **'Move Down'**
+  String get moveDown;
+
+  /// Explains how to reorder the buttons in a row
+  ///
+  /// In en, this message translates to:
+  /// **'Use the arrows to change the order. On a remote, left and right move the highlighted button. Switching one off drops it below the rest.'**
+  String get buttonOrderHint;
+
+  /// Player button that locks the screen orientation
+  ///
+  /// In en, this message translates to:
+  /// **'Orientation Lock'**
+  String get orientationLock;
+
+  /// Player button that toggles fullscreen
+  ///
+  /// In en, this message translates to:
+  /// **'Fullscreen'**
+  String get fullscreen;
 
   /// Setting for audio behavior
   ///
