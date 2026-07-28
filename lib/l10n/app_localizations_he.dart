@@ -3399,6 +3399,18 @@ class AppLocalizationsHe extends AppLocalizations {
   String get combineBothRows => 'שלב את שתי השורות למקטע בית אחד';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'שורות מורחבות במסך הבית';
 
   @override
@@ -3716,6 +3728,13 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get seerrNotifyIssuesSubtitle => 'תקלות חדשות, תגובות ופתרונות';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

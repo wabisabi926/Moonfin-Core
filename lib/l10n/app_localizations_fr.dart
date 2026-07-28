@@ -3473,6 +3473,18 @@ class AppLocalizationsFr extends AppLocalizations {
       'Combiner les deux rangées en une seule section d’accueil';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'Rangées d\'accueil étendues';
 
   @override
@@ -3804,6 +3816,13 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get seerrNotifyIssuesSubtitle =>
       'Nouveaux problèmes, réponses et résolutions';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

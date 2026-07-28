@@ -3458,6 +3458,18 @@ class AppLocalizationsSq extends AppLocalizations {
       'Kombinoni të dy rreshtat në një seksion të vetëm shtëpiak';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'Rreshtat e zgjeruar të kreut';
 
   @override
@@ -3789,6 +3801,13 @@ class AppLocalizationsSq extends AppLocalizations {
   @override
   String get seerrNotifyIssuesSubtitle =>
       'Probleme të reja, përgjigje dhe zgjidhje';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

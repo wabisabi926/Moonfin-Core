@@ -5,6 +5,18 @@ import 'package:moonfin/playback/device_profile_builder.dart';
 import 'package:moonfin/playback/known_defects.dart';
 import 'package:moonfin/preference/preference_constants.dart';
 
+List<Map<String, dynamic>> _subtitleProfiles(Map<String, dynamic> profile) {
+  final profiles = profile['SubtitleProfiles'] as List<dynamic>? ?? const [];
+  return profiles.cast<Map<String, dynamic>>();
+}
+
+Set<String> _subtitleMethodsFor(Map<String, dynamic> profile, String format) {
+  return _subtitleProfiles(profile)
+      .where((entry) => entry['Format'] == format)
+      .map((entry) => entry['Method'] as String)
+      .toSet();
+}
+
 Set<String> _codecUnsupportedRangeTypes(
   Map<String, dynamic> profile,
   String codec,
@@ -405,6 +417,37 @@ void main() {
     });
   });
 
+  group('DeviceProfileBuilder subtitle delivery', () {
+    test("a player that can't read embedded subtitles is offered none", () {
+      final profile = DeviceProfileBuilder.build(
+        supportsEmbeddedSubtitles: false,
+        supportsExternalTextSubtitles: false,
+      );
+
+      expect(
+        _subtitleProfiles(profile).where((entry) => entry['Method'] == 'Embed'),
+        isEmpty,
+      );
+    });
+
+    test('text subtitles keep a vtt route the server can convert into', () {
+      final profile = DeviceProfileBuilder.build(
+        supportsEmbeddedSubtitles: false,
+        supportsExternalTextSubtitles: false,
+      );
+
+      expect(_subtitleMethodsFor(profile, 'vtt'), contains('External'));
+      expect(_subtitleMethodsFor(profile, 'ass'), contains('External'));
+    });
+
+    test('a player that reads embedded subtitles still gets them', () {
+      final profile = DeviceProfileBuilder.build();
+
+      expect(_subtitleMethodsFor(profile, 'vtt'), contains('Embed'));
+      expect(_subtitleMethodsFor(profile, 'srt'), contains('Embed'));
+    });
+  });
+
   group('DeviceProfileBuilder stereo AAC fallback', () {
     test('adds stereo AAC fallback profile when enabled', () {
       final profile = DeviceProfileBuilder.build(
@@ -420,6 +463,65 @@ void main() {
       );
 
       expect(_stereoAacFallbackProfile(profile), isNull);
+    });
+  });
+
+  group('DeviceProfileBuilder passthrough with no detected capabilities', () {
+    // The fallback profile reports no route at all, which is the only state
+    // where the route side of the passthrough gate fails.
+    Map<String, dynamic> buildWithFailedProbe({
+      Set<AudioPassthroughToggle> explicitPassthroughToggles =
+          const <AudioPassthroughToggle>{},
+      bool eac3PassthroughEnabled = false,
+    }) {
+      return DeviceProfileBuilder.build(
+        audioCapabilityProfile: const AudioCapabilityProfile.optimistic(),
+        audioOutputMode: AudioOutputMode.avrPassthrough,
+        universalAudioDecode: true,
+        eac3PassthroughEnabled: eac3PassthroughEnabled,
+        explicitPassthroughToggles: explicitPassthroughToggles,
+      );
+    }
+
+    test('a toggle the user switched off still drops the codec', () {
+      final codecs = _videoDirectPlayAudioCodecs(
+        buildWithFailedProbe(
+          explicitPassthroughToggles: {AudioPassthroughToggle.eac3},
+        ),
+      );
+
+      expect(codecs, isNot(contains('eac3')));
+    });
+
+    test('a toggle the user switched on keeps the codec', () {
+      final codecs = _videoDirectPlayAudioCodecs(
+        buildWithFailedProbe(
+          explicitPassthroughToggles: {AudioPassthroughToggle.eac3},
+          eac3PassthroughEnabled: true,
+        ),
+      );
+
+      expect(codecs, contains('eac3'));
+    });
+
+    test('a toggle left on auto keeps advertising the codec', () {
+      final codecs = _videoDirectPlayAudioCodecs(buildWithFailedProbe());
+
+      expect(codecs, contains('eac3'));
+      expect(codecs, contains('ac3'));
+      expect(codecs, contains('truehd'));
+    });
+
+    test('one hand-set toggle leaves the others alone', () {
+      final codecs = _videoDirectPlayAudioCodecs(
+        buildWithFailedProbe(
+          explicitPassthroughToggles: {AudioPassthroughToggle.eac3},
+        ),
+      );
+
+      expect(codecs, contains('ac3'));
+      expect(codecs, contains('dts'));
+      expect(codecs, contains('truehd'));
     });
   });
 

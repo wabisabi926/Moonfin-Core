@@ -1896,12 +1896,14 @@ class _ContentRowsState extends State<_ContentRows>
     );
     if (url == null || url.isEmpty) return;
     if (!_v2FocusPrefetchedUrls.add(url)) return;
+    // These bounds have to match the ones MediaCard draws with. The decode width
+    // is part of the cache key, so a mismatch warms an entry the card never asks
+    // for and the image is decoded twice.
     unawaited(
       BoundedNetworkImage.precache(
         context,
         url,
         layoutWidth: v2FocusedWidth,
-        scale: 0.9,
         maxWidth: 960,
       ).catchError((_) {
         _v2FocusPrefetchedUrls.remove(url);
@@ -1975,8 +1977,7 @@ class _ContentRowsState extends State<_ContentRows>
     final result = await GetIt.instance<MdbListRepository>().getRatingsForItem(
       item,
       resolveClient: resolveClient,
-      episodeRatingsEnabled:
-          widget.prefs.get(UserPreferences.enableEpisodeRatings),
+      episodeRatingsEnabled: widget.prefs.canFetchEpisodeRatings,
     );
     if (!mounted || result == null || result.isEmpty) {
       return;
@@ -4522,54 +4523,7 @@ class _ContentRowsState extends State<_ContentRows>
                 shadows: const [Shadow(blurRadius: 4, color: Colors.black54)],
               );
 
-              Widget? ratingWidget;
-              final enableEpisodeRatings = widget.prefs.get(UserPreferences.enableEpisodeRatings);
-              if (enableEpisodeRatings) {
-                final ratingVal = item.communityRating;
-                if (ratingVal != null && ratingVal > 0) {
-                  final displayVal = ratingVal <= 10.0 ? ratingVal * 10 : ratingVal;
-                  final ratingText = '${displayVal.toInt()}%';
-                  final ratingColor = isNeon
-                      ? AppColorScheme.accent
-                      : const Color(0xFF00B0FF); // matching TMDB theme color or active neon color
-                  ratingWidget = Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: ratingColor.withValues(alpha: 0.15),
-                      border: Border.all(
-                        color: ratingColor.withValues(alpha: 0.8),
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/icons/ratings/tmdb.png',
-                          height: 18,
-                          filterQuality: FilterQuality.medium,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          ratingText,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            height: 1.1,
-                            shadows: [
-                              Shadow(blurRadius: 4, color: Colors.black54)
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              }
-
-              final infoColumn = Column(
+              cardSubtitleWidget = Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -4588,20 +4542,6 @@ class _ContentRowsState extends State<_ContentRows>
                   ),
                 ],
               );
-
-              if (ratingWidget != null) {
-                cardSubtitleWidget = Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ratingWidget,
-                    const SizedBox(width: 8),
-                    Expanded(child: infoColumn),
-                  ],
-                );
-              } else {
-                cardSubtitleWidget = infoColumn;
-              }
             } else {
               cardSubtitle = episodeInfo ?? item.name;
               cardSubtitleWidget = null;
@@ -4818,7 +4758,7 @@ class _ContentRowsState extends State<_ContentRows>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (hasAnyRating && item.type != 'Episode')
+                    if (hasAnyRating)
                       RatingsRow(
                         ratings: additionalRatings,
                         communityRating: item.communityRating,

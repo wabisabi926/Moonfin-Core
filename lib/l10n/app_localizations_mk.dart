@@ -3448,6 +3448,18 @@ class AppLocalizationsMk extends AppLocalizations {
       'Комбинирајте ги двата реда во еден домашен дел';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'Проширени почетни редови';
 
   @override
@@ -3774,6 +3786,13 @@ class AppLocalizationsMk extends AppLocalizations {
 
   @override
   String get seerrNotifyIssuesSubtitle => 'Нови проблеми, одговори и решенија';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

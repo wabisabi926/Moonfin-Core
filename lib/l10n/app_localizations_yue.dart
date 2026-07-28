@@ -3321,6 +3321,18 @@ class AppLocalizationsYue extends AppLocalizations {
   String get combineBothRows => '將兩行合併為一個主頁部分';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => '展開主畫面列表';
 
   @override
@@ -3630,6 +3642,13 @@ class AppLocalizationsYue extends AppLocalizations {
 
   @override
   String get seerrNotifyIssuesSubtitle => '新問題、回覆同解決結果';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

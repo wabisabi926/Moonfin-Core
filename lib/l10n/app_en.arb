@@ -4695,6 +4695,21 @@
   "@combineBothRows": {
     "description": "Description for merge continue watching and next up"
   },
+  "nextUpMaxDays": "Max days in Next Up",
+  "@nextUpMaxDays": {
+    "description": "Setting for how far back the Next Up row reaches"
+  },
+  "nextUpMaxDaysDescription": "How long a show stays in Next Up after you last watched it",
+  "@nextUpMaxDaysDescription": {
+    "description": "Description for the Next Up window setting"
+  },
+  "daysValue": "{days} days",
+  "@daysValue": {
+    "description": "A number of days",
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
   "fullScreenRows": "Expanded Home Rows",
   "@fullScreenRows": {
     "description": "Setting for full screen home rows"
@@ -5116,6 +5131,14 @@
   "seerrNotifyIssuesSubtitle": "New issues, replies, and resolutions",
   "@seerrNotifyIssuesSubtitle": {
     "description": "Subtitle for the issue notifications toggle"
+  },
+  "seerrNotifyNewMediaTitle": "New media added",
+  "@seerrNotifyNewMediaTitle": {
+    "description": "Title for the toggle that notifies about anything newly added to the server library, not just requested media"
+  },
+  "seerrNotifyNewMediaSubtitle": "Anything new added to the server library",
+  "@seerrNotifyNewMediaSubtitle": {
+    "description": "Subtitle for the new media notifications toggle"
   },
   "loggedInAs": "Logged in as: {username}",
   "@loggedInAs": {

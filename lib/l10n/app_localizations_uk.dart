@@ -3454,6 +3454,18 @@ class AppLocalizationsUk extends AppLocalizations {
   String get combineBothRows => 'Об’єднайте обидва ряди в одну домашню секцію';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'Розгорнуті рядки головної';
 
   @override
@@ -3782,6 +3794,13 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get seerrNotifyIssuesSubtitle =>
       'Нові проблеми, відповіді та розв\'язання';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

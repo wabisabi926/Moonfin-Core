@@ -3418,6 +3418,18 @@ class AppLocalizationsPa extends AppLocalizations {
       'ਦੋਵਾਂ ਕਤਾਰਾਂ ਨੂੰ ਇੱਕ ਸਿੰਗਲ ਹੋਮ ਸੈਕਸ਼ਨ ਵਿੱਚ ਜੋੜੋ';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'ਵਿਸਤ੍ਰਿਤ ਹੋਮ ਕਤਾਰਾਂ';
 
   @override
@@ -3742,6 +3754,13 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get seerrNotifyIssuesSubtitle => 'ਨਵੇਂ ਮੁੱਦੇ, ਜਵਾਬ ਅਤੇ ਹੱਲ';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

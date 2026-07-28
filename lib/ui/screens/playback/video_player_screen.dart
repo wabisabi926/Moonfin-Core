@@ -164,6 +164,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   bool _isStartingIosPiPForBackground = false;
   bool _didHandleBackgroundSuspend = false;
   bool _videoWasDisabledByLifecycle = false;
+  bool _videoNeedsReattachAfterScreenOff = false;
   Timer? _tvBackgroundExitTimer;
   Timer? _tvTemporarySpeedHoldTimer;
   DateTime? _suppressBackNavigationUntil;
@@ -771,6 +772,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     }
     _themeMusicService.setExternalAudioActive(true);
     _segmentService = _createSegmentService();
+    _zoomMode = _prefs.get(UserPreferences.playerZoomMode);
+    // Media3 only takes the zoom mode from this call, and the backend change it
+    // listens for never fires when it was already the one playing.
+    unawaited(_syncMedia3ZoomMode());
     _bringupState = _manager.bringupState;
     _bringupSub = _manager.bringupStateStream.listen((state) {
       if (!mounted) return;
@@ -779,8 +784,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       });
       _showBringupFailureIfAny(state);
       unawaited(_syncAutoHdrSwitching());
+      unawaited(_syncMedia3ZoomMode());
     });
-    _zoomMode = _prefs.get(UserPreferences.playerZoomMode);
     _syncPlayManager?.addListener(_onSyncPlayChanged);
     _prefs.addListener(_syncMediaQueuingPreference);
     _syncMediaQueuingPreference();
@@ -1299,10 +1304,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         if (PlatformDetection.isIOS && _isInPiP) {
           _pipService.enableAutoPiP(false);
         }
+        final needsReattach = _videoNeedsReattachAfterScreenOff;
+        _videoNeedsReattachAfterScreenOff = false;
         if (_videoWasDisabledByLifecycle) {
           _videoWasDisabledByLifecycle = false;
           _activeMediaKitBackend?.setVideoEnabled(true);
           _restorePositionAfterScreenLock();
+        } else if (needsReattach) {
+          unawaited(_reattachVideoOutput());
         }
         _ensureDesktopOverlayFocus();
         if (PlatformDetection.isMobile) _syncBrightnessFromSystem();
@@ -1334,9 +1343,25 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     }
   }
 
+  /// Turns the video track off and straight back on, which is what makes mpv
+  /// rebuild its output against the current surface.
+  Future<void> _reattachVideoOutput() async {
+    final backend = _activeMediaKitBackend;
+    if (backend == null) return;
+    await backend.setVideoEnabled(false);
+    if (!mounted || _isStopping) return;
+    await backend.setVideoEnabled(true);
+  }
+
   void _onScreenLock(bool locked) {
     _lifecycleHandler.setScreenLocked(locked);
     if (locked) {
+      // Android phones keep video on in the background so picture in picture
+      // has something to show, which leaves mpv bound to the surface the system
+      // tears down when the screen goes off.
+      if (PlatformDetection.isAndroid && !PlatformDetection.isTV) {
+        _videoNeedsReattachAfterScreenOff = true;
+      }
       _positionBeforeScreenLock = _activeBackend?.position ?? _state.position;
       _wasPlayingBeforeScreenLock = _state.isPlaying;
       _isRestoringPosition = true;

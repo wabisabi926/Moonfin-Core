@@ -3427,6 +3427,18 @@ class AppLocalizationsEo extends AppLocalizations {
       'Kombinu ambaŭ vicojn en ununuran hejman sekcion';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'Etenditaj hejmaj vicoj';
 
   @override
@@ -3752,6 +3764,13 @@ class AppLocalizationsEo extends AppLocalizations {
   @override
   String get seerrNotifyIssuesSubtitle =>
       'Novaj problemoj, respondoj kaj solvoj';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

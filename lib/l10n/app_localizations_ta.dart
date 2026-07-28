@@ -3452,6 +3452,18 @@ class AppLocalizationsTa extends AppLocalizations {
       'இரண்டு வரிசைகளையும் ஒரு முகப்புப் பிரிவில் இணைக்கவும்';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'விரிவாக்கப்பட்ட முகப்பு வரிசைகள்';
 
   @override
@@ -3785,6 +3797,13 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get seerrNotifyIssuesSubtitle =>
       'புதிய சிக்கல்கள், பதில்கள் மற்றும் தீர்வுகள்';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

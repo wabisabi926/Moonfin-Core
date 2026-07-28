@@ -353,7 +353,7 @@ class SeerrHttpClient {
     final page = (offset ~/ limit) + 1;
     final response = await _dio.get(
       _apiUrl('discover/trending'),
-      queryParameters: {'page': page, 'language': 'en'},
+      queryParameters: {'page': page},
       options: _authOptions(),
     );
     _requireSuccess(response, 'getTrending');
@@ -364,7 +364,7 @@ class SeerrHttpClient {
     final page = (offset ~/ limit) + 1;
     final response = await _dio.get(
       _apiUrl('discover/movies'),
-      queryParameters: {'page': page, 'language': 'en'},
+      queryParameters: {'page': page},
       options: _authOptions(),
     );
     _requireSuccess(response, 'getTrendingMovies');
@@ -375,7 +375,7 @@ class SeerrHttpClient {
     final page = (offset ~/ limit) + 1;
     final response = await _dio.get(
       _apiUrl('discover/tv'),
-      queryParameters: {'page': page, 'language': 'en'},
+      queryParameters: {'page': page},
       options: _authOptions(),
     );
     _requireSuccess(response, 'getTrendingTv');
@@ -457,20 +457,22 @@ class SeerrHttpClient {
     return {...body, 'results': results};
   }
 
+  // Seerr hands the language parameter on both discover endpoints to TMDB as
+  // the original language filter, so naming one hides every production made in
+  // any other language. Leaving it off falls back to whatever language the
+  // account is set to.
   Future<Map<String, dynamic>> discoverMovies({
     int page = 1,
     String sortBy = 'popularity.desc',
     int? genre,
     int? studio,
     int? keywords,
-    String language = 'en',
   }) async {
     final response = await _dio.get(
       _apiUrl('discover/movies'),
       queryParameters: {
         'page': page,
         'sortBy': sortBy,
-        'language': language,
         'genre': ?genre,
         'studio': ?studio,
         'keywords': ?keywords,
@@ -487,14 +489,12 @@ class SeerrHttpClient {
     int? genre,
     int? network,
     int? keywords,
-    String language = 'en',
   }) async {
     final response = await _dio.get(
       _apiUrl('discover/tv'),
       queryParameters: {
         'page': page,
         'sortBy': sortBy,
-        'language': language,
         'genre': ?genre,
         'network': ?network,
         'keywords': ?keywords,
@@ -512,13 +512,16 @@ class SeerrHttpClient {
     int offset = 0,
   }) async {
     final page = (offset ~/ limit) + 1;
-    final eq = Uri.encodeComponent(query);
-    var url = '${_apiUrl('search')}?query=$eq&page=$page';
-    if (mediaType != null) {
-      url += '&type=${Uri.encodeComponent(mediaType)}';
-    }
+    // Building the query through Dio rather than by hand, because
+    // Uri.encodeComponent leaves apostrophes as-is and Seerr rejects the
+    // request when a reserved character reaches it unencoded.
     final response = await _dio.get(
-      url,
+      _apiUrl('search'),
+      queryParameters: {
+        'query': query,
+        'page': page,
+        'type': ?mediaType,
+      },
       options: _authOptions(),
     );
     _requireSuccess(response, 'search');

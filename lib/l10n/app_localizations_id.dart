@@ -3430,6 +3430,18 @@ class AppLocalizationsId extends AppLocalizations {
       'Gabungkan kedua baris menjadi satu bagian beranda';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'Baris Beranda Diperluas';
 
   @override
@@ -3758,6 +3770,13 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get seerrNotifyIssuesSubtitle =>
       'Masalah baru, balasan, dan penyelesaian';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

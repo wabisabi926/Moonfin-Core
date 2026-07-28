@@ -3433,6 +3433,18 @@ class AppLocalizationsEt extends AppLocalizations {
   String get combineBothRows => 'Ühendage mõlemad read üheks koduosaks';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'Laiendatud avaekraani read';
 
   @override
@@ -3758,6 +3770,13 @@ class AppLocalizationsEt extends AppLocalizations {
   @override
   String get seerrNotifyIssuesSubtitle =>
       'Uued probleemid, vastused ja lahendused';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

@@ -3432,6 +3432,18 @@ class AppLocalizationsAf extends AppLocalizations {
       'Kombineer albei rye in \'n enkele huisafdeling';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'Uitgebreide tuisrye';
 
   @override
@@ -3760,6 +3772,13 @@ class AppLocalizationsAf extends AppLocalizations {
   @override
   String get seerrNotifyIssuesSubtitle =>
       'Nuwe kwessies, antwoorde en oplossings';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

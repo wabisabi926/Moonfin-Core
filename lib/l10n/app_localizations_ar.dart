@@ -3438,6 +3438,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get combineBothRows => 'ادمج كلا الصفين في قسم رئيسي واحد';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'صفوف الرئيسية الموسّعة';
 
   @override
@@ -3760,6 +3772,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get seerrNotifyIssuesSubtitle => 'المشكلات الجديدة والردود والحلول';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

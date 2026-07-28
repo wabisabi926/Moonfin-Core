@@ -3354,6 +3354,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get combineBothRows => '両方の行を 1 つのホーム セクションに結合します';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => 'ホーム行を拡大表示';
 
   @override
@@ -3665,6 +3677,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get seerrNotifyIssuesSubtitle => '新しい問題、返信、解決';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {

@@ -395,6 +395,7 @@ class UserPreferences extends ChangeNotifier {
     'pref_navbar_always_expanded',
     'pref_shuffle_content_type',
     'pref_merge_continue_watching_next_up',
+    'pref_next_up_max_days',
     'enable_multi_server_libraries',
     'enable_folder_view',
     'seasonal_surprise',
@@ -575,6 +576,14 @@ class UserPreferences extends ChangeNotifier {
     return _store.containsKey(pref.key);
   }
 
+  bool isRatingSourceEnabled(String source) =>
+      get(enabledRatings).split(',').map((s) => s.trim()).contains(source);
+
+  bool get canFetchEpisodeRatings =>
+      get(enableAdditionalRatings) &&
+      get(enableEpisodeRatings) &&
+      isRatingSourceEnabled('tmdb');
+
   AudioOutputMode resolveAudioOutputMode() => get(audioOutputMode);
 
   AudioFallbackCodec resolveAudioFallbackCodec() => get(audioFallbackCodec);
@@ -678,6 +687,30 @@ class UserPreferences extends ChangeNotifier {
     (p) => p.canPassthroughTrueHdJoc,
     profile,
   );
+
+  /// The toggles the user set by hand, as opposed to the ones still following
+  /// detection. A hand-set toggle is a stated intent, so it still applies when
+  /// the hardware probe comes back empty and there is no detected capability
+  /// left to follow.
+  Set<AudioPassthroughToggle> get explicitPassthroughToggles =>
+      <AudioPassthroughToggle>{
+        if (containsPreference(ac3PassthroughEnabled))
+          AudioPassthroughToggle.ac3,
+        if (containsPreference(eac3PassthroughEnabled))
+          AudioPassthroughToggle.eac3,
+        if (containsPreference(eac3JocPassthroughEnabled))
+          AudioPassthroughToggle.eac3Joc,
+        if (containsPreference(dtsCorePassthroughEnabled))
+          AudioPassthroughToggle.dtsCore,
+        if (containsPreference(dtsHdPassthroughEnabled))
+          AudioPassthroughToggle.dtsHd,
+        if (containsPreference(dtsXPassthroughEnabled))
+          AudioPassthroughToggle.dtsX,
+        if (containsPreference(trueHdPassthroughEnabled))
+          AudioPassthroughToggle.trueHd,
+        if (containsPreference(trueHdAtmosPassthroughEnabled))
+          AudioPassthroughToggle.trueHdAtmos,
+      };
 
   /// The eight per-codec passthrough toggle preferences.
   static List<Preference<bool>> get passthroughTogglePreferences =>
@@ -1077,6 +1110,13 @@ class UserPreferences extends ChangeNotifier {
   static final mergeContinueWatchingNextUp = Preference(
     key: 'pref_merge_continue_watching_next_up',
     defaultValue: true,
+  );
+
+  // Zero means no limit. The 365 days match what the other Moonfin clients and
+  // Jellyfin's own web client already default to.
+  static final nextUpMaxDays = Preference(
+    key: 'pref_next_up_max_days',
+    defaultValue: 365,
   );
 
   static final focusColor = EnumPreference(
@@ -1918,7 +1958,7 @@ class UserPreferences extends ChangeNotifier {
 
   static final enableEpisodeRatings = Preference(
     key: 'enableEpisodeRatings',
-    defaultValue: false,
+    defaultValue: true,
   );
 
   static final tmdbApiKey = Preference(key: 'tmdbApiKey', defaultValue: '');
@@ -1935,7 +1975,7 @@ class UserPreferences extends ChangeNotifier {
 
   static final enabledRatings = Preference(
     key: 'enabledRatings',
-    defaultValue: 'tomatoes,stars',
+    defaultValue: 'stars,imdb,tmdb,tomatoes,metacritic',
   );
 
   static final blockedParentalRatings = Preference(

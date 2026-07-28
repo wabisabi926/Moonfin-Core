@@ -1034,7 +1034,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cast => '投屏';
 
   @override
-  String get castMembers => 'Cast';
+  String get castMembers => '演员表';
 
   @override
   String get trailer => '预告片';
@@ -1055,7 +1055,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get downloaded => '已下载';
 
   @override
-  String get finalizingDownload => 'Finalizing…';
+  String get finalizingDownload => '正在整理…';
 
   @override
   String get downloadAll => '全部下载';
@@ -3319,6 +3319,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get combineBothRows => '将两行合并为一个首页栏目';
 
   @override
+  String get nextUpMaxDays => 'Max days in Next Up';
+
+  @override
+  String get nextUpMaxDaysDescription =>
+      'How long a show stays in Next Up after you last watched it';
+
+  @override
+  String daysValue(int days) {
+    return '$days days';
+  }
+
+  @override
   String get fullScreenRows => '展开首页行';
 
   @override
@@ -3628,6 +3640,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get seerrNotifyIssuesSubtitle => '新增问题、回复及问题解决通知';
+
+  @override
+  String get seerrNotifyNewMediaTitle => 'New media added';
+
+  @override
+  String get seerrNotifyNewMediaSubtitle =>
+      'Anything new added to the server library';
 
   @override
   String loggedInAs(String username) {
