@@ -291,18 +291,43 @@ collect_transitive_libs() {
   printf '%s\n' "$all_deps" | sort -u | grep -v '^$' || true
 }
 
+# Libraries left out of the bundle because the target system has to own them,
+# either because they talk to the kernel and the display stack or because a
+# bundled copy would shadow the matching system one.
+#
+# Read this as the complete list of what we ask a machine to already have.
+# Distros vary from shipping almost everything to shipping almost nothing, so
+# anything not named here has to travel with the app. libselinux is the example
+# to remember: Ubuntu builds glib against it so it reaches the dependency graph
+# on the build host, while Arch does not install it, and leaving it out meant
+# the app refused to start there. A machine having the library is not enough
+# either: openSUSE builds ncurses without the versioned symbols Ubuntu adds, so
+# the bundled libcaca could not resolve them and the app refused to start there
+# too.
+#
+# Entries match anywhere in the file name, so a name that is a prefix of
+# another one has to say so. Asking for libcrypt used to hand libcrypto to the
+# host as well, which left the bundle carrying libssl and expecting an OpenSSL
+# it was never built against.
 runtime_skip_pattern() {
   local skip='linux-vdso|ld-linux|libc[.]so|libm[.]so|libpthread|libdl[.]so|librt[.]so'
   skip="$skip"'|libstdc[+][+]|libgcc_s'
   skip="$skip"'|libX[a-z]|libxcb|libxkb|libxshmfence|libICE|libSM'
   skip="$skip"'|libwayland|libffi|libpcre'
-  skip="$skip"'|libGL|libEGL|libGLX|libGLdispatch|libOpenGL|libdrm|libgbm'
+  skip="$skip"'|libGL[.]so|libGLX|libGLdispatch|libGLESv|libEGL|libOpenGL'
+  skip="$skip"'|libdrm|libgbm'
   skip="$skip"'|libglib|libgobject|libgio|libgmodule|libgthread'
   skip="$skip"'|libpulse|libdbus|libasound|libsndfile|libpipewire|libspa|libjack'
   skip="$skip"'|libfontconfig|libfreetype|libharfbuzz|libcairo|libpango|libpixman'
   skip="$skip"'|libatk|libgdk|libgtk|libepoxy|libgdk_pixbuf|librsvg'
-  skip="$skip"'|libmount|libblkid|libselinux|libuuid|libresolv|libnss|libnsl|libcrypt'
-  skip="$skip"'|libsystemd|libncurses|libtinfo'
+  skip="$skip"'|libmount|libblkid|libuuid|libresolv|libnss3|libnssutil'
+  skip="$skip"'|libsystemd'
+  # OpenSSL finds its trust store and its provider modules through a directory
+  # fixed when it was built, so a copy carried from another distro can stop
+  # verifying certificates. Both halves stay with the host for that reason, and
+  # they stay together: a bundled libssl against a system libcrypto is the
+  # mismatch that has to be avoided.
+  skip="$skip"'|libssl[.]so|libcrypto[.]so'
   printf '%s\n' "$skip"
 }
 
@@ -403,6 +428,59 @@ inject_linux_runtime_libs() {
   ensure_sqlite_unversioned_link "$bundle_dir/lib"
   ensure_mpv_compat_symlinks "$bundle_dir/lib"
   echo "Bundled $bundled_count runtime libraries for AppImage/Tarball"
+
+  verify_host_dependencies "$bundle_dir"
+}
+
+# Names every library the finished bundle still expects to find on the machine
+# it runs on, which is the binary's and the bundled libraries' NEEDED entries
+# minus whatever travels in the bundle.
+host_dependencies() {
+  local bundle_dir="$1"
+  local file
+  for file in "$bundle_dir"/* "$bundle_dir"/lib/*.so*; do
+    [ -f "$file" ] || continue
+    [ -L "$file" ] && continue
+    readelf -d "$file" 2>/dev/null |
+      sed -n 's/.*(NEEDED).*\[\([^]]*\)\].*/\1/p'
+  done | sort -u | while IFS= read -r name; do
+    [ -n "$name" ] || continue
+    [ -e "$bundle_dir/lib/$name" ] && continue
+    printf '%s\n' "$name"
+  done
+}
+
+# The skip list is a promise that a machine already has those libraries. This
+# checks the finished bundle keeps that promise, so a dependency that slipped
+# past the collector shows up on the build host rather than on a user's.
+verify_host_dependencies() {
+  local bundle_dir="$1"
+  local skip deps unexpected=""
+
+  if ! command -v readelf >/dev/null 2>&1; then
+    echo "Warning: readelf not found, host dependencies were not checked." >&2
+    return 0
+  fi
+
+  skip="$(runtime_skip_pattern)"
+  deps="$(host_dependencies "$bundle_dir")"
+
+  echo "Bundle expects these from the host:"
+  printf '  %s\n' $deps
+
+  local name
+  while IFS= read -r name; do
+    [ -n "$name" ] || continue
+    [[ "$name" =~ $skip ]] && continue
+    unexpected="${unexpected}  ${name}"$'\n'
+  done <<< "$deps"
+
+  if [ -n "$unexpected" ]; then
+    echo "Error: these are neither bundled nor listed as system provided:" >&2
+    printf '%s' "$unexpected" >&2
+    echo "Bundle them, or add them to runtime_skip_pattern if every distro has them." >&2
+    return 1
+  fi
 }
 
 # Bundle libmpv + transitive deps for Flatpak (sandboxed, no system libs available).
@@ -436,6 +514,7 @@ inject_flatpak_libs() {
 create_desktop_file() {
   local dest="$1"
   local version="${2:-}"
+  mkdir -p "$dest"
   cat > "$dest/${APP_ID}.desktop" << EOF
 [Desktop Entry]
 Type=Application
@@ -445,6 +524,7 @@ Icon=${APP_ID}
 Categories=AudioVideo;Video;
 Comment=Jellyfin & Emby media client
 Terminal=false
+StartupWMClass=${APP_ID}
 EOF
   # AppImage launchers read the version from the embedded desktop entry rather
   # than the filename.
@@ -457,6 +537,7 @@ create_metainfo_file() {
   local dest="$1"
   local version="$2"
 
+  mkdir -p "$dest"
   cat > "$dest/${APP_ID}.metainfo.xml" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
@@ -492,11 +573,29 @@ ensure_flatpak_runtime() {
   flatpak install --user --noninteractive flathub "$runtime" "$sdk" || true
 }
 
+icon_warning_shown=""
+
 copy_icon() {
   local dest="$1"
-  if [ -f "$APP_ICON" ]; then
-    cp "$APP_ICON" "$dest/${APP_ID}.png"
+  if [ ! -f "$APP_ICON" ]; then
+    if [ -z "$icon_warning_shown" ]; then
+      icon_warning_shown=1
+      echo "Warning: app icon missing at $APP_ICON, packages will show a placeholder." >&2
+    fi
+    return
   fi
+  mkdir -p "$dest"
+  cp "$APP_ICON" "$dest/${APP_ID}.png"
+}
+
+# Installs the icon into the hicolor theme, the path every current desktop
+# searches. On Wayland it is how a window gets an icon at all: the compositor
+# resolves it from the desktop entry named by the window's app id, never from
+# the window itself. share/pixmaps stays alongside for older lookups.
+install_icons() {
+  local share_dir="$1"
+  copy_icon "$share_dir/icons/hicolor/512x512/apps"
+  copy_icon "$share_dir/pixmaps"
 }
 
 build_flutter_binary() {
@@ -584,9 +683,12 @@ if [ -n "$missing_libs" ]; then
 fi
 
 if [ -n "$version_errors" ]; then
-  echo "Moonfin cannot start. Your system libraries are older than the ones this build was made against:" >&2
+  echo "Moonfin cannot start. A library your system provides is missing symbols" >&2
+  echo "this build needs:" >&2
   printf '%s\n' "$version_errors" >&2
-  echo "Update your distro, or use a package built for it (deb/rpm/flatpak/snap)." >&2
+  echo "That library has to be bundled with the app for your distro." >&2
+  echo "Please report this output so the next build carries it." >&2
+  echo "A deb, rpm, flatpak or snap build works in the meantime." >&2
   exit 127
 fi
 
@@ -596,8 +698,15 @@ EOF
 
   create_desktop_file "$appimage_dir" "$version"
   copy_icon "$appimage_dir"
-  mkdir -p "$appimage_dir/usr/share/pixmaps"
-  copy_icon "$appimage_dir/usr/share/pixmaps"
+  install_icons "$appimage_dir/usr/share"
+  mkdir -p "$appimage_dir/usr/share/applications"
+  cp "$appimage_dir/${APP_ID}.desktop" \
+    "$appimage_dir/usr/share/applications/${APP_ID}.desktop"
+  # Desktop integration copies the entry and the themed icon out of the image,
+  # and file managers read the icon for the file itself from .DirIcon.
+  if [ -f "$appimage_dir/${APP_ID}.png" ]; then
+    cp "$appimage_dir/${APP_ID}.png" "$appimage_dir/.DirIcon"
+  fi
 
   # Update information lets AppImage updaters fetch only the changed blocks from
   # the .zsync published with each release. The wildcard matches whichever
@@ -701,6 +810,13 @@ Requirements:
   - Network access to Jellyfin/Emby server
 EOF
 
+  # The AUR package is built from this tarball, so it has to carry the desktop
+  # entry and the icon. Without them there is nothing for a packager to install
+  # and the window falls back to a placeholder.
+  create_desktop_file "$tar_dir/share/applications"
+  create_metainfo_file "$tar_dir/share/metainfo" "$version"
+  install_icons "$tar_dir/share"
+
   cd "$TEMP_DIR/tarball"
   tar -czf "$tarball_name" "moonfin-${version}"
   mv "$tarball_name" "$REPO_ROOT/"
@@ -736,7 +852,7 @@ EOF
   chmod +x "$pkg_root/usr/bin/moonfin"
 
   create_desktop_file "$pkg_root/usr/share/applications"
-  copy_icon "$pkg_root/usr/share/pixmaps"
+  install_icons "$pkg_root/usr/share"
 
   mkdir -p "$pkg_root/usr/share/metainfo"
   create_metainfo_file "$pkg_root/usr/share/metainfo" "$version"
@@ -830,6 +946,8 @@ cp "$rpm_dir/${APP_ID}.desktop" %{buildroot}/usr/share/applications/${APP_ID}.de
 cp "$rpm_dir/${APP_ID}.metainfo.xml" %{buildroot}/usr/share/metainfo/${APP_ID}.metainfo.xml
 
 if [ -f "$APP_ICON" ]; then
+  mkdir -p %{buildroot}/usr/share/icons/hicolor/512x512/apps
+  cp "$APP_ICON" %{buildroot}/usr/share/icons/hicolor/512x512/apps/${APP_ID}.png
   cp "$APP_ICON" %{buildroot}/usr/share/pixmaps/${APP_ID}.png
 fi
 
@@ -838,6 +956,7 @@ fi
 %dir /usr/lib/moonfin
 /usr/lib/moonfin/*
 /usr/share/applications/${APP_ID}.desktop
+/usr/share/icons/hicolor/512x512/apps/${APP_ID}.png
 /usr/share/pixmaps/${APP_ID}.png
 /usr/share/metainfo/${APP_ID}.metainfo.xml
 
@@ -919,6 +1038,7 @@ description: |
 grade: stable
 confinement: strict
 base: core22
+icon: ${APP_ID}.png
 
 apps:
   moonfin:
@@ -950,7 +1070,21 @@ parts:
 EOF
 
   cp -r "$BUILD_DIR"/* "$snap_dir/"
-  [ -f "$APP_ICON" ] && cp "$APP_ICON" "$snap_dir/${APP_ID}.png"
+  copy_icon "$snap_dir"
+
+  # snapcraft installs snap/gui into meta/gui and snapd rewrites the entry on
+  # install, which is the only way a strictly confined snap gets an icon.
+  mkdir -p "$snap_dir/snap/gui"
+  cat > "$snap_dir/snap/gui/moonfin.desktop" << EOF
+[Desktop Entry]
+Type=Application
+Name=Moonfin
+Exec=moonfin
+Icon=\${SNAP}/meta/gui/icon.png
+Categories=AudioVideo;Video;
+Comment=Jellyfin & Emby media client
+Terminal=false
+EOF
 
   cd "$snap_dir"
   if ! retry_with_backoff 3 snapcraft pack --destructive-mode; then
