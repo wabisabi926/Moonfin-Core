@@ -87,6 +87,22 @@ class BackgroundService {
       }
     }
 
+    // External rows carry artwork as a URL or a TMDB path rather than as
+    // Jellyfin image tags. Network and studio tiles are left out because their
+    // artwork is a duotone logo, which washes out behind the library.
+    final filterType = item.rawData['FilterType'];
+    final isLogoTile = filterType == 'network' || filterType == 'studio';
+    if (urls.isEmpty && !isLogoTile) {
+      final backdropPath = item.rawData['BackdropPath'] as String?;
+      if (backdropPath != null && backdropPath.isNotEmpty) {
+        if (backdropPath.startsWith('http')) {
+          urls.add(backdropPath);
+        } else if (backdropPath.startsWith('/')) {
+          urls.add('https://image.tmdb.org/t/p/w1280$backdropPath');
+        }
+      }
+    }
+
     // Albums, artists, and tracks carry no backdrop art, so fall back to their
     // cover blurred behind the library rather than clearing to nothing.
     if (urls.isEmpty && _audioTypes.contains(item.type)) {
