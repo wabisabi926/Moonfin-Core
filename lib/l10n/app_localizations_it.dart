@@ -3036,6 +3036,43 @@ class AppLocalizationsIt extends AppLocalizations {
   String get syncToProfile => 'Sincronizza con Profilo';
 
   @override
+  String get resetProfile => 'Reset Profile';
+
+  @override
+  String resetProfileTitle(String profile) {
+    return 'Reset $profile?';
+  }
+
+  @override
+  String resetProfileDescription(String profile) {
+    return 'This deletes the $profile profile from the server and puts every synced setting on this device back to its default.';
+  }
+
+  @override
+  String get resetGlobalProfileDescription =>
+      'This deletes every saved profile from the server and puts every synced setting on this device back to its default.';
+
+  @override
+  String profileReset(String profile) {
+    return 'Reset $profile profile to defaults.';
+  }
+
+  @override
+  String get resetRatingsTitle => 'Reset ratings?';
+
+  @override
+  String get resetRatingsDescription =>
+      'This puts every ratings setting back to its default, including which sources show and the order they appear in.';
+
+  @override
+  String get ratingsReset => 'Reset ratings to defaults.';
+
+  @override
+  String failedToResetProfile(String profile) {
+    return 'Failed to reset $profile profile.';
+  }
+
+  @override
   String get profileSyncHidden => 'Sincronizzazione Profilo Nascosta';
 
   @override
@@ -3986,10 +4023,22 @@ class AppLocalizationsIt extends AppLocalizations {
   String get requestMore => 'Richiedi Altro';
 
   @override
+  String get requestMore4k => 'Request More in 4K';
+
+  @override
   String get request => 'Richiesta';
 
   @override
+  String get request4k => 'Request 4K';
+
+  @override
+  String get requested4k => '4K Requested';
+
+  @override
   String get cancelRequest => 'Annulla Richiesta';
+
+  @override
+  String get cancelRequest4k => 'Cancel 4K Request';
 
   @override
   String get playInMoonfin => 'Riproduci in Moonfin';
@@ -4049,6 +4098,11 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String requestSeriesOrMovie(String type) {
     return 'Richiedi $type';
+  }
+
+  @override
+  String requestSeriesOrMovie4k(String type) {
+    return 'Request 4K $type';
   }
 
   @override

@@ -5470,6 +5470,60 @@ abstract class AppLocalizations {
   /// **'Sync Profile'**
   String get syncToProfile;
 
+  /// Button to reset a profile to defaults
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Profile'**
+  String get resetProfile;
+
+  /// Title of the dialog confirming a profile reset
+  ///
+  /// In en, this message translates to:
+  /// **'Reset {profile}?'**
+  String resetProfileTitle(String profile);
+
+  /// Body of the dialog confirming a device profile reset
+  ///
+  /// In en, this message translates to:
+  /// **'This deletes the {profile} profile from the server and puts every synced setting on this device back to its default.'**
+  String resetProfileDescription(String profile);
+
+  /// Body of the dialog confirming a global profile reset
+  ///
+  /// In en, this message translates to:
+  /// **'This deletes every saved profile from the server and puts every synced setting on this device back to its default.'**
+  String get resetGlobalProfileDescription;
+
+  /// Message after a profile was reset
+  ///
+  /// In en, this message translates to:
+  /// **'Reset {profile} profile to defaults.'**
+  String profileReset(String profile);
+
+  /// Title of the dialog confirming a ratings reset
+  ///
+  /// In en, this message translates to:
+  /// **'Reset ratings?'**
+  String get resetRatingsTitle;
+
+  /// Body of the dialog confirming a ratings reset
+  ///
+  /// In en, this message translates to:
+  /// **'This puts every ratings setting back to its default, including which sources show and the order they appear in.'**
+  String get resetRatingsDescription;
+
+  /// Message after the ratings settings were reset
+  ///
+  /// In en, this message translates to:
+  /// **'Reset ratings to defaults.'**
+  String get ratingsReset;
+
+  /// Message when a profile reset failed
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to reset {profile} profile.'**
+  String failedToResetProfile(String profile);
+
   /// Title when profile sync is hidden
   ///
   /// In en, this message translates to:
@@ -7180,17 +7234,41 @@ abstract class AppLocalizations {
   /// **'Request More'**
   String get requestMore;
 
+  /// Button to request more seasons in 4K, shown next to the non-4K Request More button
+  ///
+  /// In en, this message translates to:
+  /// **'Request More in 4K'**
+  String get requestMore4k;
+
   /// Button to submit a media request
   ///
   /// In en, this message translates to:
   /// **'Request'**
   String get request;
 
+  /// Button to submit a 4K media request, shown next to the non-4K Request button
+  ///
+  /// In en, this message translates to:
+  /// **'Request 4K'**
+  String get request4k;
+
+  /// Disabled label shown when a 4K request already exists and the user cannot cancel it
+  ///
+  /// In en, this message translates to:
+  /// **'4K Requested'**
+  String get requested4k;
+
   /// Button/dialog title to cancel a media request
   ///
   /// In en, this message translates to:
   /// **'Cancel Request'**
   String get cancelRequest;
+
+  /// Button/dialog title to cancel a 4K media request
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel 4K Request'**
+  String get cancelRequest4k;
 
   /// Button to play available media in Moonfin
   ///
@@ -7281,6 +7359,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Request {type}'**
   String requestSeriesOrMovie(String type);
+
+  /// Bottom sheet title for requesting media in 4K
+  ///
+  /// In en, this message translates to:
+  /// **'Request 4K {type}'**
+  String requestSeriesOrMovie4k(String type);
 
   /// Button to finalize a media request
   ///
