@@ -208,6 +208,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get glassQuality => 'Glass क्वालिटी';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       'ऑटो इस डिवाइस के लिए सबसे अच्छा Glass इफ़ेक्ट चुनता है। फ़ुल असली ब्लर लागू करता है; रिड्यूस्ड हल्का Glass इस्तेमाल करता है जो GPU पावर बचाता है।';
 
@@ -2547,20 +2560,6 @@ class AppLocalizationsHi extends AppLocalizations {
       'बिटस्ट्रीम डीटीएस ऑडियो केवल एवीआर के लिए; रिसीवर समर्थन और डीटीएस स्रोत ट्रैक की आवश्यकता है';
 
   @override
-  String get enableTrueHdAudio =>
-      'TrueHD ऑडियो चालू करें (सभी प्लेटफ़ॉर्म पर काम न करे)';
-
-  @override
-  String get settingsAudioOutputMode => 'ऑडियो आउटपुट मोड';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'चुनें कि ऑडियो कैसे डिकोड हो। AVR पासथ्रू रॉ Dolby/DTS स्ट्रीम आपके रिसीवर को भेजता है; ऑटो या डाउनमिक्स लोकल रूप से डिकोड करता है।';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'AVR पासथ्रू';
-
-  @override
   String get settingsAudioFallbackCodec => 'ऑडियो फ़ॉलबैक कोडेक';
 
   @override
@@ -2578,9 +2577,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(लॉसलेस)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(केवल स्टीरियो)';
@@ -2640,35 +2636,48 @@ class AppLocalizationsHi extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'EAC3 पासथ्रू';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'EAC3 JOC (Atmos) पासथ्रू';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'DTS Core पासथ्रू';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'DTS-HD MA पासथ्रू';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'TrueHD पासथ्रू';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'TrueHD Atmos पासथ्रू';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Dolby Digital Plus (EAC3) को बाहरी डिकोडर पर बिटस्ट्रीम करें।';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Dolby Atmos को EAC3 (JOC) पर बाहरी डिकोडर तक बिटस्ट्रीम करें।';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'DTS-HD MA (DTS core सहित) को बाहरी डिकोडर पर बिटस्ट्रीम करें।';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Atmos मेटाडेटा वाले Dolby TrueHD को बाहरी डिकोडर पर बिटस्ट्रीम करें।';
 
   @override
   String get settingsDetectedAudioCapabilities => 'पहचानी गई ऑडियो क्षमताएँ';
@@ -3236,6 +3245,16 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get showLibrariesFromAllServers =>
       'सभी कनेक्टेड सर्वर से लाइब्रेरी दिखाएं';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'फ़ोल्डर दृश्य सक्षम करें';
@@ -9213,17 +9232,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get notSupportedOnThisDevice => 'इस डिवाइस पर समर्थित नहीं';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'DTS:X (DTS UHD) पासथ्रू';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'DTS:X (DTS UHD) को बाहरी डिकोडर पर बिटस्ट्रीम करें।';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'Atmos (JOC) के साथ TrueHD पासथ्रू';
-
-  @override
   String get mediaPlayerBehavior => 'मीडिया प्लेयर व्यवहार';
 
   @override
@@ -10356,7 +10364,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10377,5 +10386,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

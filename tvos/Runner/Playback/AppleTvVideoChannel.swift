@@ -16,6 +16,7 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
     private var lastClosedCaptionCount = -1
     private var didComplete = false
     private var lastLoggedState: PlayerState?
+    private var didReportTerminalError = false
     private var lastMetadata: [String: Any]?
     private var lastSubtitleStyle: [String: Any]?
     private var lastThemeConfig: [String: Any]?
@@ -208,6 +209,15 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
         vc.onSelectSubtitle = { [weak self] index in
             self?.send(["event": "selectSubtitle", "index": index])
         }
+        // Keeps the stored delay on the Dart side in step with what the user
+        // set here. Audio delay has no control on this path, so it stays zero.
+        vc.onSubtitleDelayChanged = { [weak self] delayMs in
+            self?.send([
+                "event": "syncDelays",
+                "audioDelayMs": 0,
+                "subtitleDelayMs": delayMs,
+            ])
+        }
         vc.onSetSpeed = { [weak self] speed in
             self?.send(["event": "setSpeed", "speed": speed])
         }
@@ -322,6 +332,7 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
     private func setSource(_ args: [String: Any]) {
         guard let player = player, let url = args["url"] as? String else { return }
         didComplete = false
+        didReportTerminalError = false
         lastTextTrackCount = -1
         lastClosedCaptionCount = -1
         let startMs = (args["startPositionMs"] as? NSNumber)?.doubleValue ?? 0
@@ -355,6 +366,11 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
                     + "subtitleTracks=\(player.subtitleTracks.count)")
             if let speed = (args["speed"] as? NSNumber)?.floatValue, speed != 1.0 {
                 player.setRate(speed)
+            }
+            if let delayMs = (args["subtitleDelayMs"] as? NSNumber)?.doubleValue,
+                delayMs != 0
+            {
+                player.setSubtitleDelay(delayMs / 1000.0)
             }
         }
     }
@@ -427,7 +443,8 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
             send(["event": "completed", "completed": true])
         }
 
-        if p.state == .error {
+        if p.state == .error, !didReportTerminalError {
+            didReportTerminalError = true
             send(["event": "error", "error": "Playback error"])
         }
     }

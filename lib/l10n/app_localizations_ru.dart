@@ -208,6 +208,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get glassQuality => 'Качество стекла';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       '«Авто» подбирает лучший эффект стекла для этого устройства. «Полное» включает настоящее размытие, «Упрощённое» — облегчённое стекло, экономящее ресурсы GPU.';
 
@@ -2577,20 +2590,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Битовый поток звука DTS только для AVR; требуется поддержка ресивера и исходная дорожка DTS';
 
   @override
-  String get enableTrueHdAudio =>
-      'Включить звук TrueHD (может работать не на всех платформах)';
-
-  @override
-  String get settingsAudioOutputMode => 'Режим вывода звука';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'Выберите способ декодирования звука. AVR Passthrough передаёт исходные потоки Dolby/DTS на ресивер, «Авто» и «Сведение» декодируют локально.';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'AVR Passthrough';
-
-  @override
   String get settingsAudioFallbackCodec => 'Запасной аудиокодек';
 
   @override
@@ -2609,9 +2608,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(без потерь)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(только стерео)';
@@ -2671,35 +2667,48 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'EAC3 Passthrough';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'EAC3 JOC (Atmos) Passthrough';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'DTS Core Passthrough';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'DTS-HD MA Passthrough';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'TrueHD Passthrough';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'TrueHD Atmos Passthrough';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Передавать битовый поток Dolby Digital Plus (EAC3) на внешний декодер.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Передавать битовый поток Dolby Atmos через EAC3 (JOC) на внешний декодер.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Передавать битовый поток DTS-HD MA (включая ядро DTS) на внешний декодер.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Передавать битовый поток Dolby TrueHD с метаданными Atmos на внешний декодер.';
 
   @override
   String get settingsDetectedAudioCapabilities =>
@@ -3275,6 +3284,16 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get showLibrariesFromAllServers =>
       'Показать библиотеки со всех подключенных серверов';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'Включить просмотр папок';
@@ -9319,17 +9338,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notSupportedOnThisDevice => 'Не поддерживается на этом устройстве';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'DTS:X (DTS UHD) Passthrough';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Передавать битовый поток DTS:X (DTS UHD) на внешний декодер.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'TrueHD с Atmos (JOC) Passthrough';
-
-  @override
   String get mediaPlayerBehavior => 'Поведение плеера';
 
   @override
@@ -10464,7 +10472,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10485,5 +10494,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

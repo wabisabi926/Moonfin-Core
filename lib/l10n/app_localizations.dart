@@ -580,6 +580,30 @@ abstract class AppLocalizations {
   /// **'Glass Quality'**
   String get glassQuality;
 
+  /// Label for the setting that deepens blacks and enriches artwork on OLED displays
+  ///
+  /// In en, this message translates to:
+  /// **'OLED Mode'**
+  String get oledMode;
+
+  /// Explanation under the OLED Mode setting
+  ///
+  /// In en, this message translates to:
+  /// **'Deepen blacks and enrich artwork. Best on OLED displays.'**
+  String get oledModeSubtitle;
+
+  /// OLED Mode level that darkens surfaces gently and lightly enriches artwork
+  ///
+  /// In en, this message translates to:
+  /// **'Subtle'**
+  String get oledModeSubtle;
+
+  /// OLED Mode level that uses pure black surfaces and the strongest artwork enrichment
+  ///
+  /// In en, this message translates to:
+  /// **'Vivid'**
+  String get oledModeVivid;
+
   /// Explanation under the glass quality setting
   ///
   /// In en, this message translates to:
@@ -4624,30 +4648,6 @@ abstract class AppLocalizations {
   /// **'Bitstream DTS audio to AVR only; requires receiver support and DTS source track'**
   String get enableDtsPassthrough;
 
-  /// Description for TrueHD support
-  ///
-  /// In en, this message translates to:
-  /// **'Enable TrueHD audio (may not work on all platforms)'**
-  String get enableTrueHdAudio;
-
-  /// Setting for audio output mode
-  ///
-  /// In en, this message translates to:
-  /// **'Audio Output Mode'**
-  String get settingsAudioOutputMode;
-
-  /// Description for audio output mode setting
-  ///
-  /// In en, this message translates to:
-  /// **'Choose how audio is decoded. AVR Passthrough sends raw Dolby/DTS streams to your receiver; Auto or Downmix decodes locally.'**
-  String get settingsAudioOutputModeDescription;
-
-  /// Audio output mode option for AVR passthrough
-  ///
-  /// In en, this message translates to:
-  /// **'AVR Passthrough'**
-  String get settingsAudioOutputModeAvrPassthrough;
-
   /// Setting for fallback audio codec
   ///
   /// In en, this message translates to:
@@ -4683,12 +4683,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'EAC3\n(Dolby Digital Plus)'**
   String get settingsAudioFallbackCodecEac3;
-
-  /// Fallback codec option: TrueHD
-  ///
-  /// In en, this message translates to:
-  /// **'TrueHD\n(Lossless)'**
-  String get settingsAudioFallbackCodecTrueHd;
 
   /// Fallback codec option: MP3
   ///
@@ -4798,12 +4792,6 @@ abstract class AppLocalizations {
   /// **'EAC3 Passthrough'**
   String get settingsAudioEac3Passthrough;
 
-  /// Setting for EAC3 JOC Atmos passthrough
-  ///
-  /// In en, this message translates to:
-  /// **'EAC3 JOC (Atmos) Passthrough'**
-  String get settingsAudioEac3JocPassthrough;
-
   /// Setting for DTS core passthrough
   ///
   /// In en, this message translates to:
@@ -4816,41 +4804,65 @@ abstract class AppLocalizations {
   /// **'DTS-HD MA Passthrough'**
   String get settingsAudioDtsHdPassthrough;
 
+  /// Title of the audio passthrough mode selector
+  ///
+  /// In en, this message translates to:
+  /// **'Passthrough'**
+  String get settingsAudioPassthroughMode;
+
+  /// No description provided for @settingsAudioPassthroughModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'How compressed surround sound reaches your TV or receiver.'**
+  String get settingsAudioPassthroughModeDescription;
+
+  /// No description provided for @settingsAudioPassthroughModeDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled (always decode on this device)'**
+  String get settingsAudioPassthroughModeDisabled;
+
+  /// No description provided for @settingsAudioPassthroughModeAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto (match detected device support)'**
+  String get settingsAudioPassthroughModeAuto;
+
+  /// No description provided for @settingsAudioPassthroughModeManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual (choose formats below)'**
+  String get settingsAudioPassthroughModeManual;
+
+  /// No description provided for @settingsDownmixToStereoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Mix all decoded audio down to two channels.'**
+  String get settingsDownmixToStereoDescription;
+
+  /// No description provided for @settingsAudioEac3IncludesAtmos.
+  ///
+  /// In en, this message translates to:
+  /// **'Bitstream E-AC-3, including Dolby Atmos (JOC).'**
+  String get settingsAudioEac3IncludesAtmos;
+
+  /// No description provided for @settingsAudioDtsHdIncludesDtsX.
+  ///
+  /// In en, this message translates to:
+  /// **'Bitstream DTS-HD, including DTS:X.'**
+  String get settingsAudioDtsHdIncludesDtsX;
+
+  /// No description provided for @settingsAudioTrueHdIncludesAtmos.
+  ///
+  /// In en, this message translates to:
+  /// **'Bitstream TrueHD, including Dolby Atmos.'**
+  String get settingsAudioTrueHdIncludesAtmos;
+
   /// Setting for TrueHD passthrough
   ///
   /// In en, this message translates to:
   /// **'TrueHD Passthrough'**
   String get settingsAudioTrueHdPassthrough;
-
-  /// Setting for TrueHD Atmos passthrough
-  ///
-  /// In en, this message translates to:
-  /// **'TrueHD Atmos Passthrough'**
-  String get settingsAudioTrueHdAtmosPassthrough;
-
-  /// Description for EAC3 passthrough
-  ///
-  /// In en, this message translates to:
-  /// **'Bitstream Dolby Digital Plus (EAC3) to external decoder.'**
-  String get settingsAudioBitstreamEac3ToExternalDecoder;
-
-  /// Description for EAC3 JOC passthrough
-  ///
-  /// In en, this message translates to:
-  /// **'Bitstream Dolby Atmos over EAC3 (JOC) to external decoder.'**
-  String get settingsAudioBitstreamEac3JocToExternalDecoder;
-
-  /// Description for DTS-HD MA passthrough
-  ///
-  /// In en, this message translates to:
-  /// **'Bitstream DTS-HD MA (includes DTS core) to external decoder.'**
-  String get settingsAudioBitstreamDtsHdToExternalDecoder;
-
-  /// Description for TrueHD Atmos passthrough
-  ///
-  /// In en, this message translates to:
-  /// **'Bitstream Dolby TrueHD with Atmos metadata to external decoder.'**
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder;
 
   /// Section title for detected runtime audio capabilities
   ///
@@ -5883,6 +5895,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show libraries from all connected servers'**
   String get showLibrariesFromAllServers;
+
+  /// Setting for merging recently added and recently released libraries by media type
+  ///
+  /// In en, this message translates to:
+  /// **'Merge Recent Rows by Type'**
+  String get mergeRecentRowsByType;
+
+  /// Description for merging recent home rows by media type
+  ///
+  /// In en, this message translates to:
+  /// **'Combine separate libraries of the same type for Recently Added and Recently Released home rows.'**
+  String get mergeRecentRowsByTypeDescription;
+
+  /// Section title for library view settings
+  ///
+  /// In en, this message translates to:
+  /// **'Library View'**
+  String get libraryView;
 
   /// Setting for enabling folder view
   ///
@@ -15547,19 +15577,19 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAutoAftkrtEnabled.
   ///
   /// In en, this message translates to:
-  /// **'Auto (AFTKRT enabled)'**
+  /// **'Auto'**
   String get settingsAutoAftkrtEnabled;
 
   /// No description provided for @settingsEnabledOnThisDevice.
   ///
   /// In en, this message translates to:
-  /// **'Enabled on this device'**
+  /// **'Enabled'**
   String get settingsEnabledOnThisDevice;
 
   /// No description provided for @settingsDisabledPreferTranscode.
   ///
   /// In en, this message translates to:
-  /// **'Disabled (prefer transcode)'**
+  /// **'Off'**
   String get settingsDisabledPreferTranscode;
 
   /// No description provided for @settingsResumeRewindDescription.
@@ -15886,16 +15916,16 @@ abstract class AppLocalizations {
   /// **'Advanced. Routes audio and video through a coupled hardware path. Off by default because it causes audio/video dropouts on some devices.'**
   String get enableTunnelingSubtitle;
 
-  /// Setting title: play DV P7 as HDR10 HEVC on non-DV devices
+  /// Setting title: force DV P7 streams to the HDR10 strip path
   ///
   /// In en, this message translates to:
-  /// **'Map Dolby Vision profile 7 to HEVC'**
+  /// **'Always play Dolby Vision profile 7 as HDR10'**
   String get mapDolbyVisionP7Title;
 
-  /// Setting subtitle for DV P7 to HEVC mapping
+  /// Setting subtitle for forcing the DV P7 strip path
   ///
   /// In en, this message translates to:
-  /// **'Play Dolby Vision profile 7 streams as HDR10-compatible HEVC on non-DV devices.'**
+  /// **'Skip the profile 8 conversion and strip Dolby Vision profile 7 streams to HDR10-compatible HEVC. Use this if converted streams look wrong.'**
   String get mapDolbyVisionP7Subtitle;
 
   /// Setting title: apply colours/positioning from the subtitle track
@@ -16419,24 +16449,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not Supported on this device'**
   String get notSupportedOnThisDevice;
-
-  /// No description provided for @settingsAudioDtsXPassthrough.
-  ///
-  /// In en, this message translates to:
-  /// **'DTS:X (DTS UHD) Passthrough'**
-  String get settingsAudioDtsXPassthrough;
-
-  /// No description provided for @settingsAudioBitstreamDtsXToExternalDecoder.
-  ///
-  /// In en, this message translates to:
-  /// **'Bitstream DTS:X (DTS UHD) to external decoder.'**
-  String get settingsAudioBitstreamDtsXToExternalDecoder;
-
-  /// No description provided for @settingsAudioTrueHdJocPassthrough.
-  ///
-  /// In en, this message translates to:
-  /// **'TrueHD with Atmos (JOC) Passthrough'**
-  String get settingsAudioTrueHdJocPassthrough;
 
   /// No description provided for @mediaPlayerBehavior.
   ///

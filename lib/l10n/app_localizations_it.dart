@@ -208,6 +208,19 @@ class AppLocalizationsIt extends AppLocalizations {
   String get glassQuality => 'Qualità dell\'effetto vetro';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       'Automatico seleziona l\'effetto vetro più adatto al dispositivo. Completo utilizza la sfocatura reale per la migliore resa visiva. Ridotto usa un effetto più leggero per ridurre il consumo della GPU.';
 
@@ -2567,20 +2580,6 @@ class AppLocalizationsIt extends AppLocalizations {
       'Solo audio DTS bitstream su AVR; richiede il supporto del ricevitore e la traccia sorgente DTS';
 
   @override
-  String get enableTrueHdAudio =>
-      'Abilita audio TrueHD (potrebbe non funzionare su tutte le piattaforme)';
-
-  @override
-  String get settingsAudioOutputMode => 'Modalità Uscita Audio';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'Scegli come viene decodificato l\'audio. AVR Passthrough invia i flussi Dolby/DTS originali al ricevitore; Auto o Downmix esegue la decodifica localmente.';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'Passthrough AVR';
-
-  @override
   String get settingsAudioFallbackCodec => 'Codec audio alternativo';
 
   @override
@@ -2599,9 +2598,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(Senza perdita)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(Solo Stereo)';
@@ -2661,35 +2657,48 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'Passthrough EAC3';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'Passthrough EAC3 JOC (Atmos)';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'Passthrough DTS Core';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'Passthrough DTS-HD MA';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'Passthrough TrueHD';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'Passthrough TrueHD Atmos';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Invia in bitstream Dolby Digital Plus (EAC3) al decoder esterno.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Invia in bitstream Dolby Atmos su EAC3 (JOC) al decoder esterno.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Invia in bitstream DTS-HD MA (include DTS core) al decoder esterno.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Invia in bitstream Dolby TrueHD con metadati Atmos al decoder esterno.';
 
   @override
   String get settingsDetectedAudioCapabilities => 'Capacità Audio Rilevate';
@@ -3264,6 +3273,16 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get showLibrariesFromAllServers =>
       'Mostra librerie da tutti i server connessi';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'Abilita Visualizzazione Cartelle';
@@ -9316,17 +9335,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get notSupportedOnThisDevice => 'Non supportato su questo dispositivo';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'Passthrough DTS:X (DTS UHD)';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Invia in bitstream DTS:X (DTS UHD) al decoder esterno.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'Passthrough TrueHD con Atmos (JOC)';
-
-  @override
   String get mediaPlayerBehavior => 'Comportamento del Lettore Media';
 
   @override
@@ -10470,7 +10478,8 @@ class AppLocalizationsIt extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10491,5 +10500,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

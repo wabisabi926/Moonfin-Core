@@ -273,18 +273,12 @@ class AetherBackend implements PlayerBackend {
     return DeviceProfileBuilder.build(
       maxBitrateMbps: maxBitrate,
       audioCapabilityProfile: audioCapabilityProfile,
-      audioOutputMode: _prefs.resolveAudioOutputMode(),
       audioFallbackCodec: _prefs.resolveAudioFallbackCodec(),
       ac3PassthroughEnabled: _prefs.resolveAc3PassthroughEnabled(),
       eac3PassthroughEnabled: _prefs.resolveEac3PassthroughEnabled(),
-      eac3JocPassthroughEnabled: _prefs.resolveEac3JocPassthroughEnabled(),
       dtsCorePassthroughEnabled: _prefs.resolveDtsCorePassthroughEnabled(),
-      dtsHdPassthroughEnabled: _prefs.resolveDtsHdPassthroughEnabled(),
-      dtsXPassthroughEnabled: _prefs.resolveDtsXPassthroughEnabled(),
       trueHdPassthroughEnabled: _prefs.resolveTrueHdPassthroughEnabled(),
-      trueHdAtmosPassthroughEnabled: _prefs
-          .resolveTrueHdAtmosPassthroughEnabled(),
-      explicitPassthroughToggles: _prefs.explicitPassthroughToggles,
+      downmixToStereo: _prefs.get(UserPreferences.downmixToStereo),
       // AetherEngine plays every advertised audio codec: AAC/AC3/EAC3(+JOC
       // Atmos)/FLAC/ALAC are stream-copied intact, and TrueHD/DTS/MP3/Opus/
       // Vorbis/PCM are bridged to EAC3 or FLAC on-device.
@@ -300,6 +294,7 @@ class AetherBackend implements PlayerBackend {
       supportsHevcMain10: PlatformDetection.supportsHevcMain10,
       transcodeHevcAllowed: serverAllowsHevcTranscode(),
       hevcRequiresFmp4Hls: true,
+      hlsAudioExcludesDts: true,
       hevcMainLevel: PlatformDetection.hevcMainLevel,
       supportsHevcDolbyVision: PlatformDetection.supportsHevcDolbyVision,
       supportsHevcDolbyVisionEl: PlatformDetection.supportsHevcDolbyVisionEl,
@@ -329,6 +324,11 @@ class AetherBackend implements PlayerBackend {
             behavior: _prefs.get(
               UserPreferences.dolbyVisionProfile7DirectPlayBehavior,
             ),
+            // Auto otherwise falls through to a model list that no Apple
+            // device is on, so every P7 title transcodes on hardware that
+            // can play it.
+            hasHardwareDolbyVisionDecoder:
+                PlatformDetection.supportsDoViProfile7,
           ),
     );
   }
@@ -466,6 +466,9 @@ class AetherBackend implements PlayerBackend {
 
   @override
   bool get supportsRuntimeTrackSelection => true;
+
+  @override
+  bool get supportsDirectPlayAudioSwitch => false;
 
   @override
   bool get requiresStartupMediaReadyCheck => false;

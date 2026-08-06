@@ -208,6 +208,19 @@ class AppLocalizationsSw extends AppLocalizations {
   String get glassQuality => 'Ubora wa Glass';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       'Otomatiki huchagua athari bora ya glass kwa kifaa hiki. Kamili hulazimisha ukungu halisi; Iliyopunguzwa hutumia glass nyepesi inayookoa nguvu ya GPU.';
 
@@ -2571,20 +2584,6 @@ class AppLocalizationsSw extends AppLocalizations {
       'Sauti ya Bitstream DTS kwa AVR pekee; inahitaji usaidizi wa mpokeaji na wimbo wa chanzo wa DTS';
 
   @override
-  String get enableTrueHdAudio =>
-      'Washa sauti ya TrueHD (huenda isifanye kazi kwenye mifumo yote)';
-
-  @override
-  String get settingsAudioOutputMode => 'Modi ya Utoaji wa Sauti';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'Chagua jinsi sauti inavyosimbuliwa. AVR Passthrough hutuma mikondo ghafi ya Dolby/DTS kwa risiva yako; Otomatiki au Downmix husimbua ndani ya kifaa.';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'AVR Passthrough';
-
-  @override
   String get settingsAudioFallbackCodec => 'Kodeki Mbadala ya Sauti';
 
   @override
@@ -2603,9 +2602,6 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(Bila Hasara)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(Stereo Pekee)';
@@ -2665,35 +2661,48 @@ class AppLocalizationsSw extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'EAC3 Passthrough';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'EAC3 JOC (Atmos) Passthrough';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'DTS Core Passthrough';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'DTS-HD MA Passthrough';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'TrueHD Passthrough';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'TrueHD Atmos Passthrough';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Tuma mtiririko wa biti wa Dolby Digital Plus (EAC3) kwa kisimbuzi cha nje.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Tuma mtiririko wa biti wa Dolby Atmos kupitia EAC3 (JOC) kwa kisimbuzi cha nje.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Tuma mtiririko wa biti wa DTS-HD MA (pamoja na DTS core) kwa kisimbuzi cha nje.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Tuma mtiririko wa biti wa Dolby TrueHD wenye metadata ya Atmos kwa kisimbuzi cha nje.';
 
   @override
   String get settingsDetectedAudioCapabilities =>
@@ -3267,6 +3276,16 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get showLibrariesFromAllServers =>
       'Onyesha maktaba kutoka kwa seva zote zilizounganishwa';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'Washa Mwonekano wa Folda';
@@ -9316,17 +9335,6 @@ class AppLocalizationsSw extends AppLocalizations {
   String get notSupportedOnThisDevice => 'Haitumiki kwenye kifaa hiki';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'DTS:X (DTS UHD) Passthrough';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Tuma mtiririko wa biti wa DTS:X (DTS UHD) kwa kisimbuzi cha nje.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'TrueHD yenye Atmos (JOC) Passthrough';
-
-  @override
   String get mediaPlayerBehavior => 'Tabia ya Kicheza Maudhui';
 
   @override
@@ -10469,7 +10477,8 @@ class AppLocalizationsSw extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10490,5 +10499,6 @@ class AppLocalizationsSw extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

@@ -208,6 +208,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get glassQuality => 'Jakość efektu szkła/rozmycia';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       'Automatycznie dobiera najlepszy efekt dla tego urządzenia. Pełny wymusza prawdziwe rozmycie. Zmniejszony korzysta z uproszczonego efektu, oszczędzając GPU.';
 
@@ -2558,20 +2571,6 @@ class AppLocalizationsPl extends AppLocalizations {
       'Przesyłaj strumień DTS bezpośrednio (bitstream) do amplitunera; wymaga obsługi przez amplituner oraz źródłowej ścieżki DTS';
 
   @override
-  String get enableTrueHdAudio =>
-      'Włącz dźwięk TrueHD (może nie działać na wszystkich platformach)';
-
-  @override
-  String get settingsAudioOutputMode => 'Tryb wyjścia audio';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'Wybierz sposób dekodowania audio. Passthrough do amplitunera przesyła surowy strumień Dolby/DTS; tryb Automatyczny lub Downmix dekoduje lokalnie.';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'AVR Passthrough';
-
-  @override
   String get settingsAudioFallbackCodec => 'Zapasowy kodek audio';
 
   @override
@@ -2590,9 +2589,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(Bezstratny)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(Stereo)';
@@ -2652,35 +2648,48 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'EAC3 przejście';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'EAC3 JOC (Atmos) przejście';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'DTS Core przejście';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'DTS-HD MA przejście';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'TrueHD przejście';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'TrueHD Atmos przejście';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Przesyłaj strumień Dolby Digital Plus (EAC3) bezpośrednio do zewnętrznego dekodera.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Przesyłaj strumień Dolby Atmos przez EAC3 (JOC) do zewnętrznego dekodera.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Przesyłaj strumień DTS-HD MA (zawiera rdzeń DTS) do zewnętrznego dekodera.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Przesyłaj strumień Dolby TrueHD z metadanymi Atmos do zewnętrznego dekodera.';
 
   @override
   String get settingsDetectedAudioCapabilities => 'Wykryte możliwości audio';
@@ -3251,6 +3260,16 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get showLibrariesFromAllServers =>
       'Pokaż biblioteki ze wszystkich podłączonych serwerów';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'Włącz widok folderów';
@@ -9294,17 +9313,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get notSupportedOnThisDevice => 'Nieobsługiwane na tym urządzeniu';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'Passthrough DTS:X (DTS UHD)';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Przesyłaj strumień DTS:X (DTS UHD) do zewnętrznego dekodera.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'Passthrough TrueHD z Atmos (JOC)';
-
-  @override
   String get mediaPlayerBehavior => 'Zachowanie odtwarzacza';
 
   @override
@@ -10447,7 +10455,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10468,5 +10477,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

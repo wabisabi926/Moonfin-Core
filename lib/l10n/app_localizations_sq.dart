@@ -209,6 +209,19 @@ class AppLocalizationsSq extends AppLocalizations {
   String get glassQuality => 'Cilësia e xhamit';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       'Auto zgjedh efektin më të mirë të xhamit për këtë pajisje. I plotë imponon turbullim real; I reduktuar përdor një xham të lehtë që kursen energjinë e GPU-së.';
 
@@ -2572,21 +2585,6 @@ class AppLocalizationsSq extends AppLocalizations {
       'Bitstream audio DTS vetëm në AVR; kërkon mbështetjen e marrësit dhe gjurmën e burimit DTS';
 
   @override
-  String get enableTrueHdAudio =>
-      'Aktivizo audion TrueHD (mund të mos funksionojë në të gjitha platformat)';
-
-  @override
-  String get settingsAudioOutputMode => 'Modaliteti i daljes audio';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'Zgjidh se si dekodohet audioja. Kalimi i drejtpërdrejtë AVR dërgon transmetime të papërpunuara Dolby/DTS te marrësi juaj; Auto ose Downmix dekodon lokalisht.';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough =>
-      'Kalim i drejtpërdrejtë AVR';
-
-  @override
   String get settingsAudioFallbackCodec => 'Kodeku rezervë i audios';
 
   @override
@@ -2605,9 +2603,6 @@ class AppLocalizationsSq extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(Pa humbje)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(Vetëm stereo)';
@@ -2669,10 +2664,6 @@ class AppLocalizationsSq extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'Kalim i drejtpërdrejtë EAC3';
 
   @override
-  String get settingsAudioEac3JocPassthrough =>
-      'Kalim i drejtpërdrejtë EAC3 JOC (Atmos)';
-
-  @override
   String get settingsAudioDtsCorePassthrough =>
       'Kalim i drejtpërdrejtë DTS Core';
 
@@ -2681,27 +2672,42 @@ class AppLocalizationsSq extends AppLocalizations {
       'Kalim i drejtpërdrejtë DTS-HD MA';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'Kalim i drejtpërdrejtë TrueHD';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough =>
-      'Kalim i drejtpërdrejtë TrueHD Atmos';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Dërgo bitstream Dolby Digital Plus (EAC3) te dekoduesi i jashtëm.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Dërgo bitstream Dolby Atmos përmes EAC3 (JOC) te dekoduesi i jashtëm.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Dërgo bitstream DTS-HD MA (përfshin DTS core) te dekoduesi i jashtëm.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Dërgo bitstream Dolby TrueHD me metadata Atmos te dekoduesi i jashtëm.';
 
   @override
   String get settingsDetectedAudioCapabilities => 'Aftësitë audio të zbuluara';
@@ -3272,6 +3278,16 @@ class AppLocalizationsSq extends AppLocalizations {
   @override
   String get showLibrariesFromAllServers =>
       'Shfaq bibliotekat nga të gjithë serverët e lidhur';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'Aktivizo pamjen e dosjeve';
@@ -9329,18 +9345,6 @@ class AppLocalizationsSq extends AppLocalizations {
   String get notSupportedOnThisDevice => 'Nuk mbështetet në këtë pajisje';
 
   @override
-  String get settingsAudioDtsXPassthrough =>
-      'Kalim i drejtpërdrejtë DTS:X (DTS UHD)';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Dërgo bitstream DTS:X (DTS UHD) te dekoduesi i jashtëm.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'Kalim i drejtpërdrejtë TrueHD me Atmos (JOC)';
-
-  @override
   String get mediaPlayerBehavior => 'Sjellja e luajtësit të medias';
 
   @override
@@ -10485,7 +10489,8 @@ class AppLocalizationsSq extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10506,5 +10511,6 @@ class AppLocalizationsSq extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

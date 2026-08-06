@@ -208,6 +208,19 @@ class AppLocalizationsLv extends AppLocalizations {
   String get glassQuality => 'Stikla kvalitāte';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       'Automātiskais izvēlas šai ierīcei piemērotāko stikla efektu. Pilnais ieslēdz īstu izplūdumu; Samazinātais izmanto vieglu stiklu, kas taupa GPU jaudu.';
 
@@ -2570,20 +2583,6 @@ class AppLocalizationsLv extends AppLocalizations {
       'Bitu plūsmas DTS audio tikai AVR; nepieciešams uztvērēja atbalsts un DTS avota celiņš';
 
   @override
-  String get enableTrueHdAudio =>
-      'Iespējot TrueHD audio (var nedarboties visās platformās)';
-
-  @override
-  String get settingsAudioOutputMode => 'Audio izvades režīms';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'Izvēlieties, kā tiek dekodēts audio. „AVR caurlaide“ sūta neapstrādātas Dolby / DTS straumes uz uztvērēju; „Automātiski“ vai „Samiksēšana“ dekodē lokāli.';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'AVR caurlaide';
-
-  @override
   String get settingsAudioFallbackCodec => 'Audio atkāpšanās kodeks';
 
   @override
@@ -2602,9 +2601,6 @@ class AppLocalizationsLv extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(bez zudumiem)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(tikai stereo)';
@@ -2664,35 +2660,48 @@ class AppLocalizationsLv extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'EAC3 caurlaide';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'EAC3 JOC (Atmos) caurlaide';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'DTS Core caurlaide';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'DTS-HD MA caurlaide';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'TrueHD caurlaide';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'TrueHD Atmos caurlaide';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Bitu plūsma Dolby Digital Plus (EAC3) uz ārējo dekodētāju.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Bitu plūsma Dolby Atmos, izmantojot EAC3 (JOC), uz ārējo dekodētāju.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Bitu plūsmas DTS-HD MA (ietver DTS kodolu) uz ārējo dekodētāju.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Bitu plūsma Dolby TrueHD ar Atmos metadatiem uz ārējo dekodētāju.';
 
   @override
   String get settingsDetectedAudioCapabilities => 'Atklātas audio iespējas';
@@ -3264,6 +3273,16 @@ class AppLocalizationsLv extends AppLocalizations {
   @override
   String get showLibrariesFromAllServers =>
       'Rādīt bibliotēkas no visiem pievienotajiem serveriem';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'Iespējot mapju skatu';
@@ -9293,17 +9312,6 @@ class AppLocalizationsLv extends AppLocalizations {
   String get notSupportedOnThisDevice => 'Netiek atbalstīts šajā ierīcē';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'DTS:X (DTS UHD) caurlaide';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Bitu plūsma DTS:X (DTS UHD) uz ārējo dekodētāju.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'TrueHD ar Atmos (JOC) caurlaidi';
-
-  @override
   String get mediaPlayerBehavior => 'Multivides atskaņotāja uzvedība';
 
   @override
@@ -10448,7 +10456,8 @@ class AppLocalizationsLv extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10469,5 +10478,6 @@ class AppLocalizationsLv extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

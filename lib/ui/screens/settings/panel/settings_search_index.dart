@@ -572,6 +572,20 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
       keywords: ['background images'],
     ),
     style.leaf(
+      'pref_oled_mode',
+      l10n.oledMode,
+      subtitle: l10n.oledModeSubtitle,
+      keywords: [
+        'oled',
+        'amoled',
+        'true black',
+        'pure black',
+        'vibrance',
+        'saturation',
+        'contrast',
+      ],
+    ),
+    style.leaf(
       'browsingBackgroundBlurAmount',
       l10n.browsingBackgroundBlur,
       keywords: ['backdrop'],
@@ -661,6 +675,12 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
       l10n.navbarAlwaysExpanded,
       subtitle: l10n.settingsAlwaysExpandNavbarLabels,
       keywords: ['labels'],
+    ),
+    navigation.leaf(
+      'enable_folder_view',
+      l10n.enableFolderView,
+      subtitle: l10n.showFolderBrowsingOption,
+      keywords: ['directories'],
     ),
     if (seerrAvailable)
       navigation.leaf(
@@ -898,15 +918,15 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
       'latest media',
     ]),
     libraries.leaf(
-      'enable_folder_view',
-      l10n.enableFolderView,
-      subtitle: l10n.showFolderBrowsingOption,
-      keywords: ['directories'],
-    ),
-    libraries.leaf(
       'enable_multi_server_libraries',
       l10n.multiServerLibraries,
       subtitle: l10n.showLibrariesFromAllServers,
+    ),
+    libraries.leaf(
+      'pref_merge_recent_rows_by_type',
+      l10n.mergeRecentRowsByType,
+      subtitle: l10n.mergeRecentRowsByTypeDescription,
+      keywords: ['combine', 'homepage', 'rows', 'recent', 'released'],
     ),
     libraries.leaf(
       'pref_group_items_into_collections',
@@ -1163,11 +1183,15 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
     ),
     if (!PlatformDetection.isWeb) ...[
       audio.leaf(
-        'pref_audio_passthrough_preset',
-        'Audio Output',
-        keywords: ['passthrough', 'bitstream', 'receiver', 'preset'],
+        'pref_audio_passthrough_mode',
+        l10n.settingsAudioPassthroughMode,
+        keywords: ['passthrough', 'bitstream', 'receiver', 'output'],
       ),
-      audio.leaf('audio_output_mode', l10n.settingsAudioOutputMode),
+      audio.leaf(
+        'pref_downmix_to_stereo',
+        l10n.downmixToStereo,
+        keywords: ['stereo', 'downmix', '2.0'],
+      ),
       audio.leaf(
         'pref_max_audio_channels',
         l10n.settingsMaxAudioChannels,
@@ -1182,12 +1206,7 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
       audio.leaf(
         'pref_passthrough_eac3',
         l10n.settingsAudioEac3Passthrough,
-        keywords: ['dolby digital plus', 'bitstream'],
-      ),
-      audio.leaf(
-        'pref_passthrough_eac3_joc',
-        l10n.settingsAudioEac3JocPassthrough,
-        keywords: ['atmos', 'bitstream'],
+        keywords: ['dolby digital plus', 'atmos', 'bitstream'],
       ),
       audio.leaf(
         'pref_passthrough_dts_core',
@@ -1197,22 +1216,12 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
       audio.leaf(
         'pref_passthrough_dts_hd',
         l10n.settingsAudioDtsHdPassthrough,
-        keywords: ['dts', 'bitstream'],
-      ),
-      audio.leaf(
-        'pref_passthrough_dts_x',
-        l10n.settingsAudioDtsXPassthrough,
-        keywords: ['dts', 'bitstream'],
+        keywords: ['dts', 'dts:x', 'bitstream'],
       ),
       audio.leaf(
         'pref_passthrough_truehd',
         l10n.settingsAudioTrueHdPassthrough,
-        keywords: ['truehd', 'bitstream'],
-      ),
-      audio.leaf(
-        'pref_passthrough_truehd_atmos',
-        l10n.settingsAudioTrueHdJocPassthrough,
-        keywords: ['atmos', 'truehd', 'bitstream'],
+        keywords: ['truehd', 'atmos', 'bitstream'],
       ),
     ],
 

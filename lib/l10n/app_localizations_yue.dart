@@ -204,6 +204,19 @@ class AppLocalizationsYue extends AppLocalizations {
   String get glassQuality => '玻璃效果品質';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       '「自動」會為呢部裝置揀最啱嘅玻璃效果。「完整」會強制用真實模糊；「精簡」用輕量玻璃，慳返 GPU 電力。';
 
@@ -2486,19 +2499,6 @@ class AppLocalizationsYue extends AppLocalizations {
   String get enableDtsPassthrough => '僅限 AVR 的比特流 DTS 音訊；需要接收器支援和 DTS 源軌道';
 
   @override
-  String get enableTrueHdAudio => '啟用 TrueHD 音訊（可能不適用於所有平台）';
-
-  @override
-  String get settingsAudioOutputMode => '音訊輸出模式';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      '揀點樣解碼音訊。「AVR 直通」會將原始嘅 Dolby/DTS 串流送去你部擴音機；「自動」或者「縮混」就會喺本機解碼。';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'AVR 直通';
-
-  @override
   String get settingsAudioFallbackCodec => '備用音訊編解碼器';
 
   @override
@@ -2516,9 +2516,6 @@ class AppLocalizationsYue extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n（Dolby Digital Plus）';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n（無損）';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n（淨係支援立體聲）';
@@ -2577,35 +2574,48 @@ class AppLocalizationsYue extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'EAC3 直通';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'EAC3 JOC（Atmos）直通';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'DTS Core 直通';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'DTS-HD MA 直通';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'TrueHD 直通';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'TrueHD Atmos 直通';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      '將 Dolby Digital Plus（EAC3）位元流送去外部解碼器。';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      '將 EAC3（JOC）承載嘅 Dolby Atmos 位元流送去外部解碼器。';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      '將 DTS-HD MA（包括 DTS core）位元流送去外部解碼器。';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      '將帶 Atmos 中繼資料嘅 Dolby TrueHD 位元流送去外部解碼器。';
 
   @override
   String get settingsDetectedAudioCapabilities => '偵測到嘅音訊能力';
@@ -3151,6 +3161,16 @@ class AppLocalizationsYue extends AppLocalizations {
 
   @override
   String get showLibrariesFromAllServers => '顯示所有連接伺服器的庫';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => '啟用資料夾視圖';
@@ -8880,16 +8900,6 @@ class AppLocalizationsYue extends AppLocalizations {
   String get notSupportedOnThisDevice => '呢部裝置唔支援';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'DTS:X（DTS UHD）直通';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      '將 DTS:X（DTS UHD）位元流送去外部解碼器。';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough => '帶 Atmos（JOC）嘅 TrueHD 直通';
-
-  @override
   String get mediaPlayerBehavior => '媒體播放器行為';
 
   @override
@@ -9981,7 +9991,8 @@ class AppLocalizationsYue extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10002,7 +10013,8 @@ class AppLocalizationsYue extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }
 
 /// The translations for Yue Chinese Cantonese, as used in China (`yue_CN`).
@@ -12119,15 +12131,6 @@ class AppLocalizationsYueCn extends AppLocalizationsYue {
   String get enableDtsPassthrough => '仅限 AVR 的比特流 DTS 音频；需要接收器支持和 DTS 源轨道';
 
   @override
-  String get enableTrueHdAudio => '启用 TrueHD 音频（可能不适用于所有平台）';
-
-  @override
-  String get settingsAudioOutputMode => 'Audio Output Mode';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'AVR Passthrough';
-
-  @override
   String get settingsAudioFallbackCodec => 'Audio Fallback Codec';
 
   @override
@@ -12144,9 +12147,6 @@ class AppLocalizationsYueCn extends AppLocalizationsYue {
   String get settingsAudioEac3Passthrough => 'EAC3 Passthrough';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'EAC3 JOC (Atmos) Passthrough';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'DTS Core Passthrough';
 
   @override
@@ -12154,25 +12154,6 @@ class AppLocalizationsYueCn extends AppLocalizationsYue {
 
   @override
   String get settingsAudioTrueHdPassthrough => 'TrueHD Passthrough';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'TrueHD Atmos Passthrough';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Bitstream Dolby Digital Plus (EAC3) to external decoder.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Bitstream Dolby Atmos over EAC3 (JOC) to external decoder.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Bitstream DTS-HD MA (includes DTS core) to external decoder.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Bitstream Dolby TrueHD with Atmos metadata to external decoder.';
 
   @override
   String get settingsDetectedAudioCapabilities => 'Detected Audio Capabilities';
@@ -16999,17 +16980,6 @@ class AppLocalizationsYueCn extends AppLocalizationsYue {
   String get notSupportedOnThisDevice => 'Not Supported on this device';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'DTS:X (DTS UHD) Passthrough';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Bitstream DTS:X (DTS UHD) to external decoder.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'TrueHD with Atmos (JOC) Passthrough';
-
-  @override
   String get mediaPlayerBehavior => 'Media Player Behavior';
 
   @override
@@ -17499,55 +17469,6 @@ class AppLocalizationsYueCn extends AppLocalizationsYue {
 
   @override
   String get transcodingLimits => 'Transcoding Limits';
-
-  @override
-  String get playbackTimeDisplay => 'Progress Bar Time';
-
-  @override
-  String get settingsPlaybackTimeDisplayDescription =>
-      'Choose which time labels appear around the playback progress bar.';
-
-  @override
-  String get playbackTimeTotal => 'Total duration';
-
-  @override
-  String get playbackTimeRemaining => 'Time remaining';
-
-  @override
-  String get playbackTimeEndsAt => 'Ends at';
-
-  @override
-  String get playbackTimeElapsed => 'Time elapsed';
-
-  @override
-  String get playbackTimeVideoSection => 'Video Player';
-
-  @override
-  String get playbackTimeMusicSection => 'Music Player';
-
-  @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
-
-  @override
-  String get playbackTimeAboveBarLeft => 'Above bar, left';
-
-  @override
-  String get playbackTimeAboveBarCenter => 'Above bar, center';
-
-  @override
-  String get playbackTimeAboveBarRight => 'Above bar, right';
-
-  @override
-  String get playbackTimeBelowBarLeft => 'Below bar, left';
-
-  @override
-  String get playbackTimeBelowBarCenter => 'Below bar, center';
-
-  @override
-  String get playbackTimeBelowBarRight => 'Below bar, right';
-
-  @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
 }
 
 /// The translations for Yue Chinese Cantonese, as used in Hong Kong (`yue_HK`).
@@ -19665,15 +19586,6 @@ class AppLocalizationsYueHk extends AppLocalizationsYue {
   String get enableDtsPassthrough => '僅限 AVR 的比特流 DTS 音訊；需要接收器支援和 DTS 源軌道';
 
   @override
-  String get enableTrueHdAudio => '啟用 TrueHD 音訊（可能不適用於所有平台）';
-
-  @override
-  String get settingsAudioOutputMode => 'Audio Output Mode';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'AVR Passthrough';
-
-  @override
   String get settingsAudioFallbackCodec => 'Audio Fallback Codec';
 
   @override
@@ -19690,9 +19602,6 @@ class AppLocalizationsYueHk extends AppLocalizationsYue {
   String get settingsAudioEac3Passthrough => 'EAC3 Passthrough';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'EAC3 JOC (Atmos) Passthrough';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'DTS Core Passthrough';
 
   @override
@@ -19700,25 +19609,6 @@ class AppLocalizationsYueHk extends AppLocalizationsYue {
 
   @override
   String get settingsAudioTrueHdPassthrough => 'TrueHD Passthrough';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'TrueHD Atmos Passthrough';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Bitstream Dolby Digital Plus (EAC3) to external decoder.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Bitstream Dolby Atmos over EAC3 (JOC) to external decoder.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Bitstream DTS-HD MA (includes DTS core) to external decoder.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Bitstream Dolby TrueHD with Atmos metadata to external decoder.';
 
   @override
   String get settingsDetectedAudioCapabilities => 'Detected Audio Capabilities';
@@ -24544,17 +24434,6 @@ class AppLocalizationsYueHk extends AppLocalizationsYue {
   String get notSupportedOnThisDevice => 'Not Supported on this device';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'DTS:X (DTS UHD) Passthrough';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Bitstream DTS:X (DTS UHD) to external decoder.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'TrueHD with Atmos (JOC) Passthrough';
-
-  @override
   String get mediaPlayerBehavior => 'Media Player Behavior';
 
   @override
@@ -25044,53 +24923,4 @@ class AppLocalizationsYueHk extends AppLocalizationsYue {
 
   @override
   String get transcodingLimits => 'Transcoding Limits';
-
-  @override
-  String get playbackTimeDisplay => 'Progress Bar Time';
-
-  @override
-  String get settingsPlaybackTimeDisplayDescription =>
-      'Choose which time labels appear around the playback progress bar.';
-
-  @override
-  String get playbackTimeTotal => 'Total duration';
-
-  @override
-  String get playbackTimeRemaining => 'Time remaining';
-
-  @override
-  String get playbackTimeEndsAt => 'Ends at';
-
-  @override
-  String get playbackTimeElapsed => 'Time elapsed';
-
-  @override
-  String get playbackTimeVideoSection => 'Video Player';
-
-  @override
-  String get playbackTimeMusicSection => 'Music Player';
-
-  @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
-
-  @override
-  String get playbackTimeAboveBarLeft => 'Above bar, left';
-
-  @override
-  String get playbackTimeAboveBarCenter => 'Above bar, center';
-
-  @override
-  String get playbackTimeAboveBarRight => 'Above bar, right';
-
-  @override
-  String get playbackTimeBelowBarLeft => 'Below bar, left';
-
-  @override
-  String get playbackTimeBelowBarCenter => 'Below bar, center';
-
-  @override
-  String get playbackTimeBelowBarRight => 'Below bar, right';
-
-  @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
 }

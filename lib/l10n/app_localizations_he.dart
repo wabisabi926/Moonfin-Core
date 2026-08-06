@@ -208,6 +208,19 @@ class AppLocalizationsHe extends AppLocalizations {
   String get glassQuality => 'איכות הזכוכית';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       'אוטומטי בוחר את אפקט הזכוכית הטוב ביותר למכשיר זה. מלא כופה טשטוש אמיתי; מופחת משתמש בזכוכית קלת משקל שחוסכת בצריכת ה-GPU.';
 
@@ -2536,20 +2549,6 @@ class AppLocalizationsHe extends AppLocalizations {
       'אודיו של Bitstream DTS ל-AVR בלבד; דורש תמיכה במקלט ומסלול מקור DTS';
 
   @override
-  String get enableTrueHdAudio =>
-      'הפעל אודיו TrueHD (ייתכן שלא יפעל בכל הפלטפורמות)';
-
-  @override
-  String get settingsAudioOutputMode => 'מצב פלט אודיו';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'בחר כיצד מפוענח האודיו. מעבר AVR שולח זרמי Dolby/DTS גולמיים למקלט שלך; אוטומטי או Downmix מפענחים במכשיר.';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'מעבר AVR';
-
-  @override
   String get settingsAudioFallbackCodec => 'קודק אודיו חלופי';
 
   @override
@@ -2567,9 +2566,6 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(ללא אובדן)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(סטריאו בלבד)';
@@ -2629,35 +2625,48 @@ class AppLocalizationsHe extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'מעבר EAC3';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'מעבר EAC3 JOC (Atmos)';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'מעבר DTS Core';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'מעבר DTS-HD MA';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'מעבר TrueHD';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'מעבר TrueHD Atmos';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'שולח זרם סיביות של Dolby Digital Plus (EAC3) למפענח חיצוני.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'שולח זרם סיביות של Dolby Atmos על גבי EAC3 (JOC) למפענח חיצוני.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'שולח זרם סיביות של DTS-HD MA (כולל DTS core) למפענח חיצוני.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'שולח זרם סיביות של Dolby TrueHD עם מטא-נתוני Atmos למפענח חיצוני.';
 
   @override
   String get settingsDetectedAudioCapabilities => 'יכולות אודיו שזוהו';
@@ -3220,6 +3229,16 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get showLibrariesFromAllServers => 'הצג ספריות מכל השרתים המחוברים';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'הפעל תצוגת תיקיות';
@@ -9107,17 +9126,6 @@ class AppLocalizationsHe extends AppLocalizations {
   String get notSupportedOnThisDevice => 'לא נתמך במכשיר זה';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'העברה ישירה של DTS:X (DTS UHD)';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'העברת DTS:X (DTS UHD) כזרם ביטים למפענח חיצוני.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'העברה ישירה של TrueHD עם Atmos (JOC)';
-
-  @override
   String get mediaPlayerBehavior => 'התנהגות נגן המדיה';
 
   @override
@@ -10242,7 +10250,8 @@ class AppLocalizationsHe extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10263,5 +10272,6 @@ class AppLocalizationsHe extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

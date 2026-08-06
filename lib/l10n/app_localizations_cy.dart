@@ -208,6 +208,19 @@ class AppLocalizationsCy extends AppLocalizations {
   String get glassQuality => 'Ansawdd y Gwydr';
 
   @override
+  String get oledMode => 'OLED Mode';
+
+  @override
+  String get oledModeSubtitle =>
+      'Deepen blacks and enrich artwork. Best on OLED displays.';
+
+  @override
+  String get oledModeSubtle => 'Subtle';
+
+  @override
+  String get oledModeVivid => 'Vivid';
+
+  @override
   String get glassQualitySubtitle =>
       'Mae Awto yn dewis yr effaith wydr orau ar gyfer y ddyfais hon. Mae Llawn yn gorfodi pylu go iawn; mae Gostyngedig yn defnyddio gwydr ysgafn sy\'n arbed pŵer y GPU.';
 
@@ -2579,20 +2592,6 @@ class AppLocalizationsCy extends AppLocalizations {
       'Sain Bitstream DTS i AVR yn unig; angen cefnogaeth derbynnydd a thrac ffynhonnell DTS';
 
   @override
-  String get enableTrueHdAudio =>
-      'Galluogi sain TrueHD (efallai na fydd yn gweithio ar bob platfform)';
-
-  @override
-  String get settingsAudioOutputMode => 'Modd Allbwn Sain';
-
-  @override
-  String get settingsAudioOutputModeDescription =>
-      'Dewiswch sut mae sain yn cael ei ddadgodio. Mae Trosglwyddo AVR yn anfon ffrydiau Dolby/DTS crai i\'ch derbynnydd; mae Awto neu Gymysgu i Lawr yn dadgodio\'n lleol.';
-
-  @override
-  String get settingsAudioOutputModeAvrPassthrough => 'Trosglwyddo AVR';
-
-  @override
   String get settingsAudioFallbackCodec => 'Codec Sain Wrth Gefn';
 
   @override
@@ -2611,9 +2610,6 @@ class AppLocalizationsCy extends AppLocalizations {
 
   @override
   String get settingsAudioFallbackCodecEac3 => 'EAC3\n(Dolby Digital Plus)';
-
-  @override
-  String get settingsAudioFallbackCodecTrueHd => 'TrueHD\n(Di-golled)';
 
   @override
   String get settingsAudioFallbackCodecMp3 => 'MP3\n(Stereo yn Unig)';
@@ -2673,35 +2669,48 @@ class AppLocalizationsCy extends AppLocalizations {
   String get settingsAudioEac3Passthrough => 'Llwybr EAC3';
 
   @override
-  String get settingsAudioEac3JocPassthrough => 'Trosglwyddo EAC3 JOC (Atmos)';
-
-  @override
   String get settingsAudioDtsCorePassthrough => 'Llwybr Craidd DTS';
 
   @override
   String get settingsAudioDtsHdPassthrough => 'Llwybr drwodd MA DTS-HD';
 
   @override
+  String get settingsAudioPassthroughMode => 'Passthrough';
+
+  @override
+  String get settingsAudioPassthroughModeDescription =>
+      'How compressed surround sound reaches your TV or receiver.';
+
+  @override
+  String get settingsAudioPassthroughModeDisabled =>
+      'Disabled (always decode on this device)';
+
+  @override
+  String get settingsAudioPassthroughModeAuto =>
+      'Auto (match detected device support)';
+
+  @override
+  String get settingsAudioPassthroughModeManual =>
+      'Manual (choose formats below)';
+
+  @override
+  String get settingsDownmixToStereoDescription =>
+      'Mix all decoded audio down to two channels.';
+
+  @override
+  String get settingsAudioEac3IncludesAtmos =>
+      'Bitstream E-AC-3, including Dolby Atmos (JOC).';
+
+  @override
+  String get settingsAudioDtsHdIncludesDtsX =>
+      'Bitstream DTS-HD, including DTS:X.';
+
+  @override
+  String get settingsAudioTrueHdIncludesAtmos =>
+      'Bitstream TrueHD, including Dolby Atmos.';
+
+  @override
   String get settingsAudioTrueHdPassthrough => 'Trosglwyddo TrueHD';
-
-  @override
-  String get settingsAudioTrueHdAtmosPassthrough => 'Passthrough Atmos TrueHD';
-
-  @override
-  String get settingsAudioBitstreamEac3ToExternalDecoder =>
-      'Bitstream Dolby Digital Plus (EAC3) i ddatgodiwr allanol.';
-
-  @override
-  String get settingsAudioBitstreamEac3JocToExternalDecoder =>
-      'Bitstream Dolby Atmos dros EAC3 (JOC) i ddatgodiwr allanol.';
-
-  @override
-  String get settingsAudioBitstreamDtsHdToExternalDecoder =>
-      'Bitstream DTS-HD MA (yn cynnwys craidd DTS) i ddatgodiwr allanol.';
-
-  @override
-  String get settingsAudioBitstreamTrueHdAtmosToExternalDecoder =>
-      'Bitstream Dolby TrueHD gyda metadata Atmos i ddatgodiwr allanol.';
 
   @override
   String get settingsDetectedAudioCapabilities =>
@@ -3272,6 +3281,16 @@ class AppLocalizationsCy extends AppLocalizations {
   @override
   String get showLibrariesFromAllServers =>
       'Dangos llyfrgelloedd o bob gweinydd cysylltiedig';
+
+  @override
+  String get mergeRecentRowsByType => 'Merge Recent Rows by Type';
+
+  @override
+  String get mergeRecentRowsByTypeDescription =>
+      'Combine separate libraries of the same type for Recently Added and Recently Released home rows.';
+
+  @override
+  String get libraryView => 'Library View';
 
   @override
   String get enableFolderView => 'Galluogi Gweld Ffolder';
@@ -9293,17 +9312,6 @@ class AppLocalizationsCy extends AppLocalizations {
   String get notSupportedOnThisDevice => 'Heb ei gefnogi ar y ddyfais hon';
 
   @override
-  String get settingsAudioDtsXPassthrough => 'Llwybr DTS:X (DTS UHD).';
-
-  @override
-  String get settingsAudioBitstreamDtsXToExternalDecoder =>
-      'Bitstream DTS:X (DTS UHD) i ddatgodiwr allanol.';
-
-  @override
-  String get settingsAudioTrueHdJocPassthrough =>
-      'TrueHD gyda Passthrough Atmos (JOC).';
-
-  @override
   String get mediaPlayerBehavior => 'Ymddygiad Chwaraewr Cyfryngau';
 
   @override
@@ -10444,7 +10452,8 @@ class AppLocalizationsCy extends AppLocalizations {
   String get playbackTimeMusicSection => 'Music Player';
 
   @override
-  String get playbackTimeSlotDescription => 'Choose what is shown here, or hide it.';
+  String get playbackTimeSlotDescription =>
+      'Choose what is shown here, or hide it.';
 
   @override
   String get playbackTimeAboveBarLeft => 'Above bar, left';
@@ -10465,5 +10474,6 @@ class AppLocalizationsCy extends AppLocalizations {
   String get playbackTimeBelowBarRight => 'Below bar, right';
 
   @override
-  String get settingsMusicPlaybackTimeDescription => 'Choose what is shown on the right side of the music progress bar.';
+  String get settingsMusicPlaybackTimeDescription =>
+      'Choose what is shown on the right side of the music progress bar.';
 }

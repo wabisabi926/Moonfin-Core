@@ -6,49 +6,42 @@ enum SubtitleMode {
   none,
 }
 
-enum AudioOutputMode {
-  auto,
-  forceStereo,
-  avrPassthrough,
-}
-
+/// What the server re-encodes audio to when it has no choice. TrueHD isn't an
+/// option, since Jellyfin can't repackage it into a streaming container and the
+/// track lands silent.
 enum AudioFallbackCodec {
   auto,
   aac,
   ac3,
   eac3,
-  truehd,
   mp3,
   opus,
   flac,
 }
 
-/// High-level audio output choice shown to the user. It is a convenience that
-/// bulk-writes through to [AudioOutputMode] and the individual passthrough
-/// toggles, so the device-profile builder never needs to know about it.
-/// - [auto]: decode locally / let detection drive passthrough (toggles unset).
-/// - [surroundReceiver]: AVR passthrough; advertise everything the receiver
-///   reports it supports (toggles unset, capability-authoritative).
-/// - [stereo]: force a stereo downmix.
-/// - [advanced]: user manages [AudioOutputMode] + per-codec toggles directly.
-enum AudioPassthroughPreset {
+/// How compressed surround audio reaches the output device.
+/// - [disabled]: never bitstream, every codec decodes locally.
+/// - [auto]: bitstream whatever the platform reports the route can take.
+/// - [manual]: bitstream only the codecs the user toggled on.
+enum AudioPassthroughMode {
+  disabled,
   auto,
-  surroundReceiver,
-  stereo,
-  advanced,
+  manual,
 }
 
-/// The per-codec passthrough toggles, used to say which ones the user set by
-/// hand rather than left following detection.
-enum AudioPassthroughToggle {
-  ac3,
-  eac3,
-  eac3Joc,
-  dtsCore,
-  dtsHd,
-  dtsX,
-  trueHd,
-  trueHdAtmos,
+/// Passthrough-controllable base codecs. Variants ride inside the base
+/// bitstream: Atmos (JOC) in eac3, DTS:X in dtsHd, Atmos in trueHd.
+enum PassthroughCodec {
+  ac3('ac3'),
+  eac3('eac3'),
+  dtsCore('dts'),
+  dtsHd('dtshd'),
+  trueHd('truehd');
+
+  const PassthroughCodec(this.wireName);
+
+  /// The codec token shared with the native player and mpv synthesis.
+  final String wireName;
 }
 
 enum PlaybackEnginePreference {
@@ -215,6 +208,11 @@ enum GlassQualityMode { auto, full, reduced }
 /// Moonfin enum so the preference layer doesn't depend on
 /// liquid_glass_widgets.
 enum GlassSettledQuality { unset, minimal, standard, premium }
+
+/// Layered on top of whichever theme is active. `subtle` and `vivid` crush
+/// chrome toward pure black so OLED pixels switch off, and boost artwork
+/// saturation/contrast. `off` leaves every theme exactly as authored.
+enum OledMode { off, subtle, vivid }
 
 enum AppTheme {
   white(0xFFFFFFFF),
