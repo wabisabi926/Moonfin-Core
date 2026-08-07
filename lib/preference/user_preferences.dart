@@ -156,8 +156,9 @@ class UserPreferences extends ChangeNotifier {
         continue;
       }
       final stored = _store.getString(key);
-      if (stored == null || mediaBarContentTypeValues.contains(stored))
+      if (stored == null || mediaBarContentTypeValues.contains(stored)) {
         continue;
+      }
       _store.setString(key, normalizeMediaBarContentType(stored));
     }
   }
@@ -344,6 +345,7 @@ class UserPreferences extends ChangeNotifier {
     'seerr_enabled',
     'pref_enable_tv_queuing',
     'pref_enable_cinema_mode',
+    'pref_enable_cinema_mode_episodes',
     'pref_resume_preroll',
     'media_segment_actions',
     'pref_autoplay_next_episode',
@@ -1205,6 +1207,11 @@ class UserPreferences extends ChangeNotifier {
     defaultValue: true,
   );
 
+  static final showAlphabeticalFilters = Preference(
+    key: 'pref_show_alphabetical_filters',
+    defaultValue: false,
+  );
+
   static final showSyncPlayButton = Preference(
     key: 'pref_show_syncplay_button',
     defaultValue: false,
@@ -1328,6 +1335,13 @@ class UserPreferences extends ChangeNotifier {
   static final cinemaModeEnabled = Preference(
     key: 'pref_enable_cinema_mode',
     defaultValue: true,
+  );
+
+  /// Off by default, because a preroll before every episode of a binge wears
+  /// thin much faster than one before a film.
+  static final cinemaModeEpisodesEnabled = Preference(
+    key: 'pref_enable_cinema_mode_episodes',
+    defaultValue: false,
   );
 
   static final stillWatchingBehavior = EnumPreference(
@@ -2337,6 +2351,22 @@ class UserPreferences extends ChangeNotifier {
         defaultValue: ImageType.poster,
         values: ImageType.values,
       );
+
+  static EnumPreference<LibraryScrollDirection> libraryScrollDirection(
+    String libraryId,
+  ) => EnumPreference(
+    key: 'library_scroll_dir_$libraryId',
+    defaultValue: LibraryScrollDirection.vertical,
+    values: LibraryScrollDirection.values,
+  );
+
+  static EnumPreference<LibraryGroupBy> libraryGroupBy(
+    String libraryId,
+  ) => EnumPreference(
+    key: 'library_group_by_$libraryId',
+    defaultValue: LibraryGroupBy.none,
+    values: LibraryGroupBy.values,
+  );
 
   static final allGenresImageType = EnumPreference(
     key: 'all_genres_image_type',

@@ -648,6 +648,18 @@
   "@extraLarge": {
     "description": "Poster size option"
   },
+  "scrollDirection": "Scroll Direction",
+  "@scrollDirection": {
+    "description": "Section header for scroll direction selection in library display settings"
+  },
+  "scrollDirectionVertical": "Vertical",
+  "@scrollDirectionVertical": {
+    "description": "Library scroll direction option: vertical grid (default)"
+  },
+  "scrollDirectionHorizontal": "Horizontal",
+  "@scrollDirectionHorizontal": {
+    "description": "Library scroll direction option: horizontal grid for ultrawide displays"
+  },
   "libraryGenresTitle": "{name} \u2014 Genres",
   "@libraryGenresTitle": {
     "description": "Header title showing library name with genres suffix",
@@ -780,6 +792,10 @@
   "scrollRight": "Scroll right",
   "@scrollRight": {
     "description": "Tooltip for scroll right button"
+  },
+  "scrollToTop": "Scroll to top",
+  "@scrollToTop": {
+    "description": "Tooltip for the button that returns a scrolled list to the top"
   },
   "couldNotLoadGenre": "Could not load this genre right now.",
   "@couldNotLoadGenre": {
@@ -5124,6 +5140,14 @@
   "@networks": {
     "description": "Seerr row: networks"
   },
+  "tags": "Tags",
+  "@tags": {
+    "description": "Heading for the keyword tags a title is filed under"
+  },
+  "genresAndTags": "Genres and Tags",
+  "@genresAndTags": {
+    "description": "Button and dialog title for browsing a title's genres, networks and tags"
+  },
   "seerrDiscoveryRows": "Seerr Discovery Rows",
   "@seerrDiscoveryRows": {
     "description": "Subtitle shown under Seerr discovery home rows"
@@ -5480,6 +5504,18 @@
         "type": "String"
       }
     }
+  },
+  "manageRequests": "Manage Requests",
+  "@manageRequests": {
+    "description": "Details screen button opening the pending requests to approve or decline"
+  },
+  "watchlist": "Watchlist",
+  "@watchlist": {
+    "description": "Details screen button adding the title to the Seerr watchlist"
+  },
+  "onWatchlist": "On Watchlist",
+  "@onWatchlist": {
+    "description": "Details screen button label when the title is already on the Seerr watchlist"
   },
   "approve": "Approve",
   "@approve": {
@@ -8252,6 +8288,14 @@
   "settingsBitstreamAc3ToExternalDecoder": "Bitstream AC3 to external decoder",
   "settingsCinemaMode": "Cinema Mode",
   "settingsCinemaModeSubtitle": "Play trailers/prerolls before a main feature",
+  "settingsCinemaModeEpisodes": "Cinema Mode for episodes",
+  "@settingsCinemaModeEpisodes": {
+    "description": "Settings toggle label. Extends Cinema Mode, which plays pre-roll videos before playback, to TV episodes as well as films. 'Cinema Mode' is the app's feature name."
+  },
+  "settingsCinemaModeEpisodesSubtitle": "Also play prerolls before TV episodes",
+  "@settingsCinemaModeEpisodesSubtitle": {
+    "description": "Subtitle for the Cinema Mode for episodes toggle. A 'preroll' is a short video (trailer, bumper) played before the main video starts."
+  },
   "settingsNextUpDisplayDescription": "Extended shows a full card with episode artwork and description. Minimal shows a compact countdown overlay. Disabled hides the prompt entirely.",
   "settingsShort": "Short",
   "settingsLong": "Long",
@@ -9262,5 +9306,25 @@
   "settingsMusicPlaybackTimeDescription": "Choose what is shown on the right side of the music progress bar.",
   "@settingsMusicPlaybackTimeDescription": {
     "description": "Setting description for the music progress bar time option"
+  },
+  "groupByTitle": "Group By",
+  "@groupByTitle": {
+    "description": "Dialog title and button label for library group by options"
+  },
+  "groupByDecade": "Decade (Year)",
+  "@groupByDecade": {
+    "description": "Option to group library items by release decade"
+  },
+  "groupByParentalRating": "Parental Rating",
+  "@groupByParentalRating": {
+    "description": "Option to group library items by parental rating"
+  },
+  "groupByStudio": "Studio",
+  "@groupByStudio": {
+    "description": "Option to group library items by production studio"
+  },
+  "showAlphabeticalFilters": "Show Alphabet",
+  "@showAlphabeticalFilters": {
+    "description": "Checkbox label for toggling alphabetical picker visibility in Sort and Filter options"
   }
 }

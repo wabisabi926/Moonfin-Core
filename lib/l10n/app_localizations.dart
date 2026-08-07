@@ -1120,6 +1120,24 @@ abstract class AppLocalizations {
   /// **'Extra Large'**
   String get extraLarge;
 
+  /// Section header for scroll direction selection in library display settings
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll Direction'**
+  String get scrollDirection;
+
+  /// Library scroll direction option: vertical grid (default)
+  ///
+  /// In en, this message translates to:
+  /// **'Vertical'**
+  String get scrollDirectionVertical;
+
+  /// Library scroll direction option: horizontal grid for ultrawide displays
+  ///
+  /// In en, this message translates to:
+  /// **'Horizontal'**
+  String get scrollDirectionHorizontal;
+
   /// Header title showing library name with genres suffix
   ///
   /// In en, this message translates to:
@@ -1281,6 +1299,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scroll right'**
   String get scrollRight;
+
+  /// Tooltip for the button that returns a scrolled list to the top
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll to top'**
+  String get scrollToTop;
 
   /// Error when a genre row fails to load
   ///
@@ -6850,6 +6874,18 @@ abstract class AppLocalizations {
   /// **'Networks'**
   String get networks;
 
+  /// Heading for the keyword tags a title is filed under
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tags;
+
+  /// Button and dialog title for browsing a title's genres, networks and tags
+  ///
+  /// In en, this message translates to:
+  /// **'Genres and Tags'**
+  String get genresAndTags;
+
   /// Subtitle shown under Seerr discovery home rows
   ///
   /// In en, this message translates to:
@@ -7311,6 +7347,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Requested by {name}'**
   String requestedByName(String name);
+
+  /// Details screen button opening the pending requests to approve or decline
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Requests'**
+  String get manageRequests;
+
+  /// Details screen button adding the title to the Seerr watchlist
+  ///
+  /// In en, this message translates to:
+  /// **'Watchlist'**
+  String get watchlist;
+
+  /// Details screen button label when the title is already on the Seerr watchlist
+  ///
+  /// In en, this message translates to:
+  /// **'On Watchlist'**
+  String get onWatchlist;
 
   /// Tooltip/button to approve a request
   ///
@@ -15658,6 +15712,18 @@ abstract class AppLocalizations {
   /// **'Play trailers/prerolls before a main feature'**
   String get settingsCinemaModeSubtitle;
 
+  /// Settings toggle label. Extends Cinema Mode, which plays pre-roll videos before playback, to TV episodes as well as films. 'Cinema Mode' is the app's feature name.
+  ///
+  /// In en, this message translates to:
+  /// **'Cinema Mode for episodes'**
+  String get settingsCinemaModeEpisodes;
+
+  /// Subtitle for the Cinema Mode for episodes toggle. A 'preroll' is a short video (trailer, bumper) played before the main video starts.
+  ///
+  /// In en, this message translates to:
+  /// **'Also play prerolls before TV episodes'**
+  String get settingsCinemaModeEpisodesSubtitle;
+
   /// No description provided for @settingsNextUpDisplayDescription.
   ///
   /// In en, this message translates to:
@@ -18495,6 +18561,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose what is shown on the right side of the music progress bar.'**
   String get settingsMusicPlaybackTimeDescription;
+
+  /// Dialog title and button label for library group by options
+  ///
+  /// In en, this message translates to:
+  /// **'Group By'**
+  String get groupByTitle;
+
+  /// Option to group library items by release decade
+  ///
+  /// In en, this message translates to:
+  /// **'Decade (Year)'**
+  String get groupByDecade;
+
+  /// Option to group library items by parental rating
+  ///
+  /// In en, this message translates to:
+  /// **'Parental Rating'**
+  String get groupByParentalRating;
+
+  /// Option to group library items by production studio
+  ///
+  /// In en, this message translates to:
+  /// **'Studio'**
+  String get groupByStudio;
+
+  /// Checkbox label for toggling alphabetical picker visibility in Sort and Filter options
+  ///
+  /// In en, this message translates to:
+  /// **'Show Alphabet'**
+  String get showAlphabeticalFilters;
 }
 
 class _AppLocalizationsDelegate

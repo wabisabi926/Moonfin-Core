@@ -502,6 +502,15 @@ class AppLocalizationsFa extends AppLocalizations {
   String get extraLarge => 'فوق العاده بزرگ';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name - ​​ژانرها';
   }
@@ -594,6 +603,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get scrollRight => 'به سمت راست پیمایش کنید';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => 'در حال حاضر این ژانر بارگیری نشد.';
@@ -3753,6 +3765,12 @@ class AppLocalizationsFa extends AppLocalizations {
   String get networks => 'شبکه ها';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'ردیف‌های کشف Seerr';
 
   @override
@@ -4019,6 +4037,15 @@ class AppLocalizationsFa extends AppLocalizations {
   String requestedByName(String name) {
     return 'درخواست شده توسط $name';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'تایید کنید';
@@ -8740,6 +8767,13 @@ class AppLocalizationsFa extends AppLocalizations {
       'قبل از یک ویژگی اصلی، تریلر/پرول‌ها را پخش کنید';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'Extended یک کارت کامل با آثار هنری و توضیحات قسمت را نشان می دهد. Minimal یک پوشش جمع و جور شمارش معکوس را نشان می دهد. غیرفعال، درخواست را به طور کامل پنهان می کند.';
 
@@ -10353,4 +10387,19 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

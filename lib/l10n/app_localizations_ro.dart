@@ -505,6 +505,15 @@ class AppLocalizationsRo extends AppLocalizations {
   String get extraLarge => 'Foarte mare';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — Genuri';
   }
@@ -598,6 +607,9 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get scrollRight => 'Derulați spre dreapta';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => 'Nu s-a putut încărca acest gen acum.';
@@ -3803,6 +3815,12 @@ class AppLocalizationsRo extends AppLocalizations {
   String get networks => 'Rețele';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Rânduri de descoperire Seerr';
 
   @override
@@ -4072,6 +4090,15 @@ class AppLocalizationsRo extends AppLocalizations {
   String requestedByName(String name) {
     return 'Solicitat de $name';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'Aproba';
@@ -8873,6 +8900,13 @@ class AppLocalizationsRo extends AppLocalizations {
       'Redați remorci/preroll-uri înainte de o funcție principală';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'Extins afișează un card complet cu ilustrația și descrierea episodului. Minimal arată o suprapunere compactă de numărătoare inversă. Dezactivat ascunde complet promptul.';
 
@@ -10506,4 +10540,19 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

@@ -504,6 +504,15 @@ class AppLocalizationsLt extends AppLocalizations {
   String get extraLarge => 'Itin didelis';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — žanrai';
   }
@@ -596,6 +605,9 @@ class AppLocalizationsLt extends AppLocalizations {
 
   @override
   String get scrollRight => 'Slinkite dešinėn';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => 'Šiuo metu nepavyko įkelti šio žanro.';
@@ -3794,6 +3806,12 @@ class AppLocalizationsLt extends AppLocalizations {
   String get networks => 'Tinklai';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Seerr atradimų eilutės';
 
   @override
@@ -4063,6 +4081,15 @@ class AppLocalizationsLt extends AppLocalizations {
   String requestedByName(String name) {
     return 'Užklausą pateikė $name';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'Patvirtinti';
@@ -8859,6 +8886,13 @@ class AppLocalizationsLt extends AppLocalizations {
       'Žaiskite anonsus / išankstinius įrašus prieš pagrindinę funkciją';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'Išplėstoje rodoma visa kortelė su epizodo iliustracija ir aprašu. Minimalus rodo kompaktišką atgalinės atskaitos perdangą. Išjungta visiškai paslepia raginimą.';
 
@@ -10480,4 +10514,19 @@ class AppLocalizationsLt extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

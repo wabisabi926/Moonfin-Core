@@ -484,6 +484,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get extraLarge => '超大';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name - 类型';
   }
@@ -573,6 +582,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get scrollRight => '向右滚动';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => '目前无法加载此类型。';
@@ -3647,6 +3659,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get networks => '电视网';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Seerr 发现栏目';
 
   @override
@@ -3896,6 +3914,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String requestedByName(String name) {
     return '由 $name 请求';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => '批准';
@@ -8462,6 +8489,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsCinemaModeSubtitle => '正片播放前播放预告片/片前视频';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       '扩展模式显示包含单集艺术图和简介的完整卡片；简洁模式显示紧凑倒计时浮层；禁用则完全隐藏提示。';
 
@@ -9999,6 +10033,21 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).

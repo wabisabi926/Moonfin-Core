@@ -491,6 +491,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get extraLarge => '特大';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — ジャンル';
   }
@@ -580,6 +589,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get scrollRight => '右にスクロール';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => '現在このジャンルを読み込めませんでした。';
@@ -3690,6 +3702,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get networks => 'ネットワーク';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Seerr のディスカバリー行';
 
   @override
@@ -3940,6 +3958,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String requestedByName(String name) {
     return '$name がリクエスト';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => '承認する';
@@ -8543,6 +8570,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsCinemaModeSubtitle => '本編の前にトレーラー/プレロールを再生する';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       '拡張では、エピソードのアートワークと説明を含む完全なカードが表示されます。 Minimal は、コンパクトなカウントダウン オーバーレイを示します。無効にすると、プロンプトが完全に非表示になります。';
 
@@ -10101,4 +10135,19 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

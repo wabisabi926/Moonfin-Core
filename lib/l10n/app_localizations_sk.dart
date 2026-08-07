@@ -506,6 +506,15 @@ class AppLocalizationsSk extends AppLocalizations {
   String get extraLarge => 'Extra veľké';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — Žánre';
   }
@@ -599,6 +608,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get scrollRight => 'Prejdite doprava';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre =>
@@ -3798,6 +3810,12 @@ class AppLocalizationsSk extends AppLocalizations {
   String get networks => 'siete';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Objavovacie riadky Seerr';
 
   @override
@@ -4064,6 +4082,15 @@ class AppLocalizationsSk extends AppLocalizations {
   String requestedByName(String name) {
     return 'Požiadal $name';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'schváliť';
@@ -8860,6 +8887,13 @@ class AppLocalizationsSk extends AppLocalizations {
       'Prehrajte si upútavky/prerolly pred hlavnou funkciou';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'Rozšírené zobrazuje celú kartu s obrázkom epizódy a popisom. Minimal zobrazuje kompaktné prekrytie odpočítavania. Zakázané úplne skryje výzvu.';
 
@@ -10488,4 +10522,19 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

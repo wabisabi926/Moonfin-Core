@@ -506,6 +506,15 @@ class AppLocalizationsMn extends AppLocalizations {
   String get extraLarge => 'Хэт том';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — Төрөл';
   }
@@ -599,6 +608,9 @@ class AppLocalizationsMn extends AppLocalizations {
 
   @override
   String get scrollRight => 'Баруун тийш гүйлгэх';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => 'Энэ жанрыг яг одоо ачаалж чадсангүй.';
@@ -3783,6 +3795,12 @@ class AppLocalizationsMn extends AppLocalizations {
   String get networks => 'Сүлжээ';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Seerr-ийн танилцах эгнээ';
 
   @override
@@ -4051,6 +4069,15 @@ class AppLocalizationsMn extends AppLocalizations {
   String requestedByName(String name) {
     return 'Хүссэн $name';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'Зөвшөөрөх';
@@ -8821,6 +8848,13 @@ class AppLocalizationsMn extends AppLocalizations {
       'Үндсэн функцээс өмнө трейлер/урьдчилсан үзүүлбэрүүдийг тоглуул';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'Өргөтгөсөн нь ангийн уран зураг, тайлбар бүхий бүтэн картыг харуулж байна. Хамгийн бага нь нягт тооллогын давхаргыг харуулдаг. Идэвхгүй болгосон нь сануулгыг бүхэлд нь нуудаг.';
 
@@ -10437,4 +10471,19 @@ class AppLocalizationsMn extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

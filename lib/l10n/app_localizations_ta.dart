@@ -506,6 +506,15 @@ class AppLocalizationsTa extends AppLocalizations {
   String get extraLarge => 'கூடுதல் பெரியது';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — வகைகள்';
   }
@@ -599,6 +608,9 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get scrollRight => 'வலதுபுறமாக உருட்டவும்';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => 'இந்த வகையை இப்போது ஏற்ற முடியவில்லை.';
@@ -3804,6 +3816,12 @@ class AppLocalizationsTa extends AppLocalizations {
   String get networks => 'நெட்வொர்க்குகள்';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Seerr கண்டுபிடிப்பு வரிசைகள்';
 
   @override
@@ -4075,6 +4093,15 @@ class AppLocalizationsTa extends AppLocalizations {
   String requestedByName(String name) {
     return '$name கோரியுள்ளார்';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'ஒப்புதல்';
@@ -8873,6 +8900,13 @@ class AppLocalizationsTa extends AppLocalizations {
       'முக்கிய அம்சத்திற்கு முன் டிரெய்லர்கள்/ப்ரீரோல்களை இயக்கவும்';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'எபிசோட் கலைப்படைப்பு மற்றும் விளக்கத்துடன் கூடிய முழு அட்டையையும் நீட்டிக்கப்பட்டுள்ளது. மினிமல் ஒரு சிறிய கவுண்டவுன் மேலடுக்கைக் காட்டுகிறது. செயலிழந்தவர் ப்ராம்ட்டை முழுவதுமாக மறைக்கிறது.';
 
@@ -10502,4 +10536,19 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

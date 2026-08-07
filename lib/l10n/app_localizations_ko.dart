@@ -493,6 +493,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get extraLarge => '특대';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — 장르';
   }
@@ -582,6 +591,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get scrollRight => '오른쪽으로 스크롤';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => '지금은 이 장르를 로드할 수 없습니다.';
@@ -3683,6 +3695,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get networks => '네트워크';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Seerr 둘러보기 행';
 
   @override
@@ -3933,6 +3951,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String requestedByName(String name) {
     return '$name 요청';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => '승인하다';
@@ -8534,6 +8561,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsCinemaModeSubtitle => '주요 기능 이전에 예고편/프리롤 재생';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       '확장에는 에피소드 삽화와 설명이 포함된 전체 카드가 표시됩니다. Minimal은 컴팩트한 카운트다운 오버레이를 표시합니다. 비활성화되면 프롬프트가 완전히 숨겨집니다.';
 
@@ -10096,4 +10130,19 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

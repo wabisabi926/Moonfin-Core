@@ -505,6 +505,15 @@ class AppLocalizationsKn extends AppLocalizations {
   String get extraLarge => 'ಹೆಚ್ಚುವರಿ ದೊಡ್ಡದು';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — ಪ್ರಕಾರಗಳು';
   }
@@ -598,6 +607,9 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get scrollRight => 'ಬಲಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre =>
@@ -3797,6 +3809,12 @@ class AppLocalizationsKn extends AppLocalizations {
   String get networks => 'ಜಾಲಗಳು';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Seerr ಡಿಸ್ಕವರಿ ಸಾಲುಗಳು';
 
   @override
@@ -4064,6 +4082,15 @@ class AppLocalizationsKn extends AppLocalizations {
   String requestedByName(String name) {
     return '$name ವಿನಂತಿಸಿದ್ದಾರೆ';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'ಅನುಮೋದಿಸಿ';
@@ -8862,6 +8889,13 @@ class AppLocalizationsKn extends AppLocalizations {
       'ಮುಖ್ಯ ವೈಶಿಷ್ಟ್ಯದ ಮೊದಲು ಟ್ರೇಲರ್‌ಗಳು/ಪ್ರಿರೋಲ್‌ಗಳನ್ನು ಪ್ಲೇ ಮಾಡಿ';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'ವಿಸ್ತೃತವು ಸಂಚಿಕೆ ಕಲಾಕೃತಿ ಮತ್ತು ವಿವರಣೆಯೊಂದಿಗೆ ಪೂರ್ಣ ಕಾರ್ಡ್ ಅನ್ನು ತೋರಿಸುತ್ತದೆ. ಮಿನಿಮಲ್ ಕಾಂಪ್ಯಾಕ್ಟ್ ಕೌಂಟ್‌ಡೌನ್ ಓವರ್‌ಲೇ ಅನ್ನು ತೋರಿಸುತ್ತದೆ. ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುವಿಕೆಯು ಪ್ರಾಂಪ್ಟ್ ಅನ್ನು ಸಂಪೂರ್ಣವಾಗಿ ಮರೆಮಾಡುತ್ತದೆ.';
 
@@ -10487,4 +10521,19 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

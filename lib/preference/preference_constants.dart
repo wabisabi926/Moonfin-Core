@@ -428,6 +428,14 @@ enum LibrarySortBy {
       values.where((v) => !v.usesDedicatedEndpoint).toList();
 }
 
+enum LibraryGroupBy {
+  none,
+  genres,
+  parentalRatings,
+  decade,
+  studio,
+}
+
 enum ChannelSortBy {
   number('Channel Number'),
   name('Name'),
@@ -462,6 +470,11 @@ enum SeriesStatusFilter {
   all,
   continuing,
   ended,
+}
+
+enum LibraryScrollDirection {
+  vertical,
+  horizontal,
 }
 
 enum FavoriteTypeFilter {

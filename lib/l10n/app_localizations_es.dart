@@ -507,6 +507,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get extraLarge => 'Muy grande';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — Géneros';
   }
@@ -599,6 +608,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get scrollRight => 'Desplazar a la derecha';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre =>
@@ -3803,6 +3815,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get networks => 'Redes';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Filas de descubrimiento de Seerr';
 
   @override
@@ -4073,6 +4091,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String requestedByName(String name) {
     return 'Solicitado por $name';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'Aprobar';
@@ -8902,6 +8929,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Reproducir avances/prerolls antes de una característica principal';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'Extendido muestra una tarjeta completa con el arte y la descripción del episodio. Minimal muestra una superposición de cuenta regresiva compacta. Deshabilitado oculta el mensaje por completo.';
 
@@ -10537,6 +10571,21 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

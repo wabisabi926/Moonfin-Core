@@ -508,6 +508,15 @@ class AppLocalizationsFi extends AppLocalizations {
   String get extraLarge => 'Erittäin suuri';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — Genret';
   }
@@ -601,6 +610,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get scrollRight => 'Vieritä oikealle';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => 'Tätä genreä ei voitu ladata juuri nyt.';
@@ -3789,6 +3801,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get networks => 'Verkot';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Seerr-löytörivit';
 
   @override
@@ -4055,6 +4073,15 @@ class AppLocalizationsFi extends AppLocalizations {
   String requestedByName(String name) {
     return 'Pyytäjä $name';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'Hyväksyä';
@@ -8828,6 +8855,13 @@ class AppLocalizationsFi extends AppLocalizations {
       'Toista trailereita/esivideoita ennen pääominaisuutta';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'Laajennettu näyttää täyden kortin jakson kuvituksella ja kuvauksella. Minimi näyttää kompaktin lähtölaskentapeittokuvan. Pois käytöstä piilottaa kehotteen kokonaan.';
 
@@ -10443,4 +10477,19 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }

@@ -510,6 +510,15 @@ class AppLocalizationsSw extends AppLocalizations {
   String get extraLarge => 'Kubwa Zaidi';
 
   @override
+  String get scrollDirection => 'Scroll Direction';
+
+  @override
+  String get scrollDirectionVertical => 'Vertical';
+
+  @override
+  String get scrollDirectionHorizontal => 'Horizontal';
+
+  @override
   String libraryGenresTitle(String name) {
     return '$name — Aina';
   }
@@ -603,6 +612,9 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get scrollRight => 'Sogeza kulia';
+
+  @override
+  String get scrollToTop => 'Scroll to top';
 
   @override
   String get couldNotLoadGenre => 'Haikuweza kupakia aina hii kwa sasa.';
@@ -3802,6 +3814,12 @@ class AppLocalizationsSw extends AppLocalizations {
   String get networks => 'Mitandao';
 
   @override
+  String get tags => 'Tags';
+
+  @override
+  String get genresAndTags => 'Genres and Tags';
+
+  @override
   String get seerrDiscoveryRows => 'Safu za Ugunduzi za Seerr';
 
   @override
@@ -4070,6 +4088,15 @@ class AppLocalizationsSw extends AppLocalizations {
   String requestedByName(String name) {
     return 'Imeombwa na $name';
   }
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get watchlist => 'Watchlist';
+
+  @override
+  String get onWatchlist => 'On Watchlist';
 
   @override
   String get approve => 'Idhinisha';
@@ -8873,6 +8900,13 @@ class AppLocalizationsSw extends AppLocalizations {
       'Cheza vionjo/vionjo kabla ya kipengele kikuu';
 
   @override
+  String get settingsCinemaModeEpisodes => 'Cinema Mode for episodes';
+
+  @override
+  String get settingsCinemaModeEpisodesSubtitle =>
+      'Also play prerolls before TV episodes';
+
+  @override
   String get settingsNextUpDisplayDescription =>
       'Iliyopanuliwa inaonyesha kadi kamili iliyo na mchoro wa kipindi na maelezo. Ndogo inaonyesha kuwekelea kwa kuhesabu kurudi nyuma. Imezimwa huficha kidokezo kabisa.';
 
@@ -10501,4 +10535,19 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get settingsMusicPlaybackTimeDescription =>
       'Choose what is shown on the right side of the music progress bar.';
+
+  @override
+  String get groupByTitle => 'Group By';
+
+  @override
+  String get groupByDecade => 'Decade (Year)';
+
+  @override
+  String get groupByParentalRating => 'Parental Rating';
+
+  @override
+  String get groupByStudio => 'Studio';
+
+  @override
+  String get showAlphabeticalFilters => 'Show Alphabet';
 }
