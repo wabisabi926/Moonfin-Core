@@ -4136,6 +4136,10 @@ class AppLocalizationsEo extends AppLocalizations {
   String get allSeasons => 'Ĉiuj Sezonoj';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'Altnivelaj Opcioj';
 
   @override
@@ -8707,6 +8711,13 @@ class AppLocalizationsEo extends AppLocalizations {
 
   @override
   String get settingsNone => 'Neniu';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'Prompta Uzanto';

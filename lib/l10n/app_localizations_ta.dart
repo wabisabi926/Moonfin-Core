@@ -4174,6 +4174,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get allSeasons => 'அனைத்து பருவங்களும்';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'மேம்பட்ட விருப்பங்கள்';
 
   @override
@@ -8789,6 +8793,13 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get settingsNone => 'எதுவுமில்லை';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'உடனடி பயனர்';

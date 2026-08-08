@@ -4163,6 +4163,10 @@ class AppLocalizationsSk extends AppLocalizations {
   String get allSeasons => 'Všetky ročné obdobia';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'Rozšírené možnosti';
 
   @override
@@ -8776,6 +8780,13 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get settingsNone => 'Žiadne';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'Vyzvať používateľa';

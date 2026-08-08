@@ -4194,6 +4194,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get allSeasons => 'Toutes les saisons';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'Options avancées';
 
   @override
@@ -8836,6 +8840,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsNone => 'Aucun';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'Inviter l\'utilisateur';

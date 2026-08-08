@@ -4146,6 +4146,10 @@ class AppLocalizationsUg extends AppLocalizations {
   String get allSeasons => 'بارلىق پەسىللەر';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'ئالىي تاللانمىلار';
 
   @override
@@ -8747,6 +8751,13 @@ class AppLocalizationsUg extends AppLocalizations {
 
   @override
   String get settingsNone => 'يوق';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'تېز ئىشلەتكۈچى';

@@ -4031,6 +4031,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get allSeasons => '올 시즌';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => '고급 옵션';
 
   @override
@@ -8457,6 +8461,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsNone => '없음';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => '사용자에게 프롬프트';

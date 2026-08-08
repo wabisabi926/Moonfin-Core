@@ -4169,6 +4169,10 @@ class AppLocalizationsSw extends AppLocalizations {
   String get allSeasons => 'Misimu Yote';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'Chaguzi za Juu';
 
   @override
@@ -8790,6 +8794,13 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get settingsNone => 'Hakuna';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'Mtumiaji wa haraka';

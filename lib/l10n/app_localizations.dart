@@ -7474,6 +7474,12 @@ abstract class AppLocalizations {
   /// **'All Seasons'**
   String get allSeasons;
 
+  /// Banner in the Seerr request dialog for a continuing series whose aired seasons are all in the library
+  ///
+  /// In en, this message translates to:
+  /// **'Series Continuing · Future Seasons Can Be Requested'**
+  String get seerrSeriesContinuing;
+
   /// Expansion tile for advanced request options
   ///
   /// In en, this message translates to:
@@ -15525,6 +15531,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'None'**
   String get settingsNone;
+
+  /// Setting label for automatically dismissing the skip intro and outro button after a delay
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Hide Skip Button'**
+  String get settingsSkipButtonAutoHide;
+
+  /// No description provided for @settingsSkipButtonAutoHideDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically dismiss the skip intro and outro button after a few seconds.'**
+  String get settingsSkipButtonAutoHideDescription;
 
   /// No description provided for @settingsPromptUser.
   ///

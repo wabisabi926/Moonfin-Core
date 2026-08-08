@@ -4141,6 +4141,10 @@ class AppLocalizationsSv extends AppLocalizations {
   String get allSeasons => 'Alla årstider';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'Avancerade alternativ';
 
   @override
@@ -8728,6 +8732,13 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get settingsNone => 'Ingen';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'Fråga användare';

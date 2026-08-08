@@ -4038,6 +4038,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get allSeasons => 'オールシーズン';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => '詳細オプション';
 
   @override
@@ -8468,6 +8472,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsNone => 'なし';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'ユーザーにプロンプ​​トを表示';

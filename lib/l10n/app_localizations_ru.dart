@@ -4172,6 +4172,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get allSeasons => 'Все сезоны';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'Дополнительные параметры';
 
   @override
@@ -8791,6 +8795,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsNone => 'Нет';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'Подскажите пользователю';

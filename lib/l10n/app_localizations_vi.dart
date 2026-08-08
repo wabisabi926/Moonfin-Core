@@ -4142,6 +4142,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get allSeasons => 'Tất cả các mùa';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'Tùy chọn nâng cao';
 
   @override
@@ -8717,6 +8721,13 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get settingsNone => 'Không có';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'Nhắc người dùng';

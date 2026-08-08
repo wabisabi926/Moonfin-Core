@@ -4160,6 +4160,10 @@ class AppLocalizationsLv extends AppLocalizations {
   String get allSeasons => 'Visas sezonas';
 
   @override
+  String get seerrSeriesContinuing =>
+      'Series Continuing · Future Seasons Can Be Requested';
+
+  @override
   String get advancedOptions => 'Papildu opcijas';
 
   @override
@@ -8769,6 +8773,13 @@ class AppLocalizationsLv extends AppLocalizations {
 
   @override
   String get settingsNone => 'Nav';
+
+  @override
+  String get settingsSkipButtonAutoHide => 'Auto Hide Skip Button';
+
+  @override
+  String get settingsSkipButtonAutoHideDescription =>
+      'Automatically dismiss the skip intro and outro button after a few seconds.';
 
   @override
   String get settingsPromptUser => 'Pamudināt lietotāju';
