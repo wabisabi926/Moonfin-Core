@@ -9167,6 +9167,15 @@ class AppLocalizationsAf extends AppLocalizations {
       'Klassiek hou per-ry beeldtipe en inligting-oorleg. Moderne gebruik portret-na-agtergrond-rye.';
 
   @override
+  String get sortOrder => 'Sort Order';
+
+  @override
+  String get ascending => 'Ascending';
+
+  @override
+  String get descending => 'Descending';
+
+  @override
   String get displayFavoritesRows => 'Wys gunstelinge-rye';
 
   @override
@@ -9181,6 +9190,10 @@ class AppLocalizationsAf extends AppLocalizations {
       'Sorteer gunstelinge-rye volgens bygevoegde datum, vrystellingdatum, alfabeties, en meer.';
 
   @override
+  String get favoritesRowSortOrderDescription =>
+      'Sort Favorites rows in ascending or descending order.';
+
+  @override
   String get displayCollectionsRows => 'Wys versamelingsrye';
 
   @override
@@ -9193,6 +9206,10 @@ class AppLocalizationsAf extends AppLocalizations {
   @override
   String get collectionsRowSortingDescription =>
       'Sorteer versamelingsrye volgens bygevoegde datum, vrystellingdatum, alfabeties, en meer.';
+
+  @override
+  String get collectionsRowSortOrderDescription =>
+      'Sort Collections rows in ascending or descending order.';
 
   @override
   String get collectionsRowShowEpisodes => 'Show Individual Episodes';
@@ -9215,11 +9232,63 @@ class AppLocalizationsAf extends AppLocalizations {
       'Sorteer Genres-rye volgens bygevoegde datum, vrystellingsdatum, alfabeties, en meer.';
 
   @override
+  String get genresRowSortOrderDescription =>
+      'Sort Genres rows in ascending or descending order.';
+
+  @override
   String get genresRowItems => 'Genres ry-items';
 
   @override
   String get genresRowItemsDescription =>
       'Wys flieks, reekse of albei in genres-rye.';
+
+  @override
+  String get displayStudiosRows => 'Display Studio Row';
+
+  @override
+  String get displayStudiosRowsSubtitle => 'Show Studio row in Home Sections.';
+
+  @override
+  String get studiosRowSorting => 'Studio Row Sorting';
+
+  @override
+  String get studiosRowSortingDescription =>
+      'Studio row by name, recently added, and more.';
+
+  @override
+  String get studiosRowSortOrderDescription =>
+      'Choose Ascending or Descending sort order.';
+
+  @override
+  String get selectStudiosToInclude => 'Select Studios to Include';
+
+  @override
+  String get selectStudiosToIncludeDescription =>
+      'Select which studios should be included on the home row.';
+
+  @override
+  String get selectAllStudios => 'Select All';
+
+  @override
+  String get deselectAllStudios => 'Deselect All';
+
+  @override
+  String get tvStudiosFilter => 'TV Studios';
+
+  @override
+  String get movieStudiosFilter => 'Movie Studios';
+
+  @override
+  String get selectedStudiosFilter => 'Selected Studios';
+
+  @override
+  String get unselectedStudiosFilter => 'Unselected Studios';
+
+  @override
+  String get filtersHeader => 'Filters';
+
+  @override
+  String get showHeader => 'Show';
 
   @override
   String get displayPlaylistsRows => 'Wys snitlysrye';
@@ -9234,6 +9303,10 @@ class AppLocalizationsAf extends AppLocalizations {
   @override
   String get playlistsRowSortingDescription =>
       'Sorteer snitlysrye volgens datum bygevoeg, vrystellingsdatum, alfabeties en meer.';
+
+  @override
+  String get playlistsRowSortOrderDescription =>
+      'Sort Playlist rows in ascending or descending order.';
 
   @override
   String get playlistsRowShowEpisodes => 'Show Individual Episodes';
@@ -9254,6 +9327,10 @@ class AppLocalizationsAf extends AppLocalizations {
   @override
   String get audioRowsSortingDescription =>
       'Sorteer oudiorye volgens datum bygevoeg, vrystellingsdatum, alfabeties en meer.';
+
+  @override
+  String get audioRowsSortOrderDescription =>
+      'Sort Audio rows in ascending or descending order.';
 
   @override
   String get audioPlaylists => 'Oudio-snitlyste';

@@ -9244,6 +9244,15 @@ class AppLocalizationsUk extends AppLocalizations {
       'Classic зберігає тип зображення та накладення інформації для кожного рядка. У Modern використовуються рядки з портретом на фон.';
 
   @override
+  String get sortOrder => 'Sort Order';
+
+  @override
+  String get ascending => 'Ascending';
+
+  @override
+  String get descending => 'Descending';
+
+  @override
   String get displayFavoritesRows => 'Відображення рядків уподобань';
 
   @override
@@ -9258,6 +9267,10 @@ class AppLocalizationsUk extends AppLocalizations {
       'Сортуйте рядки вибраного за датою додавання, датою випуску, за алфавітом тощо.';
 
   @override
+  String get favoritesRowSortOrderDescription =>
+      'Sort Favorites rows in ascending or descending order.';
+
+  @override
   String get displayCollectionsRows => 'Відображення рядків колекцій';
 
   @override
@@ -9270,6 +9283,10 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get collectionsRowSortingDescription =>
       'Сортуйте рядки колекцій за датою додавання, датою випуску, за алфавітом тощо.';
+
+  @override
+  String get collectionsRowSortOrderDescription =>
+      'Sort Collections rows in ascending or descending order.';
 
   @override
   String get collectionsRowShowEpisodes => 'Show Individual Episodes';
@@ -9293,11 +9310,63 @@ class AppLocalizationsUk extends AppLocalizations {
       'Сортуйте рядки жанрів за датою додавання, датою випуску, за алфавітом тощо.';
 
   @override
+  String get genresRowSortOrderDescription =>
+      'Sort Genres rows in ascending or descending order.';
+
+  @override
   String get genresRowItems => 'Елементи рядка жанрів';
 
   @override
   String get genresRowItemsDescription =>
       'Показувати фільми, серіали або обидва в рядках жанрів.';
+
+  @override
+  String get displayStudiosRows => 'Display Studio Row';
+
+  @override
+  String get displayStudiosRowsSubtitle => 'Show Studio row in Home Sections.';
+
+  @override
+  String get studiosRowSorting => 'Studio Row Sorting';
+
+  @override
+  String get studiosRowSortingDescription =>
+      'Studio row by name, recently added, and more.';
+
+  @override
+  String get studiosRowSortOrderDescription =>
+      'Choose Ascending or Descending sort order.';
+
+  @override
+  String get selectStudiosToInclude => 'Select Studios to Include';
+
+  @override
+  String get selectStudiosToIncludeDescription =>
+      'Select which studios should be included on the home row.';
+
+  @override
+  String get selectAllStudios => 'Select All';
+
+  @override
+  String get deselectAllStudios => 'Deselect All';
+
+  @override
+  String get tvStudiosFilter => 'TV Studios';
+
+  @override
+  String get movieStudiosFilter => 'Movie Studios';
+
+  @override
+  String get selectedStudiosFilter => 'Selected Studios';
+
+  @override
+  String get unselectedStudiosFilter => 'Unselected Studios';
+
+  @override
+  String get filtersHeader => 'Filters';
+
+  @override
+  String get showHeader => 'Show';
 
   @override
   String get displayPlaylistsRows => 'Показувати рядки списків відтворення';
@@ -9312,6 +9381,10 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get playlistsRowSortingDescription =>
       'Сортуйте рядки списків відтворення за датою додавання, датою випуску, за алфавітом тощо.';
+
+  @override
+  String get playlistsRowSortOrderDescription =>
+      'Sort Playlist rows in ascending or descending order.';
 
   @override
   String get playlistsRowShowEpisodes => 'Show Individual Episodes';
@@ -9333,6 +9406,10 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get audioRowsSortingDescription =>
       'Сортуйте аудіорядки за датою додавання, датою випуску, за алфавітом тощо.';
+
+  @override
+  String get audioRowsSortOrderDescription =>
+      'Sort Audio rows in ascending or descending order.';
 
   @override
   String get audioPlaylists => 'Аудіосписки відтворення';

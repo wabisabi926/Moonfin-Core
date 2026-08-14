@@ -406,7 +406,7 @@ packages:
       path: "packages/custom_tv_text_field_fork"
       relative: true
     source: path
-    version: "1.0.9"
+    version: "1.1.0"
   dart_style:
     dependency: transitive
     description:
@@ -978,7 +978,7 @@ packages:
     source: hosted
     version: "0.15.6"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"

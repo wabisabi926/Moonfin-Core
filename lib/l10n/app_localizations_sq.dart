@@ -9249,6 +9249,15 @@ class AppLocalizationsSq extends AppLocalizations {
       'Klasik ruan llojin e imazhit për çdo rresht dhe mbishtresën e informacionit. Moderne përdor rreshta nga portreti te sfondi.';
 
   @override
+  String get sortOrder => 'Sort Order';
+
+  @override
+  String get ascending => 'Ascending';
+
+  @override
+  String get descending => 'Descending';
+
+  @override
   String get displayFavoritesRows => 'Shfaq rreshtat e të preferuarave';
 
   @override
@@ -9263,6 +9272,10 @@ class AppLocalizationsSq extends AppLocalizations {
       'Rendit rreshtat e të preferuarave sipas datës së shtimit, datës së publikimit, alfabetit dhe më shumë.';
 
   @override
+  String get favoritesRowSortOrderDescription =>
+      'Sort Favorites rows in ascending or descending order.';
+
+  @override
   String get displayCollectionsRows => 'Shfaq rreshtat e koleksioneve';
 
   @override
@@ -9275,6 +9288,10 @@ class AppLocalizationsSq extends AppLocalizations {
   @override
   String get collectionsRowSortingDescription =>
       'Rendit rreshtat e Koleksioneve sipas datës së shtimit, datës së publikimit, alfabetit dhe më shumë.';
+
+  @override
+  String get collectionsRowSortOrderDescription =>
+      'Sort Collections rows in ascending or descending order.';
 
   @override
   String get collectionsRowShowEpisodes => 'Show Individual Episodes';
@@ -9298,11 +9315,63 @@ class AppLocalizationsSq extends AppLocalizations {
       'Rendit rreshtat e Zhanreve sipas datës së shtimit, datës së publikimit, alfabetit dhe më shumë.';
 
   @override
+  String get genresRowSortOrderDescription =>
+      'Sort Genres rows in ascending or descending order.';
+
+  @override
   String get genresRowItems => 'Artikujt e rreshtit të zhanreve';
 
   @override
   String get genresRowItemsDescription =>
       'Shfaq Filma, Seriale ose të dyja në rreshtat e Zhanreve.';
+
+  @override
+  String get displayStudiosRows => 'Display Studio Row';
+
+  @override
+  String get displayStudiosRowsSubtitle => 'Show Studio row in Home Sections.';
+
+  @override
+  String get studiosRowSorting => 'Studio Row Sorting';
+
+  @override
+  String get studiosRowSortingDescription =>
+      'Studio row by name, recently added, and more.';
+
+  @override
+  String get studiosRowSortOrderDescription =>
+      'Choose Ascending or Descending sort order.';
+
+  @override
+  String get selectStudiosToInclude => 'Select Studios to Include';
+
+  @override
+  String get selectStudiosToIncludeDescription =>
+      'Select which studios should be included on the home row.';
+
+  @override
+  String get selectAllStudios => 'Select All';
+
+  @override
+  String get deselectAllStudios => 'Deselect All';
+
+  @override
+  String get tvStudiosFilter => 'TV Studios';
+
+  @override
+  String get movieStudiosFilter => 'Movie Studios';
+
+  @override
+  String get selectedStudiosFilter => 'Selected Studios';
+
+  @override
+  String get unselectedStudiosFilter => 'Unselected Studios';
+
+  @override
+  String get filtersHeader => 'Filters';
+
+  @override
+  String get showHeader => 'Show';
 
   @override
   String get displayPlaylistsRows => 'Shfaq rreshtat e listave të luajtjes';
@@ -9318,6 +9387,10 @@ class AppLocalizationsSq extends AppLocalizations {
   @override
   String get playlistsRowSortingDescription =>
       'Rendit rreshtat e Listave të luajtjes sipas datës së shtimit, datës së publikimit, alfabetit dhe më shumë.';
+
+  @override
+  String get playlistsRowSortOrderDescription =>
+      'Sort Playlist rows in ascending or descending order.';
 
   @override
   String get playlistsRowShowEpisodes => 'Show Individual Episodes';
@@ -9339,6 +9412,10 @@ class AppLocalizationsSq extends AppLocalizations {
   @override
   String get audioRowsSortingDescription =>
       'Rendit rreshtat audio sipas datës së shtimit, datës së publikimit, alfabetit dhe më shumë.';
+
+  @override
+  String get audioRowsSortOrderDescription =>
+      'Sort Audio rows in ascending or descending order.';
 
   @override
   String get audioPlaylists => 'Listat e luajtjes audio';
