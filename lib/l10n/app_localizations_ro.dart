@@ -3412,6 +3412,12 @@ class AppLocalizationsRo extends AppLocalizations {
   String get contentType => 'Tip de conținut';
 
   @override
+  String get mediaBarSourceType => 'Source';
+
+  @override
+  String get mediaBarSourceRandom => 'Random';
+
+  @override
   String get moviesAndTvShows => 'Filme și emisiuni TV';
 
   @override
@@ -10759,4 +10765,18 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get seerrRuntime => 'Runtime';
+
+  @override
+  String get subtitleHdrSeparate => 'Separate HDR Style';
+
+  @override
+  String get subtitleHdrSeparateSubtitle =>
+      'White is much brighter in HDR than in SDR, so a dimmer style here avoids the glare';
+
+  @override
+  String get scrollSensitivity => 'Scroll Sensitivity';
+
+  @override
+  String get scrollSensitivitySubtitle =>
+      'How far one mouse wheel notch scrolls';
 }

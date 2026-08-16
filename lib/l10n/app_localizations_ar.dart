@@ -3399,6 +3399,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get contentType => 'نوع المحتوى';
 
   @override
+  String get mediaBarSourceType => 'Source';
+
+  @override
+  String get mediaBarSourceRandom => 'Random';
+
+  @override
   String get moviesAndTvShows => 'الأفلام والبرامج التلفزيونية';
 
   @override
@@ -10649,4 +10655,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get seerrRuntime => 'Runtime';
+
+  @override
+  String get subtitleHdrSeparate => 'Separate HDR Style';
+
+  @override
+  String get subtitleHdrSeparateSubtitle =>
+      'White is much brighter in HDR than in SDR, so a dimmer style here avoids the glare';
+
+  @override
+  String get scrollSensitivity => 'Scroll Sensitivity';
+
+  @override
+  String get scrollSensitivitySubtitle =>
+      'How far one mouse wheel notch scrolls';
 }

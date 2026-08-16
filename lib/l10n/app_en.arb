@@ -4619,6 +4619,14 @@
   "@contentType": {
     "description": "Setting for content type"
   },
+  "mediaBarSourceType": "Source",
+  "@mediaBarSourceType": {
+    "description": "Setting for which titles the media bar draws from"
+  },
+  "mediaBarSourceRandom": "Random",
+  "@mediaBarSourceRandom": {
+    "description": "Media bar source: any eligible title"
+  },
   "moviesAndTvShows": "Movies & TV Shows",
   "@moviesAndTvShows": {
     "description": "Content type: movies and TV shows"
@@ -9504,5 +9512,21 @@
   "seerrRuntime": "Runtime",
   "@seerrRuntime": {
     "description": "Heading for the runtime window filter in the Seerr browse dialog."
+  },
+  "subtitleHdrSeparate": "Separate HDR Style",
+  "@subtitleHdrSeparate": {
+    "description": "Toggle for a second subtitle appearance used only while HDR is playing."
+  },
+  "subtitleHdrSeparateSubtitle": "White is much brighter in HDR than in SDR, so a dimmer style here avoids the glare",
+  "@subtitleHdrSeparateSubtitle": {
+    "description": "Explains why a separate HDR subtitle style is worth setting."
+  },
+  "scrollSensitivity": "Scroll Sensitivity",
+  "@scrollSensitivity": {
+    "description": "Title of the desktop setting that scales mouse wheel scrolling."
+  },
+  "scrollSensitivitySubtitle": "How far one mouse wheel notch scrolls",
+  "@scrollSensitivitySubtitle": {
+    "description": "Explains the desktop scroll sensitivity slider."
   }
 }

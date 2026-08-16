@@ -6136,6 +6136,18 @@ abstract class AppLocalizations {
   /// **'Content Type'**
   String get contentType;
 
+  /// Setting for which titles the media bar draws from
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get mediaBarSourceType;
+
+  /// Media bar source: any eligible title
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get mediaBarSourceRandom;
+
   /// Content type: movies and TV shows
   ///
   /// In en, this message translates to:
@@ -18963,6 +18975,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Runtime'**
   String get seerrRuntime;
+
+  /// Toggle for a second subtitle appearance used only while HDR is playing.
+  ///
+  /// In en, this message translates to:
+  /// **'Separate HDR Style'**
+  String get subtitleHdrSeparate;
+
+  /// Explains why a separate HDR subtitle style is worth setting.
+  ///
+  /// In en, this message translates to:
+  /// **'White is much brighter in HDR than in SDR, so a dimmer style here avoids the glare'**
+  String get subtitleHdrSeparateSubtitle;
+
+  /// Title of the desktop setting that scales mouse wheel scrolling.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll Sensitivity'**
+  String get scrollSensitivity;
+
+  /// Explains the desktop scroll sensitivity slider.
+  ///
+  /// In en, this message translates to:
+  /// **'How far one mouse wheel notch scrolls'**
+  String get scrollSensitivitySubtitle;
 }
 
 class _AppLocalizationsDelegate

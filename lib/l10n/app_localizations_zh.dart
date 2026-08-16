@@ -3274,6 +3274,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contentType => '内容类型';
 
   @override
+  String get mediaBarSourceType => 'Source';
+
+  @override
+  String get mediaBarSourceRandom => 'Random';
+
+  @override
   String get moviesAndTvShows => '电影和剧集';
 
   @override
@@ -10235,6 +10241,20 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get seerrRuntime => 'Runtime';
+
+  @override
+  String get subtitleHdrSeparate => 'Separate HDR Style';
+
+  @override
+  String get subtitleHdrSeparateSubtitle =>
+      'White is much brighter in HDR than in SDR, so a dimmer style here avoids the glare';
+
+  @override
+  String get scrollSensitivity => 'Scroll Sensitivity';
+
+  @override
+  String get scrollSensitivitySubtitle =>
+      'How far one mouse wheel notch scrolls';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
