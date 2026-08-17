@@ -1893,6 +1893,19 @@ class AppLocalizationsMl extends AppLocalizations {
   String get unableToCreateRecording => 'റെക്കോർഡിംഗ് സൃഷ്ടിക്കാൻ കഴിഞ്ഞില്ല';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'കാണുക';
 
   @override
@@ -3511,6 +3524,9 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get liveTV => 'ലൈവ് ടി.വി';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'ഹോം വിഭാഗങ്ങൾ';

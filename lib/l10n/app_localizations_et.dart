@@ -1888,6 +1888,19 @@ class AppLocalizationsEt extends AppLocalizations {
   String get unableToCreateRecording => 'Salvestist ei saa luua';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Vaata';
 
   @override
@@ -3496,6 +3509,9 @@ class AppLocalizationsEt extends AppLocalizations {
 
   @override
   String get liveTV => 'Otse-TV';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Avaleht Sektsioonid';

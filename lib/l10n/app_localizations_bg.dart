@@ -1888,6 +1888,19 @@ class AppLocalizationsBg extends AppLocalizations {
   String get unableToCreateRecording => 'Не може да се създаде запис';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Гледай';
 
   @override
@@ -3510,6 +3523,9 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get liveTV => 'Телевизия на живо';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Начало Раздели';

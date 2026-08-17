@@ -1836,6 +1836,19 @@ class AppLocalizationsYue extends AppLocalizations {
   String get unableToCreateRecording => '冇辦法建立錄影';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => '睇';
 
   @override
@@ -3387,6 +3400,9 @@ class AppLocalizationsYue extends AppLocalizations {
 
   @override
   String get liveTV => '電視直播';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => '首頁 欄目';

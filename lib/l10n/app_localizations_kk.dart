@@ -1886,6 +1886,19 @@ class AppLocalizationsKk extends AppLocalizations {
   String get unableToCreateRecording => 'Жазу жасау мүмкін болмады';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Қарау';
 
   @override
@@ -3503,6 +3516,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get liveTV => 'Тікелей теледидар';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Үй бөлімдері';

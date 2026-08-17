@@ -1975,6 +1975,19 @@ class AppLocalizationsSr extends AppLocalizations {
   String get unableToCreateRecording => 'Није могуће направити снимак';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Гледај';
 
   @override
@@ -3614,6 +3627,9 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get liveTV => 'ТВ уживо';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Хоме Сецтионс';

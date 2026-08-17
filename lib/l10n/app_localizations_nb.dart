@@ -1882,6 +1882,19 @@ class AppLocalizationsNb extends AppLocalizations {
   String get unableToCreateRecording => 'Kan ikke opprette opptak';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Se på';
 
   @override
@@ -3486,6 +3499,9 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String get liveTV => 'Direktesendt TV';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Hjem Seksjoner';

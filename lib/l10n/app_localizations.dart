@@ -3430,6 +3430,30 @@ abstract class AppLocalizations {
   /// **'Unable to create recording'**
   String get unableToCreateRecording;
 
+  /// Button label to record every showing of a live TV series
+  ///
+  /// In en, this message translates to:
+  /// **'Record Series'**
+  String get recordSeries;
+
+  /// Snackbar confirmation after scheduling a live TV series recording
+  ///
+  /// In en, this message translates to:
+  /// **'Series set to record'**
+  String get seriesSetToRecord;
+
+  /// Snackbar confirmation after cancelling a live TV series recording
+  ///
+  /// In en, this message translates to:
+  /// **'Series recording cancelled'**
+  String get seriesRecordingCancelled;
+
+  /// Error when creating a live TV series recording fails
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to create series recording'**
+  String get unableToCreateSeriesRecording;
+
   /// Button label to start watching a channel
   ///
   /// In en, this message translates to:
@@ -6333,6 +6357,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Live TV'**
   String get liveTV;
+
+  /// Home row: favourited live TV channels
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite Channels'**
+  String get favoriteChannels;
 
   /// Settings title for home sections
   ///

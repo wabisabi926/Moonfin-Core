@@ -1895,6 +1895,19 @@ class AppLocalizationsTa extends AppLocalizations {
   String get unableToCreateRecording => 'பதிவை உருவாக்க முடியவில்லை';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'பார்';
 
   @override
@@ -3514,6 +3527,9 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get liveTV => 'நேரலை டிவி';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'முகப்பு பிரிவுகள்';

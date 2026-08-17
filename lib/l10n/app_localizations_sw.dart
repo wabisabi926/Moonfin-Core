@@ -1896,6 +1896,19 @@ class AppLocalizationsSw extends AppLocalizations {
   String get unableToCreateRecording => 'Imeshindwa kuunda rekodi';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Tazama';
 
   @override
@@ -3514,6 +3527,9 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get liveTV => 'TV ya moja kwa moja';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Sehemu za Nyumbani';

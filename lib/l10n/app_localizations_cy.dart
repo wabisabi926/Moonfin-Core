@@ -1903,6 +1903,19 @@ class AppLocalizationsCy extends AppLocalizations {
   String get unableToCreateRecording => 'Methu creu recordiad';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Gwylio';
 
   @override
@@ -3518,6 +3531,9 @@ class AppLocalizationsCy extends AppLocalizations {
 
   @override
   String get liveTV => 'Teledu byw';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Adrannau Cartref';

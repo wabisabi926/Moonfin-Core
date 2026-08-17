@@ -1889,6 +1889,19 @@ class AppLocalizationsAf extends AppLocalizations {
   String get unableToCreateRecording => 'Kan nie opname skep nie';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Kyk';
 
   @override
@@ -3494,6 +3507,9 @@ class AppLocalizationsAf extends AppLocalizations {
 
   @override
   String get liveTV => 'Regstreekse TV';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Tuisafdelings';

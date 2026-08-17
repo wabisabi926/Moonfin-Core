@@ -1881,6 +1881,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get unableToCreateRecording => 'Kayıt oluşturulamadı';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'İzle';
 
   @override
@@ -3498,6 +3511,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get liveTV => 'Canlı TV';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Ana Sayfa Bölümleri';

@@ -1904,6 +1904,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unableToCreateRecording => 'Impossible de créer un enregistrement';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Regarder';
 
   @override
@@ -3537,6 +3550,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get liveTV => 'TV en direct';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Sections de l’accueil';

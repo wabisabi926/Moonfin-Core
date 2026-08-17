@@ -1890,6 +1890,19 @@ class AppLocalizationsKn extends AppLocalizations {
   String get unableToCreateRecording => 'ರೆಕಾರ್ಡಿಂಗ್ ರಚಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'ವೀಕ್ಷಿಸಿ';
 
   @override
@@ -3509,6 +3522,9 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get liveTV => 'ಲೈವ್ ಟಿವಿ';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'ಮುಖಪುಟ ವಿಭಾಗಗಳು';

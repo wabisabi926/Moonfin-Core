@@ -1900,6 +1900,19 @@ class AppLocalizationsSk extends AppLocalizations {
   String get unableToCreateRecording => 'Nepodarilo sa vytvoriť nahrávku';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'Sledovať';
 
   @override
@@ -3513,6 +3526,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get liveTV => 'Živá televízia';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'Domáce Sekcie';

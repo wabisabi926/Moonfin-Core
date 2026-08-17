@@ -1871,6 +1871,19 @@ class AppLocalizationsTh extends AppLocalizations {
   String get unableToCreateRecording => 'ไม่สามารถสร้างการบันทึกได้';
 
   @override
+  String get recordSeries => 'Record Series';
+
+  @override
+  String get seriesSetToRecord => 'Series set to record';
+
+  @override
+  String get seriesRecordingCancelled => 'Series recording cancelled';
+
+  @override
+  String get unableToCreateSeriesRecording =>
+      'Unable to create series recording';
+
+  @override
   String get watch => 'รับชม';
 
   @override
@@ -3469,6 +3482,9 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get liveTV => 'รายการสดทางทีวี';
+
+  @override
+  String get favoriteChannels => 'Favorite Channels';
 
   @override
   String get homeSections => 'หน้าแรก';

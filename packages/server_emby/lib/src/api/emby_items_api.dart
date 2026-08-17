@@ -747,6 +747,7 @@ class EmbyItemsApi implements ItemsApi {
     final chapters = (item['Chapters'] as List?) ?? const [];
     if (chapters.isEmpty) return const [];
 
+    final chapterStarts = <int>[];
     int? introStart;
     int? introEnd;
     int? creditsStart;
@@ -754,6 +755,7 @@ class EmbyItemsApi implements ItemsApi {
       if (raw is! Map) continue;
       final ticks = (raw['StartPositionTicks'] as num?)?.toInt();
       if (ticks == null) continue;
+      chapterStarts.add(ticks);
       switch (_markerType(raw['MarkerType'])) {
         case 'introstart':
           introStart ??= ticks;
@@ -762,6 +764,19 @@ class EmbyItemsApi implements ItemsApi {
         case 'creditsstart':
           creditsStart ??= ticks;
       }
+    }
+
+    // Plenty of episodes carry a start marker and never an end one. The
+    // chapter that follows is where the intro handed over to the episode, so
+    // it stands in for the missing marker. One with nothing after it stays
+    // unbounded rather than guessing a length.
+    if (introStart != null && introEnd == null) {
+      final start = introStart;
+      int? next;
+      for (final ticks in chapterStarts) {
+        if (ticks > start && (next == null || ticks < next)) next = ticks;
+      }
+      introEnd = next;
     }
 
     final segments = <Map<String, dynamic>>[];
@@ -820,15 +835,18 @@ class EmbyItemsApi implements ItemsApi {
     required String language,
     bool? isPerfectMatch,
   }) async {
-    throw UnsupportedError(
-      'Remote subtitle search is only supported for Jellyfin servers.',
+    final response = await _dio.get(
+      '/Items/$itemId/RemoteSearch/Subtitles/$language',
+      queryParameters: {'IsPerfectMatch': ?isPerfectMatch},
     );
+    return ((response.data as List?) ?? const [])
+        .whereType<Map>()
+        .map((e) => e.cast<String, dynamic>())
+        .toList(growable: false);
   }
 
   @override
   Future<void> downloadRemoteSubtitle(String itemId, String subtitleId) async {
-    throw UnsupportedError(
-      'Remote subtitle download is only supported for Jellyfin servers.',
-    );
+    await _dio.post('/Items/$itemId/RemoteSearch/Subtitles/$subtitleId');
   }
 }
