@@ -463,7 +463,7 @@ abstract class AppLocalizations {
   /// Label for the media detail screen layout style setting
   ///
   /// In en, this message translates to:
-  /// **'Detail screen style'**
+  /// **'Details Screen Style'**
   String get detailScreenStyle;
 
   /// Explanation under the detail screen style setting
@@ -573,6 +573,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Material'**
   String get interfaceStyleMaterial;
+
+  /// Setting to override which UI layout the app uses
+  ///
+  /// In en, this message translates to:
+  /// **'Interface Layout'**
+  String get interfaceLayout;
+
+  /// Subtitle for the interface layout setting
+  ///
+  /// In en, this message translates to:
+  /// **'Override the detected layout when this device is read wrong. Restart Moonfin for changes to take effect.'**
+  String get interfaceLayoutSubtitle;
+
+  /// Interface layout option: detect from the device
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get interfaceLayoutAutomatic;
+
+  /// Interface layout option: 10-foot TV layout
+  ///
+  /// In en, this message translates to:
+  /// **'TV'**
+  String get interfaceLayoutTv;
+
+  /// Interface layout option: desktop layout
+  ///
+  /// In en, this message translates to:
+  /// **'Desktop'**
+  String get interfaceLayoutDesktop;
+
+  /// Interface layout option: phone layout
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get interfaceLayoutPhone;
 
   /// Label for the glass rendering quality setting
   ///
@@ -4078,6 +4114,12 @@ abstract class AppLocalizations {
   /// **'Always'**
   String get always;
 
+  /// Option: only show the label on rows holding both movies and series
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed rows only'**
+  String get mixedRowsOnly;
+
   /// Option: hide unwatched indicators
   ///
   /// In en, this message translates to:
@@ -6309,6 +6351,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recently Released'**
   String get recentlyReleased;
+
+  /// Setting for sorting series in recently released series row
+  ///
+  /// In en, this message translates to:
+  /// **'Recently Released Series Sort By'**
+  String get recentlyReleasedSeriesType;
+
+  /// Description for recently released series type setting
+  ///
+  /// In en, this message translates to:
+  /// **'Sort Recently Released Series home rows by series, latest season, or latest episode air date'**
+  String get recentlyReleasedSeriesTypeDescription;
 
   /// Home section: my media
   ///
@@ -19029,6 +19083,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'How far one mouse wheel notch scrolls'**
   String get scrollSensitivitySubtitle;
+
+  /// Section header for media details and spoiler settings
+  ///
+  /// In en, this message translates to:
+  /// **'Media Details and Spoilers'**
+  String get mediaDetailsAndSpoilers;
+
+  /// Setting title to hide media description on details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Media Description on Details Page'**
+  String get hideDetailsMediaDescription;
+
+  /// Description for setting to hide media description on details page
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the movie or episode descriptive text.'**
+  String get hideDetailsMediaDescriptionSubtitle;
+
+  /// Setting title to replace thumbnails on Classic details page with series thumbnail
+  ///
+  /// In en, this message translates to:
+  /// **'Use Series Thumbnails on Details Page'**
+  String get detailUseSeriesThumbnails;
+
+  /// Description for setting to use series thumbnails on Classic details page
+  ///
+  /// In en, this message translates to:
+  /// **'Replace all thumbnails on Classic details page with series thumbnail'**
+  String get detailUseSeriesThumbnailsSubtitle;
+
+  /// Setting title to hide media description on home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Media Description on Home Screen'**
+  String get hideHomeMediaDescription;
+
+  /// Description for setting to hide media description on home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the movie or episode descriptive text.'**
+  String get hideHomeMediaDescriptionSubtitle;
+
+  /// Header for settings section containing Continue Watching and Next Up options
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Watching and Next Up'**
+  String get continueWatchingAndNextUpHeader;
 }
 
 class _AppLocalizationsDelegate

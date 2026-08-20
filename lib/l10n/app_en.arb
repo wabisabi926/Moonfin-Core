@@ -188,7 +188,7 @@
   "@settingsAppearanceTheme": {
     "description": "Title for the theme selection screen and theme settings entry"
   },
-  "detailScreenStyle": "Detail screen style",
+  "detailScreenStyle": "Details Screen Style",
   "@detailScreenStyle": {
     "description": "Label for the media detail screen layout style setting"
   },
@@ -263,6 +263,30 @@
   "interfaceStyleMaterial": "Material",
   "@interfaceStyleMaterial": {
     "description": "Interface style option: Material look"
+  },
+  "interfaceLayout": "Interface Layout",
+  "@interfaceLayout": {
+    "description": "Setting to override which UI layout the app uses"
+  },
+  "interfaceLayoutSubtitle": "Override the detected layout when this device is read wrong. Restart Moonfin for changes to take effect.",
+  "@interfaceLayoutSubtitle": {
+    "description": "Subtitle for the interface layout setting"
+  },
+  "interfaceLayoutAutomatic": "Automatic",
+  "@interfaceLayoutAutomatic": {
+    "description": "Interface layout option: detect from the device"
+  },
+  "interfaceLayoutTv": "TV",
+  "@interfaceLayoutTv": {
+    "description": "Interface layout option: 10-foot TV layout"
+  },
+  "interfaceLayoutDesktop": "Desktop",
+  "@interfaceLayoutDesktop": {
+    "description": "Interface layout option: desktop layout"
+  },
+  "interfaceLayoutPhone": "Phone",
+  "@interfaceLayoutPhone": {
+    "description": "Interface layout option: phone layout"
   },
   "glassQuality": "Glass Quality",
   "@glassQuality": {
@@ -2791,7 +2815,7 @@
   },
   "seerr": "Seerr",
   "@seerr": {
-    "description": "Title for the Seerr (Overseerr/Jellyseerr) results section"
+    "description": "Title for the Seerr results section"
   },
   "seerrAccountType": "Seerr Account Type",
   "@seerrAccountType": {
@@ -3188,6 +3212,10 @@
   "always": "Always",
   "@always": {
     "description": "Option: always"
+  },
+  "mixedRowsOnly": "Mixed rows only",
+  "@mixedRowsOnly": {
+    "description": "Option: only show the label on rows holding both movies and series"
   },
   "hideUnwatched": "Hide Unwatched",
   "@hideUnwatched": {
@@ -4738,6 +4766,14 @@
   "recentlyReleased": "Recently Released",
   "@recentlyReleased": {
     "description": "Home section: recently released"
+  },
+  "recentlyReleasedSeriesType": "Recently Released Series Sort By",
+  "@recentlyReleasedSeriesType": {
+    "description": "Setting for sorting series in recently released series row"
+  },
+  "recentlyReleasedSeriesTypeDescription": "Sort Recently Released Series home rows by series, latest season, or latest episode air date",
+  "@recentlyReleasedSeriesTypeDescription": {
+    "description": "Description for recently released series type setting"
   },
   "myMedia": "My Media",
   "@myMedia": {
@@ -9548,5 +9584,37 @@
   "scrollSensitivitySubtitle": "How far one mouse wheel notch scrolls",
   "@scrollSensitivitySubtitle": {
     "description": "Explains the desktop scroll sensitivity slider."
+  },
+  "mediaDetailsAndSpoilers": "Media Details and Spoilers",
+  "@mediaDetailsAndSpoilers": {
+    "description": "Section header for media details and spoiler settings"
+  },
+  "hideDetailsMediaDescription": "Hide Media Description on Details Page",
+  "@hideDetailsMediaDescription": {
+    "description": "Setting title to hide media description on details screen"
+  },
+  "hideDetailsMediaDescriptionSubtitle": "Hide the movie or episode descriptive text.",
+  "@hideDetailsMediaDescriptionSubtitle": {
+    "description": "Description for setting to hide media description on details page"
+  },
+  "detailUseSeriesThumbnails": "Use Series Thumbnails on Details Page",
+  "@detailUseSeriesThumbnails": {
+    "description": "Setting title to replace thumbnails on Classic details page with series thumbnail"
+  },
+  "detailUseSeriesThumbnailsSubtitle": "Replace all thumbnails on Classic details page with series thumbnail",
+  "@detailUseSeriesThumbnailsSubtitle": {
+    "description": "Description for setting to use series thumbnails on Classic details page"
+  },
+  "hideHomeMediaDescription": "Hide Media Description on Home Screen",
+  "@hideHomeMediaDescription": {
+    "description": "Setting title to hide media description on home screen"
+  },
+  "hideHomeMediaDescriptionSubtitle": "Hide the movie or episode descriptive text.",
+  "@hideHomeMediaDescriptionSubtitle": {
+    "description": "Description for setting to hide media description on home screen"
+  },
+  "continueWatchingAndNextUpHeader": "Continue Watching and Next Up",
+  "@continueWatchingAndNextUpHeader": {
+    "description": "Header for settings section containing Continue Watching and Next Up options"
   }
 }

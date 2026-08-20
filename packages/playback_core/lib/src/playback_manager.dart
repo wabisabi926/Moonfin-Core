@@ -318,6 +318,16 @@ class PlaybackManager implements AudioOwnable {
         .where((s) => s['Type'] == 'Video')
         .firstOrNull;
 
+    // Some servers report only the average, so it stands in when the real
+    // rate is missing.
+    final realRate = videoStream?['RealFrameRate'];
+    final averageRate = videoStream?['AverageFrameRate'];
+    final videoFrameRate = realRate is num
+        ? realRate.toDouble()
+        : averageRate is num
+        ? averageRate.toDouble()
+        : null;
+
     final audioStreamLang = _extractLanguage(audioStream);
     final subtitleStreamLang = _extractLanguage(subtitleStream);
 
@@ -354,8 +364,7 @@ class PlaybackManager implements AudioOwnable {
         'preferredTextLanguage': subtitleStreamLang,
       if (videoStream != null && videoStream['DvProfile'] is int)
         'videoDvProfile': videoStream['DvProfile'],
-      if (videoStream != null && videoStream['RealFrameRate'] is num)
-        'videoFrameRate': (videoStream['RealFrameRate'] as num).toDouble(),
+      if (videoFrameRate != null) 'videoFrameRate': videoFrameRate,
       if (videoStream != null && videoStream['Width'] is int)
         'videoWidth': videoStream['Width'],
       if (videoStream != null && videoStream['Height'] is int)
@@ -609,6 +618,25 @@ class PlaybackManager implements AudioOwnable {
       sub.cancel();
     }
     _streamSubs.clear();
+  }
+
+  /// The highest bitrate any of [item]'s sources needs, or null when the item
+  /// does not say. Read duck-typed like the rest of the item, so a queue entry
+  /// that is only an id costs nothing.
+  int? _sourceBitrate(dynamic item) {
+    try {
+      final mediaSources = item.mediaSources as List?;
+      if (mediaSources == null) return null;
+      var highest = 0;
+      for (final source in mediaSources) {
+        if (source is! Map) continue;
+        final bitrate = source['Bitrate'];
+        if (bitrate is num && bitrate > highest) highest = bitrate.toInt();
+      }
+      return highest > 0 ? highest : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   Duration _resolvedItemDuration(dynamic item, String? mediaSourceId) {
@@ -1173,8 +1201,18 @@ class PlaybackManager implements AudioOwnable {
       final measured = await autoBitrateProvider!();
       if (sessionToken != _playbackSessionToken) return;
       if (measured != null && measured > 0) {
-        maxBitrate = measured;
-        profile['MaxStreamingBitrate'] = measured;
+        // The measurement bounds how heavy a transcode the server is asked
+        // for, but the server reads it as a ceiling on direct play too, and a
+        // short sample under-reads a fast link. A source that outruns it keeps
+        // the uncapped request rather than becoming a transcode nothing asked
+        // for.
+        final sourceBps = _sourceBitrate(item);
+        final vetoesDirectPlay =
+            enableDirectPlay && sourceBps != null && sourceBps > measured;
+        if (!vetoesDirectPlay) {
+          maxBitrate = measured;
+          profile['MaxStreamingBitrate'] = measured;
+        }
       }
     }
 

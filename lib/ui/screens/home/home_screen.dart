@@ -30,6 +30,7 @@ import '../../widgets/rating_display.dart';
 import '../../../data/services/theme_music_service.dart';
 import '../../../data/services/media_server_client_factory.dart';
 import '../../../data/services/plugin_sync_service.dart';
+import '../../../data/utils/media_type_badges.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../playback/appletv_preview_player.dart';
 import '../../../playback/inline_preview_engine.dart';
@@ -332,6 +333,7 @@ class _HomeShellState extends State<_HomeShell>
 
   void _maybeRegisterThemeMusic() {
     final shouldRegister =
+        !PlatformDetection.isMobile &&
         _userPrefs.get(UserPreferences.themeMusicEnabled) &&
         _userPrefs.get(UserPreferences.themeMusicOnHomeRows);
     if (shouldRegister && !_themeMusicRegistered) {
@@ -643,6 +645,11 @@ class _ContentRows extends StatefulWidget {
 class _ContentRowsState extends State<_ContentRows>
     with WidgetsBindingObserver, WindowListener
     implements AudioOwnable {
+  /// A wide artwork row has no modern variant, so beside rows drawing at twice
+  /// the poster height it reads as a band of undersized cards. This brings the
+  /// two back to roughly the same height.
+  static const double _wideArtworkModernScale = 2.5;
+
   static const double _kHomeRowLabelInset = 16.0;
   static const double _focusedRowExtraSpacing = 20.0;
   static const Duration _focusedRowSpacingDuration = Duration(
@@ -1891,6 +1898,9 @@ class _ContentRowsState extends State<_ContentRows>
   }
 
   bool _showHomeRowInfoOverlay() {
+    if (PlatformDetection.useMobileUi) {
+      return false;
+    }
     if (_isHomeRowsStyleV2()) {
       return false;
     }
@@ -2415,9 +2425,9 @@ class _ContentRowsState extends State<_ContentRows>
 
     final desktopScale = _desktopUiScaleFactor();
     final metadataScale = desktopScale;
-    final isRowsV2 = prefs.get(UserPreferences.homeRowsStyle) == HomeRowsStyle.v2 && !_isSeerrFilterRow(row);
+    final isRowsV2 = prefs.get(UserPreferences.homeRowsStyle) == HomeRowsStyle.v2 && !_isWideArtworkRow(row);
     final fullScreenRows = _fullScreenRowsEnabled(prefs);
-    final platformScale = PlatformDetection.isTV ? 0.8 * desktopScale : desktopScale;
+    final platformScale = _rowPlatformScale(row, desktopScale);
 
     double childHeight = 0.0;
     if (row.isLoading) {
@@ -2504,7 +2514,7 @@ class _ContentRowsState extends State<_ContentRows>
     final row = rowIndex < widget.viewModel.rows.length ? widget.viewModel.rows[rowIndex] : null;
     if (row == null) return defaultTop;
     final isRowsV2 = widget.prefs.get(UserPreferences.homeRowsStyle) == HomeRowsStyle.v2 &&
-        !_isSeerrFilterRow(row);
+        !_isWideArtworkRow(row);
 
     if (rowIndex == 0 && _rowTopOffsets.isNotEmpty) {
       if (_isMediaBarIncluded() && !_isBannerMode()) {
@@ -3418,6 +3428,14 @@ class _ContentRowsState extends State<_ContentRows>
     return widget.prefs.get(UserPreferences.desktopUiScale).scaleFactor;
   }
 
+  double _rowPlatformScale(HomeRow row, double desktopScale) {
+    final base = PlatformDetection.isTV ? 0.8 * desktopScale : desktopScale;
+    if (_isHomeRowsStyleV2() && _isWideArtworkRow(row)) {
+      return base * _wideArtworkModernScale;
+    }
+    return base;
+  }
+
   double _squarePosterSide(PosterSize posterSize) {
     final scaleFactor = _desktopUiScaleFactor();
     final platformScale = PlatformDetection.isTV
@@ -3447,13 +3465,11 @@ class _ContentRowsState extends State<_ContentRows>
       final isSeerrRowOverride = _isSeerrFilterRow(row);
       final isRowsV2 =
           prefs.get(UserPreferences.homeRowsStyle) == HomeRowsStyle.v2 &&
-          !isSeerrRowOverride;
+          !_isWideArtworkRow(row);
       final rowImageType = isSeerrRowOverride
           ? ImageType.thumb
           : (isRowsV2 ? ImageType.poster : _homeRowImageTypeForRow(row, prefs));
-      final platformScale = PlatformDetection.isTV
-          ? 0.8 * desktopScale
-          : desktopScale;
+      final platformScale = _rowPlatformScale(row, desktopScale);
       var maxCardHeight = 0.0;
       if (isRowsV2) {
         final imageHeight =
@@ -3500,7 +3516,7 @@ class _ContentRowsState extends State<_ContentRows>
       final safeTop = MediaQuery.paddingOf(context).top;
       final isRowsV2 =
           prefs.get(UserPreferences.homeRowsStyle) == HomeRowsStyle.v2 &&
-          !_isSeerrFilterRow(row);
+          !_isWideArtworkRow(row);
 
       final navbarIsTop =
           prefs.get(UserPreferences.navbarPosition) == NavbarPosition.top;
@@ -4103,7 +4119,7 @@ class _ContentRowsState extends State<_ContentRows>
 
                     final contentHeight = _rowContentHeight(row, posterSize, prefs);
                     final targetExtent = rowExtents[rowIndex];
-                    final isRowsV2 = prefs.get(UserPreferences.homeRowsStyle) == HomeRowsStyle.v2 && !_isSeerrFilterRow(row);
+                    final isRowsV2 = prefs.get(UserPreferences.homeRowsStyle) == HomeRowsStyle.v2 && !_isWideArtworkRow(row);
                     final extraTopPadding = isRowsV2
                         ? ((targetExtent - contentHeight) * 0.1).clamp(0.0, double.infinity)
                         : ((targetExtent - contentHeight) / 2.0).clamp(0.0, double.infinity);
@@ -4402,18 +4418,20 @@ class _ContentRowsState extends State<_ContentRows>
     required AppLocalizations l10n,
   }) {
     final suppressFocusGlow = ThemeRegistry.active.borders.focusGlow.isNotEmpty;
+    final showMediaTypeBadges = showsMediaTypeBadges(
+      prefs.get(UserPreferences.mediaTypeBadgeBehavior),
+      row.items,
+    );
     final isSeerrRowOverride = _isSeerrFilterRow(row);
     final isRowsV2 =
         prefs.get(UserPreferences.homeRowsStyle) == HomeRowsStyle.v2 &&
-        !isSeerrRowOverride;
+        !_isWideArtworkRow(row);
     final rowImageType = isSeerrRowOverride
         ? ImageType.thumb
         : (isRowsV2 ? ImageType.poster : _homeRowImageTypeForRow(row, prefs));
     final desktopScale = _desktopUiScaleFactor();
     final metadataScale = desktopScale;
-    final platformScale = PlatformDetection.isTV
-        ? 0.8 * desktopScale
-        : desktopScale;
+    final platformScale = _rowPlatformScale(row, desktopScale);
     final v2ImageHeight =
         posterSize.portraitHeight.toDouble() * platformScale * 2;
     final v2MetadataHeightBudget = _v2MetadataBudgetFor(row, prefs);
@@ -4745,7 +4763,7 @@ class _ContentRowsState extends State<_ContentRows>
                     playedPercentage: item.playedPercentage,
                     watchedBehavior: watchedBehavior,
                     itemType: item.type,
-                    seerrMediaType: item.seerrMediaType,
+                    seerrMediaType: showMediaTypeBadges ? item.seerrMediaType : null,
                     seerrStatus: item.seerrStatus,
                     isGenreFallback: (row.rowType == HomeRowType.genres && row.id == 'genres') &&
                         (() {
@@ -4755,7 +4773,7 @@ class _ContentRowsState extends State<_ContentRows>
                     focusColor: (row.rowType == HomeRowType.genres && row.id == 'genres')
                         ? ThemeRegistry.active.borders.focusBorder.color
                         : focusColor,
-                    cardFocusExpansion: isRowsV2 ? false : cardExpansion && !showPreviewVideo,
+                    cardFocusExpansion: _isHomeRowsStyleV2() ? false : cardExpansion && !showPreviewVideo,
                     externalIsFocused: effectiveV2Focused,
                     suppressImageFocusBorder: showPreviewVideo,
                     suppressFocusGlow: suppressFocusGlow,
@@ -4942,7 +4960,7 @@ class _ContentRowsState extends State<_ContentRows>
                           UserPreferences.showRatingBadges,
                         ),
                       ),
-                    if (overview.isNotEmpty)
+                    if (overview.isNotEmpty && !widget.prefs.get(UserPreferences.hideHomeMediaDescription))
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
@@ -5129,6 +5147,13 @@ class _ContentRowsState extends State<_ContentRows>
       row.id == 'seerr_series_genres' ||
       row.id == 'seerr_studios' ||
       row.id == 'seerr_networks';
+
+  /// Rows whose artwork is a wide logo rather than cover art. The modern style
+  /// draws every card portrait, which crops those, so these rows stay on the
+  /// classic layout whichever style is picked.
+  static bool _isWideArtworkRow(HomeRow row) =>
+      _isSeerrFilterRow(row) ||
+      (row.rowType == HomeRowType.studios && row.id == 'studios');
 
   static String? _seerrTmdbImageUrl(String? path, int width) {
     if (path == null || path.isEmpty) return null;

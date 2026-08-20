@@ -527,6 +527,12 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
       'classic',
       'modern',
     ]),
+    if (PlatformDetection.canOverrideInterfaceLayout)
+      style.leaf('pref_interface_layout', l10n.interfaceLayout, keywords: [
+        'tv mode',
+        'leanback',
+        'force',
+      ]),
     themes.screen(keywords: ['theme', 'color scheme', 'glass', 'neon']),
     if (AppColorScheme.isGlass)
       style.leaf('pref_glass_quality', l10n.glassQuality, keywords: [
@@ -618,6 +624,18 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
       l10n.showTechnicalDetails,
       subtitle: l10n.showTechnicalDetailsSubtitle,
       keywords: ['codec', 'bitrate info'],
+    ),
+    details.leaf(
+      'pref_hide_details_media_description',
+      l10n.hideDetailsMediaDescription,
+      subtitle: l10n.hideDetailsMediaDescriptionSubtitle,
+      keywords: ['spoiler', 'description', 'overview'],
+    ),
+    details.leaf(
+      'pref_detail_use_series_thumbnails',
+      l10n.detailUseSeriesThumbnails,
+      subtitle: l10n.detailUseSeriesThumbnailsSubtitle,
+      keywords: ['spoiler', 'thumbnails', 'series artwork'],
     ),
     details.leaf(
       'pref_recommendation_system_source',
@@ -748,10 +766,17 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
         subtitle: l10n.fullScreenRowsDescription,
         keywords: ['immersive'],
       ),
+    if (!PlatformDetection.useMobileUi)
+      home.leaf(
+        'pref_home_row_info_overlay',
+        l10n.homeRowInfoOverlay,
+        subtitle: l10n.showTitleMetadataOnHomeRows,
+      ),
     home.leaf(
-      'pref_home_row_info_overlay',
-      l10n.homeRowInfoOverlay,
-      subtitle: l10n.showTitleMetadataOnHomeRows,
+      'pref_hide_home_media_description',
+      l10n.hideHomeMediaDescription,
+      subtitle: l10n.hideHomeMediaDescriptionSubtitle,
+      keywords: ['spoiler', 'description', 'overview'],
     ),
     home.leaf('home_rows_padding', l10n.homeRowsPadding, keywords: [
       'spacing',
@@ -1018,11 +1043,12 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
       subtitle: l10n.playThemeMusicOnDetailPages,
     ),
     themeMusic.leaf('themeMusicVolume', l10n.themeMusicVolume),
-    themeMusic.leaf(
-      'themeMusicOnHomeRows',
-      l10n.themeMusicOnHomeRows,
-      subtitle: l10n.playWhenBrowsingHomeScreen,
-    ),
+    if (!PlatformDetection.isMobile)
+      themeMusic.leaf(
+        'themeMusicOnHomeRows',
+        l10n.themeMusicOnHomeRows,
+        subtitle: l10n.playWhenBrowsingHomeScreen,
+      ),
     themeMusic.leaf(
       'themeMusicLoop',
       l10n.loopThemeMusic,
@@ -1413,6 +1439,8 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
         l10n.enableTunnelingTitle,
         subtitle: l10n.enableTunnelingSubtitle,
       ),
+    ],
+    if (PlatformDetection.isAndroid) ...[
       advanced.leaf(
         'external_player',
         l10n.useExternalPlayer,

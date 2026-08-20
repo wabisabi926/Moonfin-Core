@@ -124,6 +124,7 @@ class DeviceProfileBuilder {
     // codec direct plays and the player decodes, bitstreams or downmixes it
     // locally. Detection never subtracts from the advertised list.
     bool universalAudioDecode = false,
+    bool playerDecodesTrueHd = true,
     MaxVideoResolution maxResolution = MaxVideoResolution.auto,
     bool pgsDirectPlay = true,
     bool assDirectPlay = true,
@@ -284,6 +285,7 @@ class DeviceProfileBuilder {
                   codec: codec,
                   capabilityProfile: capabilityProfile,
                   universalAudioDecode: universalAudioDecode,
+                  playerDecodesTrueHd: playerDecodesTrueHd,
                   ac3PassthroughEnabled: ac3PassthroughEnabled,
                   eac3PassthroughEnabled: eac3PassthroughEnabled,
                   dtsCorePassthroughEnabled: dtsCorePassthroughEnabled,
@@ -920,6 +922,7 @@ class DeviceProfileBuilder {
     required String codec,
     required AudioCapabilityProfile capabilityProfile,
     bool universalAudioDecode = false,
+    bool playerDecodesTrueHd = true,
     required bool ac3PassthroughEnabled,
     required bool eac3PassthroughEnabled,
     required bool dtsCorePassthroughEnabled,
@@ -927,7 +930,12 @@ class DeviceProfileBuilder {
   }) {
     // A failed capability probe means the player picks a different local
     // route, never that the server has to re-encode.
-    if (universalAudioDecode) return true;
+    if (universalAudioDecode) {
+      // The one gap a universal decoder can still have. Advertising it anyway
+      // wins direct play and then dies at decoder init with no audio.
+      if (codec == 'truehd' || codec == 'mlp') return playerDecodesTrueHd;
+      return true;
+    }
 
     return _isAudioCodecDecodeSupported(codec, capabilityProfile) ||
         _isAudioCodecPassthroughEnabled(
@@ -1382,7 +1390,9 @@ class DeviceProfileBuilder {
         unsupportedRangeTypesHevc.add('DOVI_WITH_ELHDR10_PLUS');
       }
     }
-    if (!supportsDvProfile8) {
+    if (!supportsDvProfile8 && !supportsHevcHdr10) {
+      // The profile 8.1 base layer is plain HDR10, so missing a profile 8
+      // decoder only forces a transcode when HDR10 rendering is missing too.
       unsupportedRangeTypesHevc.add('DOVI_WITH_HDR10');
     }
 
