@@ -1068,15 +1068,27 @@ class DeviceProfileBuilder {
     );
 
     if (!supportsAvcHigh10) {
+      // Must be stated as a positive allow-list, not `NotEquals 'high 10'`.
+      // The server only serialises positive VideoProfile conditions into the
+      // transcode URL (as `h264-profile=`). A negated condition still blocks
+      // direct play, but nothing carries the veto through to the encoder, so
+      // the server falls back to `-c:v copy` and hands the device the very
+      // High 10 bitstream it just said it cannot decode.
       profiles.add(
         _codecProfile(
           type: 'Video',
           codec: 'h264',
           conditions: <Map<String, dynamic>>[
+            // Every 8 bit profile a High decoder handles, so only the 10 bit
+            // and high chroma ones are left out. High stays first because the
+            // server encodes against the first entry, and the two word names
+            // are not profiles ffmpeg accepts.
             _condition(
-              condition: 'NotEquals',
+              condition: 'EqualsAny',
               property: 'VideoProfile',
-              value: 'high 10',
+              value:
+                  'high|main|baseline|constrained baseline|'
+                  'progressive high|constrained high',
             ),
           ],
         ),
@@ -1193,15 +1205,18 @@ class DeviceProfileBuilder {
     );
 
     if (!supportsHevcMain10) {
+      // Positive allow-list for the same reason as the AVC High 10 veto above:
+      // `NotEquals 'main 10'` never reaches the encoder, so the server remuxes
+      // the 10-bit stream through untouched.
       profiles.add(
         _codecProfile(
           type: 'Video',
           codec: 'hevc',
           conditions: <Map<String, dynamic>>[
             _condition(
-              condition: 'NotEquals',
+              condition: 'EqualsAny',
               property: 'VideoProfile',
-              value: 'main 10',
+              value: 'main',
             ),
           ],
         ),

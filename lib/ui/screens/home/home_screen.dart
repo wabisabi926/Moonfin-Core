@@ -72,6 +72,7 @@ import '../../navigation/route_lifecycle_observer.dart';
 import '../../util/home_row_title_localizer.dart';
 import '../../../util/game_library.dart';
 import 'home_view_model.dart';
+import '../../widgets/seerr/seerr_genre_label.dart';
 
 Color get _homeBackground => AppColorScheme.background;
 
@@ -310,7 +311,10 @@ class _HomeShellState extends State<_HomeShell>
     setState(() {});
   }
 
-  void onItemSelected(AggregatedItem? item) {
+  void onItemSelected(
+      AggregatedItem? item, {
+        bool preserveBackground = false,
+      }) {
     _selectionDebounce?.cancel();
     _selectionDebounce = Timer(_selectionDelay, () {
       if (!mounted) return;
@@ -323,9 +327,15 @@ class _HomeShellState extends State<_HomeShell>
       });
 
       _backdropDebounce?.cancel();
-      _backdropDebounce = Timer(_backdropDelay, () {
-        _backgroundService.setBackground(item, context: BlurContext.browsing);
-      });
+
+      if (!preserveBackground) {
+        _backdropDebounce = Timer(_backdropDelay, () {
+          _backgroundService.setBackground(
+            item,
+            context: BlurContext.browsing,
+          );
+        });
+      }
 
       _maybePlayThemeMusic(item);
     });
@@ -621,7 +631,10 @@ class _ContentRows extends StatefulWidget {
   final MediaBarViewModel mediaBarViewModel;
   final UserPreferences prefs;
   final ValueNotifier<AggregatedItem?> selectedItemNotifier;
-  final ValueChanged<AggregatedItem?> onItemSelected;
+  final void Function(
+      AggregatedItem? item, {
+      bool preserveBackground,
+      }) onItemSelected;
   final ValueNotifier<bool> isHoverPausedNotifier;
   final ValueNotifier<bool> isScrolledToTopNotifier;
   final ValueChanged<bool>? onScrolledToTopChanged;
@@ -719,6 +732,8 @@ class _ContentRowsState extends State<_ContentRows>
   VideoController? _previewController;
   AppleTvPreviewPlayer? _appleTvPreviewPlayer;
   StreamSubscription<void>? _appleTvPreviewCompletedSub;
+  MediaServerClient? _previewEncodingClient;
+  String? _previewPlaySessionId;
   int _previewRequestId = 0;
   bool _mainPlaybackActive = false;
   bool _previewUsingMedia3 = false;
@@ -1492,7 +1507,27 @@ class _ContentRowsState extends State<_ContentRows>
       _previewReady = false;
       _pendingPreviewKey = null;
     }
+    _stopPreviewEncoding();
     _themeMusicService.setExternalAudioActive(false);
+  }
+
+  /// Tells the server to stop the preview's transcode. Scoped to the
+  /// preview's own play session, so a running main playback transcode on the
+  /// same device is left alone.
+  void _stopPreviewEncoding() {
+    final client = _previewEncodingClient;
+    final playSessionId = _previewPlaySessionId;
+    _previewEncodingClient = null;
+    _previewPlaySessionId = null;
+    if (client == null || playSessionId == null) return;
+    unawaited(
+      client.playbackApi
+          .stopActiveEncodings(
+            deviceId: client.deviceInfo.id,
+            playSessionId: playSessionId,
+          )
+          .catchError((_) {}),
+    );
   }
 
   void _disposeSharedPreview() {
@@ -1527,6 +1562,7 @@ class _ContentRowsState extends State<_ContentRows>
       await _appleTvPreviewPlayer?.stop();
       _previewUsingAppleTv = false;
     }
+    _stopPreviewEncoding();
     _themeMusicService.setExternalAudioActive(true);
 
     try {
@@ -1541,7 +1577,13 @@ class _ContentRowsState extends State<_ContentRows>
       }
 
       final seekPosition = _previewSeekPosition(target);
-      final previewUrl = _buildPreviewUrl(client, target, seekPosition);
+      final playSessionId = '${DateTime.now().microsecondsSinceEpoch}';
+      final previewUrl = _buildPreviewUrl(
+        client,
+        target,
+        seekPosition,
+        playSessionId,
+      );
       final previewUri = Uri.tryParse(previewUrl);
       if (previewUri == null ||
           !previewUri.hasScheme ||
@@ -1549,6 +1591,10 @@ class _ContentRowsState extends State<_ContentRows>
         _finishSharedPreview();
         return;
       }
+      // Remembered so every finish path can tell the server to stop this
+      // transcode instead of leaving the job to the idle reaper.
+      _previewEncodingClient = client;
+      _previewPlaySessionId = playSessionId;
 
       final previewAudioEnabled = widget.prefs.get(
         UserPreferences.previewAudioEnabled,
@@ -1786,6 +1832,7 @@ class _ContentRowsState extends State<_ContentRows>
     MediaServerClient client,
     AggregatedItem item,
     Duration startPosition,
+    String playSessionId,
   ) {
     if (item.id.isEmpty) return '';
 
@@ -1801,6 +1848,10 @@ class _ContentRowsState extends State<_ContentRows>
     final startTicks = startPosition.inMicroseconds * 10;
     final params = <String, String>{
       'Static': 'false',
+      // The transcode is registered against these two, and stopping it later
+      // looks it up the same way.
+      'PlaySessionId': playSessionId,
+      if (client.deviceInfo.id.isNotEmpty) 'DeviceId': client.deviceInfo.id,
       'videoCodec': 'h264',
       'audioCodec': 'aac',
       'maxVideoBitDepth': '8',
@@ -1821,7 +1872,15 @@ class _ContentRowsState extends State<_ContentRows>
     final normalizedBasePath = baseUri.path.endsWith('/')
         ? baseUri.path.substring(0, baseUri.path.length - 1)
         : baseUri.path;
-    final streamPath = kIsWeb ? 'stream.mp4' : 'stream';
+    // AVPlayer never reaches readyToPlay on a growing progressive transcode,
+    // so the preview stays blank until the open times out. HLS is the form
+    // AVFoundation reads natively, so the Apple preview player asks for the
+    // segmented version of the same request.
+    final streamPath = kIsWeb
+        ? 'stream.mp4'
+        : PlatformDetection.useApplePreviewPlayer
+        ? 'master.m3u8'
+        : 'stream';
     final fullPath = '$normalizedBasePath/Videos/${item.id}/$streamPath';
 
     return baseUri.replace(path: fullPath, queryParameters: params).toString();
@@ -2033,6 +2092,10 @@ class _ContentRowsState extends State<_ContentRows>
       return 200.0;
     }
 
+    if (_isAyaMode()) {
+      return screenHeight * 0.65;
+    }
+
     if (!PlatformDetection.useMobileUi) {
       return screenHeight;
     }
@@ -2065,6 +2128,13 @@ class _ContentRowsState extends State<_ContentRows>
       widget.prefs.get(UserPreferences.mediaBarMode),
     );
     return mode == UserPreferences.mediaBarModeBanner;
+  }
+
+  bool _isAyaMode() {
+    final mode = UserPreferences.normalizeMediaBarMode(
+      widget.prefs.get(UserPreferences.mediaBarMode),
+    );
+    return mode == UserPreferences.mediaBarModeAya;
   }
 
   double _pinnedInfoCollapseOffset() {
@@ -2101,7 +2171,10 @@ class _ContentRowsState extends State<_ContentRows>
   }
 
   void _navigateFromMediaBarToNavbar() {
-    widget.onItemSelected(null);
+    widget.onItemSelected(
+      null,
+      preserveBackground: _isAyaMode(),
+    );
     if (_scrollController.hasClients && _scrollController.offset > 0) {
       unawaited(
         _scrollController.animateTo(
@@ -2250,7 +2323,10 @@ class _ContentRowsState extends State<_ContentRows>
     _verticalNavInFlight = true;
     try {
       _finishSharedPreview(releaseResources: true);
-      widget.onItemSelected(null);
+      widget.onItemSelected(
+          null,
+          preserveBackground: _isAyaMode(),
+      );
       if (mounted) {
         setState(() {
           _infoRevealedNotifier.value = false;
@@ -3607,8 +3683,12 @@ class _ContentRowsState extends State<_ContentRows>
     double requestScale, {
     bool isMyMediaRow = false,
   }) {
+    // MediaType belongs in the key: a Seerr genre card takes the TMDB genre id
+    // as its item id, and a genre in both the movie row and the series row has
+    // the same id in each, so the second row would reuse the first row's image.
     final key =
-        '${item.serverId}|${item.id}|${imageType.index}|${height.round()}'
+        '${item.serverId}|${item.id}|${item.rawData['MediaType']}'
+        '|${imageType.index}|${height.round()}'
         '|$useSeriesThumbs|${requestScale.toStringAsFixed(2)}|$isMyMediaRow';
     final cached = _rowImageUrlCache[key];
     if (cached != null || _rowImageUrlCache.containsKey(key)) {
@@ -4572,6 +4652,7 @@ class _ContentRowsState extends State<_ContentRows>
                 item.id,
                 serverId: item.serverId,
                 type: item.type,
+                channelId: item.channelId,
               ),
             );
           }
@@ -4671,6 +4752,7 @@ class _ContentRowsState extends State<_ContentRows>
                           item.id,
                           serverId: item.serverId,
                           type: item.type,
+                          channelId: item.channelId,
                         ),
                       );
                     }
@@ -4746,8 +4828,15 @@ class _ContentRowsState extends State<_ContentRows>
             cardSubtitleWidget = null;
           }
 
+                  // Seerr genre cards print their name across the artwork,
+                  // the way the Jellyfin genre row does.
+                  final isSeerrGenreCard =
+                      _isSeerrFilterRow(row) && item.type == 'Genre';
                   final card = MediaCard(
                     title: cardTitle,
+                    imageOverlays: isSeerrGenreCard
+                        ? [Positioned.fill(child: SeerrGenreLabel(name: item.name))]
+                        : const <Widget>[],
                     subtitle: cardSubtitle,
                     subtitleWidget: cardSubtitleWidget,
                     imageUrl: imageUrl,
