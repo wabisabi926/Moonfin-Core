@@ -2423,6 +2423,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get disabled => 'ปิดใช้งาน';
 
   @override
+  String get manual => 'Manual';
+
+  @override
+  String get autoDetect => 'Auto Detect';
+
+  @override
   String get scaleOnTv => 'สเกลบนทีวี';
 
   @override
@@ -8567,6 +8573,18 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get emulatorCoreDownloadFailed =>
       'Could not download the core. Check your connection and try again.';
+
+  @override
+  String emulatorCoreResetSettings(String system) {
+    return 'Reset $system settings to defaults';
+  }
+
+  @override
+  String get emulatorCoreSettingsReset => 'Settings reset to defaults.';
+
+  @override
+  String get emulatorCoreResetSettingsFailed =>
+      'Could not reset settings. Check your connection and try again.';
 
   @override
   String get downloadedGames => 'Downloaded Games';

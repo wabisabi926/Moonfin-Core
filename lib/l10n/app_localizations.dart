@@ -4414,6 +4414,18 @@ abstract class AppLocalizations {
   /// **'Disabled'**
   String get disabled;
 
+  /// Option: manual
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get manual;
+
+  /// Option: detect the value automatically
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Detect'**
+  String get autoDetect;
+
   /// Refresh rate option: scale on TV
   ///
   /// In en, this message translates to:
@@ -15387,6 +15399,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not download the core. Check your connection and try again.'**
   String get emulatorCoreDownloadFailed;
+
+  /// Semantic label for the button that resets one core's saved emulator settings
+  ///
+  /// In en, this message translates to:
+  /// **'Reset {system} settings to defaults'**
+  String emulatorCoreResetSettings(String system);
+
+  /// Snackbar shown after resetting a core's saved emulator settings
+  ///
+  /// In en, this message translates to:
+  /// **'Settings reset to defaults.'**
+  String get emulatorCoreSettingsReset;
+
+  /// Snackbar shown when resetting a core's saved emulator settings fails
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reset settings. Check your connection and try again.'**
+  String get emulatorCoreResetSettingsFailed;
 
   /// Settings screen title for managing game files stored on the device
   ///

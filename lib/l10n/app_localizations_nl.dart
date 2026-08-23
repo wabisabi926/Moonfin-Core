@@ -2455,6 +2455,12 @@ class AppLocalizationsNl extends AppLocalizations {
   String get disabled => 'Uitgeschakeld';
 
   @override
+  String get manual => 'Manual';
+
+  @override
+  String get autoDetect => 'Auto Detect';
+
+  @override
   String get scaleOnTv => 'Schaal op tv';
 
   @override
@@ -8676,6 +8682,18 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get emulatorCoreDownloadFailed =>
       'Het downloaden van de core is mislukt. Controleer uw internetverbinding en probeer het opnieuw.';
+
+  @override
+  String emulatorCoreResetSettings(String system) {
+    return 'Reset $system settings to defaults';
+  }
+
+  @override
+  String get emulatorCoreSettingsReset => 'Settings reset to defaults.';
+
+  @override
+  String get emulatorCoreResetSettingsFailed =>
+      'Could not reset settings. Check your connection and try again.';
 
   @override
   String get downloadedGames => 'Gedownloade spellen';
