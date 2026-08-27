@@ -694,6 +694,24 @@ abstract class AppLocalizations {
   /// **'Use your device input method by default for text entry'**
   String get keyboardPreferSystemImeDescription;
 
+  /// Settings section header for game controller options
+  ///
+  /// In en, this message translates to:
+  /// **'Controller'**
+  String get controller;
+
+  /// Settings label for the switch that lets a game controller move focus and select items
+  ///
+  /// In en, this message translates to:
+  /// **'Gamepad navigation'**
+  String get gamepadNavigation;
+
+  /// Settings subtitle for the gamepad navigation switch
+  ///
+  /// In en, this message translates to:
+  /// **'Let a connected game controller move focus and select items'**
+  String get gamepadNavigationDescription;
+
   /// Display name for the Moonfin theme
   ///
   /// In en, this message translates to:
@@ -2422,6 +2440,18 @@ abstract class AppLocalizations {
   /// **'Download Subtitles'**
   String get downloadSubtitles;
 
+  /// Shown while a remote subtitle search is running
+  ///
+  /// In en, this message translates to:
+  /// **'Searching for subtitles…'**
+  String get searchingSubtitles;
+
+  /// Shown while a chosen subtitle is downloaded and the server is picking it up
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading subtitle…'**
+  String get downloadingSubtitle;
+
   /// Error message when a selected subtitle is invalid
   ///
   /// In en, this message translates to:
@@ -2673,6 +2703,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Perfect match'**
   String get perfectMatch;
+
+  /// Label for a remote subtitle the provider marked as AI translated
+  ///
+  /// In en, this message translates to:
+  /// **'AI Translated'**
+  String get aiTranslated;
+
+  /// Label for a remote subtitle the provider marked as machine translated
+  ///
+  /// In en, this message translates to:
+  /// **'Machine Translated'**
+  String get machineTranslated;
+
+  /// Label for a remote subtitle marked as hearing impaired
+  ///
+  /// In en, this message translates to:
+  /// **'SDH'**
+  String get hearingImpaired;
+
+  /// Framerate of a remote subtitle, shown in its detail line
+  ///
+  /// In en, this message translates to:
+  /// **'{rate} fps'**
+  String framerateFps(String rate);
 
   /// Audio channel count label
   ///
@@ -4455,6 +4509,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show preview thumbnails when seeking'**
   String get showPreviewThumbnailsWhenSeeking;
+
+  /// Trickplay display style option: one thumbnail at the scrub position
+  ///
+  /// In en, this message translates to:
+  /// **'Single Thumbnail'**
+  String get trickplayDisplayStyleSingle;
+
+  /// Trickplay display style option: a row of 5 thumbnails around the scrub position
+  ///
+  /// In en, this message translates to:
+  /// **'Filmstrip'**
+  String get trickplayDisplayStyleStrip;
+
+  /// Trickplay mode option: temporarily replaces the video with the trickplay image while scrubbing
+  ///
+  /// In en, this message translates to:
+  /// **'Full Screen'**
+  String get trickplayModeFull;
+
+  /// Hint shown below the live trickplay settings preview
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the slider to preview scrubbing'**
+  String get trickplaySettingsPreviewHint;
+
+  /// Setting for the size of the trickplay seek preview
+  ///
+  /// In en, this message translates to:
+  /// **'Preview Size'**
+  String get trickplayPreviewScale;
+
+  /// Setting for the vertical position of the trickplay seek preview relative to the seekbar
+  ///
+  /// In en, this message translates to:
+  /// **'Distance From Seekbar'**
+  String get trickplayVerticalOffset;
+
+  /// Setting for whether the trickplay preview horizontally tracks the scrub handle
+  ///
+  /// In en, this message translates to:
+  /// **'Follow Scrub Position'**
+  String get trickplayFollowScrubPosition;
+
+  /// Description for the trickplay follow-scrub-position setting
+  ///
+  /// In en, this message translates to:
+  /// **'Preview slides along the seekbar as you scrub, instead of staying centered'**
+  String get trickplayFollowScrubPositionSubtitle;
 
   /// Setting for showing description on pause
   ///
@@ -19719,6 +19821,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Run setup again'**
   String get runSetupAgain;
+
+  /// Menu button and window title for messages sent by the server admin
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get serverMessages;
+
+  /// Shown in the messages window when the server has sent nothing
+  ///
+  /// In en, this message translates to:
+  /// **'No messages from your server yet'**
+  String get serverMessagesEmpty;
+
+  /// Button in the messages window that marks every message as read
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get serverMessagesMarkAllRead;
+
+  /// Setting that shows or hides the messages button in the menu
+  ///
+  /// In en, this message translates to:
+  /// **'Show messages button'**
+  String get serverMessagesShowButton;
+
+  /// Explains the setting that shows or hides the messages button
+  ///
+  /// In en, this message translates to:
+  /// **'Adds a button to the menu for messages sent by your server admin'**
+  String get serverMessagesShowButtonSubtitle;
 }
 
 class _AppLocalizationsDelegate

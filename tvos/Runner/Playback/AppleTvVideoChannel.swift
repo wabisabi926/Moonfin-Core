@@ -104,6 +104,10 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
         case "showRemoteSubtitles":
             let results = (args["results"] as? [[String: Any]]) ?? []
             playerVC?.presentRemoteSubtitleResults(results)
+        case "showSubtitleProgress":
+            playerVC?.showSubtitleProgress((args["message"] as? String) ?? "Working\u{2026}")
+        case "hideSubtitleProgress":
+            playerVC?.hideSubtitleProgress(message: args["message"] as? String)
         case "configureSubtitleStyle":
             lastSubtitleStyle = args
             applySubtitleStyle(args)
@@ -120,7 +124,13 @@ final class AppleTvVideoChannel: NSObject, FlutterStreamHandler {
         case "stop":
             player?.stop()
         case "seek":
-            player?.seek(to: ms(args["positionMs"]))
+            // Through the player screen when it is up, so a seek the app sends
+            // (a remote skip, a segment skip) drops any scrub in progress.
+            if let vc = playerVC {
+                vc.seekFromHost(toSeconds: ms(args["positionMs"]))
+            } else {
+                player?.seek(to: ms(args["positionMs"]))
+            }
         case "setSpeed":
             player?.setRate((args["speed"] as? NSNumber)?.floatValue ?? 1.0)
         case "setAudioTrack":

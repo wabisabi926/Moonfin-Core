@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:dio/dio.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +22,7 @@ import '../../../util/scroll_sensitivity_binding.dart';
 import '../../widgets/player_volume_control.dart';
 import '../../widgets/playback/playback_time_row.dart';
 import '../../widgets/playback/seek_icons.dart';
+import '../../widgets/playback/trickplay.dart';
 import '../../widgets/playback/trickplay_tile_image.dart';
 
 import '../../../playback/html_video_backend.dart';
@@ -36,6 +37,8 @@ import '../../../data/models/aggregated_item.dart';
 import '../../../data/repositories/item_mutation_repository.dart';
 import '../../../data/models/media_segment.dart';
 import '../../../data/models/trickplay_info.dart';
+import '../../../data/models/trickplay_prefetch_planner.dart';
+import '../../../data/models/trickplay_preview_layout.dart';
 import '../../../data/services/cast/cast_service.dart';
 import '../../../data/services/cast/cast_target.dart';
 import '../../../data/services/cast/native_airplay_channel.dart';
@@ -69,6 +72,9 @@ import '../../widgets/playback/stream_info_dialog.dart';
 import '../../widgets/syncplay/syncplay_player_button.dart';
 import '../../../syncplay/syncplay_manager.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../widgets/progress_snack_bar.dart';
+import '../../../util/remote_subtitle_labels.dart';
+import '../../../util/subtitle_appearance_schedule.dart';
 import '../../../playback/media3_player_backend.dart';
 import '../../../playback/tizen_player_backend.dart';
 import 'playback_takeover.dart';
@@ -90,7 +96,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   static const _tvTemporarySpeedHoldDelay = Duration(milliseconds: 420);
   static const _seekPromptSuppressionDuration = Duration(milliseconds: 1200);
   static const _seekDragPromptSuppressionDuration = Duration(seconds: 4);
-  static const _scrubSeekDebounceDuration = Duration(milliseconds: 250);
+  static const _scrubSeekConvergeTolerance = Duration(milliseconds: 800);
+  static const _scrubSeekConvergeTimeout = Duration(seconds: 2);
 
   final _manager = GetIt.instance<PlaybackManager>();
   // media_kit isn't registered on platforms that run a different backend, so
@@ -140,8 +147,20 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   Timer? _endsAtTicker;
   bool _isSeeking = false;
   double _seekValue = 0;
-  Timer? _scrubSeekDebounceTimer;
   Duration? _pendingScrubSeekTarget;
+  Duration? _lastScrubCommitTarget;
+  int _scrubSeekCommitId = 0;
+  bool _wasPlayingBeforeScrubPause = false;
+  // True for a paused scrub session's whole lifetime; unlike
+  // _wasPlayingBeforeScrubPause, doesn't imply resuming afterward.
+  bool _isPausedScrubActive = false;
+  final Set<int> _prefetchedTrickplayIndexes = {};
+  bool _touchTrickplayPrefetchStarted = false;
+  Duration? _hoverPosition;
+  double? _topOverlayHeight;
+  double? _bottomOverlayHeight;
+  final GlobalKey _topOverlayKey = GlobalKey();
+  final GlobalKey _bottomOverlayKey = GlobalKey();
   late ZoomMode _zoomMode;
   double _audioDelay = 0.0;
   double _subtitleDelay = 0.0;
@@ -215,6 +234,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
   TrickplayInfo? _trickplayInfo;
   String? _trickplayMediaSourceId;
+  int _trickplayLoadGeneration = 0;
+  static const int _trickplayFrameWidth = 320;
 
   final _overlayFocus = FocusNode();
   final _tvSeekbarFocus = FocusNode(debugLabel: 'video_player_tv_seekbar');
@@ -408,152 +429,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         !isAudio;
   }
 
-  String _remoteSubtitleErrorMessage(Object error, {required String action}) {
-    final l10n = AppLocalizations.of(context);
-    if (error is DioException) {
-      final status = error.response?.statusCode;
-      if (status == 403) {
-        return l10n.remoteSubtitlePermissionError(action);
-      }
-      if (status == 404) {
-        return l10n.remoteSubtitleNotFoundError(action);
-      }
-
-      final data = error.response?.data;
-      String? detail;
-      if (data is Map) {
-        detail =
-            (data['message'] ??
-                    data['Message'] ??
-                    data['error'] ??
-                    data['Error'])
-                as String?;
-      } else if (data is String && data.trim().isNotEmpty) {
-        detail = data.trim();
-      }
-
-      if (detail != null && detail.isNotEmpty) {
-        return l10n.remoteSubtitleDetailError(action, detail);
-      }
-      if (status != null) {
-        return l10n.remoteSubtitleHttpError(action, status);
-      }
-    }
-
-    return l10n.remoteSubtitleGenericError(action);
-  }
-
-  String _remoteSubtitleLanguage(
-    List<Map<String, dynamic>> subtitleStreams,
-    List<Map<String, dynamic>> audioStreams,
-  ) {
-    final preferred = _prefs
-        .get(UserPreferences.defaultSubtitleLanguage)
-        .trim();
-    if (preferred.isNotEmpty) {
-      return preferred;
-    }
-
-    for (final stream in [...subtitleStreams, ...audioStreams]) {
-      final language = (stream['Language'] as String?)?.trim();
-      if (language != null && language.isNotEmpty) {
-        return language;
-      }
-    }
-
-    return 'eng';
-  }
-
-  String _remoteSubtitleOptionSubtitle(Map<String, dynamic> subtitle) {
-    final details = <String>[];
-    final language =
-        (subtitle['ThreeLetterISOLanguageName'] as String?)?.trim() ??
-        (subtitle['Language'] as String?)?.trim();
-    final provider = subtitle['ProviderName'] as String?;
-    final format = subtitle['Format'] as String?;
-    final downloadCount = subtitle['DownloadCount'] as num?;
-    final rating = subtitle['CommunityRating'] as num?;
-    final isHashMatch = subtitle['IsHashMatch'] == true;
-
-    if (language != null && language.isNotEmpty) {
-      details.add(language.toUpperCase());
-    }
-    if (provider != null && provider.isNotEmpty) {
-      details.add(provider);
-    }
-    if (format != null && format.isNotEmpty) {
-      details.add(format.toUpperCase());
-    }
-    if (rating != null) {
-      details.add('${rating.toStringAsFixed(1)}★');
-    }
-    if (downloadCount != null) {
-      details.add(
-        AppLocalizations.of(context).downloadsCount(downloadCount.toInt()),
-      );
-    }
-    if (isHashMatch) {
-      details.add(AppLocalizations.of(context).perfectMatch);
-    }
-
-    return details.join(' | ');
-  }
-
-  Future<List<Map<String, dynamic>>> _refreshSubtitleStreams(
+  Future<Map<String, dynamic>?> _awaitDownloadedSubtitle(
     AggregatedItem currentItem,
     Set<int> existingIndexes,
-  ) async {
-    const attempts = 8;
-    const delay = Duration(milliseconds: 500);
-    final client = _clientForItem(currentItem);
-
-    List<Map<String, dynamic>> latestStreams = currentItem.mediaStreams
-        .where((stream) => stream['Type'] == 'Subtitle')
-        .toList(growable: false);
-
-    for (var attempt = 0; attempt < attempts; attempt++) {
-      try {
-        final refreshedRaw = await client.itemsApi.getItem(currentItem.id);
-        if (!mounted) return latestStreams;
-        final refreshedItem = AggregatedItem(
-          id: currentItem.id,
-          serverId: currentItem.serverId,
-          rawData: refreshedRaw,
-        );
-        latestStreams = refreshedItem.mediaStreams
-            .where((stream) => stream['Type'] == 'Subtitle')
-            .toList(growable: false);
-
-        final hasNewStream = latestStreams.any((stream) {
-          final index = stream['Index'] as int?;
-          return index != null && !existingIndexes.contains(index);
-        });
-        if (hasNewStream) {
-          return latestStreams;
-        }
-      } catch (_) {
-        break;
-      }
-
-      if (attempt < attempts - 1) {
-        await Future.delayed(delay);
-      }
-    }
-
-    return latestStreams;
-  }
-
-  Map<String, dynamic>? _findNewSubtitleStream(
-    Set<int> existingIndexes,
-    List<Map<String, dynamic>> after,
   ) {
-    for (final stream in after) {
-      final index = stream['Index'] as int?;
-      if (index != null && !existingIndexes.contains(index)) {
-        return stream;
-      }
-    }
-    return null;
+    return awaitNewSubtitleStream(
+      client: _clientForItem(currentItem),
+      item: currentItem,
+      existingIndexes: existingIndexes,
+      keepGoing: () => mounted,
+    );
   }
 
   Future<void> _downloadRemoteSubtitles(
@@ -563,19 +448,26 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   ) async {
     final messenger = ScaffoldMessenger.of(context);
     final client = _clientForItem(item);
-    final language = _remoteSubtitleLanguage(subtitleStreams, audioStreams);
+    final language = remoteSubtitleLanguage(subtitleStreams, audioStreams);
 
     List<Map<String, dynamic>> results;
     try {
-      results = await client.itemsApi.searchRemoteSubtitles(
-        item.id,
-        language: language,
+      results = await withProgressSnackBar(
+        messenger,
+        AppLocalizations.of(context).searchingSubtitles,
+        () => client.itemsApi.searchRemoteSubtitles(item.id, language: language),
       );
     } catch (error) {
       if (!mounted) return;
       messenger.showSnackBar(
         SnackBar(
-          content: Text(_remoteSubtitleErrorMessage(error, action: 'search')),
+          content: Text(
+            remoteSubtitleErrorMessage(
+              error,
+              AppLocalizations.of(context),
+              action: AppLocalizations.of(context).search,
+            ),
+          ),
         ),
       );
       return;
@@ -593,18 +485,21 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       return;
     }
 
+    final l10n = AppLocalizations.of(context);
     final result = await TrackSelectorDialog.show(
       context,
-      title: AppLocalizations.of(context).downloadSubtitles,
+      title: l10n.downloadSubtitles,
       options: results.map((subtitle) {
         final label =
             subtitle['Name'] as String? ??
             subtitle['Author'] as String? ??
-            'Subtitle';
-        final subtitleText = _remoteSubtitleOptionSubtitle(subtitle);
+            l10n.subtitles;
+        final subtitleText = remoteSubtitleDetails(subtitle, l10n);
         return TrackOption(
           label: label,
           subtitle: subtitleText.isNotEmpty ? subtitleText : null,
+          subtitleMaxLines: 2,
+          badges: remoteSubtitleFlags(subtitle, l10n),
         );
       }).toList(),
     );
@@ -621,25 +516,22 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       return;
     }
 
+    final existingIndexes = subtitleStreams
+        .map((stream) => stream['Index'] as int?)
+        .whereType<int>()
+        .toSet();
+
     try {
-      await client.itemsApi.downloadRemoteSubtitle(item.id, subtitleId);
-      if (!mounted) return;
-
-      final existingIndexes = subtitleStreams
-          .map((stream) => stream['Index'] as int?)
-          .whereType<int>()
-          .toSet();
-
-      final refreshedSubtitleStreams = await _refreshSubtitleStreams(
-        item,
-        existingIndexes,
+      final newStream = await withProgressSnackBar(
+        messenger,
+        AppLocalizations.of(context).downloadingSubtitle,
+        () async {
+          await client.itemsApi.downloadRemoteSubtitle(item.id, subtitleId);
+          return _awaitDownloadedSubtitle(item, existingIndexes);
+        },
       );
       if (!mounted) return;
 
-      final newStream = _findNewSubtitleStream(
-        existingIndexes,
-        refreshedSubtitleStreams,
-      );
       if (newStream != null) {
         final streamIndex = newStream['Index'] as int?;
         if (streamIndex != null) {
@@ -676,7 +568,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       if (!mounted) return;
       messenger.showSnackBar(
         SnackBar(
-          content: Text(_remoteSubtitleErrorMessage(error, action: 'download')),
+          content: Text(
+            remoteSubtitleErrorMessage(
+              error,
+              AppLocalizations.of(context),
+              action: AppLocalizations.of(context).download,
+            ),
+          ),
         ),
       );
     }
@@ -965,6 +863,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
   @override
   void dispose() {
+    _trickplayLoadGeneration++;
     if (_isInPiP && GetIt.instance.isRegistered<PlaybackArbiter>()) {
       GetIt.instance<PlaybackArbiter>().pipActive = false;
     }
@@ -982,8 +881,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     _skipSegmentAutoHideTimer?.cancel();
     _displayPlayingDebounce?.cancel();
     _endsAtTicker?.cancel();
-    _scrubSeekDebounceTimer?.cancel();
-    _scrubSeekDebounceTimer = null;
     _volumeOverlayTimer?.cancel();
     _brightnessOverlayTimer?.cancel();
     _zoomModeToastTimer?.cancel();
@@ -1505,11 +1402,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
   Future<void> _loadSegmentsForCurrentItem() async {
     final item = _queue.currentItem;
+    final trickplayLoad = _loadTrickplayInfo(item);
     if (item is AggregatedItem) {
       _segmentService = _createSegmentService(item);
       await _segmentService.loadSegments(item.id);
     }
-    _loadTrickplayInfo(item);
+    await trickplayLoad;
     await _pushMedia3UiMetadata();
   }
 
@@ -2103,29 +2001,55 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     }
   }
 
-  void _loadTrickplayInfo(dynamic item) {
+  Future<void> _loadTrickplayInfo(dynamic item) async {
+    final generation = ++_trickplayLoadGeneration;
     final rawData = _rawDataForQueueItem(item);
-    if (rawData == null) {
-      if (mounted) {
-        setState(() {
-          _trickplayInfo = null;
-          _trickplayMediaSourceId = null;
-        });
-      }
-      return;
-    }
-
+    final itemId = _itemIdForQueueItem(item);
     final mediaSourceId = _manager.currentResolution?.mediaSourceId;
-    final info = TrickplayInfo.fromItemData(
-      rawData,
-      mediaSourceId: mediaSourceId,
-    );
+    _prefetchedTrickplayIndexes.clear();
+    _touchTrickplayPrefetchStarted = false;
     if (mounted) {
       setState(() {
-        _trickplayInfo = info;
+        _trickplayInfo = null;
         _trickplayMediaSourceId = mediaSourceId;
       });
     }
+
+    var info = rawData == null
+        ? null
+        : TrickplayInfo.fromItemData(rawData, mediaSourceId: mediaSourceId);
+    if (info == null && itemId != null && itemId.isNotEmpty) {
+      final client = _clientForQueueItem(item);
+      final trickplayApi = client.trickplayApi;
+      if (trickplayApi != null) {
+        try {
+          final thumbnailSet = await trickplayApi.getThumbnailSet(
+            itemId,
+            width: _trickplayFrameWidth,
+            mediaSourceId: mediaSourceId,
+          );
+          if (thumbnailSet != null && thumbnailSet.isValid) {
+            info = TrickplayInfo.fromThumbnailSet(
+              thumbnailSet,
+              width: _trickplayFrameWidth,
+            );
+          }
+        } catch (_) {
+          // Missing, unavailable, or malformed BIF data is an optional
+          // playback enhancement and must never interrupt playback.
+        }
+      }
+    }
+
+    if (!mounted || generation != _trickplayLoadGeneration) return;
+    if (_itemIdForQueueItem(_queue.currentItem) != itemId ||
+        _manager.currentResolution?.mediaSourceId != mediaSourceId) {
+      return;
+    }
+    setState(() {
+      _trickplayInfo = info?.isValid == true ? info : null;
+      _trickplayMediaSourceId = mediaSourceId;
+    });
   }
 
   void _refreshTrickplayIfNeeded() {
@@ -2134,7 +2058,107 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     final resolvedSourceId = _manager.currentResolution?.mediaSourceId;
     if (resolvedSourceId != null &&
         resolvedSourceId != _trickplayMediaSourceId) {
-      _loadTrickplayInfo(item);
+      unawaited(_loadTrickplayInfo(item));
+    }
+  }
+
+  void _handleTrickplayAmbientPrefetch(Duration position) {
+    if (_prefs.get(UserPreferences.trickPlayMode) == TrickplayMode.disabled) {
+      return;
+    }
+    final info = _trickplayInfo;
+    if (info == null || !info.isValid) return;
+    if (info.usesIndividualFrames) return;
+    final duration = _state.duration;
+    if (duration <= Duration.zero) return;
+
+    _precacheTrickplayIndexes(
+      TrickplayPrefetchPlanner.planImageIndexes(
+        info: info,
+        position: position,
+        totalDuration: duration,
+        directionForward: true,
+        sheetsAhead: 1,
+      ),
+    );
+  }
+
+  // Every sheet, nearest first. Held back until the first scrub or hover so
+  // a video that is only ever watched costs nothing here, and skipped on TV
+  // where the D-pad direction says which sheets are worth having.
+  void _prefetchAllTrickplaySheets(Duration position) {
+    if (PlatformDetection.isTV || _touchTrickplayPrefetchStarted) return;
+    if (_prefs.get(UserPreferences.trickPlayMode) == TrickplayMode.disabled) {
+      return;
+    }
+    final info = _trickplayInfo;
+    final duration = _state.duration;
+    if (info == null || !info.isValid || duration <= Duration.zero) return;
+    _touchTrickplayPrefetchStarted = true;
+    _precacheTrickplayIndexes(
+      TrickplayPrefetchPlanner.planAllImageIndexes(
+        info: info,
+        position: position,
+        totalDuration: duration,
+        maxSheets: info.usesIndividualFrames ? 7 : 128,
+      ),
+    );
+  }
+
+  void _prefetchTrickplayDirectional(
+    Duration position, {
+    required bool forward,
+  }) {
+    if (!PlatformDetection.isTV) return;
+    if (_prefs.get(UserPreferences.trickPlayMode) == TrickplayMode.disabled) {
+      return;
+    }
+    final info = _trickplayInfo;
+    final duration = _state.duration;
+    if (info == null || !info.isValid || duration <= Duration.zero) return;
+    _precacheTrickplayIndexes(
+      TrickplayPrefetchPlanner.planImageIndexes(
+        info: info,
+        position: position,
+        totalDuration: duration,
+        directionForward: forward,
+        sheetsAhead: 2,
+      ),
+    );
+  }
+
+  void _precacheTrickplayIndexes(List<int> indexes) {
+    if (indexes.isEmpty) return;
+    final info = _trickplayInfo;
+    if (info == null) return;
+    final item = _queue.currentItem;
+    final itemId = _itemIdForQueueItem(item);
+    if (itemId == null || itemId.isEmpty) return;
+    final client = _clientForQueueItem(item);
+    final token = client.accessToken;
+    final headers = <String, String>{
+      if (token != null && token.isNotEmpty)
+        'Authorization': 'MediaBrowser Token="$token"',
+    };
+    for (final index in indexes) {
+      if (!_prefetchedTrickplayIndexes.add(index)) continue;
+      if (!mounted) return;
+      final url = _trickplayImageUrl(
+        info: info,
+        imageIndex: index,
+        itemId: itemId,
+        client: client,
+      );
+      if (url == null) continue;
+      unawaited(
+        precacheImage(
+          CachedNetworkImageProvider(
+            url,
+            headers: headers.isEmpty ? null : headers,
+          ),
+          context,
+        ).catchError((_) {}),
+      );
     }
   }
 
@@ -2144,6 +2168,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       _syncSubtitleActive();
     }
     _refreshTrickplayIfNeeded();
+    _handleTrickplayAmbientPrefetch(position);
     _syncAirPlayPlaybackState(position: position);
     if (PlatformDetection.isIOS) {
       _pipService.updateIosTimeline(
@@ -2235,7 +2260,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         return;
       }
       if (replaceSkipOutroWithNextUp && isOutro && _shouldShowNextUpOverlay()) {
-        unawaited(_manager.seekTo(result.skipTo!));
+        unawaited(_seekDirect(result.skipTo!));
         _presentNextUpOverlay();
         return;
       }
@@ -2243,7 +2268,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         unawaited(_exitPlayback());
         return;
       }
-      _manager.seekTo(result.skipTo!);
+      _seekDirect(result.skipTo!);
       _clearSkipSegment();
       return;
     }
@@ -2487,7 +2512,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     if (replaceSkipOutroWithNextUp && isOutro && _shouldShowNextUpOverlay()) {
       final skipTo = _skipTo;
       if (skipTo != null) {
-        unawaited(_manager.seekTo(skipTo));
+        unawaited(_seekDirect(skipTo));
       }
       _presentNextUpOverlay();
       return;
@@ -2498,7 +2523,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     }
 
     if (_skipTo != null) {
-      _manager.seekTo(_skipTo!);
+      _seekDirect(_skipTo!);
     }
     _resetSkipSegmentAutoHide();
     setState(() {
@@ -2761,6 +2786,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     return dismissed;
   }
 
+  // A skip, a chapter jump or a segment skip lands somewhere the scrub
+  // session knows nothing about. Left alone, the session would commit its
+  // stale target the next time play is pressed, so it is dropped here and
+  // the seek goes straight through.
+  Future<void> _seekDirect(Duration target) {
+    if (_pendingScrubSeekTarget != null || _isPausedScrubActive || _isSeeking) {
+      _scrubSeekCommitId++;
+      _pendingScrubSeekTarget = null;
+      _isPausedScrubActive = false;
+      final resume = _wasPlayingBeforeScrubPause;
+      _wasPlayingBeforeScrubPause = false;
+      if (resume) unawaited(_manager.resume());
+      if (mounted) setState(() => _isSeeking = false);
+    }
+    return _manager.seekTo(target);
+  }
+
   void _seekRelative(int ms, {bool showControls = true}) {
     _suppressSeekPrompts();
     final target = _state.position + Duration(milliseconds: ms);
@@ -2770,56 +2812,157 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         _state.duration.inMilliseconds,
       ),
     );
-    _manager.seekTo(clamped);
+    _seekDirect(clamped);
     _lastSeekTime = DateTime.now();
     if (showControls) {
       _showControls();
     }
   }
 
-  void _seekRelativeDebounced(int ms, {bool showControls = true}) {
+  void _seekRelativeAccumulate(int ms) {
     _suppressSeekPrompts();
-    final basePosition = _pendingScrubSeekTarget ?? _state.position;
+    // While a released commit is still converging, the pending target is
+    // already null but _state.position still reads pre-seek - basing a quick
+    // follow-up press on it would jump back to the old position.
+    final basePosition = _pendingScrubSeekTarget ??
+        (_isSeeking ? _lastScrubCommitTarget : null) ??
+        _state.position;
     final target = basePosition + Duration(milliseconds: ms);
-    _scheduleDebouncedScrubSeek(target, showControls: showControls);
+    _prefetchTrickplayDirectional(basePosition, forward: ms > 0);
+    _accumulateScrub(target);
   }
 
-  void _scheduleDebouncedScrubSeek(
-    Duration target, {
-    bool showControls = true,
-  }) {
+  bool get _hasTrickplayPreview =>
+      _prefs.get(UserPreferences.trickPlayMode) != TrickplayMode.disabled &&
+      (_trickplayInfo?.isValid ?? false);
+
+  // Pauses playback once per scrub session so the trickplay preview has a
+  // stable frozen reference; without a preview, scrubbing leaves playback
+  // untouched. The Slider path resumes after its committed seek converges;
+  // the D-pad path stays paused until the user presses play. Callers gate
+  // this on
+  // _pendingScrubSeekTarget being null (see _accumulateScrub), not on
+  // _isSeeking - _isSeeking can still be true from an OLDER commit that
+  // hasn't finished converging yet when a brand new gesture starts (release,
+  // then press again quickly), and that stale state must not block this new
+  // gesture's own setup.
+  void _beginScrub() {
+    // Dragging fires PointerMoveEvents, not hover events, so stale
+    // _hoverPosition must be cleared or it flashes the wrong preview on drag end.
+    _hoverPosition = null;
+    // Invalidates any older in-flight _commitScrubSeek the moment a new
+    // gesture starts (not just when a new gesture commits) - otherwise that
+    // old commit's eventual convergence can clear _isSeeking (or fire
+    // resume()) out from under this new, still-active gesture, snapping the
+    // frozen timeline back to live position mid-hold.
+    _scrubSeekCommitId++;
+    if (_hasTrickplayPreview) {
+      _prefetchAllTrickplaySheets(_state.position);
+      _isPausedScrubActive = true;
+      // If an earlier still-resolving commit already paused playback for
+      // this chain of overlapping gestures, _wasPlayingBeforeScrubPause is
+      // already correctly true - re-reading _state.isPlaying now would see
+      // "paused" and wrongly conclude nothing needs resuming later.
+      if (!_wasPlayingBeforeScrubPause) {
+        _wasPlayingBeforeScrubPause = _state.isPlaying;
+        if (_wasPlayingBeforeScrubPause) {
+          _manager.pause();
+        }
+      }
+    }
+  }
+
+  // Purely visual - moves the frozen scrub target without touching the
+  // backend; the session's one real seek fires in _commitPendingScrub.
+  void _accumulateScrub(Duration target, {bool showControls = true}) {
     final clamped = Duration(
       milliseconds: target.inMilliseconds.clamp(
         0,
         _state.duration.inMilliseconds,
       ),
     );
+    if (_pendingScrubSeekTarget == null) {
+      _beginScrub();
+    }
     setState(() {
       _pendingScrubSeekTarget = clamped;
       _isSeeking = true;
       _seekValue = clamped.inMilliseconds.toDouble();
-    });
-    _scrubSeekDebounceTimer?.cancel();
-    _scrubSeekDebounceTimer = Timer(_scrubSeekDebounceDuration, () {
-      final pendingTarget = _pendingScrubSeekTarget;
-      if (pendingTarget != null) {
-        _pendingScrubSeekTarget = null;
-        _scrubSeekDebounceTimer = null;
-        unawaited(_manager.seekTo(pendingTarget));
-        _lastSeekTime = DateTime.now();
-        if (mounted) {
-          setState(() {
-            _isSeeking = false;
-          });
-        }
-      }
     });
     if (showControls) {
       _showControls();
     }
   }
 
+  /// Commits whatever scrub target is pending as the one real seek for this
+  /// session. Called on Slider drag-end and on play during a paused D-pad
+  /// scrub session - the actual "go" signals, not a timer guess.
+  void _commitPendingScrub() {
+    _isPausedScrubActive = false;
+    final pendingTarget = _pendingScrubSeekTarget;
+    if (pendingTarget == null) return;
+    _pendingScrubSeekTarget = null;
+    _lastScrubCommitTarget = pendingTarget;
+    unawaited(_commitScrubSeek(pendingTarget));
+  }
+
+  // _isSeeking gates the seekbar between the frozen scrub target and the
+  // live position stream (see _buildSeekbar). That stream only updates on
+  // the backend's own periodic push, not on seekTo completion, so clearing
+  // _isSeeking as soon as the seek is dispatched shows a stale pre-seek
+  // position for one frame, then jumps again once the real update arrives.
+  //
+  // A second commit can still start before an earlier one's wait finishes
+  // (e.g. a new gesture beginning right after the previous one committed).
+  // Two failure modes if that overlap isn't handled explicitly:
+  //  1. positionStream events aren't selective - during overlap the next
+  //     one can be a stale event left over from an OLDER, already-abandoned
+  //     commit, unrelated to this commit's own target. Waiting for a
+  //     reading actually close to *this* target avoids that.
+  //  2. An abandoned older commit reaching its resume()/isSeeking-clear
+  //     after a newer commit has already taken over must not act at all -
+  //     otherwise it can resume playback (or drop the freeze) on the newer
+  //     commit's behalf, mid-seek. Checking commitId before every side
+  //     effect (not just the final setState) prevents that.
+  Future<void> _commitScrubSeek(Duration target) async {
+    final commitId = ++_scrubSeekCommitId;
+    try {
+      await _manager.seekTo(target);
+      _lastSeekTime = DateTime.now();
+      // .timeout keeps this a real wall-clock deadline: while Strip mode
+      // holds the player paused the position stream can go completely
+      // silent, and a deadline only checked when an event arrives would
+      // never fire.
+      await _state.positionStream
+          .firstWhere(
+            (p) =>
+                commitId != _scrubSeekCommitId ||
+                (p - target).abs() <= _scrubSeekConvergeTolerance,
+          )
+          .timeout(_scrubSeekConvergeTimeout);
+    } catch (_) {
+      // Seek failed, or the real position never converged in time; fall
+      // through so the UI doesn't stay frozen on the scrub target forever.
+    }
+    if (commitId != _scrubSeekCommitId) return;
+    if (_wasPlayingBeforeScrubPause) {
+      _wasPlayingBeforeScrubPause = false;
+      unawaited(_manager.resume());
+    }
+    if (mounted) {
+      setState(() => _isSeeking = false);
+    }
+  }
+
   Future<void> _resumeWithConfiguredRewind() async {
+    // Every resume control funnels through here. During a paused scrub
+    // session, play means "commit the scrubbed target and go" (#1025's
+    // press-play-to-continue), not resume-at-the-old-position.
+    if (_isPausedScrubActive) {
+      _wasPlayingBeforeScrubPause = true;
+      _commitPendingScrub();
+      return;
+    }
     final rewindMs = _prefs.get(UserPreferences.unpauseRewindDuration);
     if (rewindMs > 0) {
       final rewind = Duration(milliseconds: rewindMs);
@@ -3117,7 +3260,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
             return KeyEventResult.handled;
 
           case LogicalKeyboardKey.mediaRewind:
-            unawaited(_manager.seekTo(Duration.zero));
+            unawaited(_seekDirect(Duration.zero));
             _lastSeekTime = DateTime.now();
             unawaited(_manager.resume());
             return KeyEventResult.handled;
@@ -3167,6 +3310,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       if (event.logicalKey == LogicalKeyboardKey.arrowLeft ||
           event.logicalKey == LogicalKeyboardKey.arrowRight) {
         _resetSeekAcceleration();
+        // With a trickplay preview up, the session survives key-release -
+        // the preview stays on the paused frame and play is what commits
+        // (#1025). With nothing to browse, release commits directly.
+        if (!_hasTrickplayPreview) {
+          _commitPendingScrub();
+        }
       }
       return KeyEventResult.ignored;
     }
@@ -3571,6 +3720,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                       const Positioned.fill(
                         child: ColoredBox(color: Colors.transparent),
                       ), // Workaround for a Flutter web issue where the video surface can block pointer events.
+                    _buildTrickplayVideoCover(),
                     _buildBringupOverlay(context),
                     if (_isRestoringPosition)
                       const Positioned.fill(
@@ -3581,11 +3731,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                         !_isOsdLocked &&
                         !hideOsdForPreroll) ...[
                       _buildTopOverlay(context),
-                      _buildBottomOverlay(context),
                       if (!PlatformDetection.useLeanbackUi)
                         Positioned.fill(
                           child: Center(child: _buildCenterTransportControls()),
                         ),
+                      _buildBottomOverlay(context),
                     ],
                     _buildBufferingIndicator(),
                     _buildVolumeOverlay(),
@@ -3683,6 +3833,29 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         if (retryIdx == null || retryIdx < 0) return;
         await _manager.changeSubtitleTrack(retryIdx, userInitiated: false);
       }),
+    );
+  }
+
+  Widget _buildTrickplayVideoCover() {
+    if (!_isSeeking) return const SizedBox.shrink();
+    if (_prefs.get(UserPreferences.trickPlayMode) != TrickplayMode.full) {
+      return const SizedBox.shrink();
+    }
+    final seekPosition = Duration(milliseconds: _seekValue.round());
+    final tile = _getTrickplayTile(seekPosition);
+    if (tile == null) return const SizedBox.shrink();
+    return Positioned.fill(
+      child: Trickplay(
+        fillFrame: true,
+        content: (_) => FittedBox(
+          fit: _zoomToFit(_zoomMode),
+          child: SizedBox(
+            width: tile.thumbWidth,
+            height: tile.thumbHeight,
+            child: _trickplayTileImage(tile),
+          ),
+        ),
+      ),
     );
   }
 
@@ -4001,7 +4174,29 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     return null;
   }
 
+  void _scheduleOverlayMeasurement() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final topBox =
+          _topOverlayKey.currentContext?.findRenderObject() as RenderBox?;
+      final bottomBox =
+          _bottomOverlayKey.currentContext?.findRenderObject() as RenderBox?;
+      final newTop = topBox?.hasSize == true ? topBox!.size.height : null;
+      final newBottom = bottomBox?.hasSize == true
+          ? bottomBox!.size.height
+          : null;
+      if ((newTop != null && newTop != _topOverlayHeight) ||
+          (newBottom != null && newBottom != _bottomOverlayHeight)) {
+        setState(() {
+          if (newTop != null) _topOverlayHeight = newTop;
+          if (newBottom != null) _bottomOverlayHeight = newBottom;
+        });
+      }
+    });
+  }
+
   Widget _buildTopOverlay(BuildContext context) {
+    _scheduleOverlayMeasurement();
     final l10n = AppLocalizations.of(context);
     final padding = MediaQuery.of(context).padding;
     return Positioned(
@@ -4009,6 +4204,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       left: 0,
       right: 0,
       child: Container(
+        key: _topOverlayKey,
         padding: EdgeInsets.only(
           top: padding.top + AppSpacing.spaceSm,
           left: AppSpacing.spaceLg,
@@ -4293,27 +4489,41 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       bottom: 0,
       left: 0,
       right: 0,
-      child: Container(
-        padding: EdgeInsets.only(
-          bottom: padding.bottom + AppSpacing.spaceSm,
-          left: AppSpacing.spaceLg,
-          right: AppSpacing.spaceLg,
-        ),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [Colors.black87, Colors.transparent],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: AppSpacing.spaceLg,
+              right: AppSpacing.spaceLg,
+            ),
+            child: _buildTrickplaySeekPreview(),
           ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildSeekbar(),
-            const SizedBox(height: AppSpacing.spaceXs),
-            _buildSecondaryControlsRow(),
-          ],
-        ),
+          Container(
+            key: _bottomOverlayKey,
+            padding: EdgeInsets.only(
+              bottom: padding.bottom + AppSpacing.spaceSm,
+              left: AppSpacing.spaceLg,
+              right: AppSpacing.spaceLg,
+            ),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [Colors.black87, Colors.transparent],
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildSeekbar(),
+                const SizedBox(height: AppSpacing.spaceXs),
+                _buildSecondaryControlsRow(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -4324,27 +4534,41 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       bottom: 0,
       left: 0,
       right: 0,
-      child: Container(
-        padding: EdgeInsets.only(
-          bottom: padding.bottom + AppSpacing.spaceSm,
-          left: AppSpacing.spaceLg,
-          right: AppSpacing.spaceLg,
-        ),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [Colors.black87, Colors.transparent],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: AppSpacing.spaceLg,
+              right: AppSpacing.spaceLg,
+            ),
+            child: _buildTrickplaySeekPreview(),
           ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildSeekbar(),
-            const SizedBox(height: AppSpacing.spaceXs),
-            _buildTvBottomControlsRow(),
-          ],
-        ),
+          Container(
+            key: _bottomOverlayKey,
+            padding: EdgeInsets.only(
+              bottom: padding.bottom + AppSpacing.spaceSm,
+              left: AppSpacing.spaceLg,
+              right: AppSpacing.spaceLg,
+            ),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [Colors.black87, Colors.transparent],
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildSeekbar(),
+                const SizedBox(height: AppSpacing.spaceXs),
+                _buildTvBottomControlsRow(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -4409,159 +4633,166 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                     aboveLeft.isNotEmpty ||
                     aboveCenter.isNotEmpty ||
                     aboveRight.isNotEmpty;
-                final trickplayTile = _isSeeking
-                    ? _getTrickplayTile(seekPosition)
-                    : null;
 
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (trickplayTile != null)
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: AppSpacing.spaceSm,
-                        ),
-                        child: _buildSeekPreviewThumbnail(
-                          imageUrl: trickplayTile.url,
-                          headers: trickplayTile.headers,
-                          position: seekPosition,
-                          sourceRect: trickplayTile.sourceRect,
-                          thumbWidth: trickplayTile.thumbWidth,
-                          thumbHeight: trickplayTile.thumbHeight,
-                          tileWidth: trickplayTile.tileWidth,
-                          tileHeight: trickplayTile.tileHeight,
-                        ),
-                      ),
-                    if (hasAboveRow)
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: AppSpacing.spaceXs,
-                        ),
-                        child: _buildTimeSlotRow(
-                          left: aboveLeft,
-                          center: aboveCenter,
-                          right: aboveRight,
-                          bold: true,
-                        ),
-                      ),
-                    Focus(
-                      focusNode: _tvSeekbarFocus,
-                      onKeyEvent: (node, event) {
-                        if (!PlatformDetection.isTV ||
-                            (event is! KeyDownEvent &&
-                                event is! KeyRepeatEvent)) {
-                          return KeyEventResult.ignored;
-                        }
-                        switch (event.logicalKey) {
-                          case LogicalKeyboardKey.arrowLeft:
-                            _seekRelativeDebounced(
-                              -_prefs.get(UserPreferences.skipBackLength),
-                            );
-                            return KeyEventResult.handled;
-                          case LogicalKeyboardKey.arrowRight:
-                            _seekRelativeDebounced(
-                              _prefs.get(UserPreferences.skipForwardLength),
-                            );
-                            return KeyEventResult.handled;
-                          case LogicalKeyboardKey.arrowUp:
-                            return KeyEventResult.handled;
-                          case LogicalKeyboardKey.arrowDown:
-                            if (_tvBottomPrimaryFocus.context != null) {
-                              _tvBottomPrimaryFocus.requestFocus();
-                            }
-                            return KeyEventResult.handled;
-                          case LogicalKeyboardKey.select:
-                          case LogicalKeyboardKey.enter:
-                            _togglePlayPause();
-                            _showControls(focusSeekbar: true);
-                            return KeyEventResult.handled;
-                          default:
-                            return KeyEventResult.ignored;
-                        }
-                      },
-                      child: ExcludeFocus(
-                        excluding: PlatformDetection.isTV,
-                        child: SliderTheme(
-                          data: SliderThemeData(
-                            trackHeight: 4,
-                            thumbShape: const RoundSliderThumbShape(
-                              enabledThumbRadius: 7,
+                return LayoutBuilder(
+                  builder: (context, seekbarConstraints) {
+                    final trackWidth = seekbarConstraints.maxWidth;
+
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (hasAboveRow)
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: AppSpacing.spaceXs,
                             ),
-                            overlayShape: const RoundSliderOverlayShape(
-                              overlayRadius: 14,
-                            ),
-                            activeTrackColor: AppColorScheme.rangeProgress,
-                            secondaryActiveTrackColor: AppColorScheme.rangeTrack
-                                .withValues(alpha: 0.8),
-                            inactiveTrackColor: AppColorScheme.rangeTrack,
-                            thumbColor:
-                                (PlatformDetection.isTV && _seekbarFocused)
-                                ? Colors.white
-                                : AppColorScheme.rangeThumb,
-                            overlayColor: AppColorScheme.rangeThumb.withValues(
-                              alpha: 0.2,
+                            child: _buildTimeSlotRow(
+                              left: aboveLeft,
+                              center: aboveCenter,
+                              right: aboveRight,
+                              bold: true,
                             ),
                           ),
-                          child: Slider(
-                            value: positionMs.clamp(0.0, durationMs),
-                            secondaryTrackValue: bufferMs.clamp(
-                              0.0,
-                              durationMs,
+                        MouseRegion(
+                          opaque: false,
+                          onHover: PlatformDetection.useDesktopUi
+                              ? (event) => _handleSeekbarHover(
+                                  event,
+                                  trackWidth: trackWidth,
+                                  duration: duration,
+                                )
+                              : null,
+                          onExit: PlatformDetection.useDesktopUi
+                              ? (_) => _clearSeekbarHover()
+                              : null,
+                          child: Focus(
+                            focusNode: _tvSeekbarFocus,
+                            onKeyEvent: (node, event) {
+                              if (!PlatformDetection.isTV ||
+                                  (event is! KeyDownEvent &&
+                                      event is! KeyRepeatEvent)) {
+                                return KeyEventResult.ignored;
+                              }
+                              switch (event.logicalKey) {
+                                case LogicalKeyboardKey.arrowLeft:
+                                  _seekRelativeAccumulate(
+                                    -_prefs.get(UserPreferences.skipBackLength),
+                                  );
+                                  return KeyEventResult.handled;
+                                case LogicalKeyboardKey.arrowRight:
+                                  _seekRelativeAccumulate(
+                                    _prefs.get(
+                                      UserPreferences.skipForwardLength,
+                                    ),
+                                  );
+                                  return KeyEventResult.handled;
+                                case LogicalKeyboardKey.arrowUp:
+                                  return KeyEventResult.handled;
+                                case LogicalKeyboardKey.arrowDown:
+                                  if (_tvBottomPrimaryFocus.context != null) {
+                                    _tvBottomPrimaryFocus.requestFocus();
+                                  }
+                                  return KeyEventResult.handled;
+                                case LogicalKeyboardKey.select:
+                                case LogicalKeyboardKey.enter:
+                                  _togglePlayPause();
+                                  _showControls(focusSeekbar: true);
+                                  return KeyEventResult.handled;
+                                default:
+                                  return KeyEventResult.ignored;
+                              }
+                            },
+                            child: ExcludeFocus(
+                              excluding: PlatformDetection.isTV,
+                              child: SliderTheme(
+                                data: SliderThemeData(
+                                  trackHeight: 4,
+                                  thumbShape: const RoundSliderThumbShape(
+                                    enabledThumbRadius:
+                                        TrickplayPreviewLayout.seekThumbRadius,
+                                  ),
+                                  overlayShape: const RoundSliderOverlayShape(
+                                    overlayRadius: 14,
+                                  ),
+                                  activeTrackColor:
+                                      AppColorScheme.rangeProgress,
+                                  secondaryActiveTrackColor: AppColorScheme
+                                      .rangeTrack
+                                      .withValues(alpha: 0.8),
+                                  inactiveTrackColor: AppColorScheme.rangeTrack,
+                                  thumbColor:
+                                      (PlatformDetection.isTV &&
+                                          _seekbarFocused)
+                                      ? Colors.white
+                                      : AppColorScheme.rangeThumb,
+                                  overlayColor: AppColorScheme.rangeThumb
+                                      .withValues(alpha: 0.2),
+                                ),
+                                child: Slider(
+                                  value: positionMs.clamp(0.0, durationMs),
+                                  secondaryTrackValue: bufferMs.clamp(
+                                    0.0,
+                                    durationMs,
+                                  ),
+                                  max: durationMs,
+                                  onChangeStart: (v) {
+                                    _suppressSeekPrompts(
+                                      duration:
+                                          _seekDragPromptSuppressionDuration,
+                                    );
+                                    _pendingScrubSeekTarget = null;
+                                    _beginScrub();
+                                    setState(() {
+                                      _isSeeking = true;
+                                      _seekValue = v;
+                                    });
+                                    _hideTimer?.cancel();
+                                  },
+                                  onChanged: (v) {
+                                    _suppressSeekPrompts(
+                                      duration:
+                                          _seekDragPromptSuppressionDuration,
+                                      dismissVisiblePrompts: false,
+                                    );
+                                    setState(() => _seekValue = v);
+                                  },
+                                  onChangeEnd: (v) {
+                                    _suppressSeekPrompts();
+                                    _accumulateScrub(
+                                      Duration(milliseconds: v.round()),
+                                      showControls: false,
+                                    );
+                                    _commitPendingScrub();
+                                    _scheduleHide();
+                                  },
+                                ),
+                              ),
                             ),
-                            max: durationMs,
-                            onChangeStart: (v) {
-                              _suppressSeekPrompts(
-                                duration: _seekDragPromptSuppressionDuration,
-                              );
-                              _scrubSeekDebounceTimer?.cancel();
-                              _scrubSeekDebounceTimer = null;
-                              _pendingScrubSeekTarget = null;
-                              setState(() {
-                                _isSeeking = true;
-                                _seekValue = v;
-                              });
-                              _hideTimer?.cancel();
-                            },
-                            onChanged: (v) {
-                              _suppressSeekPrompts(
-                                duration: _seekDragPromptSuppressionDuration,
-                                dismissVisiblePrompts: false,
-                              );
-                              setState(() => _seekValue = v);
-                            },
-                            onChangeEnd: (v) {
-                              _suppressSeekPrompts();
-                              _scheduleDebouncedScrubSeek(
-                                Duration(milliseconds: v.round()),
-                                showControls: false,
-                              );
-                              _scheduleHide();
-                            },
                           ),
                         ),
-                      ),
-                    ),
-                    _buildTimeSlotRow(
-                      left: _timeSlotLabel(
-                        belowLeftSlot,
-                        position: livePosition,
-                        duration: duration,
-                        use24Hour: use24Hour,
-                      ),
-                      center: _timeSlotLabel(
-                        belowCenterSlot,
-                        position: livePosition,
-                        duration: duration,
-                        use24Hour: use24Hour,
-                      ),
-                      right: _timeSlotLabel(
-                        belowRightSlot,
-                        position: livePosition,
-                        duration: duration,
-                        use24Hour: use24Hour,
-                      ),
-                    ),
-                  ],
+                        _buildTimeSlotRow(
+                          left: _timeSlotLabel(
+                            belowLeftSlot,
+                            position: livePosition,
+                            duration: duration,
+                            use24Hour: use24Hour,
+                          ),
+                          center: _timeSlotLabel(
+                            belowCenterSlot,
+                            position: livePosition,
+                            duration: duration,
+                            use24Hour: use24Hour,
+                          ),
+                          right: _timeSlotLabel(
+                            belowRightSlot,
+                            position: livePosition,
+                            duration: duration,
+                            use24Hour: use24Hour,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
             );
@@ -4571,71 +4802,186 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     );
   }
 
-  Widget _buildSeekPreviewThumbnail({
-    required String imageUrl,
-    required Map<String, String> headers,
-    required Duration position,
-    required Rect sourceRect,
-    required double thumbWidth,
-    required double thumbHeight,
-    required int tileWidth,
-    required int tileHeight,
+  Duration _durationForTrackX(
+    double localX,
+    double trackWidth,
+    Duration duration,
+  ) {
+    const thumbRadius = TrickplayPreviewLayout.seekThumbRadius;
+    final usable = math.max(trackWidth - 2 * thumbRadius, 1.0);
+    final fraction = ((localX - thumbRadius) / usable).clamp(0.0, 1.0);
+    return Duration(milliseconds: (fraction * duration.inMilliseconds).round());
+  }
+
+  void _handleSeekbarHover(
+    PointerHoverEvent event, {
+    required double trackWidth,
+    required Duration duration,
   }) {
-    final screenWidth = MediaQuery.sizeOf(context).width;
-    final displayWidth = (screenWidth * 0.4).clamp(240.0, 520.0).toDouble();
-    final displayHeight = displayWidth * (thumbHeight / thumbWidth);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: displayWidth,
-          height: displayHeight,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: AppRadius.circular(10),
-            border: Border.fromBorderSide(
-              ThemeRegistry.active.borders.cardBorder,
-            ),
-          ),
-          child: ClipRRect(
-            borderRadius: AppRadius.circular(9),
-            child: TrickplayTileImage(
-              sheet: NetworkImage(
-                imageUrl,
-                headers: headers.isEmpty ? null : headers,
-              ),
-              sourceRect: sourceRect,
-              thumbWidth: thumbWidth,
-              thumbHeight: thumbHeight,
-              tileWidth: tileWidth,
-              tileHeight: tileHeight,
-            ),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.spaceXs),
-        Text(
-          formatPlaybackDuration(position),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: AppTypography.fontSizeXs,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
+    if (_isSeeking || duration <= Duration.zero) return;
+    final position = _durationForTrackX(
+      event.localPosition.dx,
+      trackWidth,
+      duration,
+    );
+    if (_hoverPosition == null) _prefetchAllTrickplaySheets(position);
+    if (position != _hoverPosition) setState(() => _hoverPosition = position);
+  }
+
+  void _clearSeekbarHover() {
+    if (_hoverPosition != null) setState(() => _hoverPosition = null);
+  }
+
+  Widget _buildTrickplaySeekPreview() {
+    return StreamBuilder<Duration>(
+      stream: _state.durationStream,
+      initialData: _state.duration,
+      builder: (context, durSnap) {
+        final duration = durSnap.data ?? Duration.zero;
+        final durationMs = math.max(duration.inMilliseconds, 1).toDouble();
+        final trickplayMode = _prefs.get(UserPreferences.trickPlayMode);
+        final coverActive = _isSeeking && trickplayMode == TrickplayMode.full;
+        final hoverActive =
+            !_isSeeking &&
+            PlatformDetection.useDesktopUi &&
+            _hoverPosition != null &&
+            trickplayMode != TrickplayMode.disabled &&
+            trickplayMode != TrickplayMode.full;
+        final previewPosition = _isSeeking
+            ? Duration(milliseconds: _seekValue.round())
+            : (hoverActive ? _hoverPosition : null);
+        final previewTile = previewPosition != null && !coverActive
+            ? _getTrickplayTile(previewPosition)
+            : null;
+        if (previewTile == null) return const SizedBox.shrink();
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return _buildTrickplayPreviewArea(
+              referenceTile: previewTile,
+              isStrip: trickplayMode == TrickplayMode.strip,
+              seekPosition: previewPosition!,
+              totalDuration: duration,
+              positionMs: previewPosition.inMilliseconds.toDouble(),
+              durationMs: durationMs,
+              trackWidth: constraints.maxWidth,
+              showTimeLabel: !_isSeeking,
+            );
+          },
+        );
+      },
     );
   }
 
-  ({
-    String url,
-    Map<String, String> headers,
-    Rect sourceRect,
-    double thumbWidth,
-    double thumbHeight,
-    int tileWidth,
-    int tileHeight,
-  })?
-  _getTrickplayTile(Duration position) {
-    if (!_prefs.get(UserPreferences.trickPlayEnabled)) return null;
+  Widget _buildTrickplayPreviewArea({
+    required TrickplayTile referenceTile,
+    required bool isStrip,
+    required Duration seekPosition,
+    required Duration totalDuration,
+    required double positionMs,
+    required double durationMs,
+    required double trackWidth,
+    required bool showTimeLabel,
+  }) {
+    final timeLabel = showTimeLabel ? formatPlaybackDuration(seekPosition) : null;
+    final scalePercent = _prefs.get(
+      UserPreferences.trickPlayPreviewScalePercent,
+    );
+    final followScrub = _prefs.get(
+      UserPreferences.trickPlayFollowScrubPosition,
+    );
+
+    final resolvedBottomMargin =
+        _bottomOverlayHeight ?? TrickplayPreviewLayout.verticalTravelBottomMargin;
+    final resolvedTopMargin =
+        _topOverlayHeight ?? TrickplayPreviewLayout.verticalTravelTopMargin;
+
+    const spacing = AppSpacing.spaceXs;
+    final plan = TrickplayPreviewLayout.plan(
+      trackWidth: trackWidth,
+      scalePercent: scalePercent,
+      aspect: referenceTile.thumbHeight / referenceTile.thumbWidth,
+      maxHeightBudget:
+          MediaQuery.sizeOf(context).height -
+          resolvedBottomMargin -
+          resolvedTopMargin,
+      positionMs: positionMs,
+      durationMs: durationMs,
+      followScrub: followScrub,
+      verticalPositionPercent: _prefs.get(
+        UserPreferences.trickPlayVerticalPositionPercent,
+      ),
+      isStrip: isStrip,
+      spacing: spacing,
+      overflowMargin: AppSpacing.spaceLg,
+      seekPosition: seekPosition,
+      totalDuration: totalDuration,
+      stepMs: math.max(_prefs.get(UserPreferences.skipForwardLength), 1),
+    );
+    final previewHeight = plan.tileHeight;
+    final verticalTravel = plan.verticalTravel;
+    final leftOffset = plan.leftOffset;
+    final previewWidget = Trickplay(
+      leftCount: plan.leftCount,
+      rightCount: plan.rightCount,
+      timeLabel: timeLabel,
+      tileWidth: plan.tileWidth,
+      tileHeight: plan.tileHeight,
+      slotSpacing: spacing,
+      content: (slotIndex) {
+        if (slotIndex == 0) return _trickplayTileImage(referenceTile);
+        final target = plan.slotsByIndex[slotIndex]?.targetPosition;
+        if (target == null) return null;
+        final tile = _getTrickplayTile(target);
+        return tile == null ? null : _trickplayTileImage(tile);
+      },
+    );
+
+    final allowOverflow = isStrip;
+
+    final positioned = Transform.translate(
+      offset: Offset(leftOffset, 0),
+      child: previewWidget,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.spaceSm),
+      child: Transform.translate(
+        offset: Offset(0, -verticalTravel),
+        child: SizedBox(
+          width: trackWidth > 0 ? trackWidth : null,
+          height: previewHeight,
+          child: allowOverflow
+              ? OverflowBox(
+                  minWidth: 0,
+                  maxWidth: double.infinity,
+                  alignment: Alignment.topLeft,
+                  child: positioned,
+                )
+              : Align(alignment: Alignment.topLeft, child: positioned),
+        ),
+      ),
+    );
+  }
+
+  Widget _trickplayTileImage(TrickplayTile tile) {
+    return TrickplayTileImage(
+      sheet: CachedNetworkImageProvider(
+        tile.url,
+        headers: tile.headers.isEmpty ? null : tile.headers,
+      ),
+      sourceRect: tile.sourceRect,
+      thumbWidth: tile.thumbWidth,
+      thumbHeight: tile.thumbHeight,
+      tileWidth: tile.tileWidth,
+      tileHeight: tile.tileHeight,
+    );
+  }
+
+  TrickplayTile? _getTrickplayTile(Duration position) {
+    if (_prefs.get(UserPreferences.trickPlayMode) == TrickplayMode.disabled) {
+      return null;
+    }
 
     final info = _trickplayInfo;
     if (info == null || !info.isValid) return null;
@@ -4644,24 +4990,20 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     final itemId = _itemIdForQueueItem(item);
     if (itemId == null || itemId.isEmpty) return null;
 
-    final positionMs = position.inMilliseconds;
-    final tileIndex = positionMs ~/ info.interval;
-    final tilesPerImage = info.tilesPerImage;
-    final tileOffset = tileIndex % tilesPerImage;
-    final imageIndex = tileIndex ~/ tilesPerImage;
-
-    final col = tileOffset % info.tileWidth;
-    final row = tileOffset ~/ info.tileWidth;
-    final offsetX = (col * info.width).toDouble();
-    final offsetY = (row * info.height).toDouble();
-
+    final duration = _state.duration;
+    final resolvePosition = duration > Duration.zero && position >= duration
+        ? Duration(milliseconds: duration.inMilliseconds - 1)
+        : position;
+    final resolution = info.resolveTile(resolvePosition);
     final trickplayClient = _clientForQueueItem(item);
-    final url = trickplayClient.imageApi.getTrickplayTileImageUrl(
-      itemId,
-      width: info.width,
-      index: imageIndex,
-      mediaSourceId: _trickplayMediaSourceId,
+    final url = _trickplayImageUrl(
+      info: info,
+      imageIndex: resolution.imageIndex,
+      itemId: itemId,
+      client: trickplayClient,
+      resolution: resolution,
     );
+    if (url == null) return null;
     final token = trickplayClient.accessToken;
     final headers = <String, String>{
       ...serverImageHeaders,
@@ -4669,19 +5011,33 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         'Authorization': 'MediaBrowser Token="$token"',
     };
 
-    return (
-      url: url,
-      headers: headers,
-      sourceRect: Rect.fromLTWH(
-        offsetX,
-        offsetY,
-        info.width.toDouble(),
-        info.height.toDouble(),
-      ),
-      thumbWidth: info.width.toDouble(),
-      thumbHeight: info.height.toDouble(),
-      tileWidth: info.tileWidth,
-      tileHeight: info.tileHeight,
+    return TrickplayTile(url: url, headers: headers, resolution: resolution);
+  }
+
+  String? _trickplayImageUrl({
+    required TrickplayInfo info,
+    required int imageIndex,
+    required String itemId,
+    required MediaServerClient client,
+    TrickplayTileResolution? resolution,
+  }) {
+    if (!info.usesIndividualFrames) {
+      return client.imageApi.getTrickplayTileImageUrl(
+        itemId,
+        width: info.width,
+        index: imageIndex,
+        mediaSourceId: _trickplayMediaSourceId,
+      );
+    }
+
+    if (imageIndex < 0 || imageIndex >= info.frames.length) return null;
+    final frame = info.frames[imageIndex];
+    return client.trickplayApi?.getFrameImageUrl(
+      itemId,
+      width: info.width,
+      positionTicks: resolution?.positionTicks ?? frame.positionTicks,
+      imageTag: resolution?.imageTag ?? frame.imageTag,
+      mediaSourceId: _trickplayMediaSourceId,
     );
   }
 
@@ -6542,7 +6898,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       final ch = chapters[result];
       final ticks = ch['StartPositionTicks'] as int? ?? 0;
       _suppressSeekPrompts();
-      _manager.seekTo(Duration(microseconds: ticks ~/ 10));
+      _seekDirect(Duration(microseconds: ticks ~/ 10));
     }());
     _showControls();
   }
