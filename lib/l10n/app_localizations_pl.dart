@@ -4319,6 +4319,24 @@ class AppLocalizationsPl extends AppLocalizations {
   String get seerrRequestedStatus => 'Prośba wysłana';
 
   @override
+  String get seerrDownloading => 'Downloading';
+
+  @override
+  String seerrDownloadingSize(String done, String total) {
+    return 'Downloading · $done / $total';
+  }
+
+  @override
+  String seerrDownloadedOfTotal(String done, String total) {
+    return '$done / $total';
+  }
+
+  @override
+  String seerrPercentValue(int percent) {
+    return '$percent%';
+  }
+
+  @override
   String seerrDownloadingPercent(int percent) {
     return 'Pobieranie · $percent%';
   }
@@ -11424,18 +11442,18 @@ class AppLocalizationsPl extends AppLocalizations {
   String get runSetupAgain => 'Uruchom konfigurację ponownie';
 
   @override
-  String get serverMessages => 'Messages';
+  String get serverMessages => 'Wiadomości';
 
   @override
-  String get serverMessagesEmpty => 'No messages from your server yet';
+  String get serverMessagesEmpty => 'Brak wiadomości z serwera';
 
   @override
-  String get serverMessagesMarkAllRead => 'Mark all as read';
+  String get serverMessagesMarkAllRead => 'Oznacz wszystkie jako przeczytane';
 
   @override
-  String get serverMessagesShowButton => 'Show messages button';
+  String get serverMessagesShowButton => 'Pokaż przycisk wiadomości';
 
   @override
   String get serverMessagesShowButtonSubtitle =>
-      'Adds a button to the menu for messages sent by your server admin';
+      'Dodaje do menu przycisk wiadomości wysyłanych przez administratora serwera';
 }
