@@ -694,6 +694,11 @@ class _DetailContentState extends State<_DetailContent> {
   late ScrollController _scrollController;
   late FocusNode _contentFocusNode;
   final Map<String, FocusNode> _sectionFocusNodes = <String, FocusNode>{};
+
+  /// The last target this screen put on the shared toolbar notifier, so it
+  /// only releases one it still owns. A screen underneath may have reclaimed
+  /// it while this one was covered.
+  FocusNode? _publishedNavbarTarget;
   final Map<FocusNode, ScrollController> _sectionScrollControllers =
       <FocusNode, ScrollController>{};
   final Set<FocusNode> _pendingSectionFocusRetries = <FocusNode>{};
@@ -1155,7 +1160,43 @@ class _DetailContentState extends State<_DetailContent> {
     _featureFocusNodes.clear();
     _nextEpisodeFocusNode.dispose();
     _seriesNextUpFocusNode.dispose();
+    if (NavigationLayout.focusDetailsPlayButtonNotifier.value ==
+        _publishedNavbarTarget) {
+      NavigationLayout.focusDetailsPlayButtonNotifier.value = null;
+    }
     super.dispose();
+  }
+
+  /// Where a Down press on the top toolbar should land, which is the overview
+  /// when there is one because that is what sits directly beneath the toolbar.
+  FocusNode? _topNavbarFocusTarget(
+    AggregatedItem item,
+    FocusNode? overviewFocusNode,
+  ) {
+    if (overviewFocusNode != null) return overviewFocusNode;
+    return switch (item.type) {
+      'Person' =>
+        widget.initialFocusNode ?? _sectionFocusNode('detailPersonFavorite'),
+      'MusicAlbum' || 'Playlist' => _albumPlayFocusNode,
+      'BoxSet' => _sectionFocusNode('detailBoxSetActionButtons'),
+      _ => widget.initialFocusNode ?? _sectionFocusNode('detailActionButtons'),
+    };
+  }
+
+  /// Hands the toolbar its target after the frame that laid the nodes out.
+  ///
+  /// Assigning during build would be a side effect on a notifier other
+  /// widgets listen to, and the nodes it names have no context until the
+  /// frame is done anyway.
+  void _publishTopNavbarTarget(AggregatedItem item, FocusNode? overview) {
+    if (!PlatformDetection.isTV) return;
+    final target = _topNavbarFocusTarget(item, overview);
+    _publishedNavbarTarget = target;
+    if (NavigationLayout.focusDetailsPlayButtonNotifier.value == target) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      NavigationLayout.focusDetailsPlayButtonNotifier.value = target;
+    });
   }
 
   Widget _buildStaticPersonProfilePanel(
@@ -1255,6 +1296,7 @@ class _DetailContentState extends State<_DetailContent> {
     final item = widget.viewModel.item!;
     final headerOverviewFocusNode = _headerOverviewFocusNode(item);
     _ensureTvAlbumPlayFocus(item);
+    _publishTopNavbarTarget(item, headerOverviewFocusNode);
     final isReadableBook = _isReadableBookItem(item);
     final selectedMediaSource = selectedMediaSourceForItem(
       item,
@@ -1848,9 +1890,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => DetailCastRow(
@@ -1899,9 +1939,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.moreLikeThis,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => DetailSimilarRow(
@@ -1974,9 +2012,7 @@ class _DetailContentState extends State<_DetailContent> {
 
     final l10n = AppLocalizations.of(context);
     final titleStyle = Theme.of(context).textTheme.titleLarge?.copyWith(
-      color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-          ? AppColorScheme.onSurface
-          : Colors.white,
+      color: AppColorScheme.onSurface,
       fontWeight: FontWeight.w700,
     );
     final seerrLabel =
@@ -2128,9 +2164,7 @@ class _DetailContentState extends State<_DetailContent> {
         Text(
           l10n.nextUp,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.bold,
             shadows: _textShadows,
             fontSize: _isCompact(context) ? 17 : null,
@@ -2175,9 +2209,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.seasons,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => DetailSeasonsRow(
@@ -2209,9 +2241,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => DetailCastRow(
@@ -2241,9 +2271,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.moreLikeThis,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => DetailSimilarRow(
@@ -2432,9 +2460,7 @@ class _DetailContentState extends State<_DetailContent> {
               Text(
                 l10n.nextEpisode,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                      ? AppColorScheme.onSurface
-                      : Colors.white,
+                  color: AppColorScheme.onSurface,
                   fontWeight: FontWeight.bold,
                   shadows: _textShadows,
                   fontSize: _isCompact(context) ? 17 : null,
@@ -2477,9 +2503,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.moreFromThisSeason,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => _EpisodesRow(
@@ -2507,9 +2531,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => DetailCastRow(
@@ -2538,9 +2560,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.moreLikeThis,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => DetailSimilarRow(
@@ -3653,6 +3673,7 @@ class _DetailContentState extends State<_DetailContent> {
     final actionButtonsFocusNode = _sectionFocusNode(
       'detailBoxSetActionButtons',
     );
+    final overviewFocusNode = _headerOverviewFocusNode(item);
     final firstFocus = initialFocusNode ?? actionButtonsFocusNode;
     final moviesFocusNode = movies.isNotEmpty
         ? _sectionFocusNode('detailBoxSetMovies')
@@ -3680,6 +3701,7 @@ class _DetailContentState extends State<_DetailContent> {
         selectedMediaSourceId: selectedMediaSourceId,
         onSelectedMediaSourceChanged: onSelectedMediaSourceChanged,
         tvPlayFocusNode: actionButtonsFocusNode,
+        upTarget: overviewFocusNode,
         onRequestFocus: _requestSectionFocus,
         downTarget: metadataFocusNode ?? boxSetDownTarget,
         autoPlay: widget.autoPlay,
@@ -3775,9 +3797,7 @@ class _DetailContentState extends State<_DetailContent> {
         HorizontalScrollSection(
           title: l10n.castMembers,
           titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
-                ? AppColorScheme.onSurface
-                : Colors.white,
+            color: AppColorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
           builder: (_, ctrl) => DetailCastRow(
@@ -3912,6 +3932,7 @@ class _HeaderSection extends StatelessWidget {
         useDesktopLayout && isMusicItem && viewModel.lyrics.isNotEmpty;
     final isCollection = item.type == 'BoxSet';
     final seerrStatus = seerrItemStatus(viewModel);
+    final isNeon = ThemeRegistry.active.id == ThemeRegistry.neonPulseId;
 
     final infoColumn = Column(
       crossAxisAlignment: isMobile
@@ -3987,7 +4008,9 @@ class _HeaderSection extends StatelessWidget {
           Text(
             item.name,
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-              color: Colors.white,
+              color: isNeon
+                  ? AppColorScheme.accent
+                  : AppColorScheme.onBackground,
               fontWeight: FontWeight.bold,
               shadows: _textShadows,
               fontSize: isMobile ? 24 : null,
@@ -4028,9 +4051,9 @@ class _HeaderSection extends StatelessWidget {
           Text(
             item.tagline!,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
+              color: isNeon
                   ? AppColorScheme.accent
-                  : Colors.white.withValues(alpha: 0.7),
+                  : AppColorScheme.onSurface.withValues(alpha: 0.7),
               fontStyle: FontStyle.italic,
               shadows: _textShadows,
               fontSize: isMobile ? 13 : null,
@@ -4057,15 +4080,16 @@ class _HeaderSection extends StatelessWidget {
             onArrowLeft: onArrowLeft,
             onCollapse: onCollapseBiography,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: ThemeRegistry.active.id == ThemeRegistry.neonPulseId
+              color: isNeon
                   ? AppColorScheme.onSurface
-                  : Colors.white.withValues(alpha: 0.8),
+                  : AppColorScheme.onBackground,
               shadows: _textShadows,
               height: 1.4,
               fontSize: isMobile ? 13 : null,
             ),
             textAlign: isMobile ? TextAlign.center : null,
           ),
+          const SizedBox(height: 8),
         ],
       ],
     );
@@ -4586,7 +4610,7 @@ class DetailMetadataRow extends StatelessWidget {
             style: theme.textTheme.bodySmall?.copyWith(
               color: isNeon
                   ? AppColorScheme.onSurface.withValues(alpha: 0.6)
-                  : Colors.white.withValues(alpha: 0.5),
+                  : AppColorScheme.onBackground.withValues(alpha: 0.6),
               shadows: _textShadows,
             ),
           ),
@@ -4629,13 +4653,10 @@ class DetailMetadataRow extends StatelessWidget {
   }
 
   Widget _text(ThemeData theme, String value) {
-    final isNeon = ThemeRegistry.active.id == ThemeRegistry.neonPulseId;
     return Text(
       value,
       style: theme.textTheme.bodySmall?.copyWith(
-        color: isNeon
-            ? AppColorScheme.onSurface
-            : Colors.white.withValues(alpha: 0.9),
+        color: AppColorScheme.onSurface,
         fontWeight: FontWeight.w700,
         shadows: _textShadows,
       ),
@@ -4647,9 +4668,7 @@ class DetailMetadataRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: isNeon
-            ? AppColorScheme.accent.withValues(alpha: 0.15)
-            : Colors.white.withValues(alpha: 0.15),
+        color: AppColorScheme.accent.withValues(alpha: 0.15),
         border: isNeon
             ? Border.fromBorderSide(
                 ThemeRegistry.active.borders.chipBorder.copyWith(
@@ -4662,9 +4681,7 @@ class DetailMetadataRow extends StatelessWidget {
       child: Text(
         label,
         style: theme.textTheme.labelSmall?.copyWith(
-          color: isNeon
-              ? AppColorScheme.onSurface
-              : Colors.white.withValues(alpha: 0.9),
+          color: AppColorScheme.onSurface,
           shadows: _textShadows,
         ),
       ),
@@ -4708,9 +4725,7 @@ class DetailMetadataRow extends StatelessWidget {
       child: Text(
         label,
         style: theme.textTheme.labelSmall?.copyWith(
-          color: isNeon
-              ? AppColorScheme.onSurface
-              : Colors.white.withValues(alpha: 0.8),
+          color: AppColorScheme.onSurface,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -5831,17 +5846,21 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
   /// circles are actually capped to.
   static const _modernFocusedFloor = 200.0;
 
+  /// The narrowest the focused Play pill is drawn at, below
+  /// [_modernFocusedFloor] so a short label does not reserve the width of a
+  /// long one.
+  static const _modernPlayFocusedFloor = 140.0;
+
   /// The width the focused Play pill actually takes, which is its label plus
-  /// the icon, the gap and the padding around them. The circles are capped at
-  /// [_modernFocusedFloor] but the pill only has that as a floor, so a long
-  /// label makes it wider and the row has to be measured against the real
-  /// thing rather than the floor.
+  /// the icon, the gap and the padding around them. Bounded by the same cap
+  /// the pill is drawn within, so a label too long to fit is measured at the
+  /// width it ends up ellipsised to rather than the width it wanted.
   double _modernPlayFocusedWidth(String? label) {
     if (label == null) return _modernFocusedFloor;
     // Matching what _buildModernChild lays out around the label.
     const iconWidth = 24.0;
-    const iconGap = 2.0;
-    const horizontalPadding = 24.0;
+    const iconGap = 8.0;
+    const horizontalPadding = 36.0;
     final painter = TextPainter(
       text: TextSpan(
         text: label,
@@ -5849,7 +5868,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
         // both at the larger size can only leave room to spare.
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
           fontWeight: FontWeight.bold,
-          fontSize: 13,
+          fontSize: 14,
           height: 1.1,
         ),
       ),
@@ -5858,14 +5877,18 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
     )..layout();
     final measured = painter.width + iconWidth + iconGap + horizontalPadding;
     painter.dispose();
-    return measured < _modernFocusedFloor ? _modernFocusedFloor : measured;
+    return measured.clamp(_modernPlayFocusedFloor, _modernFocusedFloor);
   }
 
-  /// The widest a modern row of [buttonCount] buttons can get. Only one
-  /// button is focused at a time, so the worst case is everything at rest
-  /// except the one grown to its focused width, whichever of the two that
-  /// leaves wider. The sizes match what _buildModernChild lays out.
-  double _modernRowWorstWidth(
+  /// The widest a modern row of [buttonCount] buttons can get. One button
+  /// holds focus and every grown button stops at the same cap, so the widest
+  /// row is that cap plus the rest at rest, and Play rests wider than a
+  /// circle. Counting Play grown as well describes a row that cannot happen
+  /// and sends buttons to the overflow menu that had room to stay.
+  ///
+  /// Public for the width tests. Every production caller lives in this file.
+  @visibleForTesting
+  static double modernRowWorstWidth(
     int buttonCount,
     double spacing,
     double playFocused,
@@ -5877,11 +5900,10 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
     final circles = buttonCount - 1;
     if (circles <= 0) return playFocused;
 
-    final playGrown = playFocused + circles * circleResting;
-    final circleGrown =
-        playResting + circleFocused + (circles - 1) * circleResting;
     return circles * spacing +
-        (playGrown > circleGrown ? playGrown : circleGrown);
+        circleFocused +
+        playResting +
+        (circles - 1) * circleResting;
   }
 
   void _focusUpTarget() {
@@ -6757,7 +6779,7 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
         .map((button) => button.label)
         .firstOrNull;
     final fitsOneLine = widget.modernStyle && rowBudget != null
-        ? _modernRowWorstWidth(
+        ? modernRowWorstWidth(
                 allButtons.length,
                 buttonSpacing,
                 _modernPlayFocusedWidth(playLabel),
@@ -10879,132 +10901,89 @@ class _DetailActionButtonState extends State<_DetailActionButton>
         ? (isMobile ? (hasNewline ? 56.0 : 50.0) : (hasNewline ? 64.0 : 54.0))
         : (isMobile ? 48.0 : 52.0);
 
-    if (widget.isPrimary) {
-      final fg = showHighlight ? AppColorScheme.onButtonFocused : Colors.white;
+    // Portrait spans the primary Play full width (circular secondary actions
+    // wrap beneath); landscape keeps it content-width, inline with them.
+    final fullWidth = widget.isPrimary &&
+        (context
+                .findAncestorWidgetOfExactType<DetailActionButtons>()
+                ?.fullWidthPrimary ??
+            false);
+
+    if (fullWidth) {
+      final fg = showHighlight
+          ? AppColorScheme.onButtonFocused
+          : AppColorScheme.onAccent;
       final heartColor = (widget.icon == Icons.favorite && widget.isActive)
           ? const Color(0xFFE50914)
           : fg;
-      // Portrait spans the primary Play full width (circular secondary actions
-      // wrap beneath); landscape keeps it content-width, inline with them.
-      final fullWidth =
-          context
-              .findAncestorWidgetOfExactType<DetailActionButtons>()
-              ?.fullWidthPrimary ??
-          false;
-
-      // When expanded (focused): use ConstrainedBox with a minWidth floor
-      // so the pill always has enough room for labels like "Resume S12:E24".
-      // Flexible in the parent Row lets the pill grow beyond the minimum.
-      final Widget pill;
-      final shouldExpand = isExpanded || fullWidth || isMobile;
-      if (shouldExpand) {
-        final pillInner = Container(
-          height: height,
-          width: fullWidth ? double.infinity : null,
-          padding: EdgeInsets.only(
-            left: fullWidth ? 10 : 10,
-            right: fullWidth ? 10 : 14,
+      final pillInner = Container(
+        height: height,
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: showHighlight
+              ? AppColorScheme.buttonFocused
+              : AppColorScheme.accent,
+          borderRadius: AppRadius.circular(height / 2),
+          border: Border.all(
+            color: showHighlight ? focusColor : Colors.transparent,
+            width: 3,
           ),
-          alignment: fullWidth ? Alignment.center : null,
-          decoration: BoxDecoration(
-            color: showHighlight
-                ? AppColorScheme.buttonFocused
-                : AppColorScheme.accent,
-            borderRadius: AppRadius.circular(height / 2),
-            border: Border.all(
-              color: showHighlight ? focusColor : Colors.transparent,
-              width: 3,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AdaptiveIcon(
+              widget.icon ?? Icons.play_arrow,
+              color: heartColor,
+              size: 24,
             ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AdaptiveIcon(
-                widget.icon ?? Icons.play_arrow,
-                color: heartColor,
-                size: 24,
-              ),
-              const SizedBox(width: 2),
-              widget.label.contains('\n')
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.label.split('\n')[0],
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: fg,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                                height: 1.1,
-                              ),
-                        ),
-                        Text(
-                          widget.label.split('\n')[1],
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: fg.withValues(alpha: 0.8),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                height: 1.1,
-                              ),
-                        ),
-                      ],
-                    )
-                  : Text(
-                      widget.label,
-                      maxLines: 1,
-                      softWrap: false,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: fg,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        height: 1.1,
+            const SizedBox(width: 8),
+            widget.label.contains('\n')
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.label.split('\n')[0],
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: fg,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              height: 1.1,
+                            ),
                       ),
-                    ),
-            ],
-          ),
-        );
-        // Landscape: wrap with a minWidth so text always has room.
-        // Flexible in the parent Row allows growing beyond minWidth.
-        pill = fullWidth
-            ? pillInner
-            : ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 200),
-                child: pillInner,
-              );
-      } else {
-        // Collapsed: animate from/to a circle
-        pill = AnimatedSize(
-          duration: const Duration(milliseconds: 150),
-          curve: Curves.easeOut,
-          child: SizedBox.square(
-            dimension: height,
-            child: Container(
-              height: height,
-              width: height,
-              decoration: BoxDecoration(
-                color: AppColorScheme.accent,
-                borderRadius: AppRadius.circular(height / 2),
-                border: Border.all(color: Colors.transparent, width: 3),
-              ),
-              child: Center(
-                child: AdaptiveIcon(
-                  widget.icon ?? Icons.play_arrow,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ),
-            ),
-          ),
-        );
-      }
-      return fullWidth ? SizedBox(width: double.infinity, child: pill) : pill;
+                      Text(
+                        widget.label.split('\n')[1],
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: fg.withValues(alpha: 0.8),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              height: 1.1,
+                            ),
+                      ),
+                    ],
+                  )
+                : Text(
+                    widget.label,
+                    maxLines: 1,
+                    softWrap: false,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: fg,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          height: 1.1,
+                        ),
+                  ),
+          ],
+        ),
+      );
+      return SizedBox(width: double.infinity, child: pillInner);
     }
 
-    if (isMobile) {
+    if (isMobile && !widget.isPrimary) {
       // Vertical tile: circular icon with its label always shown underneath.
       final iconWidget = widget.iconBuilder != null
           ? widget.iconBuilder!(36, iconColor)
@@ -11065,6 +11044,48 @@ class _DetailActionButtonState extends State<_DetailActionButton>
     final double minWidth = height;
     final double maxWidth = isExpanded ? 200.0 : height;
 
+    final containerColor = showHighlight
+        ? AppColorScheme.buttonFocused
+        : (widget.isPrimary
+            ? AppColorScheme.accent
+            : (widget.isActive
+                ? (widget.activeColor ?? AppColorScheme.accent).withValues(
+                    alpha: 0.18,
+                  )
+                : Colors.white.withValues(alpha: 0.06)));
+
+    final borderColor = showHighlight
+        ? focusColor
+        : (widget.isPrimary
+            ? Colors.transparent
+            : AppColorScheme.onSurface.withValues(alpha: 0.35));
+
+    final iconWidget = widget.isPrimary
+        ? AdaptiveIcon(
+            widget.icon ?? Icons.play_arrow,
+            color: (widget.icon == Icons.favorite && widget.isActive)
+                ? const Color(0xFFE50914)
+                : (showHighlight
+                    ? AppColorScheme.onButtonFocused
+                    : AppColorScheme.onAccent),
+            size: 24,
+          )
+        : (widget.iconBuilder != null
+            ? widget.iconBuilder!(36, iconColor)
+            : AdaptiveIcon(
+                widget.icon!,
+                color: (widget.icon == Icons.favorite && widget.isActive)
+                    ? const Color(0xFFE50914)
+                    : iconColor,
+                size: 24,
+              ));
+
+    final effectiveLabelColor = widget.isPrimary
+        ? (showHighlight
+            ? AppColorScheme.onButtonFocused
+            : AppColorScheme.onAccent)
+        : labelColor;
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),
       curve: Curves.easeOut,
@@ -11076,58 +11097,76 @@ class _DetailActionButtonState extends State<_DetailActionButton>
       ),
       decoration: BoxDecoration(
         borderRadius: AppRadius.circular(height / 2),
-        color: showHighlight
-            ? AppColorScheme.buttonFocused
-            : (widget.isActive
-                  ? (widget.activeColor ?? AppColorScheme.accent).withValues(
-                      alpha: 0.18,
-                    )
-                  : Colors.white.withValues(alpha: 0.06)),
+        color: containerColor,
         border: Border.all(
-          color: showHighlight
-              ? focusColor
-              : AppColorScheme.onSurface.withValues(alpha: 0.35),
+          color: borderColor,
           width: showHighlight ? 2.5 : 1.5,
         ),
       ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: const NeverScrollableScrollPhysics(),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: height - 4, // keep icon centered when collapsed
-              child: Center(
-                child: widget.iconBuilder != null
-                    ? widget.iconBuilder!(36, iconColor)
-                    : AdaptiveIcon(
-                        widget.icon!,
-                        color:
-                            (widget.icon == Icons.favorite && widget.isActive)
-                            ? const Color(0xFFE50914)
-                            : iconColor,
-                        size: 24,
+      child: ClipRRect(
+        borderRadius: AppRadius.circular(height / 2),
+        clipBehavior: Clip.hardEdge,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: height - 4, // keep icon centered when collapsed
+                child: Center(child: iconWidget),
+              ),
+              if (isExpanded && widget.label.isNotEmpty) ...[
+                const SizedBox(width: 6),
+                widget.label.contains('\n')
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.label.split('\n')[0],
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: effectiveLabelColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  height: 1.1,
+                                ),
+                          ),
+                          Text(
+                            widget.label.split('\n')[1],
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: effectiveLabelColor.withValues(
+                                    alpha: 0.8,
+                                  ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  height: 1.1,
+                                ),
+                          ),
+                        ],
+                      )
+                    : Text(
+                        widget.label,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: effectiveLabelColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              height: 1.1,
+                            ),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-              ),
-            ),
-            if (isExpanded && widget.label.isNotEmpty) ...[
-              const SizedBox(width: 6),
-              Text(
-                widget.label,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: labelColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  height: 1.1,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -11215,12 +11254,12 @@ class _DetailActionButtonState extends State<_DetailActionButton>
     final iconColor = showHighlight
         ? AppColorScheme.onButtonFocused
         : (widget.isActive
-              ? (widget.activeColor ?? (isNeon ? neonAccent : Colors.white))
-              : (isNeon ? neonAccent : Colors.white));
+              ? (widget.activeColor ?? (isNeon ? neonAccent : AppColorScheme.onButtonNormal))
+              : (isNeon ? neonAccent : AppColorScheme.onButtonNormal));
     final showLabelInside = modern && (widget.isPrimary || !isMobile);
     final labelColor = (showHighlight && showLabelInside)
         ? AppColorScheme.onButtonFocused
-        : (isNeon ? neonAccent : Colors.white);
+        : (isNeon ? neonAccent : AppColorScheme.onButtonNormal);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -11404,7 +11443,7 @@ class _SectionHeader extends StatelessWidget {
     return Text(
       title,
       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        color: isNeon ? AppColorScheme.accent : Colors.white,
+        color: isNeon ? AppColorScheme.accent : AppColorScheme.onBackground,
         fontWeight: FontWeight.bold,
         shadows: _textShadows,
         fontSize: _isCompact(context) ? 17 : null,
@@ -11609,7 +11648,7 @@ class _CastPersonCardState extends State<_CastPersonCard> with FocusStateMixin {
                   Text(
                     widget.name,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: isNeon ? AppColorScheme.accent : Colors.white,
+                      color: isNeon ? AppColorScheme.accent : AppColorScheme.onSurface,
                       fontWeight: FontWeight.w600,
                       fontSize: widget.isMobile ? 11 : null,
                     ),
@@ -11623,7 +11662,7 @@ class _CastPersonCardState extends State<_CastPersonCard> with FocusStateMixin {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: isNeon
                             ? AppColorScheme.onSurface
-                            : Colors.white.withValues(alpha: 0.6),
+                            : AppColorScheme.onSurface.withValues(alpha: 0.6),
                         fontSize: widget.isMobile ? 10 : 11,
                       ),
                       textAlign: TextAlign.center,
@@ -12680,7 +12719,7 @@ class _OverviewText extends StatelessWidget {
           Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: isNeon
                 ? AppColorScheme.onSurface
-                : Colors.white.withValues(alpha: 0.9),
+                : AppColorScheme.onBackground,
             shadows: _textShadows,
             height: 1.5,
           ),
@@ -13187,11 +13226,7 @@ class _EpisodeListCardState extends State<_EpisodeListCard>
                               'E$epNum',
                               style: Theme.of(context).textTheme.labelSmall
                                   ?.copyWith(
-                                    color: isNeon
-                                        ? AppColorScheme.onSurface.withValues(
-                                            alpha: 0.85,
-                                          )
-                                        : Colors.white.withValues(alpha: 0.5),
+                                    color: AppColorScheme.onSurface.withValues(alpha: 0.85),
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -13203,7 +13238,7 @@ class _EpisodeListCardState extends State<_EpisodeListCard>
                                   ?.copyWith(
                                     color: isNeon
                                         ? AppColorScheme.accent
-                                        : Colors.white,
+                                        : AppColorScheme.onSurface,
                                     fontWeight: FontWeight.w600,
                                   ),
                               maxLines: 1,
@@ -13216,11 +13251,7 @@ class _EpisodeListCardState extends State<_EpisodeListCard>
                               runtimeText,
                               style: Theme.of(context).textTheme.labelSmall
                                   ?.copyWith(
-                                    color: isNeon
-                                        ? AppColorScheme.onSurface.withValues(
-                                            alpha: 0.8,
-                                          )
-                                        : Colors.white.withValues(alpha: 0.5),
+                                    color: AppColorScheme.onSurface.withValues(alpha: 0.8),
                                   ),
                             ),
                           ],
@@ -13399,7 +13430,7 @@ class DetailNextUpCardState extends State<DetailNextUpCard>
                                   ?.copyWith(
                                     color: isNeon
                                         ? AppColorScheme.accent
-                                        : Colors.white,
+                                        : AppColorScheme.onSurface,
                                     fontWeight: FontWeight.w600,
                                   ),
                               maxLines: 1,
@@ -13413,7 +13444,7 @@ class DetailNextUpCardState extends State<DetailNextUpCard>
                                     ?.copyWith(
                                       color: isNeon
                                           ? AppColorScheme.onSurface
-                                          : Colors.white.withValues(alpha: 0.7),
+                                          : AppColorScheme.onSurface.withValues(alpha: 0.7),
                                     ),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
@@ -13656,7 +13687,7 @@ class DetailEpisodeCardState extends State<DetailEpisodeCard>
                                     ?.copyWith(
                                       color: isNeon
                                           ? AppColorScheme.accent
-                                          : Colors.white,
+                                          : AppColorScheme.onSurface,
                                       fontWeight: FontWeight.w600,
                                     ),
                                 maxLines: 1,
@@ -13668,11 +13699,7 @@ class DetailEpisodeCardState extends State<DetailEpisodeCard>
                                   runtimeText,
                                   style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
-                                        color: isNeon
-                                            ? AppColorScheme.onSurface.withValues(
-                                                alpha: 0.8,
-                                              )
-                                            : Colors.white.withValues(alpha: 0.5),
+                                        color: AppColorScheme.onSurface.withValues(alpha: 0.8),
                                       ),
                                 ),
                               ],
@@ -13684,7 +13711,7 @@ class DetailEpisodeCardState extends State<DetailEpisodeCard>
                                       ?.copyWith(
                                         color: isNeon
                                             ? AppColorScheme.onSurface
-                                            : Colors.white.withValues(alpha: 0.7),
+                                            : AppColorScheme.onSurface.withValues(alpha: 0.7),
                                       ),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,

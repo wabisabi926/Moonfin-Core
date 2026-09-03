@@ -253,6 +253,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get glassQualityReduced => 'Reduced';
 
   @override
+  String get performanceMode => 'Performance';
+
+  @override
+  String get performanceModeSubtitle =>
+      'Auto measures this device and holds back on the ones short on memory, which keeps fewer images in memory and leaves trailers as still images. Takes full effect on the next launch.';
+
+  @override
+  String get performanceModeAuto => 'Auto';
+
+  @override
+  String get performanceModeStandard => 'Standard';
+
+  @override
+  String get performanceModeReduced => 'Reduced';
+
+  @override
+  String get trailerPreviewHeldBack =>
+      'Off because Performance is set to Reduced for this device';
+
+  @override
   String get settingsAppearanceThemeSubtitle =>
       'Apply a fully custom theme and switch between an Apple or Material inspired user interface.';
 
@@ -11346,6 +11366,16 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
       'Use your device input method by default for text entry';
 
   @override
+  String get controller => 'Controller';
+
+  @override
+  String get gamepadNavigation => 'Gamepad navigation';
+
+  @override
+  String get gamepadNavigationDescription =>
+      'Let a connected game controller move focus and select items';
+
+  @override
   String get themeMoonfin => 'Moonfin';
 
   @override
@@ -12326,6 +12356,12 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   String get downloadSubtitles => 'Download Subtitles';
 
   @override
+  String get searchingSubtitles => 'Searching for subtitles…';
+
+  @override
+  String get downloadingSubtitle => 'Downloading subtitle…';
+
+  @override
   String get selectedSubtitleInvalid => 'The selected subtitle is invalid.';
 
   @override
@@ -12495,6 +12531,20 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get perfectMatch => 'Perfect match';
+
+  @override
+  String get aiTranslated => 'AI Translated';
+
+  @override
+  String get machineTranslated => 'Machine Translated';
+
+  @override
+  String get hearingImpaired => 'SDH';
+
+  @override
+  String framerateFps(String rate) {
+    return '$rate fps';
+  }
 
   @override
   String channelsCount(int count) {
@@ -13524,6 +13574,32 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
   @override
   String get showPreviewThumbnailsWhenSeeking =>
       'Show preview thumbnails when seeking';
+
+  @override
+  String get trickplayDisplayStyleSingle => 'Single Thumbnail';
+
+  @override
+  String get trickplayDisplayStyleStrip => 'Filmstrip';
+
+  @override
+  String get trickplayModeFull => 'Full Screen';
+
+  @override
+  String get trickplaySettingsPreviewHint =>
+      'Drag the slider to preview scrubbing';
+
+  @override
+  String get trickplayPreviewScale => 'Preview Size';
+
+  @override
+  String get trickplayVerticalOffset => 'Distance From Seekbar';
+
+  @override
+  String get trickplayFollowScrubPosition => 'Follow Scrub Position';
+
+  @override
+  String get trickplayFollowScrubPositionSubtitle =>
+      'Preview slides along the seekbar as you scrub, instead of staying centred';
 
   @override
   String get showDescriptionOnPause => 'Show Description on Pause';
@@ -15163,6 +15239,24 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get seerrRequestedStatus => 'Requested';
+
+  @override
+  String get seerrDownloading => 'Downloading';
+
+  @override
+  String seerrDownloadingSize(String done, String total) {
+    return 'Downloading · $done / $total';
+  }
+
+  @override
+  String seerrDownloadedOfTotal(String done, String total) {
+    return '$done / $total';
+  }
+
+  @override
+  String seerrPercentValue(int percent) {
+    return '$percent%';
+  }
 
   @override
   String seerrDownloadingPercent(int percent) {
@@ -22062,4 +22156,20 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get runSetupAgain => 'Run setup again';
+
+  @override
+  String get serverMessages => 'Messages';
+
+  @override
+  String get serverMessagesEmpty => 'No messages from your server yet';
+
+  @override
+  String get serverMessagesMarkAllRead => 'Mark all as read';
+
+  @override
+  String get serverMessagesShowButton => 'Show messages button';
+
+  @override
+  String get serverMessagesShowButtonSubtitle =>
+      'Adds a button to the menu for messages sent by your server admin';
 }

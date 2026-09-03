@@ -1,7 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'keyboard_controller.dart';
+
+const MethodChannel _appleTvSystemChannel = MethodChannel(
+  'moonfin/appletv_system',
+);
+
+/// Only the tvOS runner answers [_appleTvSystemChannel]. This reads the define
+/// the app builds tvOS with, so the native path folds away everywhere else
+/// rather than waiting on a call that can only fail.
+const bool _hasAppleTvSystemChannel = bool.fromEnvironment('MOONFIN_TVOS');
 
 enum TextFieldType {
   email,
@@ -129,6 +140,7 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
   BuildContext? _keyboardOverlayContext;
 
   bool _useSystemImeSession = false;
+  bool _nativeSystemImePending = false;
 
   bool get _isSystemImeActive => _useSystemImeSession;
 
@@ -195,16 +207,6 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
     _systemInputFocusNode.addListener(_onSystemInputFocusChanged);
     _systemInputFocusNode.canRequestFocus = false;
     _systemInputFocusNode.onKeyEvent = _handleArmedFieldKey;
-    if (_wantsSystemImeArmed) _armSystemImeAfterFrame();
-  }
-
-  bool get _wantsSystemImeArmed => widget.preferSystemIme && widget.isFocused;
-
-  void _armSystemImeAfterFrame() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_wantsSystemImeArmed || _useSystemImeSession) return;
-      _activateSystemIme();
-    });
   }
 
   KeyEventResult _handleArmedFieldKey(FocusNode node, KeyEvent event) {
@@ -348,10 +350,6 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
       }
     }
 
-    if (_wantsSystemImeArmed && !oldWidget.isFocused) {
-      _armSystemImeAfterFrame();
-    }
-
     if (!widget.preferSystemIme && oldWidget.preferSystemIme) {
       _deactivateSystemIme();
     }
@@ -419,7 +417,7 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
       });
     }
 
-    _requestSystemInputFocus();
+    unawaited(_requestSystemInputFocus());
     _notifyVisibilityChanged();
   }
 
@@ -427,11 +425,15 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
     if (!_useSystemImeSession) return;
 
     final inputHeldFocus = _systemInputFocusNode.hasFocus;
+    final nativeSystemImePending = _nativeSystemImePending;
+    _nativeSystemImePending = false;
 
     setState(() {
       _useSystemImeSession = false;
     });
     _notifyVisibilityChanged();
+
+    if (nativeSystemImePending) unawaited(_hideNativeSystemIme());
 
     _systemInputFocusNode.unfocus();
     _systemInputFocusNode.canRequestFocus = false;
@@ -445,7 +447,49 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
     } catch (_) {}
   }
 
-  void _requestSystemInputFocus() {
+  /// Takes the runner's keyboard down. A runner with no field to take down
+  /// leaves this in the state it asks for, and a teardown path is the wrong
+  /// place to raise that.
+  Future<void> _hideNativeSystemIme() async {
+    try {
+      await _appleTvSystemChannel.invokeMethod<void>('hideTextInput');
+    } catch (_) {}
+  }
+
+  Future<void> _requestSystemInputFocus() async {
+    if (!_hasAppleTvSystemChannel) {
+      _requestFlutterSystemInputFocus();
+      return;
+    }
+    if (_nativeSystemImePending) return;
+    _nativeSystemImePending = true;
+    try {
+      final value = await _appleTvSystemChannel
+          .invokeMethod<String>('showTextInput', <String, Object>{
+            'text': widget.controller.text,
+            'hint': widget.hint,
+            'purpose': widget.inputPurpose.name,
+            'obscureText': widget.obscureText,
+          });
+      if (!mounted || !_useSystemImeSession || !_nativeSystemImePending) return;
+
+      _nativeSystemImePending = false;
+      if (value == null) return;
+      widget.controller.text = value;
+      _submitSystemIme(value);
+      return;
+    } on MissingPluginException {
+      // The runner has no native field, so fall back to the Flutter path.
+    } on PlatformException {
+      // The native field could not be presented, so fall back as well.
+    }
+
+    if (!mounted || !_useSystemImeSession || !_nativeSystemImePending) return;
+    _nativeSystemImePending = false;
+    _requestFlutterSystemInputFocus();
+  }
+
+  void _requestFlutterSystemInputFocus() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || !_useSystemImeSession) return;
       _systemInputFocusNode.requestFocus();
@@ -471,6 +515,12 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
         });
       });
     });
+  }
+
+  void _submitSystemIme(String value) {
+    if (!_useSystemImeSession) return;
+    _deactivateSystemIme();
+    widget.onFieldSubmitted?.call(value);
   }
 
   TextInputType _systemKeyboardType() {
@@ -524,6 +574,10 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
 
   @override
   void dispose() {
+    if (_nativeSystemImePending) {
+      _nativeSystemImePending = false;
+      unawaited(_hideNativeSystemIme());
+    }
     if (isKeyboardVisible) {
       CustomTVTextField.isKeyboardVisibleNotifier.value = false;
     }
@@ -578,10 +632,7 @@ class CustomTVTextFieldState extends State<CustomTVTextField>
                               isDense: true,
                               contentPadding: EdgeInsets.zero,
                             ),
-                            onSubmitted: (value) {
-                              widget.onFieldSubmitted?.call(value);
-                              _deactivateSystemIme();
-                            },
+                            onSubmitted: _submitSystemIme,
                           ),
                         ),
                       ),

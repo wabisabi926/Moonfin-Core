@@ -18,6 +18,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../data/services/retro_artwork/retro_artwork_activity_gate.dart';
 import '../../../playback/native_game_player.dart';
 import '../../../util/game_cores.dart';
+import '../settings/emulator_core_settings_screen.dart';
 import '../../../util/game_storage.dart';
 import '../../../util/core_input_descriptors.dart';
 import '../../../util/native_controller_mapping.dart';
@@ -74,28 +75,55 @@ PlayerOneWarning? playerOneWarningFor(
 int? desktopBitForButton(
   NativeControllerMapping? mapping,
   GamepadButton button,
-  int? fallback,
-) {
-  final bound = desktopBoundBit(mapping, button);
+  int? fallback, {
+  String gameId = '',
+}) {
+  final bound = desktopBoundBit(mapping, button, gameId: gameId);
   if (bound != null) return bound;
   if (fallback == null || mapping == null) return fallback;
-  final claimed = mapping.keycodeToButton.values
+  final claimed = mapping
+      .bindingsForGame(gameId)
+      .values
       .map((b) => 1 << b.retroPadIndex)
       .contains(fallback);
   return claimed ? null : fallback;
 }
+
+/// The per-profile binding tables to hand the native side for [gameId].
+///
+/// The mapping menu resolves through this same call, so what the core plays
+/// with and what the menu shows cannot drift. Keycodes only; controller type
+/// and stick snap go through their own channels.
+@visibleForTesting
+String controllerMappingsPayload(
+  Map<String, NativeControllerMapping> mappings,
+  String gameId,
+) => jsonEncode({
+  for (final entry in mappings.entries)
+    entry.key: {
+      for (final binding in entry.value.bindingsForGame(gameId).entries)
+        binding.key.toString(): binding.value.retroPadIndex,
+    },
+});
 
 /// The RetroPad bit a saved binding gives [button], or null when it is unbound.
 ///
 /// Split out so the desktop trigger path is testable: the gamepad stream is a
 /// static, and only Windows/Linux read it in Dart.
 @visibleForTesting
-int? desktopBoundBit(NativeControllerMapping? mapping, GamepadButton button) {
+int? desktopBoundBit(
+  NativeControllerMapping? mapping,
+  GamepadButton button, {
+  String gameId = '',
+}) {
   final code = desktopGamepadButtonCodes[button];
   if (mapping == null || code == null) return null;
-  final bound = mapping.keycodeToButton[code];
+  final bound = mapping.bindingsForGame(gameId)[code];
   return bound == null ? null : 1 << bound.retroPadIndex;
 }
+
+/// The advice lines under a start failure, which all read as one paragraph.
+const _errorAdviceStyle = TextStyle(color: Colors.white70, fontSize: 18);
 
 /// Native game player: the libretro core runs in the runner and renders into a
 /// Flutter texture, so this screen stays plain Flutter. It downloads and
@@ -607,7 +635,12 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen>
   /// Android's table and EmulatorJS, which clears duplicates the same way.
   int? _bitForGamepadButton(String gamepadId, GamepadButton button) {
     final mapping = _controllerMappings[desktopControllerDeviceId(gamepadId)];
-    return desktopBitForButton(mapping, button, _gamepadButtonToBit[button]);
+    return desktopBitForButton(
+      mapping,
+      button,
+      _gamepadButtonToBit[button],
+      gameId: widget.gameId,
+    );
   }
 
   // Negative stick values map to the first bit, positive to the second. The Y
@@ -634,7 +667,8 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen>
     double value,
   ) {
     final mapping = _controllerMappings[desktopControllerDeviceId(gamepadId)];
-    final bit = desktopBoundBit(mapping, trigger) ?? fallbackBit;
+    final bit =
+        desktopBoundBit(mapping, trigger, gameId: widget.gameId) ?? fallbackBit;
     // Keyed by pad too: two controllers resolve the same trigger to different
     // bits, and a shared key let one clear the bit the other was holding.
     final key = (gamepadId, trigger);
@@ -779,6 +813,8 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen>
   }
 
   Future<void> _prepare() async {
+    // Every failure path releases the block, so a retry has to take it again.
+    _acquireGameplayArtworkBlock();
     final games = _client.gamesApi;
     if (games == null) {
       _releaseGameplayArtworkBlock();
@@ -970,6 +1006,9 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen>
       await _player.stop();
       if (mounted) {
         setState(() => _error = _startFailureMessage(e));
+        if (GameLoadError.of(e) == GameLoadError.loadFailed) {
+          unawaited(_checkCoreOptionsAvailable());
+        }
       }
     }
   }
@@ -1021,19 +1060,65 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen>
   /// answers RETRO_ENVIRONMENT_SET_HW_RENDER with false, and cores with no
   /// software renderer (e.g. Nintendo 64's mupen64plus_next) fail their
   /// content load outright.
-  String _startFailureMessage(Object error) {
-    if (error is PlatformException) {
-      switch (error.code) {
-        case 'core_missing':
-          return 'The core for this system is not included in this build.';
-        case 'load_failed':
-          return 'This game cannot be played with the native core.\n'
-              'Open the game\'s details screen and switch it to '
-              '"EmulatorJS (WebView)".\nYou may also try resetting this core\'s settings in '
-              'Settings > Playback > Emulator Cores and try again.';
+  /// The core whose settings the error screen offers, if any.
+  String? get _settingsCoreId => libretroCoreId(widget.core);
+
+  /// Null until checked, then whether this core has settings we can actually
+  /// show. Only some runners implement the probe, so offering the button
+  /// everywhere would promise a fix the platform cannot deliver.
+  bool? _coreOptionsAvailable;
+
+  Future<void> _checkCoreOptionsAvailable() async {
+    var available = false;
+    try {
+      final coreId = _settingsCoreId;
+      final corePath =
+          coreId == null ? null : await installedCorePath(coreId);
+      if (corePath != null) {
+        final systemDir = await GameStorage.systemDir();
+        final probed = await _player.probeOptions(corePath, systemDir.path);
+        available = probed.isNotEmpty;
       }
+    } catch (_) {
+      // Treated the same as "no settings": the button must not appear.
     }
-    return 'Could not start this game. ($error)';
+    if (mounted) setState(() => _coreOptionsAvailable = available);
+  }
+
+  Future<void> _openCoreSettings() async {
+    final coreId = _settingsCoreId;
+    if (coreId == null) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => EmulatorCoreSettingsScreen(
+          coreId: coreId,
+          system: widget.core,
+        ),
+      ),
+    );
+  }
+
+  /// Clears the error and loads again, so a changed setting takes effect.
+  Future<void> _retryAfterSettings() async {
+    if (!mounted) return;
+    setState(() {
+      _error = null;
+      _progress = null;
+    });
+    await _prepare();
+  }
+
+  String _startFailureMessage(Object error) {
+    switch (GameLoadError.of(error)) {
+      case GameLoadError.coreMissing:
+        // TODO: Localize this.
+        return 'The core for this system is not included in this build.';
+      case GameLoadError.loadFailed:
+        // TODO: Localize this.
+        return 'The native emulator core for this game is not starting.';
+      case GameLoadError.unknown:
+        return 'Could not start this game. ($error)';
+    }
   }
 
   /// Returns the playable content path: the file itself, the ROM extracted
@@ -1939,10 +2024,11 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen>
     }
   }
 
-  String _controllerMappingsJson() => jsonEncode({
-    for (final entry in _controllerMappings.entries)
-      entry.key: jsonDecode(entry.value.toJson()),
-  });
+  /// Resolved for the current game here rather than natively, because the
+  /// Android parser reads one flat table per profile. Stick snap is resolved
+  /// the same way just below.
+  String _controllerMappingsJson() =>
+      controllerMappingsPayload(_controllerMappings, widget.gameId);
 
   /// Pushes the mappings to whatever applies them.
   ///
@@ -2162,15 +2248,15 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen>
         (device) => targetIds.contains(device.id),
       ))
         target.id:
-            NativeControllerMapping(
-              source.keycodeToButton,
-              controllerTypesByCore:
-                  _controllerMappings[target.id]?.controllerTypesByCore ??
-                  const {},
-              // Snap is per game and per controller; keep the target's own.
-              snapByGame:
-                  _controllerMappings[target.id]?.snapByGame ?? const {},
-            ).withControllerType(
+            (_controllerMappings[target.id] ?? NativeControllerMapping.empty)
+                // Copies the table the user is looking at, and scopes it to
+                // this game on the target too, so the copy cannot reach games
+                // the user was not looking at.
+                .withBindingsForGame(
+                  widget.gameId,
+                  source.bindingsForGame(widget.gameId),
+                )
+                .withControllerType(
               coreId,
               target.port != null &&
                       _isControllerTypeSupportedAtPort(
@@ -2377,10 +2463,78 @@ class _NativeGamePlayerScreenState extends State<NativeGamePlayerScreen>
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(48),
-                child: Text(
-                  _error!,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _error!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                    // TODO: Localize this.
+                    if (_coreOptionsAvailable == true) ...[
+                      const SizedBox(height: 16),
+                      const Text(
+                        'The emulator settings may be reached below. You can reset to defaults and/or '
+                        'change them to try and fix it (e.g. RDP Plugin setting).',
+                        textAlign: TextAlign.center,
+                        style: _errorAdviceStyle,
+                      ),
+                      const SizedBox(height: 28),
+                      Wrap(
+                        spacing: 16,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          FilledButton.icon(
+                            onPressed: _openCoreSettings,
+                            icon: const Icon(Icons.tune),
+                            label: const Text('Emulator settings'),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: _retryAfterSettings,
+                            icon: const Icon(Icons.refresh),
+                            label: const Text('Try again'),
+                          ),
+                        ],
+                      ),
+                      // Settings only reach a core that needs a different
+                      // renderer, so content this core will never run still
+                      // needs the fallback.
+                      if (emulatorJsAvailable) ...[
+                        const SizedBox(height: 20),
+                        const Text(
+                          'If that does not help, open the game\'s details '
+                          'screen and switch it to "EmulatorJS (WebView)".',
+                          textAlign: TextAlign.center,
+                          style: _errorAdviceStyle,
+                        ),
+                      ],
+                    ] else if (_coreOptionsAvailable == false) ...[
+                      const SizedBox(height: 16),
+                      Text(
+                        emulatorJsAvailable
+                            ? 'This core\'s settings cannot be changed on this '
+                                'device. Open the game\'s details screen and '
+                                'switch it to "EmulatorJS (WebView)".'
+                            : 'This core\'s settings cannot be changed on this '
+                                'device, and this game has no other player '
+                                'here.',
+                        textAlign: TextAlign.center,
+                        style: _errorAdviceStyle,
+                      ),
+                    ] else if (emulatorJsAvailable) ...[
+                      // Still unanswered: the probe is running, or it never
+                      // ran because the core is missing rather than failing
+                      // to load.
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Open the game\'s details screen and switch it to '
+                        '"EmulatorJS (WebView)" if this keeps failing.',
+                        textAlign: TextAlign.center,
+                        style: _errorAdviceStyle,
+                      ),
+                    ],
+                  ],
                 ),
               ),
             ),

@@ -663,6 +663,13 @@ class PlaybackManager implements AudioOwnable {
     _transportInterceptor = interceptor;
   }
 
+  /// Whether transport actions are being routed to a coordinator (SyncPlay)
+  /// instead of reaching the player directly. Housekeeping that would seek
+  /// or pause on its own initiative must stand down while this is set: the
+  /// coordinator owns the position, and such a seek or pause would be sent
+  /// to every member of the group as if the user had asked for it.
+  bool get hasTransportInterceptor => _transportInterceptor != null;
+
   Future<bool> _maybeIntercept(
     TransportAction action, {
     Duration? position,
@@ -1172,6 +1179,10 @@ class PlaybackManager implements AudioOwnable {
     bool enableDirectPlay = true,
     bool enableDirectStream = true,
     bool enableTranscoding = true,
+    // False loads the item and leaves it paused at [startPosition]: a
+    // SyncPlay handshake wants the player at the group's position without a
+    // frame of playback until the group's own Unpause.
+    bool autoPlay = true,
   }) async {
     _clearPendingItemOverrides();
     _vetoedAudioCodecs.clear();
@@ -1229,6 +1240,7 @@ class PlaybackManager implements AudioOwnable {
       enableDirectPlay: enableDirectPlay,
       enableDirectStream: enableDirectStream,
       enableTranscoding: enableTranscoding,
+      autoPlay: autoPlay,
     );
   }
 
@@ -2042,6 +2054,15 @@ class PlaybackManager implements AudioOwnable {
     if (await _maybeIntercept(TransportAction.seek, position: position)) return;
     _lastKnownPosition = position;
     await _backend?.seekTo(position);
+  }
+
+  /// A seek the player performed on its own, from a control the manager does
+  /// not own (the native tvOS transport). The player has already moved, so
+  /// only the interceptor sees it: whoever is coordinating playback, if
+  /// anyone, gets the same notice a [seekTo] would have given.
+  Future<void> notifyExternalSeek(Duration position) async {
+    _lastKnownPosition = position;
+    await _maybeIntercept(TransportAction.seek, position: position);
   }
 
   Future<void> setPlaybackSpeed(double speed) async {

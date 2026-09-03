@@ -2741,7 +2741,10 @@ class HomeViewModel extends ChangeNotifier {
         }),
       );
 
-      var items = await customService.loadCustomRowFromCache(config);
+      var items = await customService.loadCustomRowFromCache(
+        config,
+        maxAge: CustomExternalListsService.cacheMaxAge,
+      );
       if (items.isEmpty) {
         items = await customService.fetchCustomRow(config);
       }
@@ -2803,7 +2806,10 @@ class HomeViewModel extends ChangeNotifier {
         }),
       );
 
-      var items = await customService.loadCustomRowFromCache(config);
+      var items = await customService.loadCustomRowFromCache(
+        config,
+        maxAge: CustomExternalListsService.cacheMaxAge,
+      );
       if (items.isEmpty) {
         items = await customService.fetchCustomRow(config);
       }
@@ -3531,9 +3537,6 @@ class HomeViewModel extends ChangeNotifier {
 
     if (!isDifferentDay) return;
 
-    final syncService = GetIt.instance<PluginSyncService>();
-    if (!syncService.seerrAvailable) return;
-
     debugPrint('[DailyRefresh] Day changed or first run. Triggering background cache refresh of enabled lists...');
 
     await _prefs.set(UserPreferences.lastExternalRowsRefreshTime, now.millisecondsSinceEpoch);
@@ -3553,10 +3556,7 @@ class HomeViewModel extends ChangeNotifier {
           if (config.pluginSource == HomeSectionPluginSource.custom && config.enabled) {
             futures.add(() async {
               try {
-                final items = await customService.fetchCustomRow(config);
-                if (items.isNotEmpty) {
-                  await customService.saveCustomRowToCache(config, items);
-                }
+                await customService.fetchCustomRow(config, forceRefresh: true);
               } catch (e) {
                 debugPrint('[DailyRefresh] Failed to refresh custom row ${config.pluginSection}: $e');
               }

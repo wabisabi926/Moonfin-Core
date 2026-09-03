@@ -67,11 +67,6 @@ class ModernLandscapeLayout extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (aboveHero != null && !(isBoxSet && hasUpNext))
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(leftPadding, (hasUpNext ? 2.0 : 8.0) / scale, 40, 0),
-                    child: aboveHero!,
-                  ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(leftPadding, 10 / scale, 40, 0),
                   child: Row(
@@ -79,34 +74,34 @@ class ModernLandscapeLayout extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: heroWidth,
-                        child: (isBoxSet && hasUpNext)
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (aboveHero != null) aboveHero!,
-                                  const SizedBox(height: 10),
-                                  hero,
-                                ],
-                              )
-                            : hero,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ?aboveHero,
+                            if (aboveHero != null) const SizedBox(height: 10),
+                            hero,
+                          ],
+                        ),
                       ),
-                      if (upNext != null) ...[
-                        const SizedBox(width: 24),
+                      if (upNext != null)
                         Expanded(
                           child: Align(
-                            alignment: Alignment.topRight,
+                            alignment: Alignment.topCenter,
                             child: Padding(
-                              padding: EdgeInsets.only(top: isBoxSet ? 24.0 / scale : 0.0),
+                              padding: EdgeInsets.only(
+                                top: isBoxSet
+                                    ? 24.0 / scale
+                                    : (aboveHero != null ? 48.0 / scale : 0.0),
+                              ),
                               child: ConstrainedBox(
                                 constraints:
-                                    const BoxConstraints(maxWidth: 410),
+                                    const BoxConstraints(maxWidth: 310),
                                 child: upNext,
                               ),
                             ),
                           ),
                         ),
-                      ],
                     ],
                   ),
                 ),
