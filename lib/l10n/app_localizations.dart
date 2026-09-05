@@ -3028,6 +3028,18 @@ abstract class AppLocalizations {
   /// **'Playback Information'**
   String get playbackInformation;
 
+  /// Button in the stream info sheet that shows mpv's own statistics overlay; Shift+I is the keyboard shortcut
+  ///
+  /// In en, this message translates to:
+  /// **'Show mpv Statistics (Shift+I)'**
+  String get showMpvStats;
+
+  /// Button in the stream info sheet that hides mpv's own statistics overlay; Shift+I is the keyboard shortcut
+  ///
+  /// In en, this message translates to:
+  /// **'Hide mpv Statistics (Shift+I)'**
+  String get hideMpvStats;
+
   /// Section header in stream info
   ///
   /// In en, this message translates to:
@@ -3099,6 +3111,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'HDR'**
   String get hdr;
+
+  /// Stream info label for whether HDR is reaching the display untouched
+  ///
+  /// In en, this message translates to:
+  /// **'HDR output'**
+  String get hdrOutput;
+
+  /// Stream info value when HDR passthrough is running, e.g. 'Active — HDR10 (PQ, BT.2020)'
+  ///
+  /// In en, this message translates to:
+  /// **'Active — {format}'**
+  String hdrOutputActive(String format);
+
+  /// Stream info value when native output is engaged but the window sits on a display without HDR, so the renderer is tone-mapping
+  ///
+  /// In en, this message translates to:
+  /// **'Active — tone-mapped to SDR for this display'**
+  String get hdrOutputActiveTonemapped;
+
+  /// Stream info value when the display has not been switched into HDR
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive — display is not in HDR mode'**
+  String get hdrOutputDisplayNotHdr;
+
+  /// Stream info value when the title itself is not HDR
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive — content is SDR'**
+  String get hdrOutputContentSdr;
+
+  /// Stream info value when the native HDR output preference is off
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive — turned off in settings'**
+  String get hdrOutputDisabled;
+
+  /// Stream info value when the native HDR window could not be created
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive — could not start, using the standard path'**
+  String get hdrOutputFailed;
+
+  /// Settings label for sending HDR to the display untouched
+  ///
+  /// In en, this message translates to:
+  /// **'Native HDR output'**
+  String get nativeHdrOutput;
+
+  /// Settings description for native HDR output
+  ///
+  /// In en, this message translates to:
+  /// **'Sends HDR video to the display untouched instead of converting it to SDR. Used only when the display is already in HDR mode and the title is HDR.'**
+  String get nativeHdrOutputDescription;
 
   /// Stream info label for codec
   ///

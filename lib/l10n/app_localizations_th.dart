@@ -1638,6 +1638,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get playbackInformation => 'ข้อมูลการเล่น';
 
   @override
+  String get showMpvStats => 'Show mpv Statistics (Shift+I)';
+
+  @override
+  String get hideMpvStats => 'Hide mpv Statistics (Shift+I)';
+
+  @override
   String get playback => 'การเล่น';
 
   @override
@@ -1672,6 +1678,38 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get hdr => 'เอชดีอาร์';
+
+  @override
+  String get hdrOutput => 'HDR output';
+
+  @override
+  String hdrOutputActive(String format) {
+    return 'Active — $format';
+  }
+
+  @override
+  String get hdrOutputActiveTonemapped =>
+      'Active — tone-mapped to SDR for this display';
+
+  @override
+  String get hdrOutputDisplayNotHdr => 'Inactive — display is not in HDR mode';
+
+  @override
+  String get hdrOutputContentSdr => 'Inactive — content is SDR';
+
+  @override
+  String get hdrOutputDisabled => 'Inactive — turned off in settings';
+
+  @override
+  String get hdrOutputFailed =>
+      'Inactive — could not start, using the standard path';
+
+  @override
+  String get nativeHdrOutput => 'Native HDR output';
+
+  @override
+  String get nativeHdrOutputDescription =>
+      'Sends HDR video to the display untouched instead of converting it to SDR. Used only when the display is already in HDR mode and the title is HDR.';
 
   @override
   String get codec => 'ตัวแปลงสัญญาณ';

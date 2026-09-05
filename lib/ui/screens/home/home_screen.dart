@@ -31,6 +31,7 @@ import '../../widgets/rating_display.dart';
 import '../../../data/services/theme_music_service.dart';
 import '../../../data/services/media_server_client_factory.dart';
 import '../../../data/services/plugin_sync_service.dart';
+import '../../../data/services/connectivity_service.dart';
 import '../../../data/utils/media_type_badges.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../playback/appletv_preview_player.dart';
@@ -120,6 +121,10 @@ class _HomeShellState extends State<_HomeShell>
   final _userPrefs = GetIt.instance<UserPreferences>();
   final _themeMusicService = GetIt.instance<ThemeMusicService>();
   final _pluginSyncService = GetIt.instance<PluginSyncService>();
+  final _connectivity = GetIt.instance.isRegistered<ConnectivityService>()
+      ? GetIt.instance<ConnectivityService>()
+      : null;
+  bool _lastCanReachServer = true;
   late final HomeViewModel _viewModel;
 
   final ValueNotifier<AggregatedItem?> _selectedItemNotifier = ValueNotifier(null);
@@ -197,6 +202,8 @@ class _HomeShellState extends State<_HomeShell>
 
     _pluginSyncService.addListener(_onPluginSyncChanged);
     _userPrefs.addListener(_onPrefsChanged);
+    _lastCanReachServer = _connectivity?.canReachServer ?? true;
+    _connectivity?.addListener(_onServerReachabilityChanged);
     _maybeRegisterThemeMusic();
     _viewModel.load(preserveExisting: _viewModel.rows.isNotEmpty);
   }
@@ -232,6 +239,7 @@ class _HomeShellState extends State<_HomeShell>
     _isScrolledToTopNotifier.dispose();
     _pluginSyncService.removeListener(_onPluginSyncChanged);
     _userPrefs.removeListener(_onPrefsChanged);
+    _connectivity?.removeListener(_onServerReachabilityChanged);
     if (_themeMusicRegistered) {
       _themeMusicService.unregisterDetailScreen(this);
       _themeMusicRegistered = false;
@@ -263,6 +271,17 @@ class _HomeShellState extends State<_HomeShell>
 
   void _onHomeRefreshRequested() {
     if (!mounted) return;
+    _viewModel.refresh(preserveExisting: true);
+  }
+
+  void _onServerReachabilityChanged() {
+    final canReach = _connectivity?.canReachServer ?? true;
+    final reloads = HomeViewModel.reloadsOnReachability(
+      canReachServer: canReach,
+      couldReachServer: _lastCanReachServer,
+    );
+    _lastCanReachServer = canReach;
+    if (!reloads || !mounted) return;
     _viewModel.refresh(preserveExisting: true);
   }
 
@@ -3512,6 +3531,12 @@ class _ContentRowsState extends State<_ContentRows>
     return posterSize.portraitHeight.toDouble() * platformScale;
   }
 
+  /// Touch never leaves a card grown, so phones keep the tighter layout.
+  double _rowItemSpacing(double itemExtent, bool cardExpansion) =>
+      cardExpansion && !PlatformDetection.useMobileUi
+      ? MediaCard.focusGap(itemExtent)
+      : 12.0;
+
   double _rowContentHeight(
     HomeRow row,
     PosterSize posterSize,
@@ -4365,7 +4390,7 @@ class _ContentRowsState extends State<_ContentRows>
           controller: _rowHorizontalController(rowIndex),
           height: rowHeight,
           itemExtent: squarePosterSide,
-          itemSpacing: 12,
+          itemSpacing: _rowItemSpacing(squarePosterSide, cardExpansion),
           leadingPadding: _isHomeRowsStyleV2() ? _kHomeRowLabelInset : 0,
           clipBehavior: cardExpansion ? Clip.none : Clip.hardEdge,
           padding: const EdgeInsets.fromLTRB(_kHomeRowLabelInset, 5, 20, 5),
@@ -4427,7 +4452,7 @@ class _ContentRowsState extends State<_ContentRows>
           controller: _rowHorizontalController(rowIndex),
           height: rowHeight,
           itemExtent: squarePosterSide,
-          itemSpacing: 12,
+          itemSpacing: _rowItemSpacing(squarePosterSide, cardExpansion),
           leadingPadding: _isHomeRowsStyleV2() ? _kHomeRowLabelInset : 0,
           clipBehavior: cardExpansion ? Clip.none : Clip.hardEdge,
           padding: const EdgeInsets.fromLTRB(_kHomeRowLabelInset, 5, 20, 5),
@@ -4587,7 +4612,7 @@ class _ContentRowsState extends State<_ContentRows>
           controller: _rowHorizontalController(rowIndex),
           height: maxCardHeight + (10 * metadataScale),
           itemExtent: firstCardWidth,
-          itemSpacing: 12,
+          itemSpacing: _rowItemSpacing(firstCardWidth, cardExpansion),
           leadingPadding: isRowsV2 ? _kHomeRowLabelInset : 0,
           clipBehavior: (isRowsV2 || cardExpansion) ? Clip.none : Clip.hardEdge,
           padding: const EdgeInsets.fromLTRB(_kHomeRowLabelInset, 5, 20, 5),
