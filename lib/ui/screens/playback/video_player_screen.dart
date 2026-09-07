@@ -69,6 +69,7 @@ import '../../screensaver/screensaver_controller.dart';
 import '../../widgets/remote_play_to_session_dialog.dart';
 import '../../widgets/track_selector_dialog.dart';
 import '../../widgets/playback/player_loading_overlay.dart';
+import '../../widgets/playback/loading_animation_widget.dart';
 import '../../widgets/playback/skip_segment_overlay.dart';
 import '../../widgets/playback/next_up_overlay.dart';
 import '../../widgets/playback/still_watching_dialog.dart';
@@ -80,10 +81,8 @@ import '../../widgets/progress_snack_bar.dart';
 import '../../../util/remote_subtitle_labels.dart';
 import '../../../util/subtitle_appearance_schedule.dart';
 import '../../../playback/media3_player_backend.dart';
-import '../../../playback/tizen_player_backend.dart';
 import 'playback_takeover.dart';
 import 'osd_buttons.dart';
-import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   const VideoPlayerScreen({super.key});
@@ -4049,10 +4048,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   }
 
   Widget _buildVideoSurface() {
-    if (PlatformDetection.isTizen) {
-      return _buildTizenVideoSurface();
-    }
-
     if (PlatformDetection.isIOS || PlatformDetection.isMacOS) {
       return Positioned.fill(
         child: AetherVideoView(key: _videoSurfaceKey, zoomMode: _zoomMode.name),
@@ -4138,30 +4133,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     );
   }
 
-  Widget _buildTizenVideoSurface() {
-    final backend = _activeBackend;
-    if (backend is! TizenPlayerBackend) {
-      return const Positioned.fill(child: ColoredBox(color: Colors.black));
-    }
-    final controller = backend.controller;
-    if (controller == null || !controller.value.isInitialized) {
-      return const Positioned.fill(child: ColoredBox(color: Colors.black));
-    }
-    return Positioned.fill(
-      child: ColoredBox(
-        color: Colors.black,
-        child: FittedBox(
-          fit: _zoomToFit(_zoomMode),
-          child: SizedBox(
-            width: controller.value.size.width,
-            height: controller.value.size.height,
-            child: VideoPlayer(controller),
-          ),
-        ),
-      ),
-    );
-  }
-
   NativeVideoZoomMode _nativeZoomMode(ZoomMode mode) => switch (mode) {
     ZoomMode.fit => NativeVideoZoomMode.fit,
     ZoomMode.autoCrop => NativeVideoZoomMode.crop,
@@ -4206,13 +4177,30 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       return const SizedBox.shrink();
     }
 
+    final pos = _prefs.get(UserPreferences.loadingAnimationPosition);
+
     return Positioned.fill(
       child: IgnorePointer(
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: Colors.black.withValues(alpha: 0.45),
           ),
-          child: Center(child: PlayerLoadingOverlay(label: _bringupLabel())),
+          child: pos == LoadingAnimationPosition.bouncing
+              ? BouncingPositionWrapper(
+                  speed: _prefs.get(UserPreferences.loadingAnimationSpeed),
+                  safePadding: const EdgeInsets.all(40.0),
+                  builder: (context, movingLeft) => PlayerLoadingOverlay(
+                    label: _bringupLabel(),
+                    flipHorizontal: movingLeft,
+                  ),
+                )
+              : Align(
+                  alignment: pos.alignment,
+                  child: Padding(
+                    padding: pos.safePadding,
+                    child: PlayerLoadingOverlay(label: _bringupLabel()),
+                  ),
+                ),
         ),
       ),
     );
@@ -4234,12 +4222,26 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         if (hasTrickplay && (_isSeeking || recentlySought)) {
           return const SizedBox.shrink();
         }
-        return const Center(
-          child: PlayerLoadingOverlay(
-            label: _streamLoadingLabel,
-            logoSize: 160,
-            labelSpacing: 40,
-          ),
+        final pos = _prefs.get(UserPreferences.loadingAnimationPosition);
+        return Positioned.fill(
+          child: pos == LoadingAnimationPosition.bouncing
+              ? BouncingPositionWrapper(
+                  speed: _prefs.get(UserPreferences.loadingAnimationSpeed),
+                  safePadding: const EdgeInsets.all(40.0),
+                  builder: (context, movingLeft) => PlayerLoadingOverlay(
+                    label: _streamLoadingLabel,
+                    flipHorizontal: movingLeft,
+                  ),
+                )
+              : Align(
+                  alignment: pos.alignment,
+                  child: Padding(
+                    padding: pos.safePadding,
+                    child: PlayerLoadingOverlay(
+                      label: _streamLoadingLabel,
+                    ),
+                  ),
+                ),
         );
       },
     );

@@ -17,7 +17,7 @@
             }
         }
     },
-    "quickConnect": "Pikayhteys",
+    "quickConnect": "Pikayhdistys",
     "@quickConnect": {
         "description": "Quick Connect toggle button label"
     },
@@ -70,7 +70,7 @@
             }
         }
     },
-    "whosWatching": "Kuka katsoo?",
+    "whosWatching": "Kuka katselee?",
     "@whosWatching": {
         "description": "Server user selection heading"
     },
@@ -111,7 +111,7 @@
     "@addServer": {
         "description": "Button to manually add a server address"
     },
-    "embyConnect": "Emby Yhdistä",
+    "embyConnect": "Yhdistä Emby",
     "@embyConnect": {
         "description": "Emby Connect sign-in option label"
     },
@@ -156,7 +156,7 @@
     "@secureStorageUnavailable": {
         "description": "Dialog title when system keyring is inaccessible"
     },
-    "secureStorageUnavailableMessage": "Moonfin ei voinut käyttää järjestelmän avainnippu. Kirjautuminen voi jatkua, mutta suojattu tunnuksen tallennus ei välttämättä ole käytettävissä, ennen kuin avainnippu on avattu.",
+    "secureStorageUnavailableMessage": "Moonfin ei voinut käyttää järjestelmän avainketjua . Kirjautuminen voi jatkua, mutta suojattu tunnuksen tallennus ei välttämättä ole käytettävissä, ennen kuin avainketju on avattu.",
     "@secureStorageUnavailableMessage": {
         "description": "Explanation when secure storage is not available"
     },
@@ -560,7 +560,7 @@
     "@librivoxDescription": {
         "description": "Subtitle for audiobook discovery section"
     },
-    "titlesCount": "{count} otsikoita",
+    "titlesCount": "{count} nimikkeet",
     "@titlesCount": {
         "description": "Label showing number of titles",
         "placeholders": {
@@ -569,11 +569,11 @@
             }
         }
     },
-    "scrollLeft": "Vieritä vasemmalle",
+    "scrollLeft": "Vieritä vasen",
     "@scrollLeft": {
         "description": "Tooltip for scroll left button"
     },
-    "scrollRight": "Vieritä oikealle",
+    "scrollRight": "Vieritä oikea",
     "@scrollRight": {
         "description": "Tooltip for scroll right button"
     },
@@ -798,7 +798,7 @@
     "@unread": {
         "description": "Status label for an unread book"
     },
-    "unwatched": "Katsomattomat",
+    "unwatched": "Katsomaton",
     "@unwatched": {
         "description": "Filter label for unwatched items"
     },
@@ -1083,15 +1083,15 @@
     "@startOver": {
         "description": "Action button label to restart reading a book"
     },
-    "restart": "Käynnistä uudelleen",
+    "restart": "Aloita Alusta",
     "@restart": {
         "description": "Action button label to restart playing media"
     },
-    "readOffline": "Lue offline-tilassa",
+    "readOffline": "Lue offline",
     "@readOffline": {
         "description": "Action button label to read offline"
     },
-    "playOffline": "Pelaa offline-tilassa",
+    "playOffline": "Pelaa offline",
     "@playOffline": {
         "description": "Action button label to play offline"
     },
@@ -1107,7 +1107,7 @@
     "@version": {
         "description": "Action button label for version/media source selection"
     },
-    "cast": "Lähetä laitteelle",
+    "cast": "Peilaus",
     "@cast": {
         "description": "Action button label for casting to a device"
     },
@@ -1119,7 +1119,7 @@
     "@finished": {
         "description": "Status label for a finished book"
     },
-    "favorited": "Suosikkiin",
+    "favorited": "Suosikit",
     "@favorited": {
         "description": "Status label for a favorited item"
     },
@@ -1147,7 +1147,7 @@
     "@deleteDownloaded": {
         "description": "Action button label to delete downloaded album tracks"
     },
-    "goToSeries": "Siirry sarjaan",
+    "goToSeries": "Avaa sarja",
     "@goToSeries": {
         "description": "Action button label to navigate to the parent series"
     },
@@ -2228,11 +2228,11 @@
     "@noScheduledRecordings": {
         "description": "Empty state when no recordings are scheduled"
     },
-    "cancelRecording": "Keskeytä  tallennus?",
+    "cancelRecording": "Keskeytä tallennus?",
     "@cancelRecording": {
         "description": "Dialog title for cancelling a recording"
     },
-    "cancelScheduledRecordingOf": "Keskeytä  \"{name}\" ajoitettu nauhoitus?",
+    "cancelScheduledRecordingOf": "Peruuta ajastetun ohjelman tallennus \"{name}\"?",
     "@cancelScheduledRecordingOf": {
         "description": "Confirmation message for cancelling a scheduled recording",
         "placeholders": {
@@ -2249,7 +2249,7 @@
     "@yesCancel": {
         "description": "Confirmation button to cancel a recording"
     },
-    "failedToCancelRecording": "Tallennuksen keskeytys  epäonnistui",
+    "failedToCancelRecording": "Tallennuksen keskeytys epäonnistui",
     "@failedToCancelRecording": {
         "description": "Error when cancelling a recording fails"
     },
@@ -4289,7 +4289,7 @@
     "@request": {
         "description": "Button to submit a media request"
     },
-    "cancelRequest": "Keskeytä  pyyntö",
+    "cancelRequest": "Keskeytä pyyntö",
     "@cancelRequest": {
         "description": "Button/dialog title to cancel a media request"
     },
@@ -4579,16 +4579,16 @@
     "adminDrawerTrickplay": "Trickplay",
     "adminDrawerDevices": "Laitteet",
     "adminDrawerActivity": "Toiminta",
-    "adminDrawerNetworking": "Verkostoituminen",
+    "adminDrawerNetworking": "Verkkoasetukset",
     "adminDrawerApiKeys": "API-avaimet",
     "adminDrawerBackups": "Varmuuskopiot",
     "adminDrawerLogs": "Lokit",
-    "adminDrawerScheduledTasks": "Aikataulutetut tehtävät",
+    "adminDrawerScheduledTasks": "Ajastetut tehtävät",
     "adminDrawerPlugins": "Laajennukset",
-    "adminDrawerRepositories": "Tietovarastot",
+    "adminDrawerRepositories": "Pakettivarastot",
     "adminDrawerLiveTv": "Live-TV",
     "adminExitTooltip": "Poistu järjestelmänvalvojasta",
-    "adminDashboardLoadFailed": "Kojelaudan lataaminen epäonnistui",
+    "adminDashboardLoadFailed": "Koontinäyttöä ei voitu ladata",
     "adminMediaOverview": "Median yleiskatsaus",
     "adminMediaTotalsError": "Palvelimen mediakokonaisuuksia ei voitu ladata.",
     "adminMediaOverviewSubtitle": "Nopea luku siitä, kuinka paljon sisältöä tällä palvelimella on.",
@@ -5968,7 +5968,7 @@
     "adminTrickplayPriorityAboveNormal": "Normaalia korkeampi",
     "adminTrickplayPriorityNormal": "Normaali",
     "adminTrickplayPriorityBelowNormal": "Normaalin alapuolella",
-    "adminTrickplayPriorityIdle": "Tyhjäkäynti",
+    "adminTrickplayPriorityIdle": "Taustalla",
     "adminTrickplayImageSettings": "Kuva-asetukset",
     "adminTrickplayInterval": "Aikaväli (ms)",
     "adminTrickplayIntervalSubtitle": "Kuinka usein ottaa kuvia",
@@ -6373,7 +6373,7 @@
     "trackActionPlayNext": "Toista seuraavaksi",
     "trackActionAddToQueue": "Lisää jonoon",
     "trackActionAddToPlaylist": "Lisää soittolistaan",
-    "trackActionCancelDownload": "Keskeytä  lataus",
+    "trackActionCancelDownload": "Keskeytä lataus",
     "trackActionDeleteFromPlaylist": "Poista soittolistasta",
     "trackActionMoveUp": "Siirrä ylös",
     "trackActionMoveDown": "Siirrä alas",
@@ -6557,15 +6557,15 @@
     "settingsJoinDiscord": "Liity Discordiin",
     "settingsJoinDiscordSubtitle": "Keskustele yhteisön kanssa",
     "settingsJoinTheDiscord": "Liity Discordiin",
-    "settingsSupportMoonfin": "Tue Moonfin",
-    "settingsLegal": "LAKI",
+    "settingsSupportMoonfin": "Tue Moonfin:ä",
+    "settingsLegal": "OIKEUDELLISET JUTUT",
     "settingsLicenses": "Lisenssit",
-    "settingsOpenSourceLicenseNotices": "Avoimen lähdekoodin lisenssiilmoitukset",
+    "settingsOpenSourceLicenseNotices": "Avoimen lähdekoodin lisenssi-ilmoitukset",
     "settingsPrivacyPolicy": "Tietosuojakäytäntö",
     "settingsPrivacyPolicySubtitle": "Kuinka Moonfin käsittelee tietojasi",
     "settingsCheckForUpdates": "Tarkista päivitykset",
     "settingsCheckForUpdatesSubtitle": "Tarkista viimeisin Moonfin-julkaisu",
-    "settingsPoweredByFlutter": "Voimanlähteenä Flutter",
+    "settingsPoweredByFlutter": "Toteutettu Flutter-alustalla",
     "settingsLicenseNoticesCount": "{count, plural, one {# lisenssi-ilmoitus} other {# lisenssi-ilmoitusta}}",
     "@settingsLicenseNoticesCount": {
         "description": "Plural label for number of license notices",
@@ -7308,7 +7308,7 @@
     "autoHdrSwitchingDescription": "Ota HDR automaattisesti käyttöön HDR-videon toistoa varten ja palauta näyttötila poistuessasi.",
     "whenFullscreen": "Kun koko näyttö",
     "transcodingLimits": "Transkoodausrajat",
-    "settingsSupportMoonfinSubtitle": "Lahjoita kahvi kehittäjälle",
+    "settingsSupportMoonfinSubtitle": "Tarjoa kahvi kehittäjälle",
     "accountPreferences": "TILIN ASETUKSET",
     "@accountPreferences": {
         "description": "Section header for account preferences settings"
@@ -7317,7 +7317,7 @@
     "@interfaceLanguage": {
         "description": "Label for the app interface language setting"
     },
-    "systemLanguageDefault": "Järjestelmän oletusasetus",
+    "systemLanguageDefault": "Oletuskieli",
     "@systemLanguageDefault": {
         "description": "Label for using the system default language in settings"
     },
@@ -7365,19 +7365,19 @@
     "@recommendationSystemSubtitle": {
         "description": "Explanation under the recommendation system setting"
     },
-    "recommendationSystemMoonfin": "Moonfin suositukset",
+    "recommendationSystemMoonfin": "Moonfin Suositukset",
     "@recommendationSystemMoonfin": {
         "description": "Recommendation system option: Moonfin Recommends"
     },
-    "recommendationSystemTmdb": "TMDb-samankaltaisuus",
+    "recommendationSystemTmdb": "TMDb Samankaltaisuus",
     "@recommendationSystemTmdb": {
         "description": "Recommendation system option: TMDb Similarity"
     },
-    "recommendationsApplyParentalRatingCap": "Rajoitetaanko ikärajan mukaan?",
+    "recommendationsApplyParentalRatingCap": "Käytetäänkö Ikärajaluokitusta?",
     "@recommendationsApplyParentalRatingCap": {
         "description": "Label for the toggle that controls whether similar suggestions are capped by target media parental rating"
     },
-    "recommendationsApplyParentalRatingCapSubtitle": "Rajoita Moonfin suosittelee -ehdotuksia kohdemedian ikärajan mukaan",
+    "recommendationsApplyParentalRatingCapSubtitle": "Rajoita Moonfin suosittelee ehdotuksia kohdemedian ikärajan mukaan",
     "@recommendationsApplyParentalRatingCapSubtitle": {
         "description": "Explanation under the parental rating cap setting toggle"
     },
@@ -7385,7 +7385,7 @@
     "@interfaceStyle": {
         "description": "Label for the Automatic/Apple/Material interface style setting"
     },
-    "interfaceStyleSubtitle": "Automaattinen mukautuu laitteeseesi. Valitse Apple tai Material pakottaaksesi tietyn ulkoasun.",
+    "interfaceStyleSubtitle": "Automaattinen-toiminto mukautuu laitteeseesi. Valitse Apple tai Material, jos haluat määrittää ulkoasun manuaalisesti.",
     "@interfaceStyleSubtitle": {
         "description": "Explanation under the interface style setting"
     },
@@ -7910,7 +7910,7 @@
     "@clockModeBouncing": {
         "description": "Screensaver clock mode: bounces around the screen"
     },
-    "seerrDiscoveryRows": "Seerr-löytörivit",
+    "seerrDiscoveryRows": "Seerr Suositusrivit",
     "@seerrDiscoveryRows": {
         "description": "Subtitle shown under Seerr discovery home rows"
     },
@@ -8127,7 +8127,7 @@
     "@collectionAllRequested": {
         "description": "Shown instead of the request button when nothing is requestable"
     },
-    "reportIssue": "Ilmoita ongelmasta",
+    "reportIssue": "Raportoi",
     "@reportIssue": {
         "description": "Button on the seerr detail screen to report a media issue"
     },
@@ -9240,7 +9240,7 @@
     "@genresAndTags": {
         "description": "Button and dialog title for browsing a title's genres, networks and tags"
     },
-    "yourWatchlist": "Seurantaluettelosi",
+    "yourWatchlist": "Aktiivilistallasi",
     "@yourWatchlist": {
         "description": "Seerr row: watchlist"
     },
@@ -9385,15 +9385,15 @@
     "@groupByStudio": {
         "description": "Option to group library items by production studio"
     },
-    "showAlphabeticalFilters": "Näytä aakkoset",
+    "showAlphabeticalFilters": "Näytä aakkosittain",
     "@showAlphabeticalFilters": {
         "description": "Checkbox label for toggling alphabetical picker visibility in Sort and Filter options"
     },
-    "personalRatingStyle": "Henkilökohtainen arviointityyli",
+    "personalRatingStyle": "Oma arviointyyli",
     "@personalRatingStyle": {
         "description": "Selects how personal ratings are displayed and entered on media details."
     },
-    "personalRatingThumbs": "Tykkää / ei tykkää",
+    "personalRatingThumbs": "Pidän/ En Pidä",
     "@personalRatingThumbs": {
         "description": "Personal rating style using like and dislike actions."
     },
@@ -9828,11 +9828,11 @@
     "@groupByTitle": {
         "description": "Dialog title and button label for library group by options"
     },
-    "groupByDecade": "Vuosikymmen (vuosi)",
+    "groupByDecade": "Vuosikymmenittäin (vuosi)",
     "@groupByDecade": {
         "description": "Option to group library items by release decade"
     },
-    "groupByParentalRating": "Vanhempien luokitus",
+    "groupByParentalRating": "Ikäluokituksen mukaan",
     "@groupByParentalRating": {
         "description": "Option to group library items by parental rating"
     },
@@ -10231,5 +10231,54 @@
     "@trailerPreviewHeldBack": {
         "description": "Shown under the trailer preview switch when the device tier suppresses trailers"
     },
-    "adminRunNow": "Suorita nyt"
+    "adminRunNow": "Suorita nyt",
+    "showMpvStats": "Näytä mpv-tilastot (Shift+I)",
+    "@showMpvStats": {
+        "description": "Button in the stream info sheet that shows mpv's own statistics overlay; Shift+I is the keyboard shortcut"
+    },
+    "hideMpvStats": "Piilota mpv-tilastot (Shift+I)",
+    "@hideMpvStats": {
+        "description": "Button in the stream info sheet that hides mpv's own statistics overlay; Shift+I is the keyboard shortcut"
+    },
+    "hdrOutput": "HDR-lähtö",
+    "@hdrOutput": {
+        "description": "Stream info label for whether HDR is reaching the display untouched"
+    },
+    "hdrOutputActive": "Aktiivinen — {format}",
+    "@hdrOutputActive": {
+        "description": "Stream info value when HDR passthrough is running, e.g. 'Active — HDR10 (PQ, BT.2020)'",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "hdrOutputActiveTonemapped": "Aktiivinen — sävykartoitus SDR:ään tälle näytölle",
+    "@hdrOutputActiveTonemapped": {
+        "description": "Stream info value when native output is engaged but the window sits on a display without HDR, so the renderer is tone-mapping"
+    },
+    "hdrOutputDisplayNotHdr": "Ei käytössä — näyttö ei ole HDR-tilassa",
+    "@hdrOutputDisplayNotHdr": {
+        "description": "Stream info value when the display has not been switched into HDR"
+    },
+    "hdrOutputContentSdr": "Ei käytössä — sisältö on SDR-muodossa",
+    "@hdrOutputContentSdr": {
+        "description": "Stream info value when the title itself is not HDR"
+    },
+    "hdrOutputDisabled": "Ei käytössä — poistettu käytöstä asetuksissa",
+    "@hdrOutputDisabled": {
+        "description": "Stream info value when the native HDR output preference is off"
+    },
+    "hdrOutputFailed": "Ei aktiivinen — käynnistystä ei voitu suorittaa, käytetään oletuspolkua",
+    "@hdrOutputFailed": {
+        "description": "Stream info value when the native HDR window could not be created"
+    },
+    "nativeHdrOutput": "Natiivi HDR-lähtö",
+    "@nativeHdrOutput": {
+        "description": "Settings label for sending HDR to the display untouched"
+    },
+    "nativeHdrOutputDescription": "Lähettää HDR-videon näytölle muokkaamattomana sen sijaan, että se muunnettaisiin SDR-muotoon. Käytetään vain silloin, kun näyttö on jo HDR-tilassa ja sisältö on HDR-muotoista.",
+    "@nativeHdrOutputDescription": {
+        "description": "Settings description for native HDR output"
+    }
 }

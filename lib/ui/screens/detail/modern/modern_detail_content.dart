@@ -199,6 +199,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   final FocusNode _artistFocusNode = FocusNode(debugLabel: 'albumArtist');
   final FocusNode _audioShowAllFocusNode = FocusNode(debugLabel: 'audioShowAll');
   final FocusNode _subtitleShowAllFocusNode = FocusNode(debugLabel: 'subtitleShowAll');
+  final FocusNode _directPlayRetryFocusNode = FocusNode(debugLabel: 'directPlayRetry');
   final FocusNode _detailsTabFocusNode = FocusNode(debugLabel: 'detailsTabContent');
   final FocusNode _castFirstFocusNode = FocusNode(debugLabel: 'castFirst');
   final FocusNode _crewFirstFocusNode = FocusNode(debugLabel: 'crewFirst');
@@ -722,6 +723,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     _artistFocusNode.dispose();
     _audioShowAllFocusNode.dispose();
     _subtitleShowAllFocusNode.dispose();
+    _directPlayRetryFocusNode.dispose();
     _detailsTabFocusNode.dispose();
     _castFirstFocusNode.dispose();
     _crewFirstFocusNode.dispose();
@@ -3101,6 +3103,45 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       );
     }
 
+    if (_playbackInfoFailed) {
+      return Row(
+        children: [
+          Text(
+            l10n.directPlayCapabilityLabel,
+            style: textTheme.bodyMedium?.copyWith(
+              color: Colors.white54,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Flexible(
+            child: Text(
+              l10n.failedToLoad,
+              style: textTheme.bodyMedium?.copyWith(color: Colors.white70),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: 8),
+          FocusableWrapper(
+            focusNode: _directPlayRetryFocusNode,
+            onSelect: () => setState(() => _playbackInfoFailed = false),
+            borderRadius: 6,
+            suppressFocusGlow: true,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              child: Text(
+                l10n.retry,
+                style: TextStyle(
+                  color: AppColorScheme.accent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
     if (_playbackInfo == null) {
       return const SizedBox.shrink();
     }
@@ -4102,18 +4143,19 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  item.name,
-                  style: (_landscape
-                          ? textTheme.displaySmall
-                          : textTheme.headlineMedium)
-                      ?.copyWith(fontWeight: FontWeight.w700, color: _titleColor),
+                Flexible(
+                  child: Text(
+                    item.name,
+                    style: (_landscape
+                            ? textTheme.displaySmall
+                            : textTheme.headlineMedium)
+                        ?.copyWith(fontWeight: FontWeight.w700, color: _titleColor),
+                  ),
                 ),
                 if (item.mediaSources.length > 1) ...[
                   const SizedBox(width: 16),
-                  () {
-                    final versionName = selectedSource?['Name'] as String? ?? 'Default';
-                    return Container(
+                  Flexible(
+                    child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
                         color: AppColorScheme.accent.withValues(alpha: 0.15),
@@ -4124,14 +4166,16 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                         ),
                       ),
                       child: Text(
-                        versionName,
+                        selectedSource?['Name'] as String? ?? 'Default',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: textTheme.bodySmall?.copyWith(
                           color: AppColorScheme.accent,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  }(),
+                    ),
+                  ),
                 ],
               ],
             ),
@@ -4906,15 +4950,16 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      item.name,
-                      style: textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w700, color: _titleColor),
+                    Flexible(
+                      child: Text(
+                        item.name,
+                        style: textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w700, color: _titleColor),
+                      ),
                     ),
                     if (item.mediaSources.length > 1) ...[
                       const SizedBox(width: 16),
-                      () {
-                        final versionName = selectedSource?['Name'] as String? ?? 'Default';
-                        return Container(
+                      Flexible(
+                        child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
                             color: AppColorScheme.accent.withValues(alpha: 0.15),
@@ -4925,14 +4970,16 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                             ),
                           ),
                           child: Text(
-                            versionName,
+                            selectedSource?['Name'] as String? ?? 'Default',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: textTheme.bodySmall?.copyWith(
                               color: AppColorScheme.accent,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        );
-                      }(),
+                        ),
+                      ),
                     ],
                   ],
                 ),

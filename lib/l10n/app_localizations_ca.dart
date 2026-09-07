@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -253,24 +254,24 @@ class AppLocalizationsCa extends AppLocalizations {
   String get glassQualityReduced => 'Reduït';
 
   @override
-  String get performanceMode => 'Performance';
+  String get performanceMode => 'Rendiment';
 
   @override
   String get performanceModeSubtitle =>
-      'Auto measures this device and holds back on the ones short on memory, which keeps fewer images in memory and leaves trailers as still images. Takes full effect on the next launch.';
+      'El mode automàtic avalua aquest dispositiu i es modera en aquells que van justos de memòria, cosa que manté menys imatges a la memòria i deixa els tràilers com a imatges fixes. Té ple efecte a partir del següent inici.';
 
   @override
-  String get performanceModeAuto => 'Auto';
+  String get performanceModeAuto => 'Automàtic';
 
   @override
-  String get performanceModeStandard => 'Standard';
+  String get performanceModeStandard => 'Estàndard';
 
   @override
-  String get performanceModeReduced => 'Reduced';
+  String get performanceModeReduced => 'Reduït';
 
   @override
   String get trailerPreviewHeldBack =>
-      'Off because Performance is set to Reduced for this device';
+      'Desactivat perquè el Rendiment està configurat com a Reduït per a aquest dispositiu';
 
   @override
   String get settingsAppearanceThemeSubtitle =>
@@ -291,14 +292,14 @@ class AppLocalizationsCa extends AppLocalizations {
       'Utilitzeu el mètode d\'entrada del dispositiu de manera predeterminada per a l\'entrada de text';
 
   @override
-  String get controller => 'Controller';
+  String get controller => 'Controlador';
 
   @override
-  String get gamepadNavigation => 'Gamepad navigation';
+  String get gamepadNavigation => 'Navegació amb comandament';
 
   @override
   String get gamepadNavigationDescription =>
-      'Let a connected game controller move focus and select items';
+      'Permet que un comandament de joc connectat mogui el focus i seleccioni elements';
 
   @override
   String get themeMoonfin => 'Moonfin';
@@ -1180,6 +1181,17 @@ class AppLocalizationsCa extends AppLocalizations {
   String get queuedDownload => 'En cua';
 
   @override
+  String queuedMoreCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count more queued',
+      one: '1 more queued',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get downloadAll => 'Descarrega-ho tot';
 
   @override
@@ -1295,10 +1307,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get downloadSubtitles => 'Descarrega els subtítols';
 
   @override
-  String get searchingSubtitles => 'Searching for subtitles…';
+  String get searchingSubtitles => 'Cercant subtítols…';
 
   @override
-  String get downloadingSubtitle => 'Downloading subtitle…';
+  String get downloadingSubtitle => 'Descarregant subtítols…';
 
   @override
   String get selectedSubtitleInvalid => 'El subtítol seleccionat no és vàlid.';
@@ -1340,6 +1352,52 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get noEpisodesLoaded => 'No s\'ha carregat cap capítol';
+
+  @override
+  String get downloadScopeTitle => 'What to download';
+
+  @override
+  String get downloadAllEpisodes => 'All episodes';
+
+  @override
+  String get downloadUnwatchedEpisodes => 'All unwatched episodes';
+
+  @override
+  String get downloadAllMovies => 'All movies';
+
+  @override
+  String get downloadUnwatchedMovies => 'All unwatched movies';
+
+  @override
+  String get downloadScopeLoading => 'Loading items...';
+
+  @override
+  String get downloadScopeLoadFailed => 'Could not load items to download';
+
+  @override
+  String downloadEstimateTotal(String size) {
+    return '~$size total';
+  }
+
+  @override
+  String downloadBytesOfTotal(String received, String total) {
+    return '$received of $total';
+  }
+
+  @override
+  String downloadSpeed(String speed) {
+    return '$speed/s';
+  }
+
+  @override
+  String downloadSizeTotal(String size) {
+    return '$size total';
+  }
+
+  @override
+  String downloadEstimateUnknownCount(int count) {
+    return '$count unknown';
+  }
 
   @override
   String downloadingItem(String name, String quality) {
@@ -1473,10 +1531,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get perfectMatch => 'Coincidència perfecte';
 
   @override
-  String get aiTranslated => 'AI Translated';
+  String get aiTranslated => 'Traduït per IA';
 
   @override
-  String get machineTranslated => 'Machine Translated';
+  String get machineTranslated => 'Traduït automàticament';
 
   @override
   String get hearingImpaired => 'SDH';
@@ -1665,10 +1723,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get playbackInformation => 'Informació de reproducció';
 
   @override
-  String get showMpvStats => 'Show mpv Statistics (Shift+I)';
+  String get showMpvStats => 'Mostra les estadístiques de mpv (Shift+I)';
 
   @override
-  String get hideMpvStats => 'Hide mpv Statistics (Shift+I)';
+  String get hideMpvStats => 'Amaga les estadístiques de mpv (Shift+I)';
 
   @override
   String get playback => 'Reproducció';
@@ -1707,36 +1765,37 @@ class AppLocalizationsCa extends AppLocalizations {
   String get hdr => 'HDR';
 
   @override
-  String get hdrOutput => 'HDR output';
+  String get hdrOutput => 'Sortida HDR';
 
   @override
   String hdrOutputActive(String format) {
-    return 'Active — $format';
+    return 'Actiu — $format';
   }
 
   @override
   String get hdrOutputActiveTonemapped =>
-      'Active — tone-mapped to SDR for this display';
+      'Actiu — amb mapatge de tons a SDR per a aquesta pantalla';
 
   @override
-  String get hdrOutputDisplayNotHdr => 'Inactive — display is not in HDR mode';
+  String get hdrOutputDisplayNotHdr =>
+      'Inactiu — la pantalla no està en mode HDR';
 
   @override
-  String get hdrOutputContentSdr => 'Inactive — content is SDR';
+  String get hdrOutputContentSdr => 'Inactiu — el contingut és SDR';
 
   @override
-  String get hdrOutputDisabled => 'Inactive — turned off in settings';
+  String get hdrOutputDisabled => 'Inactiu — desactivat a la configuració';
 
   @override
   String get hdrOutputFailed =>
-      'Inactive — could not start, using the standard path';
+      'Inactiu — no s\'ha pogut iniciar; s\'utilitza la via estàndard';
 
   @override
-  String get nativeHdrOutput => 'Native HDR output';
+  String get nativeHdrOutput => 'Sortida HDR nativa';
 
   @override
   String get nativeHdrOutputDescription =>
-      'Sends HDR video to the display untouched instead of converting it to SDR. Used only when the display is already in HDR mode and the title is HDR.';
+      'Envia el vídeo HDR a la pantalla sense modificar-lo en lloc de convertir-lo a SDR. Només s\'utilitza quan la pantalla ja està en mode HDR i el títol és HDR.';
 
   @override
   String get codec => 'Còdec';
@@ -2462,6 +2521,106 @@ class AppLocalizationsCa extends AppLocalizations {
       'Efectes visuals i decoracions de temporada';
 
   @override
+  String get loadingAnimation => 'Loading Animation';
+
+  @override
+  String get loadingAnimationDescription =>
+      'Customize the loading animations used throughout Moonfin';
+
+  @override
+  String get loadingAnimationConfiguration => 'Loading Animation Configuration';
+
+  @override
+  String get loadingAnimationImage => 'Image';
+
+  @override
+  String get loadingAnimationImageMoonfinLogo => 'Moonfin Logo';
+
+  @override
+  String get loadingAnimationImageSpinner => 'Spinner';
+
+  @override
+  String get loadingAnimationImageRunner => 'Runner';
+
+  @override
+  String get loadingAnimationImageMoonPhases => 'Moon Phases';
+
+  @override
+  String get loadingAnimationImageMoonfinPhases => 'Moonfin Phases';
+
+  @override
+  String get loadingAnimationImageNeonfinPhases => 'Neonfin Phases';
+
+  @override
+  String get loadingAnimationSize => 'Animation Size';
+
+  @override
+  String get loadingAnimationSizeThumbnail => 'Thumbnail';
+
+  @override
+  String get loadingAnimationSizeSmall => 'Small';
+
+  @override
+  String get loadingAnimationSizeMedium => 'Medium';
+
+  @override
+  String get loadingAnimationSizeLarge => 'Large';
+
+  @override
+  String get loadingAnimationPosition => 'Animation Position';
+
+  @override
+  String get loadingAnimationPositionTopLeft => 'Top-Left';
+
+  @override
+  String get loadingAnimationPositionTopCenter => 'Top-Center';
+
+  @override
+  String get loadingAnimationPositionTopRight => 'Top-Right';
+
+  @override
+  String get loadingAnimationPositionMiddleLeft => 'Middle-Left';
+
+  @override
+  String get loadingAnimationPositionMiddle => 'Middle';
+
+  @override
+  String get loadingAnimationPositionMiddleRight => 'Middle-Right';
+
+  @override
+  String get loadingAnimationPositionBottomLeft => 'Bottom-Left';
+
+  @override
+  String get loadingAnimationPositionBottomCenter => 'Bottom-Center';
+
+  @override
+  String get loadingAnimationPositionBottomRight => 'Bottom-Right';
+
+  @override
+  String get loadingAnimationPositionBouncing => 'Bouncing';
+
+  @override
+  String get loadingAnimationSpeed => 'Animation Speed';
+
+  @override
+  String get loadingAnimationSpeedSlow => 'Slow';
+
+  @override
+  String get loadingAnimationSpeedModerate => 'Moderate';
+
+  @override
+  String get loadingAnimationSpeedFast => 'Fast';
+
+  @override
+  String get loadingAnimationSpeedUltra => 'Ultra';
+
+  @override
+  String get showLoadingAnimationText => 'Show Text?';
+
+  @override
+  String get loadingAnimationPreview => 'Preview';
+
+  @override
   String get snow => 'Neu';
 
   @override
@@ -2583,30 +2742,31 @@ class AppLocalizationsCa extends AppLocalizations {
       'Mostra les miniatures de previsualització quan cerques';
 
   @override
-  String get trickplayDisplayStyleSingle => 'Single Thumbnail';
+  String get trickplayDisplayStyleSingle => 'Miniatura única';
 
   @override
-  String get trickplayDisplayStyleStrip => 'Filmstrip';
+  String get trickplayDisplayStyleStrip => 'Tira de fotogrames';
 
   @override
-  String get trickplayModeFull => 'Full Screen';
+  String get trickplayModeFull => 'Pantalla completa';
 
   @override
   String get trickplaySettingsPreviewHint =>
-      'Drag the slider to preview scrubbing';
+      'Arrossega el control lliscant per previsualitzar la cerca';
 
   @override
-  String get trickplayPreviewScale => 'Preview Size';
+  String get trickplayPreviewScale => 'Mida de les previsualitzacions';
 
   @override
-  String get trickplayVerticalOffset => 'Distance From Seekbar';
+  String get trickplayVerticalOffset =>
+      'Distància respecte a la barra de cerca';
 
   @override
-  String get trickplayFollowScrubPosition => 'Follow Scrub Position';
+  String get trickplayFollowScrubPosition => 'Segueix la posició de cerca';
 
   @override
   String get trickplayFollowScrubPositionSubtitle =>
-      'Preview slides along the seekbar as you scrub, instead of staying centered';
+      'La previsualització es desplaça al llarg de la barra de cerca mentre cerques, en lloc de mantenir-se centrada';
 
   @override
   String get showDescriptionOnPause => 'Mostra la descripció a Pausa';
@@ -3415,6 +3575,9 @@ class AppLocalizationsCa extends AppLocalizations {
   String get showFavoritesButton => 'Mostra el botó de Preferits';
 
   @override
+  String get showDownloadsButton => 'Show Downloads Button';
+
+  @override
   String get showLibrariesInToolbar =>
       'Mostra les biblioteques a la barra d\'eines';
 
@@ -3905,6 +4068,54 @@ class AppLocalizationsCa extends AppLocalizations {
   String get clockModeBouncing => 'Oscil·lant';
 
   @override
+  String get screensaverGeneralSettings => 'General Settings';
+
+  @override
+  String get screensaverVisualComponents => 'Visual Components';
+
+  @override
+  String get screensaverLibraryContent => 'Library Content';
+
+  @override
+  String get screensaverBackdrop => 'Backdrop';
+
+  @override
+  String get screensaverBackdropBlack => 'Black';
+
+  @override
+  String get screensaverBackdropMoonfin => 'Moonfin';
+
+  @override
+  String get screensaverBackdropCalm => 'Calm';
+
+  @override
+  String get screensaverBackdropNeonPulse => 'Neon Pulse';
+
+  @override
+  String get screensaverBackdropAurora => 'Aurora';
+
+  @override
+  String get screensaverAdditionalComponent => 'Additional Component';
+
+  @override
+  String get screensaverComponentMoonfinLogo => 'Moonfin Logo';
+
+  @override
+  String get screensaverComponentRunner => 'Runner';
+
+  @override
+  String get screensaverComponentMovement => 'Component Movement';
+
+  @override
+  String get screensaverComponentPosition => 'Component Position';
+
+  @override
+  String get screensaverComponentSize => 'Component Size';
+
+  @override
+  String get screensaverSourceLibrariesDefault => 'All (Default)';
+
+  @override
   String get rottenTomatoesCritics => 'Rotten Tomatoes (crítics)';
 
   @override
@@ -4283,11 +4494,11 @@ class AppLocalizationsCa extends AppLocalizations {
   String get seerrRequestedStatus => 'Sol·licitat';
 
   @override
-  String get seerrDownloading => 'Downloading';
+  String get seerrDownloading => 'Descarregant';
 
   @override
   String seerrDownloadingSize(String done, String total) {
-    return 'Downloading · $done / $total';
+    return 'Descarregant · $done / $total';
   }
 
   @override
@@ -11383,18 +11594,19 @@ class AppLocalizationsCa extends AppLocalizations {
   String get runSetupAgain => 'Iniciar la configuració de nou';
 
   @override
-  String get serverMessages => 'Messages';
+  String get serverMessages => 'Missatges';
 
   @override
-  String get serverMessagesEmpty => 'No messages from your server yet';
+  String get serverMessagesEmpty =>
+      'Encara no hi ha missatges del teu servidor';
 
   @override
-  String get serverMessagesMarkAllRead => 'Mark all as read';
+  String get serverMessagesMarkAllRead => 'Marca-ho tot com a llegit';
 
   @override
-  String get serverMessagesShowButton => 'Show messages button';
+  String get serverMessagesShowButton => 'Botó de mostrar missatges';
 
   @override
   String get serverMessagesShowButtonSubtitle =>
-      'Adds a button to the menu for messages sent by your server admin';
+      'Afegeix un botó al menú per als missatges enviats per l\'administrador del teu servidor';
 }

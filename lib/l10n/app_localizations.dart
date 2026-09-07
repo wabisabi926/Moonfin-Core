@@ -2278,6 +2278,12 @@ abstract class AppLocalizations {
   /// **'Queued'**
   String get queuedDownload;
 
+  /// Row under the active downloads list standing in for queued items not shown individually
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 more queued} other{{count} more queued}}'**
+  String queuedMoreCount(int count);
+
   /// Action button label to download all items
   ///
   /// In en, this message translates to:
@@ -2553,6 +2559,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No episodes loaded'**
   String get noEpisodesLoaded;
+
+  /// Title of the sheet asking whether to download all or only unwatched items
+  ///
+  /// In en, this message translates to:
+  /// **'What to download'**
+  String get downloadScopeTitle;
+
+  /// Download scope option: every episode of a series or season
+  ///
+  /// In en, this message translates to:
+  /// **'All episodes'**
+  String get downloadAllEpisodes;
+
+  /// Download scope option: only episodes not yet marked as watched
+  ///
+  /// In en, this message translates to:
+  /// **'All unwatched episodes'**
+  String get downloadUnwatchedEpisodes;
+
+  /// Download scope option: every movie in a collection
+  ///
+  /// In en, this message translates to:
+  /// **'All movies'**
+  String get downloadAllMovies;
+
+  /// Download scope option: only collection movies not yet marked as watched
+  ///
+  /// In en, this message translates to:
+  /// **'All unwatched movies'**
+  String get downloadUnwatchedMovies;
+
+  /// Subtitle shown in the download scope sheet while the item list is being fetched
+  ///
+  /// In en, this message translates to:
+  /// **'Loading items...'**
+  String get downloadScopeLoading;
+
+  /// Snackbar shown when the item list for a batch download could not be fetched
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load items to download'**
+  String get downloadScopeLoadFailed;
+
+  /// Estimated total download size for a batch, e.g. '~1.2 GB total'
+  ///
+  /// In en, this message translates to:
+  /// **'~{size} total'**
+  String downloadEstimateTotal(String size);
+
+  /// Transfer status of a running download, e.g. '1.2 GB of 4.6 GB'
+  ///
+  /// In en, this message translates to:
+  /// **'{received} of {total}'**
+  String downloadBytesOfTotal(String received, String total);
+
+  /// Transfer rate of a running download, e.g. '25.3 MB/s'
+  ///
+  /// In en, this message translates to:
+  /// **'{speed}/s'**
+  String downloadSpeed(String speed);
+
+  /// Exact total file size of a batch of original files, e.g. '12.4 GB total'
+  ///
+  /// In en, this message translates to:
+  /// **'{size} total'**
+  String downloadSizeTotal(String size);
+
+  /// Appended to a batch size estimate when some items had no runtime to estimate from
+  ///
+  /// In en, this message translates to:
+  /// **'{count} unknown'**
+  String downloadEstimateUnknownCount(int count);
 
   /// Snackbar message when downloading an item
   ///
@@ -3829,7 +3907,7 @@ abstract class AppLocalizations {
   /// Header title for saved/downloaded media screen
   ///
   /// In en, this message translates to:
-  /// **'Saved Media'**
+  /// **'Downloads'**
   String get savedMedia;
 
   /// Filter label for TV shows
@@ -4389,6 +4467,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Visual effects and seasonal decorations'**
   String get seasonalEffectsDescription;
+
+  /// Setting title for custom loading animation
+  ///
+  /// In en, this message translates to:
+  /// **'Loading Animation'**
+  String get loadingAnimation;
+
+  /// Description for loading animation customization settings
+  ///
+  /// In en, this message translates to:
+  /// **'Customize the loading animations used throughout Moonfin'**
+  String get loadingAnimationDescription;
+
+  /// Subtitle header for loading animation settings
+  ///
+  /// In en, this message translates to:
+  /// **'Loading Animation Configuration'**
+  String get loadingAnimationConfiguration;
+
+  /// Title for loading animation image selection
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get loadingAnimationImage;
+
+  /// Loading animation image option: Moonfin Logo
+  ///
+  /// In en, this message translates to:
+  /// **'Moonfin Logo'**
+  String get loadingAnimationImageMoonfinLogo;
+
+  /// Loading animation image option: Spinner
+  ///
+  /// In en, this message translates to:
+  /// **'Spinner'**
+  String get loadingAnimationImageSpinner;
+
+  /// Loading animation image option: Runner
+  ///
+  /// In en, this message translates to:
+  /// **'Runner'**
+  String get loadingAnimationImageRunner;
+
+  /// Loading animation image option: Moon Phases
+  ///
+  /// In en, this message translates to:
+  /// **'Moon Phases'**
+  String get loadingAnimationImageMoonPhases;
+
+  /// Loading animation image option: Moonfin Phases in brand gradient
+  ///
+  /// In en, this message translates to:
+  /// **'Moonfin Phases'**
+  String get loadingAnimationImageMoonfinPhases;
+
+  /// Loading animation image option: Neonfin Phases in neon colors
+  ///
+  /// In en, this message translates to:
+  /// **'Neonfin Phases'**
+  String get loadingAnimationImageNeonfinPhases;
+
+  /// Title for loading animation size selection
+  ///
+  /// In en, this message translates to:
+  /// **'Animation Size'**
+  String get loadingAnimationSize;
+
+  /// Loading animation size option: Thumbnail
+  ///
+  /// In en, this message translates to:
+  /// **'Thumbnail'**
+  String get loadingAnimationSizeThumbnail;
+
+  /// Loading animation size option: Small
+  ///
+  /// In en, this message translates to:
+  /// **'Small'**
+  String get loadingAnimationSizeSmall;
+
+  /// Loading animation size option: Medium
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get loadingAnimationSizeMedium;
+
+  /// Loading animation size option: Large
+  ///
+  /// In en, this message translates to:
+  /// **'Large'**
+  String get loadingAnimationSizeLarge;
+
+  /// Title for loading animation position selection
+  ///
+  /// In en, this message translates to:
+  /// **'Animation Position'**
+  String get loadingAnimationPosition;
+
+  /// Loading animation position: Top-Left
+  ///
+  /// In en, this message translates to:
+  /// **'Top-Left'**
+  String get loadingAnimationPositionTopLeft;
+
+  /// Loading animation position: Top-Center
+  ///
+  /// In en, this message translates to:
+  /// **'Top-Center'**
+  String get loadingAnimationPositionTopCenter;
+
+  /// Loading animation position: Top-Right
+  ///
+  /// In en, this message translates to:
+  /// **'Top-Right'**
+  String get loadingAnimationPositionTopRight;
+
+  /// Loading animation position: Middle-Left
+  ///
+  /// In en, this message translates to:
+  /// **'Middle-Left'**
+  String get loadingAnimationPositionMiddleLeft;
+
+  /// Loading animation position: Middle
+  ///
+  /// In en, this message translates to:
+  /// **'Middle'**
+  String get loadingAnimationPositionMiddle;
+
+  /// Loading animation position: Middle-Right
+  ///
+  /// In en, this message translates to:
+  /// **'Middle-Right'**
+  String get loadingAnimationPositionMiddleRight;
+
+  /// Loading animation position: Bottom-Left
+  ///
+  /// In en, this message translates to:
+  /// **'Bottom-Left'**
+  String get loadingAnimationPositionBottomLeft;
+
+  /// Loading animation position: Bottom-Center
+  ///
+  /// In en, this message translates to:
+  /// **'Bottom-Center'**
+  String get loadingAnimationPositionBottomCenter;
+
+  /// Loading animation position: Bottom-Right
+  ///
+  /// In en, this message translates to:
+  /// **'Bottom-Right'**
+  String get loadingAnimationPositionBottomRight;
+
+  /// Loading animation position: Bouncing DVD screensaver style
+  ///
+  /// In en, this message translates to:
+  /// **'Bouncing'**
+  String get loadingAnimationPositionBouncing;
+
+  /// Title for loading animation speed selection
+  ///
+  /// In en, this message translates to:
+  /// **'Animation Speed'**
+  String get loadingAnimationSpeed;
+
+  /// Loading animation speed option: Slow
+  ///
+  /// In en, this message translates to:
+  /// **'Slow'**
+  String get loadingAnimationSpeedSlow;
+
+  /// Loading animation speed option: Moderate
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get loadingAnimationSpeedModerate;
+
+  /// Loading animation speed option: Fast
+  ///
+  /// In en, this message translates to:
+  /// **'Fast'**
+  String get loadingAnimationSpeedFast;
+
+  /// Loading animation speed option: Ultra
+  ///
+  /// In en, this message translates to:
+  /// **'Ultra'**
+  String get loadingAnimationSpeedUltra;
+
+  /// Setting toggle for showing loading animation text
+  ///
+  /// In en, this message translates to:
+  /// **'Show Text?'**
+  String get showLoadingAnimationText;
+
+  /// Label for loading animation preview window
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get loadingAnimationPreview;
 
   /// Seasonal effect: snow
   ///
@@ -6106,6 +6382,12 @@ abstract class AppLocalizations {
   /// **'Show Favorites Button'**
   String get showFavoritesButton;
 
+  /// Setting for showing downloads button
+  ///
+  /// In en, this message translates to:
+  /// **'Show Downloads Button'**
+  String get showDownloadsButton;
+
   /// Setting for showing libraries in toolbar
   ///
   /// In en, this message translates to:
@@ -6993,6 +7275,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bouncing'**
   String get clockModeBouncing;
+
+  /// Section header for screensaver general settings
+  ///
+  /// In en, this message translates to:
+  /// **'General Settings'**
+  String get screensaverGeneralSettings;
+
+  /// Section header for screensaver visual components
+  ///
+  /// In en, this message translates to:
+  /// **'Visual Components'**
+  String get screensaverVisualComponents;
+
+  /// Section header for screensaver library content
+  ///
+  /// In en, this message translates to:
+  /// **'Library Content'**
+  String get screensaverLibraryContent;
+
+  /// Setting for screensaver backdrop
+  ///
+  /// In en, this message translates to:
+  /// **'Backdrop'**
+  String get screensaverBackdrop;
+
+  /// Screensaver backdrop: Black
+  ///
+  /// In en, this message translates to:
+  /// **'Black'**
+  String get screensaverBackdropBlack;
+
+  /// Screensaver backdrop: Moonfin
+  ///
+  /// In en, this message translates to:
+  /// **'Moonfin'**
+  String get screensaverBackdropMoonfin;
+
+  /// Screensaver backdrop: Calm
+  ///
+  /// In en, this message translates to:
+  /// **'Calm'**
+  String get screensaverBackdropCalm;
+
+  /// Screensaver backdrop: Neon Pulse
+  ///
+  /// In en, this message translates to:
+  /// **'Neon Pulse'**
+  String get screensaverBackdropNeonPulse;
+
+  /// Screensaver backdrop: Aurora
+  ///
+  /// In en, this message translates to:
+  /// **'Aurora'**
+  String get screensaverBackdropAurora;
+
+  /// Setting for screensaver additional component
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Component'**
+  String get screensaverAdditionalComponent;
+
+  /// Screensaver component: Moonfin Logo
+  ///
+  /// In en, this message translates to:
+  /// **'Moonfin Logo'**
+  String get screensaverComponentMoonfinLogo;
+
+  /// Screensaver component: Runner
+  ///
+  /// In en, this message translates to:
+  /// **'Runner'**
+  String get screensaverComponentRunner;
+
+  /// Setting for screensaver component movement
+  ///
+  /// In en, this message translates to:
+  /// **'Component Movement'**
+  String get screensaverComponentMovement;
+
+  /// Setting for screensaver component position
+  ///
+  /// In en, this message translates to:
+  /// **'Component Position'**
+  String get screensaverComponentPosition;
+
+  /// Setting for screensaver component size
+  ///
+  /// In en, this message translates to:
+  /// **'Component Size'**
+  String get screensaverComponentSize;
+
+  /// Subtitle when no source libraries are explicitly filtered in screensaver
+  ///
+  /// In en, this message translates to:
+  /// **'All (Default)'**
+  String get screensaverSourceLibrariesDefault;
 
   /// Rating source: Rotten Tomatoes Critics
   ///
@@ -15037,7 +15415,7 @@ abstract class AppLocalizations {
   /// No description provided for @offlineSavedMedia.
   ///
   /// In en, this message translates to:
-  /// **'Saved Media'**
+  /// **'Downloads'**
   String get offlineSavedMedia;
 
   /// No description provided for @offlineBannerTitle.
