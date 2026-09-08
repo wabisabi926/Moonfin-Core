@@ -4,13 +4,14 @@ import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../l10n/current_app_localizations.dart';
 import '../../preference/user_preferences.dart';
 import '../../util/platform_detection.dart';
 import 'storage_path_service.dart';
 
 /// App-lifetime owner of the background_downloader [FileDownloader] singleton.
 ///
-/// [FileDownloader] is a process singleton whose updates listener must be
+/// [FileDownloader] is a process singleton whose group callbacks must be
 /// registered exactly once, before `start()`, or events delivered while the
 /// app was suspended are lost. DownloadService, by contrast, is torn down and
 /// re-created on every server switch, so it can't own that lifecycle itself.
@@ -138,21 +139,69 @@ class BackgroundDownloadCoordinator {
     );
     _configuredMaxConcurrentDownloads = maxConcurrent;
 
+    // Read once at start-up: a language change applies to the plugin's
+    // notifications from the next launch.
+    final l10n = currentAppLocalizations();
     FileDownloader().configureNotificationForGroup(
       mediaGroup,
-      running: const TaskNotification('Downloading', '{displayName}'),
+      running: TaskNotification(
+        l10n.downloadNotificationRunning,
+        // The plugin replaces its own tokens when it posts the notification.
+        // iOS posts one banner when the transfer starts and never updates
+        // it, and fills the progress tokens with blanks, so it only gets
+        // the name.
+        PlatformDetection.isIOS
+            ? '{displayName}'
+            : l10n.downloadNotificationTransfer(
+                '{displayName}',
+                '{progress}',
+                '{timeRemaining}',
+              ),
+      ),
       complete: null,
-      error: const TaskNotification('Download failed', '{displayName}'),
+      error: TaskNotification(
+        l10n.downloadNotificationFailedTitle,
+        '{displayName}',
+      ),
+      // One notification per running transfer, capped by the concurrency
+      // limit. A group notification would be a single card, but the plugin
+      // only refreshes it on status changes and its bar counts finished
+      // tasks rather than bytes, so a lone episode sits at 0% until done.
       progressBar: true,
-      groupNotificationId: 'moonfinMediaDownloads',
     );
 
-    FileDownloader().updates.listen(_route);
+    // Group callbacks take precedence over the global updates stream inside
+    // the plugin. 9.6.0's transfer manager registers its own callback for a
+    // group the moment its first task record is written and only chains to
+    // a callback that already exists, so a stream listener stops hearing
+    // from the group after the first update. Registering here, before
+    // start(), makes ours the one it chains to.
+    FileDownloader().registerCallbacks(
+      group: mediaGroup,
+      taskStatusCallback: _route,
+      taskProgressCallback: _route,
+    );
 
     await FileDownloader().start(
-      doRescheduleKilledTasks: true,
+      // The plugin would revive tasks killed with the app five seconds in,
+      // blind to whether the rest of the file still fits. DownloadService
+      // checks first and calls [rescheduleKilledTasks] for the survivors.
+      doRescheduleKilledTasks: false,
       autoCleanDatabase: true,
     );
+  }
+
+  /// Tasks the native engine still holds, across groups.
+  Future<Set<Task>> nativeTasks() async =>
+      (await FileDownloader().allTasks(allGroups: true)).toSet();
+
+  /// Re-enqueues tasks whose records outlived their native task. Records
+  /// deleted beforehand stay dead.
+  Future<void> rescheduleKilledTasks() async {
+    if (!isSupported) return;
+    try {
+      await FileDownloader().rescheduleKilledTasks();
+    } catch (_) {}
   }
 
   void _route(TaskUpdate update) {

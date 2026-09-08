@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:jellyfin_preference/jellyfin_preference.dart';
 import 'package:moonfin/data/database/offline_database.dart';
 import 'package:moonfin/data/models/aggregated_item.dart';
+import 'package:moonfin/data/models/download_source.dart';
 import 'package:moonfin/data/repositories/offline_repository.dart';
 import 'package:moonfin/data/services/download_notification_service.dart';
 import 'package:moonfin/data/services/download_service.dart';
@@ -347,6 +348,40 @@ void main() {
     );
   });
 
+  test(
+    'the native handoff wait covers a download still in the queue',
+    () async {
+      final itemsApi = _BlockingItemsApi();
+      service.dispose();
+      service = DownloadService(
+        _FakeClient(itemsApi),
+        DownloadNotificationService(),
+      );
+      final item = AggregatedItem(
+        id: 'movie-0',
+        serverId: 'http://127.0.0.1:1',
+        rawData: {...itemData, 'MediaSources': const []},
+      );
+
+      // A background run queues and then waits; the item is only a queued
+      // placeholder at that instant, so the wait must still hold the engine.
+      final download = service.downloadItem(item);
+      final wait = service.waitForNativeHandoff(
+        timeout: const Duration(seconds: 5),
+      );
+      var waited = false;
+      unawaited(wait.then((_) => waited = true));
+      await _waitForCalls(itemsApi, 1);
+      await Future<void>.delayed(const Duration(milliseconds: 600));
+      expect(waited, isFalse, reason: 'preparation is still in progress');
+
+      itemsApi.releaseNext();
+      await download;
+      await wait;
+      expect(service.activeDownloads['movie-0']?.error, isNotNull);
+    },
+  );
+
   test('queued downloads are listed and cancellable while waiting', () async {
     await prefs.set(UserPreferences.downloadConcurrentCount, 1);
     final itemsApi = _BlockingItemsApi();
@@ -554,6 +589,160 @@ void main() {
       expect(libraryService.activeDownloads.keys.toSet(), {'ep-2', 'ep-3'});
     });
   });
+
+  group('batch queueing', () {
+    late _BlockingItemsApi api;
+    late _CompletedRowsRepository repo;
+    late DownloadService batchService;
+
+    AggregatedItem movie(String id) => AggregatedItem(
+      id: id,
+      serverId: 'http://127.0.0.1:1',
+      rawData: _sizedItemData(id, 1024),
+    );
+
+    setUp(() {
+      api = _BlockingItemsApi();
+      repo = _CompletedRowsRepository(db);
+      GetIt.instance.unregister<OfflineRepository>();
+      GetIt.instance.registerSingleton<OfflineRepository>(repo);
+      batchService = DownloadService(
+        _FakeClient(api),
+        DownloadNotificationService(),
+      );
+    });
+
+    tearDown(() => batchService.dispose());
+
+    test('queueDownloads skips in-flight and repeated items', () async {
+      await prefs.set(UserPreferences.downloadConcurrentCount, 3);
+      repo.completedIds.add('done');
+      final inFlight = batchService.downloadItem(movie('running'));
+      await _waitForCalls(api, 1);
+
+      final batch = await batchService.queueDownloads([
+        movie('running'),
+        movie('done'),
+        movie('fresh'),
+        movie('fresh'),
+      ]);
+
+      // 'done' is already downloaded, but a manual batch is the user asking
+      // for it, so only the running transfer and the repeat are dropped.
+      expect(batch.queued.map((i) => i.id), ['done', 'fresh']);
+      expect(batchService.totalQueued, 2);
+      expect(batchService.inFlightItemIds, {'running', 'done', 'fresh'});
+
+      await _waitForCalls(api, 3);
+      api.releaseNext();
+      api.releaseNext();
+      api.releaseNext();
+      await inFlight.catchError((_) {});
+      await batch.done;
+      expect(batchService.totalQueued, 0);
+    });
+
+    test('an automatic batch leaves finished downloads alone', () async {
+      repo.completedIds.add('done');
+
+      final batch = await batchService.queueDownloads([
+        movie('done'),
+        movie('fresh'),
+      ], source: DownloadSource.auto);
+
+      expect(batch.queued.map((i) => i.id), ['fresh']);
+      expect(batchService.totalQueued, 1);
+
+      await _waitForCalls(api, 1);
+      api.releaseNext();
+      await batch.done;
+      expect(batchService.totalQueued, 0);
+    });
+
+    test('a batch starts its count from zero', () async {
+      // Every finished download bumps the counter, so leftovers from a
+      // one-off would push a later batch past its total early.
+      final single = batchService.downloadItem(movie('one-off'));
+      await _waitForCalls(api, 1);
+      api.releaseNext();
+      await single.catchError((_) {});
+
+      final batch = await batchService.queueDownloads([
+        movie('a'),
+        movie('b'),
+      ]);
+      expect(batchService.totalQueued, 2);
+      expect(batchService.completedCount, 0);
+      expect(batchService.isBatchDownloading, isTrue);
+
+      await _waitForCalls(api, 3);
+      api.releaseNext();
+      api.releaseNext();
+      await batch.done;
+    });
+
+    test(
+      'concurrent batches share one count until the last finishes',
+      () async {
+        await prefs.set(UserPreferences.downloadConcurrentCount, 3);
+        final first = await batchService.queueDownloads([
+          movie('a'),
+          movie('b'),
+        ]);
+        expect(batchService.totalQueued, 2);
+        expect(batchService.isBatchDownloading, isTrue);
+
+        final second = await batchService.queueDownloads([movie('c')]);
+        expect(batchService.totalQueued, 3, reason: 'counts are additive');
+
+        await _waitForCalls(api, 3);
+        api.releaseNext();
+        api.releaseNext();
+        await first.done;
+        expect(
+          batchService.totalQueued,
+          3,
+          reason: 'the count holds while another batch is still open',
+        );
+
+        api.releaseNext();
+        await second.done;
+        expect(batchService.totalQueued, 0);
+        expect(batchService.completedCount, 0);
+        expect(batchService.isBatchDownloading, isFalse);
+      },
+    );
+
+    test('an auto batch stamps its rows with the auto source', () async {
+      final batch = await batchService.queueDownloads([
+        movie('auto-1'),
+      ], source: DownloadSource.auto);
+      await _waitForCalls(api, 1);
+      api.releaseNext();
+      await batch.done;
+
+      expect(repo.upserts.single.downloadSource.value, 'auto');
+    });
+  });
+}
+
+/// Reports [completedIds] as finished downloads and records every upsert.
+class _CompletedRowsRepository extends _FakeOfflineRepository {
+  _CompletedRowsRepository(super.db);
+
+  final Set<String> completedIds = {};
+  final List<DownloadedItemsCompanion> upserts = [];
+
+  @override
+  Future<void> upsertItem(DownloadedItemsCompanion item) async {
+    upserts.add(item);
+  }
+
+  @override
+  Future<List<DownloadRef>> getDownloadRefs() async => [
+    for (final id in completedIds)
+      (itemId: id, downloadStatus: 2, downloadSource: 'manual'),
+  ];
 }
 
 Future<void> _waitForCalls(_BlockingItemsApi api, int expected) async {

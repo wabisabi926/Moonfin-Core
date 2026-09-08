@@ -1726,6 +1726,18 @@ abstract class AppLocalizations {
   /// **'Latest Audiobooks'**
   String get latestAudiobooks;
 
+  /// Row title for recently added comics in the book library
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Comics'**
+  String get latestComics;
+
+  /// Label for comic media format or section
+  ///
+  /// In en, this message translates to:
+  /// **'Comics'**
+  String get comics;
+
   /// Subtitle for a book series shelf entry showing how many books it contains
   ///
   /// In en, this message translates to:
@@ -1743,6 +1755,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Audiobook'**
   String get bookFormatAudiobook;
+
+  /// Semantic label for the comic format badge on library cards
+  ///
+  /// In en, this message translates to:
+  /// **'Comic'**
+  String get bookFormatComic;
+
+  /// Placeholder when no books are found for an author
+  ///
+  /// In en, this message translates to:
+  /// **'No books found for this author.'**
+  String get noBooksFound;
+
+  /// Description shown when a books library has no items
+  ///
+  /// In en, this message translates to:
+  /// **'This library does not contain any books, audiobooks, or comics yet.'**
+  String get noBooksFoundDescription;
 
   /// Reading progress label on book cards
   ///
@@ -2043,12 +2073,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No biography available for this author.'**
   String get noBiographyAvailable;
-
-  /// Placeholder when no books are found for an author
-  ///
-  /// In en, this message translates to:
-  /// **'No books found for this author.'**
-  String get noBooksFound;
 
   /// Error message when author details fail to load
   ///
@@ -19366,6 +19390,12 @@ abstract class AppLocalizations {
   /// **'Size: {size}  •  Format: {format}'**
   String fileSizeFormat(Object size, Object format);
 
+  /// No description provided for @dateCreatedFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Date Added: {date}'**
+  String dateCreatedFormat(Object date);
+
   /// No description provided for @showAllAudioTracks.
   ///
   /// In en, this message translates to:
@@ -20397,6 +20427,322 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adds a button to the menu for messages sent by your server admin'**
   String get serverMessagesShowButtonSubtitle;
+
+  /// Row in the download sheet of a series that subscribes it to automatic downloads
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-download new episodes'**
+  String get autoDownloadNewEpisodes;
+
+  /// Row in the download sheet of a series that is already subscribed; tapping removes the subscription
+  ///
+  /// In en, this message translates to:
+  /// **'Stop auto-download'**
+  String get autoDownloadStop;
+
+  /// Subtitle under the auto-download row explaining the keep-unwatched rule
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Downloads every new episode} =1{Downloads new episodes, up to 1 unwatched at a time} other{Downloads new episodes, up to {count} unwatched at a time}}'**
+  String autoDownloadKeepUnwatchedSubtitle(int count);
+
+  /// Subtitle under the stop auto-download row showing the subscription's quality
+  ///
+  /// In en, this message translates to:
+  /// **'On • {quality}'**
+  String autoDownloadStopSubtitle(String quality);
+
+  /// Shown under transcoded options when choosing the quality of an auto-download subscription
+  ///
+  /// In en, this message translates to:
+  /// **'Transcoded qualities only download while Moonfin is open. Original quality also downloads in the background.'**
+  String get autoDownloadTranscodedForegroundNote;
+
+  /// Shown under a running transcoded download that a subscription queued
+  ///
+  /// In en, this message translates to:
+  /// **'Transcoded downloads can\'t resume after an interruption and start over from the beginning. Original quality can resume.'**
+  String get autoDownloadTranscodedRunningNote;
+
+  /// Short note next to a followed series in a transcoded quality
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads only while Moonfin is open'**
+  String get autoDownloadForegroundOnly;
+
+  /// Title of the quality sheet when it is opened to create an auto-download subscription
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-download quality'**
+  String get autoDownloadQualityTitle;
+
+  /// Snackbar after subscribing a series
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-download enabled for {title}'**
+  String autoDownloadEnabledFor(String title);
+
+  /// Snackbar after unsubscribing a series
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-download stopped for {title}'**
+  String autoDownloadStoppedFor(String title);
+
+  /// Settings section header for auto-download subscriptions
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic downloads'**
+  String get autoDownloadSection;
+
+  /// Master switch for auto-download subscriptions
+  ///
+  /// In en, this message translates to:
+  /// **'Enable automatic downloads'**
+  String get autoDownloadEnable;
+
+  /// Explains the master switch
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads new episodes of the series you follow. Existing episodes can still be downloaded manually.'**
+  String get autoDownloadEnableSubtitle;
+
+  /// Setting that caps how many unwatched episodes per series stay downloaded
+  ///
+  /// In en, this message translates to:
+  /// **'Keep unwatched episodes'**
+  String get autoDownloadKeepUnwatched;
+
+  /// Option meaning no cap on kept unwatched episodes
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get autoDownloadKeepAll;
+
+  /// Setting that picks how soon an auto-downloaded episode is removed after it was watched
+  ///
+  /// In en, this message translates to:
+  /// **'Delete downloaded episodes'**
+  String get autoDownloadDelete;
+
+  /// Explains the delete-after-watching setting
+  ///
+  /// In en, this message translates to:
+  /// **'When to remove automatically downloaded episodes after you watch them'**
+  String get autoDownloadDeleteSubtitle;
+
+  /// Delete-after-watching option: keep episodes
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get autoDownloadDeleteNever;
+
+  /// Delete-after-watching option: remove at the next check once played
+  ///
+  /// In en, this message translates to:
+  /// **'Right after watching'**
+  String get autoDownloadDeleteImmediately;
+
+  /// Delete-after-watching option
+  ///
+  /// In en, this message translates to:
+  /// **'1 day after watching'**
+  String get autoDownloadDeleteAfterDay;
+
+  /// Delete-after-watching option
+  ///
+  /// In en, this message translates to:
+  /// **'1 week after watching'**
+  String get autoDownloadDeleteAfterWeek;
+
+  /// Setting that lets the system wake the app to check for new episodes
+  ///
+  /// In en, this message translates to:
+  /// **'Check in the background'**
+  String get autoDownloadBackgroundRefresh;
+
+  /// Explains the background refresh setting
+  ///
+  /// In en, this message translates to:
+  /// **'Allow the system to check for new episodes periodically while Moonfin is closed'**
+  String get autoDownloadBackgroundRefreshSubtitle;
+
+  /// Shown when iOS forbids background refresh for the app
+  ///
+  /// In en, this message translates to:
+  /// **'Background App Refresh is disabled for Moonfin. Enable it in iOS Settings.'**
+  String get autoDownloadBackgroundRefreshDenied;
+
+  /// Shown when Android restricts the app from running in the background
+  ///
+  /// In en, this message translates to:
+  /// **'Background usage is restricted for Moonfin in Android Settings.'**
+  String get autoDownloadBackgroundRestrictedAndroid;
+
+  /// Button that runs a subscription check immediately
+  ///
+  /// In en, this message translates to:
+  /// **'Check now'**
+  String get autoDownloadCheckNow;
+
+  /// Subtitle while a subscription check is running
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get autoDownloadChecking;
+
+  /// Subtitle when no subscription check has run
+  ///
+  /// In en, this message translates to:
+  /// **'Not checked yet'**
+  String get autoDownloadNeverChecked;
+
+  /// Subtitle summarising the last subscription check
+  ///
+  /// In en, this message translates to:
+  /// **'Last check {when}: {queued, plural, =0{nothing new} =1{1 episode queued} other{{queued} episodes queued}}'**
+  String autoDownloadLastCheck(String when, int queued);
+
+  /// Subtitle when the last subscription check hit an error
+  ///
+  /// In en, this message translates to:
+  /// **'Last check {when} failed: {error}'**
+  String autoDownloadLastCheckFailed(String when, String error);
+
+  /// Settings section header listing the series with auto-download on
+  ///
+  /// In en, this message translates to:
+  /// **'Followed series'**
+  String get autoDownloadFollowedSeries;
+
+  /// Shown in settings when no series is followed
+  ///
+  /// In en, this message translates to:
+  /// **'Open a series and choose \"Auto-download new episodes\" from its download menu'**
+  String get autoDownloadNoSubscriptions;
+
+  /// Tooltip on the button that removes a followed series
+  ///
+  /// In en, this message translates to:
+  /// **'Stop following'**
+  String get autoDownloadRemove;
+
+  /// Appended to the last-check summary when the storage limit stopped queueing
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough storage'**
+  String get autoDownloadStorageFull;
+
+  /// Last-check summary when Wi-Fi only is on and the device was on mobile data
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for WiFi'**
+  String get autoDownloadWaitingForWifi;
+
+  /// System notification title while a download transfers
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading'**
+  String get downloadNotificationRunning;
+
+  /// System notification title while a batch transfers; done is the 1-based position of the current item
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading ({done}/{total})'**
+  String downloadNotificationRunningBatch(int done, int total);
+
+  /// System notification body with the item label (for example Series S1E1) and its percentage
+  ///
+  /// In en, this message translates to:
+  /// **'{name} — {percent}%'**
+  String downloadNotificationProgress(String name, int percent);
+
+  /// System notification body for a transfer the native engine reports on. The engine fills in progress (a percentage such as 42%) and timeRemaining (mm:ss) itself.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} — {progress} · {timeRemaining}'**
+  String downloadNotificationTransfer(
+    String name,
+    String progress,
+    String timeRemaining,
+  );
+
+  /// System notification body before the size of a download is known
+  ///
+  /// In en, this message translates to:
+  /// **'{name}...'**
+  String downloadNotificationStarting(String name);
+
+  /// System notification title once a download or a batch has finished
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Download complete} other{Downloads complete}}'**
+  String downloadNotificationCompleteTitle(int count);
+
+  /// System notification body for one finished download; name is the item label (for example Series S1E1)
+  ///
+  /// In en, this message translates to:
+  /// **'{name} saved for offline'**
+  String downloadNotificationSaved(String name);
+
+  /// System notification body for a finished batch of mixed items
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item saved for offline} other{{count} items saved for offline}}'**
+  String downloadNotificationSavedCount(int count);
+
+  /// System notification body for a finished batch that all belongs to one series
+  ///
+  /// In en, this message translates to:
+  /// **'{series}: {count, plural, =1{1 episode} other{{count} episodes}}'**
+  String downloadNotificationSeriesEpisodes(String series, int count);
+
+  /// System notification title for a failed download
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed'**
+  String get downloadNotificationFailedTitle;
+
+  /// System notification body for a failed download
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {error}'**
+  String downloadNotificationFailedBody(String name, String error);
+
+  /// System notification title for a message sent by the server when it carries no header
+  ///
+  /// In en, this message translates to:
+  /// **'Remote message'**
+  String get serverMessagesNotificationTitle;
+
+  /// System notification body for a server message with empty text
+  ///
+  /// In en, this message translates to:
+  /// **'Message received'**
+  String get serverMessagesNotificationReceived;
+
+  /// Error shown when a download would exceed the storage limit set in the download settings
+  ///
+  /// In en, this message translates to:
+  /// **'Storage limit reached. Free up space or increase the limit.'**
+  String get downloadStorageLimitReached;
+
+  /// Error shown when a download would not fit on the device; needed and free are formatted sizes
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough storage: {needed} needed, {free} free'**
+  String downloadNotEnoughStorage(String needed, String free);
+
+  /// System notification title when the automatic check has to hold new episodes back
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough storage for new episodes'**
+  String get autoDownloadStorageFullTitle;
+
+  /// System notification body when the automatic check has to hold new episodes back; name is the label of the first one (for example Series S1E1) and size its formatted size
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{name} needs {size}.} other{{count} episodes are waiting for space.}} Free up space or raise the download limit.'**
+  String autoDownloadStorageFullBody(int count, String name, String size);
 }
 
 class _AppLocalizationsDelegate

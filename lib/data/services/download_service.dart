@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' show min;
 
 import 'package:background_downloader/background_downloader.dart' as bgd;
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -13,15 +14,20 @@ import 'package:path/path.dart' as p;
 import 'package:server_core/server_core.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../l10n/current_app_localizations.dart';
+import '../../platform/device_storage.dart';
 import '../../platform/ios_storage.dart';
 import '../../playback/subtitle_formats.dart';
 import '../../preference/user_preferences.dart';
 import '../../util/disk_free_space.dart';
+import '../../util/download_grouping.dart' show downloadNotificationLabel;
 import '../../util/download_utils.dart';
 import '../../util/platform_detection.dart';
 import '../database/offline_database.dart';
 import '../models/aggregated_item.dart';
 import '../models/download_quality.dart';
+import '../models/download_source.dart';
+import 'auto_download_downloader.dart';
 import '../repositories/offline_repository.dart';
 import 'background_download_coordinator.dart';
 import 'book_reader_service.dart';
@@ -244,14 +250,15 @@ class _NeverStartedException implements Exception {}
 enum _DownloadActivityPhase { start, progress, stop }
 
 class _QueuedDownload {
-  _QueuedDownload(this.item, this.quality);
+  _QueuedDownload(this.item, this.quality, this.source);
 
   final AggregatedItem item;
   final DownloadQuality quality;
+  final DownloadSource source;
   final Completer<void> completer = Completer<void>();
 }
 
-class DownloadService extends ChangeNotifier {
+class DownloadService extends ChangeNotifier implements AutoDownloadDownloader {
   final MediaServerClient _client;
   final DownloadNotificationService _notificationService;
   late final Dio _downloadDio;
@@ -266,6 +273,14 @@ class DownloadService extends ChangeNotifier {
       Map.unmodifiable(_activeDownloads);
 
   final Map<String, CancelToken> _cancelTokens = {};
+
+  /// Who asked for each active download, for UI that treats automatic
+  /// transfers differently. Kept for the entry's lifetime in the panel.
+  final Map<String, DownloadSource> _sources = {};
+
+  /// Who queued [itemId]: manual unless a subscription did.
+  DownloadSource sourceOf(String itemId) =>
+      _sources[itemId] ?? DownloadSource.manual;
   final Map<String, DateTime> _downloadStartTimes = {};
   final Map<String, double> _lastPersistedProgress = {};
   final Map<String, double> _lastNotifiedProgress = {};
@@ -327,6 +342,33 @@ class DownloadService extends ChangeNotifier {
 
   int _totalQueued = 0;
   int _completedCount = 0;
+
+  /// Series of the items finished in the current batch (null for a movie),
+  /// so the completion notice can name the show when there is only one.
+  final Set<String?> _completedSeries = {};
+
+  void _resetBatch() {
+    _totalQueued = 0;
+    _completedCount = 0;
+    _completedSeries.clear();
+  }
+
+  /// "Series S1E1" or the item's name, for the system notifications.
+  static String _notificationLabel(AggregatedItem item) =>
+      downloadNotificationLabel(
+        name: item.name,
+        seriesName: item.seriesName,
+        season: item.parentIndexNumber,
+        episode: item.indexNumber,
+      );
+
+  /// Batches still awaiting completion. Counters reset only when the last
+  /// one finishes, so an automatic batch can run beside a manual one.
+  int _openBatches = 0;
+
+  /// Bumped by [cancelAll] so a cancelled batch that finishes late cannot
+  /// reset the counters of a batch queued after it.
+  int _batchGeneration = 0;
   int get totalQueued => _totalQueued;
   int get completedCount => _completedCount;
   bool get isBatchDownloading =>
@@ -362,6 +404,13 @@ class DownloadService extends ChangeNotifier {
   }
 
   bool isDownloading(String itemId) => _activeDownloads.containsKey(itemId);
+
+  /// Items queued or transferring right now: neither finished nor failed.
+  @override
+  Set<String> get inFlightItemIds => {
+    for (final entry in _activeDownloads.entries)
+      if (!entry.value.isComplete && entry.value.error == null) entry.key,
+  };
 
   /// The app-lifetime coordinator for the native download engine, or null
   /// when it isn't registered (unsupported platform, tests).
@@ -480,7 +529,11 @@ class DownloadService extends ChangeNotifier {
     // cancelled leftover token from a previous attempt is replaced.
     _cancelTokens[queued.item.id] = CancelToken();
     try {
-      await _downloadItemNow(queued.item, quality: queued.quality);
+      await _downloadItemNow(
+        queued.item,
+        quality: queued.quality,
+        source: queued.source,
+      );
       if (!queued.completer.isCompleted) queued.completer.complete();
     } catch (error, stackTrace) {
       // If the attempt escaped before creating its real progress entry, the
@@ -541,6 +594,106 @@ class DownloadService extends ChangeNotifier {
     return false;
   }
 
+  /// Whether the Wi-Fi-only preference allows a download to start now.
+  @override
+  Future<bool> wifiPolicyAllowsDownload() => _checkWifiPolicy();
+
+  @override
+  Future<bool> canTransferInBackground(DownloadQuality quality) async {
+    // Chunked transcodes cannot be promoted to the plugin's foreground
+    // service on Android nor held by an iOS background slot.
+    if (quality.isTranscoded) return false;
+    final root = await _storagePath.getOfflineRoot();
+    return _pluginEngineFor(
+      quality,
+      destinationOnRemovableStorage: await _storagePath.isOnRemovableStorage(
+        root.path,
+      ),
+    );
+  }
+
+  @override
+  Future<void> waitForNativeHandoff({required Duration timeout}) async {
+    final deadline = DateTime.now().add(timeout);
+    while (_preparingDownloads && DateTime.now().isBefore(deadline)) {
+      await Future<void>.delayed(const Duration(milliseconds: 250));
+    }
+  }
+
+  /// A download that has no native task yet: still waiting for a
+  /// concurrency slot, or past that but in its metadata fetch, path setup,
+  /// or the enqueue call itself. A freshly queued item is a placeholder
+  /// until the slot drains, so leaving those out would end the wait before
+  /// the transfer even started.
+  bool get _preparingDownloads => _activeDownloads.entries.any(
+    (entry) =>
+        !entry.value.isComplete &&
+        entry.value.error == null &&
+        (_pluginContexts[entry.key]?.currentTaskId.isEmpty ?? true),
+  );
+
+  /// Kept free on the device, so a download never fills the volume.
+  static const _freeSpaceMargin = 200 * 1024 * 1024;
+
+  /// Bytes admitted but not yet committed count against every budget, or
+  /// several concurrently starting downloads could each pass the check
+  /// against the same baseline and overshoot together.
+  int get _reservedBytes =>
+      _reservedStorageBytes.values.fold<int>(0, (sum, bytes) => sum + bytes);
+
+  Future<int?> _deviceFreeBytes() async {
+    try {
+      final root = await _storagePath.getOfflineRoot();
+      final free = await DeviceStorage.instance.freeBytes(root.path);
+      debugPrint('[DownloadService] free space at ${root.path}: $free');
+      return free;
+    } catch (e) {
+      debugPrint('[DownloadService] free space unknown: $e');
+      return null;
+    }
+  }
+
+  /// Room for new downloads: under the storage limit when one is set, and
+  /// on the device itself when the platform reports its free space.
+  @override
+  Future<int?> storageHeadroomBytes() async {
+    final reserved = _reservedBytes;
+    int? headroom;
+    final limitMb = _prefs.get(UserPreferences.downloadStorageLimitMb);
+    if (limitMb > 0) {
+      final used = await _offlineRepo.getTotalStorageUsed();
+      headroom = limitMb * 1024 * 1024 - used - reserved;
+    }
+    final free = await _deviceFreeBytes();
+    if (free != null) {
+      final onDevice = free - _freeSpaceMargin - reserved;
+      headroom = headroom == null ? onDevice : min(headroom, onDevice);
+    }
+    debugPrint(
+      '[DownloadService] headroom: limit=${limitMb}MB free=$free '
+      'reserved=$reserved -> $headroom',
+    );
+    return headroom?.clamp(0, 1 << 62);
+  }
+
+  /// Why [estimatedBytes] more cannot be downloaded right now, or null.
+  Future<String?> _storageRefusal(int estimatedBytes) async {
+    final l10n = currentAppLocalizations();
+    if (!await _checkStorageLimit(estimatedBytes)) {
+      return l10n.downloadStorageLimitReached;
+    }
+    final free = await _deviceFreeBytes();
+    debugPrint('[DownloadService] admit ${formatBytes(estimatedBytes)}? free=$free');
+    if (free != null &&
+        estimatedBytes + _reservedBytes + _freeSpaceMargin > free) {
+      return l10n.downloadNotEnoughStorage(
+        formatBytes(estimatedBytes),
+        formatBytes(free),
+      );
+    }
+    return null;
+  }
+
   Future<bool> _checkWifiPolicy() async {
     if (!_prefs.get(UserPreferences.downloadWifiOnly)) return true;
     if (PlatformDetection.isAppleTV) return true;
@@ -552,14 +705,7 @@ class DownloadService extends ChangeNotifier {
     final limitMb = _prefs.get(UserPreferences.downloadStorageLimitMb);
     if (limitMb <= 0) return true;
     final used = await _offlineRepo.getTotalStorageUsed();
-    // Bytes admitted but not yet committed count against the limit, or
-    // several concurrently starting downloads could each pass the check
-    // against the same baseline and overshoot the cap together.
-    final reserved = _reservedStorageBytes.values.fold<int>(
-      0,
-      (sum, bytes) => sum + bytes,
-    );
-    return (used + reserved + estimatedBytes) <= limitMb * 1024 * 1024;
+    return (used + _reservedBytes + estimatedBytes) <= limitMb * 1024 * 1024;
   }
 
   StoragePathService get _storagePath => GetIt.instance<StoragePathService>();
@@ -993,6 +1139,7 @@ class DownloadService extends ChangeNotifier {
   }) async {
     // Both engines finish here, so this is the one place a batch can be counted.
     _completedCount++;
+    _completedSeries.add(item.type == 'Episode' ? item.seriesName : null);
 
     Future<void> runBestEffort(Future<void> task, Duration timeout) async {
       try {
@@ -1029,8 +1176,11 @@ class DownloadService extends ChangeNotifier {
     if (_totalQueued <= 1 || _completedCount >= _totalQueued) {
       await runBestEffort(
         _notificationService.showComplete(
-          itemName: item.name,
+          itemName: _notificationLabel(item),
           batchTotal: _totalQueued > 1 ? _completedCount : 0,
+          batchSeries: _completedSeries.length == 1
+              ? _completedSeries.single
+              : null,
         ),
         const Duration(seconds: 10),
       );
@@ -1118,7 +1268,7 @@ class DownloadService extends ChangeNotifier {
     await _coordinator!.ensureInitialized();
     final ctx = _MediaDownloadContext(
       itemId: item.id,
-      displayName: item.name,
+      displayName: _notificationLabel(item),
       quality: quality,
       savePath: savePath,
       onReceiveProgress: onReceiveProgress,
@@ -1385,10 +1535,7 @@ class DownloadService extends ChangeNotifier {
       final row = await _offlineRepo.getItem(itemId);
       if (row == null || row.downloadStatus == 2) return;
       final savePath = _savePathForTask(task) ?? await task.filePath();
-      final quality = DownloadQuality.values.firstWhere(
-        (q) => q.name == row.qualityPreset,
-        orElse: () => DownloadQuality.original,
-      );
+      final quality = DownloadQuality.fromName(row.qualityPreset);
       await _persistCompletedFile(itemId, savePath, quality);
       notifyListeners();
     } catch (e) {
@@ -1901,11 +2048,12 @@ class DownloadService extends ChangeNotifier {
   Future<void> downloadItem(
     AggregatedItem item, {
     DownloadQuality quality = DownloadQuality.original,
+    DownloadSource source = DownloadSource.manual,
   }) {
     // Browser downloads are delegated to the platform and do not have a
     // process-owned transfer to schedule.
     if (PlatformDetection.isWeb) {
-      return _downloadItemNow(item, quality: quality);
+      return _downloadItemNow(item, quality: quality, source: source);
     }
 
     if (_cancelAllRequested) {
@@ -1922,7 +2070,8 @@ class DownloadService extends ChangeNotifier {
     final active = _activeDownloads[item.id];
     if (active != null && active.error == null) return Future.value();
 
-    final queued = _QueuedDownload(item, quality);
+    final queued = _QueuedDownload(item, quality, source);
+    _sources[item.id] = source;
     _pendingDownloadByItemId[item.id] = queued;
     _pendingDownloads.addLast(queued);
     // List the queued item immediately so download lists can show (and
@@ -1942,6 +2091,7 @@ class DownloadService extends ChangeNotifier {
   Future<void> _downloadItemNow(
     AggregatedItem item, {
     DownloadQuality quality = DownloadQuality.original,
+    DownloadSource source = DownloadSource.manual,
   }) async {
     if (PlatformDetection.isWeb) {
       try {
@@ -2024,15 +2174,22 @@ class DownloadService extends ChangeNotifier {
       final fullItem = await _ensureFullItem(item);
       if (preparationCancelled()) return;
       final estimatedSize = estimateDownloadSizeBytes(fullItem, quality);
-      if (!await _checkStorageLimit(estimatedSize)) {
+      final refusal = await _storageRefusal(estimatedSize);
+      if (refusal != null) {
         _activeDownloads[item.id] = DownloadProgress(
           itemId: item.id,
           fileName: item.name,
-          error: 'Storage limit reached. Free up space or increase the limit.',
+          error: refusal,
           quality: quality,
         );
-        _emitError(
-          '${item.name}: Storage limit reached. Free up space or increase the limit.',
+        _emitError('${item.name}: $refusal');
+        // Nothing reaches the native engine, so no notification would
+        // come from there; say it here, for a queue nobody is watching.
+        unawaited(
+          _notificationService.showError(
+            itemName: _notificationLabel(item),
+            error: refusal,
+          ),
         );
         notifyListeners();
         return;
@@ -2090,6 +2247,7 @@ class DownloadService extends ChangeNotifier {
           metadataJson: Value(jsonEncode(fullItem.rawData)),
           downloadStatus: const Value(1),
           qualityPreset: Value(quality.name),
+          downloadSource: Value(source.name),
           seriesId: Value(item.seriesId),
           seasonId: Value(item.seasonId),
           seriesName: Value(item.seriesName),
@@ -2110,6 +2268,10 @@ class DownloadService extends ChangeNotifier {
 
       final initialProgress = _initialProgressForQuality(quality);
 
+      // Before the first transfer: iOS drops notifications, the plugin's
+      // included, until the user has answered the permission prompt.
+      await _notificationService.requestPermissionIfNeeded();
+
       _activeDownloads[item.id] = DownloadProgress(
         itemId: item.id,
         fileName: fileName,
@@ -2121,7 +2283,7 @@ class DownloadService extends ChangeNotifier {
         destinationOnRemovableStorage: destinationOnRemovableStorage,
       )) {
         await _notificationService.showProgress(
-          itemName: item.name,
+          itemName: _notificationLabel(item),
           progress: initialProgress,
           batchTotal: _totalQueued,
           batchCompleted: _completedCount,
@@ -2221,7 +2383,7 @@ class DownloadService extends ChangeNotifier {
             _shouldUpdateSystemNotification(item.id, progress)) {
           unawaited(
             _notificationService.showProgress(
-              itemName: item.name,
+              itemName: _notificationLabel(item),
               progress: progress,
               batchTotal: _totalQueued,
               batchCompleted: _completedCount,
@@ -2528,39 +2690,109 @@ class DownloadService extends ChangeNotifier {
     }());
   }
 
+  /// Queues every item in [items] that is not already downloaded or in
+  /// flight. Resolves once the whole batch has finished, succeeded or not.
   Future<void> downloadItems(
     List<AggregatedItem> items, {
     DownloadQuality quality = DownloadQuality.original,
+    DownloadSource source = DownloadSource.manual,
   }) async {
-    _cancelAllRequested = false;
-    _totalQueued = items.length;
-    _completedCount = 0;
+    final batch = await queueDownloads(items, quality: quality, source: source);
+    await batch.done;
+  }
+
+  /// Like [downloadItems] but returns as soon as the batch is queued, so a
+  /// caller that must not wait hours for the transfers (the auto-download
+  /// check) still learns what was queued.
+  @override
+  Future<DownloadBatch> queueDownloads(
+    List<AggregatedItem> items, {
+    DownloadQuality quality = DownloadQuality.original,
+    DownloadSource source = DownloadSource.manual,
+  }) async {
+    // "Cancel all" is a user decision; only the user's next batch may lift
+    // it while the cancelled transfers are still winding down.
+    if (_cancelAllRequested) {
+      if (source == DownloadSource.manual || _canClearCancelAllGate()) {
+        _cancelAllRequested = false;
+      } else {
+        return DownloadBatch(queued: const [], done: Future.value());
+      }
+    }
+    final toQueue = await _withoutDownloadedOrInFlight(
+      items,
+      skipCompleted: source != DownloadSource.manual,
+    );
+    if (toQueue.isEmpty) {
+      return DownloadBatch(queued: const [], done: Future.value());
+    }
+
+    final generation = _batchGeneration;
+    // Single downloads count themselves too, so a batch opening on top of
+    // their leftovers would reach its total early and call itself finished
+    // while transfers are still running.
+    if (_openBatches == 0) {
+      _resetBatch();
+    }
+    _openBatches++;
+    _totalQueued += toQueue.length;
     notifyListeners();
 
     final downloads = <Future<void>>[];
-    for (final item in items) {
+    for (final item in toQueue) {
       // One failing item must not reject the whole batch; its failure is
       // already recorded as an error entry on the service.
-      downloads.add(downloadItem(item, quality: quality).catchError((_) {}));
+      downloads.add(
+        downloadItem(item, quality: quality, source: source).catchError((_) {}),
+      );
     }
-    try {
-      await Future.wait(downloads);
-    } finally {
-      _totalQueued = 0;
-      _completedCount = 0;
-      await _notificationService.dismiss();
+    final done = Future.wait(downloads).then((_) {}).whenComplete(() async {
+      // A cancelled batch's counters were already cleared by cancelAll.
+      if (generation != _batchGeneration) return;
+      _openBatches--;
+      if (_openBatches == 0) {
+        _resetBatch();
+        await _notificationService.dismiss();
+      }
       notifyListeners();
-    }
+    });
+    return DownloadBatch(queued: toQueue, done: done);
+  }
+
+  /// [skipCompleted] keeps the auto-downloader from re-queueing what it
+  /// already holds. Manual batches leave it off, where a downloaded item is
+  /// the user asking for another quality and dropping it would leave the
+  /// button doing nothing.
+  Future<List<AggregatedItem>> _withoutDownloadedOrInFlight(
+    List<AggregatedItem> items, {
+    required bool skipCompleted,
+  }) async {
+    final completed = skipCompleted
+        ? {
+            for (final ref in await _offlineRepo.getDownloadRefs())
+              if (ref.downloadStatus == 2) ref.itemId,
+          }
+        : const <String>{};
+    final inFlight = inFlightItemIds;
+    final seen = <String>{};
+    return [
+      for (final item in items)
+        if (seen.add(item.id) &&
+            !completed.contains(item.id) &&
+            !inFlight.contains(item.id))
+          item,
+    ];
   }
 
   /// Fields requested for batch fetches so the download sheet can estimate
   /// sizes and filter on watched state before anything is queued.
   static const _batchFetchFields =
-      'MediaStreams,MediaSources,RunTimeTicks,UserData';
+      'MediaStreams,MediaSources,RunTimeTicks,UserData,DateCreated';
 
   /// The episodes of [seriesId], or of one of its seasons when [seasonId] is
   /// given, with runtime, media sources and user data populated so sizes and
   /// watched state are known before anything is queued.
+  @override
   Future<List<AggregatedItem>> fetchEpisodes(
     String seriesId, {
     String? seasonId,
@@ -2643,6 +2875,7 @@ class DownloadService extends ChangeNotifier {
     return allSucceeded;
   }
 
+  @override
   Future<bool> deleteDownloadedFiles(AggregatedItem item) async {
     // Drop any finished (complete or errored) active entry so a fresh
     // downloadItem call isn't blocked by stale in-memory state.
@@ -3042,8 +3275,9 @@ class DownloadService extends ChangeNotifier {
             .then((_) {}, onError: (_) {}),
       );
     }
-    _totalQueued = 0;
-    _completedCount = 0;
+    _batchGeneration++;
+    _openBatches = 0;
+    _resetBatch();
     _notificationService.dismiss();
     notifyListeners();
   }
@@ -3091,8 +3325,7 @@ class DownloadService extends ChangeNotifier {
     _activeDownloads.clear();
     _cancelTokens.clear();
     _downloadStartTimes.clear();
-    _totalQueued = 0;
-    _completedCount = 0;
+    _resetBatch();
     await _notificationService.dismiss();
     notifyListeners();
   }
@@ -3102,6 +3335,7 @@ class DownloadService extends ChangeNotifier {
     // finished while the app was dead, still be running natively, or have
     // been rescheduled by the plugin at startup.
     var pluginRecords = <String, bgd.TaskRecord>{};
+    final refused = <String>{};
     if (_pluginEngineSupported) {
       try {
         await _coordinator!.ensureInitialized();
@@ -3113,12 +3347,14 @@ class DownloadService extends ChangeNotifier {
             if (_itemIdForTask(record.task) != null)
               _itemIdForTask(record.task)!: record,
         };
+        refused.addAll(await _refuseKilledTasksThatCannotFit(pluginRecords));
       } catch (_) {}
     }
 
     final allItems = await _offlineRepo.getItems();
 
     for (final item in allItems) {
+      if (refused.contains(item.itemId)) continue;
       if (item.downloadStatus == 1) {
         final record = pluginRecords[item.itemId];
         if (record != null && await _recoverFromTaskRecord(item, record)) {
@@ -3130,10 +3366,7 @@ class DownloadService extends ChangeNotifier {
         }
         if (item.metadataJson.isNotEmpty) {
           final qualityName = item.qualityPreset;
-          final quality = DownloadQuality.values.firstWhere(
-            (q) => q.name == qualityName,
-            orElse: () => DownloadQuality.original,
-          );
+          final quality = DownloadQuality.fromName(qualityName);
           final isStatic = !quality.isTranscoded;
           if (isStatic) {
             await _offlineRepo.updateDownloadStatus(item.itemId, 0);
@@ -3165,6 +3398,11 @@ class DownloadService extends ChangeNotifier {
       }
     }
 
+    // Killed transfers that still fit come back now; the plugin no longer
+    // revives them on its own (see BackgroundDownloadCoordinator).
+    if (_pluginEngineSupported) {
+      unawaited(_coordinator!.rescheduleKilledTasks());
+    }
     unawaited(sweepStagingDir());
   }
 
@@ -3252,10 +3490,48 @@ class DownloadService extends ChangeNotifier {
     }
   }
 
+  /// Transfers the plugin would revive after a kill, refused now when the
+  /// rest of the file cannot fit, so no "Downloading" ever shows for them.
+  /// Returns the item ids refused; their rows are marked failed.
+  Future<Set<String>> _refuseKilledTasksThatCannotFit(
+    Map<String, bgd.TaskRecord> records,
+  ) async {
+    final refused = <String>{};
+    if (records.isEmpty) return refused;
+    final native = await _coordinator!.nativeTasks();
+    for (final entry in records.entries) {
+      final record = entry.value;
+      final killed =
+          (record.status == bgd.TaskStatus.enqueued ||
+              record.status == bgd.TaskStatus.running) &&
+          !native.contains(record.task);
+      if (!killed) continue;
+      final remaining = remainingTransferBytes(
+        expectedFileSize: record.expectedFileSize,
+        progress: record.progress,
+      );
+      if (remaining == null) continue;
+      final refusal = await _storageRefusal(remaining);
+      if (refusal == null) continue;
+      await bgd.FileDownloader().database.deleteRecordWithId(
+        record.task.taskId,
+      );
+      await _offlineRepo.updateDownloadStatus(entry.key, 3, error: refusal);
+      final label = record.task.displayName;
+      _emitError('$label: $refusal');
+      unawaited(
+        _notificationService.showError(itemName: label, error: refusal),
+      );
+      refused.add(entry.key);
+    }
+    return refused;
+  }
+
   /// Re-attaches in-memory state to a native task that is still alive
   /// (running, enqueued, or rescheduled by the plugin at startup), so its
   /// progress shows in the UI and its completion is finalized.
   void _adoptRunningTask(DownloadedItem row, bgd.TaskRecord record) {
+    _sources[row.itemId] = DownloadSource.fromName(row.downloadSource);
     final itemId = row.itemId;
     if (_pluginContexts.containsKey(itemId)) return;
     final savePath = _savePathForTask(record.task);
@@ -3264,15 +3540,17 @@ class DownloadService extends ChangeNotifier {
       // completion is handled by _handleUnattendedTaskUpdate instead.
       return;
     }
-    final quality = DownloadQuality.values.firstWhere(
-      (q) => q.name == row.qualityPreset,
-      orElse: () => DownloadQuality.original,
-    );
+    final quality = DownloadQuality.fromName(row.qualityPreset);
     final fileName = p.basename(savePath);
 
     final ctx = _MediaDownloadContext(
       itemId: itemId,
-      displayName: row.name,
+      displayName: downloadNotificationLabel(
+        name: row.name,
+        seriesName: row.seriesName,
+        season: row.parentIndexNumber,
+        episode: row.indexNumber,
+      ),
       quality: quality,
       savePath: savePath,
       onReceiveProgress: (received, total, {bytesPerSecond, etaSeconds}) {
