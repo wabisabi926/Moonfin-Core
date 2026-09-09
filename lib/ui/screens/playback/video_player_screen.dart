@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,6 +63,7 @@ import '../../../util/focus/dpad_keys.dart';
 import '../../../util/play_method_label.dart';
 import '../../../util/platform_detection.dart';
 import '../../../util/playback_time_label.dart';
+import '../../../util/server_url.dart';
 import '../../navigation/destinations.dart';
 import '../../widgets/adaptive/sf_symbol.dart';
 import '../../widgets/subtitle_preview.dart';
@@ -2598,6 +2600,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     });
   }
 
+  /// A viewer reaching for the remote has answered the prompt's question.
+  void _noteViewerActivity() => _consecutiveEpisodes = 0;
+
   /// Returns false when the viewer chose to stop, so the caller can drop the
   /// queue advance it was about to make.
   Future<bool> _checkStillWatching() async {
@@ -2622,6 +2627,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   }
 
   void _skipCurrentSegment() {
+    _noteViewerActivity();
     final replaceSkipOutroWithNextUp = _prefs.get(
       UserPreferences.replaceSkipOutroWithNextUp,
     );
@@ -2946,6 +2952,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   }
 
   void _seekRelative(int ms, {bool showControls = true}) {
+    _noteViewerActivity();
     _suppressSeekPrompts();
     final target = _state.position + Duration(milliseconds: ms);
     final clamped = Duration(
@@ -2962,6 +2969,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   }
 
   void _seekRelativeAccumulate(int ms) {
+    _noteViewerActivity();
     _suppressSeekPrompts();
     // While a released commit is still converging, the pending target is
     // already null but _state.position still reads pre-seek - basing a quick
@@ -3041,6 +3049,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   /// session. Called on Slider drag-end and on play during a paused D-pad
   /// scrub session - the actual "go" signals, not a timer guess.
   void _commitPendingScrub() {
+    _noteViewerActivity();
     _isPausedScrubActive = false;
     final pendingTarget = _pendingScrubSeekTarget;
     if (pendingTarget == null) return;
@@ -3119,6 +3128,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   }
 
   void _togglePlayPause() {
+    _noteViewerActivity();
     if (_state.isPlaying) {
       _manager.pause();
       return;
@@ -5231,24 +5241,29 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     required MediaServerClient client,
     TrickplayTileResolution? resolution,
   }) {
+    final String? url;
     if (!info.usesIndividualFrames) {
-      return client.imageApi.getTrickplayTileImageUrl(
+      url = client.imageApi.getTrickplayTileImageUrl(
         itemId,
         width: info.width,
         index: imageIndex,
         mediaSourceId: _trickplayMediaSourceId,
       );
+    } else if (imageIndex < 0 || imageIndex >= info.frames.length) {
+      return null;
+    } else {
+      final frame = info.frames[imageIndex];
+      url = client.trickplayApi?.getFrameImageUrl(
+        itemId,
+        width: info.width,
+        positionTicks: resolution?.positionTicks ?? frame.positionTicks,
+        imageTag: resolution?.imageTag ?? frame.imageTag,
+        mediaSourceId: _trickplayMediaSourceId,
+      );
     }
-
-    if (imageIndex < 0 || imageIndex >= info.frames.length) return null;
-    final frame = info.frames[imageIndex];
-    return client.trickplayApi?.getFrameImageUrl(
-      itemId,
-      width: info.width,
-      positionTicks: resolution?.positionTicks ?? frame.positionTicks,
-      imageTag: resolution?.imageTag ?? frame.imageTag,
-      mediaSourceId: _trickplayMediaSourceId,
-    );
+    // The browser loads these through an element that leaves our headers
+    // behind, and the server guards them, so the token travels in the url.
+    return kIsWeb ? tokenAuthedUrl(client, url) : url;
   }
 
   Widget _buildTvTransportRow() {

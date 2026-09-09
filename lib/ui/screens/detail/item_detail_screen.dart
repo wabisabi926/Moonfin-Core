@@ -1322,6 +1322,7 @@ class _DetailContentState extends State<_DetailContent> {
     return QuickReturnWrapper(
       scrollController: _scrollController,
       topFocusNode: widget.initialFocusNode,
+      hideNavbar: true,
       child: Focus(
         focusNode: _contentFocusNode,
         onKeyEvent: (node, event) {
@@ -8836,49 +8837,51 @@ class DetailActionButtonsState extends State<DetailActionButtons> {
               return childType == 'Audio' || childType == 'AudioBook';
             }
 
-            final data = await client.itemsApi.getItems(
-              parentId: item.id,
-              includeItemTypes: const ['Audio', 'AudioBook'],
-              sortBy: 'ParentIndexNumber,IndexNumber,SortName',
-              fields: audioChildFields,
-            );
-            // A container audiobook lists its chapters as child items. A
-            // single-file audiobook is a leaf: Jellyfin answers a ParentId query
-            // against a leaf by ignoring the filter and returning the top-level
-            // libraries (CollectionFolder/UserView), so keep only real tracks.
-            final rawChildren = (data['Items'] as List?) ?? const [];
-            final childItems = rawChildren.where(isAudioChild).toList();
-            if (childItems.isNotEmpty) {
-              final children = _mapRawItemsForServer(childItems, item.serverId);
-              int startIndex = 0;
-              Duration startPos = Duration.zero;
-              if (resume) {
-                final resumeIdx = children.indexWhere(
-                  (e) =>
-                      !e.isPlayed &&
-                      ((e.playbackPosition?.inMilliseconds ?? 0) > 0 ||
-                          (e.playedPercentage ?? 0) > 0),
-                );
-                if (resumeIdx >= 0) {
-                  startIndex = resumeIdx;
-                  startPos =
-                      children[resumeIdx].playbackPosition ?? Duration.zero;
-                } else {
-                  final nextUnplayed = children.indexWhere((e) => !e.isPlayed);
-                  if (nextUnplayed >= 0) {
-                    startIndex = nextUnplayed;
+            // A container audiobook lists its chapters as child items, so only
+            // a folder is worth asking about. A ParentId query against a leaf
+            // times the server out, and where it answers it ignores the filter
+            // and hands back the top level libraries, which the check drops.
+            if (item.isFolder) {
+              final data = await client.itemsApi.getItems(
+                parentId: item.id,
+                includeItemTypes: const ['Audio', 'AudioBook'],
+                sortBy: 'ParentIndexNumber,IndexNumber,SortName',
+                fields: audioChildFields,
+              );
+              final rawChildren = (data['Items'] as List?) ?? const [];
+              final childItems = rawChildren.where(isAudioChild).toList();
+              if (childItems.isNotEmpty) {
+                final children = _mapRawItemsForServer(childItems, item.serverId);
+                int startIndex = 0;
+                Duration startPos = Duration.zero;
+                if (resume) {
+                  final resumeIdx = children.indexWhere(
+                    (e) =>
+                        !e.isPlayed &&
+                        ((e.playbackPosition?.inMilliseconds ?? 0) > 0 ||
+                            (e.playedPercentage ?? 0) > 0),
+                  );
+                  if (resumeIdx >= 0) {
+                    startIndex = resumeIdx;
+                    startPos =
+                        children[resumeIdx].playbackPosition ?? Duration.zero;
+                  } else {
+                    final nextUnplayed = children.indexWhere((e) => !e.isPlayed);
+                    if (nextUnplayed >= 0) {
+                      startIndex = nextUnplayed;
+                    }
                   }
                 }
+                await runPlaybackStart(
+                  launchSession,
+                  () => manager.playItems(
+                    children,
+                    startIndex: startIndex,
+                    startPosition: startPos,
+                  ),
+                );
+                break;
               }
-              await runPlaybackStart(
-                launchSession,
-                () => manager.playItems(
-                  children,
-                  startIndex: startIndex,
-                  startPosition: startPos,
-                ),
-              );
-              break;
             }
 
             // Leaf audiobook: enqueue the sibling chapters from the parent
