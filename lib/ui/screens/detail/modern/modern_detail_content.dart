@@ -24,6 +24,7 @@ import '../../../../util/detail_playback_info.dart';
 import '../../../../util/detail_track_highlight.dart';
 import '../../../../util/direct_play_reasons_formatter.dart';
 import '../../../../util/episode_playability.dart';
+import '../../../../util/item_watch_state.dart';
 import '../../../../util/overview_text.dart';
 import '../../../../util/playback_time_label.dart';
 import '../../../../util/platform_detection.dart';
@@ -41,6 +42,7 @@ import '../../../widgets/focus/focusable_toolbar_button.dart';
 import '../../../widgets/navigation_layout.dart';
 import '../../../widgets/quick_return_wrapper.dart';
 import '../../../widgets/top_toolbar.dart';
+import '../../../widgets/skeleton/skeleton_home_row.dart';
 import '../../../../data/repositories/seerr_repository.dart';
 import '../../../../data/repositories/tmdb_repository.dart';
 import '../../../../data/services/seerr/seerr_api_models.dart';
@@ -75,6 +77,7 @@ import '../../../widgets/seerr/seerr_request_dialog.dart';
 import '../../../widgets/seerr/seerr_item_status.dart';
 import '../../../widgets/seerr/seerr_status_pill.dart';
 import '../../../widgets/seerr/seerr_stats_card.dart';
+import '../../../widgets/seerr_icons.dart';
 
 double _desktopUiScale({UserPreferences? prefs}) {
   final effectivePrefs = prefs ?? GetIt.instance<UserPreferences>();
@@ -182,6 +185,8 @@ class ModernDetailContent extends StatefulWidget {
 
 class _ModernDetailContentState extends State<ModernDetailContent> {
   int _selectedTab = 0;
+  String? _selectedTabId;
+  String? _lastItemId;
   bool _landscape = true;
 
   /// Expanded Tabs preference: when on, tabs behave like the search pill, with
@@ -542,6 +547,13 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       });
       NavigationLayout.focusDetailsPlayButtonNotifier.value = widget.initialFocusNode;
     }
+    final initialItem = _vm.item;
+    if (initialItem != null && initialItem.type == 'Episode') {
+      if (initialItem.seriesLogoImageTag != null && initialItem.seriesId != null) {
+        _seriesLogoTag = initialItem.seriesLogoImageTag;
+        _seriesLogoId = initialItem.seriesId;
+      }
+    }
     _loadSeriesLogo();
     _loadStudioLogos();
     _loadSeerrAppearances().then((_) {
@@ -597,6 +609,13 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       if (_vm.item?.type == 'BoxSet' &&
           (_vm.state == ItemDetailState.loading || _vm.playlistItems.isEmpty)) {
         _boxSetLastTriggerMaxExtent = -1;
+      }
+      final currentItem = _vm.item;
+      if (currentItem != null && currentItem.type == 'Episode' && _seriesLogoTag == null) {
+        if (currentItem.seriesLogoImageTag != null && currentItem.seriesId != null) {
+          _seriesLogoTag = currentItem.seriesLogoImageTag;
+          _seriesLogoId = currentItem.seriesId;
+        }
       }
       setState(() {});
       _loadSeriesLogo();
@@ -762,67 +781,81 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       final l10n = AppLocalizations.of(context);
       final tabs = _tabsFor(_vm.item!, l10n);
       if (tabIndex >= 0 && tabIndex < tabs.length) {
-        final label = tabs[tabIndex].label;
-        String? extraCat;
-        for (final cat in extraCategoriesOrder) {
-          if (label == getExtraCategoryLabel(cat, l10n)) {
-            extraCat = cat;
-            break;
-          }
-        }
-        if (extraCat != null) {
-          _featuresFirstFocusNodes[extraCat]?.requestFocus();
-        } else if (label == l10n.castMembers) {
-          _castFirstFocusNode.requestFocus();
-        } else if (label == l10n.crewSection) {
-          _crewFirstFocusNode.requestFocus();
-        } else if (label == l10n.studios) {
-          _studiosFirstFocusNode.requestFocus();
-        } else if (label == l10n.chapters) {
-          _chaptersFirstFocusNode.requestFocus();
-        } else if (label == l10n.details) {
-          _detailsTabFocusNode.requestFocus();
-        } else if (label == l10n.similar) {
-          _similarFirstFocusNode.requestFocus();
-        } else if (label == l10n.collections) {
-          if (_vm.parentCollections.length == 1) {
-            _collectionFirstFocusNode.requestFocus();
-          } else if (_vm.parentCollections.isNotEmpty) {
-            _collectionRowFocusNodeFor(_vm.parentCollections.first.id).requestFocus();
-          }
-        } else if (label == l10n.seasons) {
-          _seasonsFirstFocusNode.requestFocus();
-        } else if (label == l10n.episodes) {
-          _episodesFirstFocusNode.requestFocus();
-        } else if (label == l10n.movies) {
-          if (_vm.item?.type == 'BoxSet') {
-            _moviesFirstFocusNode.requestFocus();
-          } else {
-            _personMoviesFirstFocusNode.requestFocus();
-          }
-        } else if (label == l10n.series) {
-          if (_vm.item?.type == 'BoxSet') {
-            _seriesFirstFocusNode.requestFocus();
-          } else {
-            _personSeriesFirstFocusNode.requestFocus();
-          }
-        } else if (label ==
-            GetIt.instance<SeerrPreferences>().labelOrDefault(l10n.seerr)) {
-          final state = seerrItemTabState(_vm);
-          if (state != null) _seerrTabChain(state).firstOrNull?.requestFocus();
-        } else if (label == l10n.appearancesSeerr) {
-          _personSeerrAppearancesFirstFocusNode.requestFocus();
-        } else if (label == l10n.crewContributionsSeerr) {
-          _personSeerrCrewCreditsFirstFocusNode.requestFocus();
-        } else if (label == l10n.albums || label == l10n.items || label == l10n.appearances) {
-          _gridFirstFocusNode.requestFocus();
-        } else if (label == l10n.trackList) {
-          _focusFirstTrack();
-        } else if (label == l10n.playlist) {
-          if (_vm.item?.type == 'BoxSet' && _vm.playlistItems.isNotEmpty) {
-            _collectionSortFocusNode.requestFocus();
-          } else {
-            _focusFirstTrack();
+        final tab = tabs[tabIndex];
+        if (tab.id.startsWith('extra_')) {
+          final cat = tab.id.substring('extra_'.length);
+          _featuresFirstFocusNodes[cat]?.requestFocus();
+        } else {
+          switch (tab.id) {
+            case 'cast':
+              _castFirstFocusNode.requestFocus();
+              break;
+            case 'crew':
+              _crewFirstFocusNode.requestFocus();
+              break;
+            case 'studios':
+              _studiosFirstFocusNode.requestFocus();
+              break;
+            case 'chapters':
+              _chaptersFirstFocusNode.requestFocus();
+              break;
+            case 'details':
+              _detailsTabFocusNode.requestFocus();
+              break;
+            case 'similar':
+              _similarFirstFocusNode.requestFocus();
+              break;
+            case 'collections':
+              if (_vm.parentCollections.length == 1) {
+                _collectionFirstFocusNode.requestFocus();
+              } else if (_vm.parentCollections.isNotEmpty) {
+                _collectionRowFocusNodeFor(_vm.parentCollections.first.id).requestFocus();
+              }
+              break;
+            case 'seasons':
+              _seasonsFirstFocusNode.requestFocus();
+              break;
+            case 'episodes':
+              _episodesFirstFocusNode.requestFocus();
+              break;
+            case 'movies':
+              if (_vm.item?.type == 'BoxSet') {
+                _moviesFirstFocusNode.requestFocus();
+              } else {
+                _personMoviesFirstFocusNode.requestFocus();
+              }
+              break;
+            case 'series':
+              if (_vm.item?.type == 'BoxSet') {
+                _seriesFirstFocusNode.requestFocus();
+              } else {
+                _personSeriesFirstFocusNode.requestFocus();
+              }
+              break;
+            case 'seerr':
+              final state = seerrItemTabState(_vm);
+              if (state != null) _seerrTabChain(state).firstOrNull?.requestFocus();
+              break;
+            case 'seerrAppearances':
+              _personSeerrAppearancesFirstFocusNode.requestFocus();
+              break;
+            case 'seerrCrewContributions':
+              _personSeerrCrewCreditsFirstFocusNode.requestFocus();
+              break;
+            case 'albums':
+            case 'appearances':
+              _gridFirstFocusNode.requestFocus();
+              break;
+            case 'tracks':
+              _focusFirstTrack();
+              break;
+            case 'playlist':
+              if (_vm.item?.type == 'BoxSet' && _vm.playlistItems.isNotEmpty) {
+                _collectionSortFocusNode.requestFocus();
+              } else {
+                _focusFirstTrack();
+              }
+              break;
           }
         }
       }
@@ -871,11 +904,12 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
 
   List<_ModernTab> _tabsFor(AggregatedItem item, AppLocalizations l10n) {
     final hasCast = _vm.actors.isNotEmpty;
-    final cast = _ModernTab(l10n.castMembers, _castTab);
+    final cast = _ModernTab('cast', l10n.castMembers, _castTab);
     final seerrState = seerrItemTabState(_vm);
     final seerrTab = seerrState == null
         ? null
         : _ModernTab(
+            'seerr',
             GetIt.instance<SeerrPreferences>().labelOrDefault(l10n.seerr),
             (context, item) => _seerrTab(context, seerrState),
           );
@@ -901,23 +935,24 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       final items = groupedFeatures[cat];
       if (items != null && items.isNotEmpty) {
         extraTabs.add(_ModernTab(
+          'extra_$cat',
           getExtraCategoryLabel(cat, l10n),
           (context, item) => _extrasTab(context, item, items, _featuresFirstFocusNodes[cat]),
         ));
       }
     }
 
-    final crew = _ModernTab(l10n.crewSection, _crewTab);
-    final studios = _ModernTab(l10n.studios, _studiosTab);
-    final chapters = _ModernTab(l10n.chapters, _chaptersTab);
-    final details = _ModernTab(l10n.details, _detailsTab);
-    final similar = _ModernTab(l10n.similar, (_, _) => _similarTab(context, _vm.similar));
+    final crew = _ModernTab('crew', l10n.crewSection, _crewTab);
+    final studios = _ModernTab('studios', l10n.studios, _studiosTab);
+    final chapters = _ModernTab('chapters', l10n.chapters, _chaptersTab);
+    final details = _ModernTab('details', l10n.details, _detailsTab);
+    final similar = _ModernTab('similar', l10n.similar, (_, _) => _similarTab(context, _vm.similar));
 
     switch (item.type) {
       case 'Series':
         return [
-          if (_vm.seasons.isNotEmpty) _ModernTab(l10n.seasons, _seasonsTab),
-          _ModernTab(l10n.episodes, _seriesEpisodesTab),
+          _ModernTab('seasons', l10n.seasons, _seasonsTab),
+          _ModernTab('episodes', l10n.episodes, _seriesEpisodesTab),
           if (hasCast) cast,
           if (hasCrew) crew,
           if (hasStudios) studios,
@@ -925,6 +960,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
           ...extraTabs,
           if (_vm.parentCollections.isNotEmpty)
             _ModernTab(
+              'collections',
               l10n.collections,
               (context, item) => _collectionsTab(context, item),
             ),
@@ -933,8 +969,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
         ];
       case 'Season':
         return [
-          if (_vm.episodes.isNotEmpty)
-            _ModernTab(l10n.episodes, _episodeListTab),
+          _ModernTab('episodes', l10n.episodes, _episodeListTab),
           if (hasCast) cast,
           if (hasCrew) crew,
           if (hasStudios) studios,
@@ -943,8 +978,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
         ];
       case 'Episode':
         return [
-          if (_vm.episodes.isNotEmpty)
-            _ModernTab(l10n.episodes, _episodeListTab),
+          _ModernTab('episodes', l10n.episodes, _episodeListTab),
           if (hasCast) cast,
           if (hasCrew) crew,
           if (hasStudios) studios,
@@ -957,14 +991,14 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       case 'Playlist':
       case 'AudioBook':
         return [
-          if (_vm.tracks.isNotEmpty) _ModernTab(l10n.trackList, _tracksTab),
+          if (_vm.tracks.isNotEmpty) _ModernTab('tracks', l10n.trackList, _tracksTab),
           details,
           if (hasSimilar) similar,
         ];
       case 'MusicArtist':
         return [
           if (_vm.albums.isNotEmpty)
-            _ModernTab(l10n.albums, (_, _) => _itemGrid(_vm.albums, aspectRatio: 1.0)),
+            _ModernTab('albums', l10n.albums, (_, _) => _itemGrid(_vm.albums, aspectRatio: 1.0)),
           if (hasSimilar) similar,
         ];
       case 'Person':
@@ -977,19 +1011,22 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
 
         return [
           if (movies.isNotEmpty)
-            _ModernTab(l10n.movies, (context, item) => _moviesTab(context, movies)),
+            _ModernTab('movies', l10n.movies, (context, item) => _moviesTab(context, movies)),
           if (series.isNotEmpty)
-            _ModernTab(l10n.series, (context, item) => _seriesTab(context, series)),
+            _ModernTab('series', l10n.series, (context, item) => _seriesTab(context, series)),
           if (sortedSeerrAppearances.isNotEmpty)
-            _ModernTab(l10n.appearancesSeerr, (context, item) => _seerrAppearancesTab(context, sortedSeerrAppearances)),
+            _ModernTab('seerrAppearances', l10n.appearancesSeerr, (context, item) => _seerrAppearancesTab(context, sortedSeerrAppearances)),
           if (sortedSeerrCrewCredits.isNotEmpty)
-            _ModernTab(l10n.crewContributionsSeerr, (context, item) => _seerrCrewCreditsTab(context, sortedSeerrCrewCredits)),
+            _ModernTab('seerrCrewContributions', l10n.crewContributionsSeerr, (context, item) => _seerrCrewCreditsTab(context, sortedSeerrCrewCredits)),
           if (movies.isEmpty && series.isEmpty && sortedSeerrAppearances.isEmpty && sortedSeerrCrewCredits.isEmpty && _vm.filmography.isNotEmpty)
-            _ModernTab(l10n.appearances, (_, _) => _itemGrid(_sortJellyfinItems(_vm.filmography))),
+            _ModernTab('appearances', l10n.appearances, (_, _) => _itemGrid(_sortJellyfinItems(_vm.filmography))),
         ];
       case 'BoxSet':
-        final moviesList = _vm.collectionItems.where((i) => i.type == 'Movie').toList();
-        moviesList.sort((a, b) {
+        final showMissing = widget.prefs.get(
+          UserPreferences.seerrShowMissingCollectionItems,
+        );
+        final libraryMovies = _vm.collectionItems.where((i) => i.type == 'Movie').toList();
+        libraryMovies.sort((a, b) {
           final aIndex = _vm.playlistItems.indexWhere((p) => p.id == a.id);
           final bIndex = _vm.playlistItems.indexWhere((p) => p.id == b.id);
           if (aIndex == -1 && bIndex == -1) return 0;
@@ -997,9 +1034,13 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
           if (bIndex == -1) return -1;
           return aIndex.compareTo(bIndex);
         });
+        final missingMovies = _vm.missingCollectionItems.where((i) => i.type == 'Movie').toList();
+        final moviesList = showMissing
+            ? mergeMissingByReleaseOrder(libraryMovies, missingMovies)
+            : libraryMovies;
 
-        final seriesList = _vm.collectionItems.where((i) => i.type == 'Series').toList();
-        seriesList.sort((a, b) {
+        final librarySeries = _vm.collectionItems.where((i) => i.type == 'Series').toList();
+        librarySeries.sort((a, b) {
           final aIndex = _vm.playlistItems.indexWhere((p) => p.seriesId == a.id || p.id == a.id);
           final bIndex = _vm.playlistItems.indexWhere((p) => p.seriesId == b.id || p.id == b.id);
           if (aIndex == -1 && bIndex == -1) return 0;
@@ -1007,20 +1048,25 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
           if (bIndex == -1) return -1;
           return aIndex.compareTo(bIndex);
         });
+        final missingSeries = _vm.missingCollectionItems.where((i) => i.type == 'Series').toList();
+        final seriesList = showMissing
+            ? mergeMissingByReleaseOrder(librarySeries, missingSeries)
+            : librarySeries;
 
         return [
           if (moviesList.isNotEmpty)
-            _ModernTab(l10n.movies, (context, item) => _mediaGrid(context, moviesList, firstFocusNode: _moviesFirstFocusNode)),
+            _ModernTab('movies', l10n.movies, (context, item) => _mediaGrid(context, moviesList, firstFocusNode: _moviesFirstFocusNode)),
           if (seriesList.isNotEmpty)
-            _ModernTab(l10n.series, (context, item) => _mediaGrid(context, seriesList, firstFocusNode: _seriesFirstFocusNode)),
-          if (hasCast) _ModernTab(l10n.castMembers, _boxSetCastTab),
-          if (hasCrew) _ModernTab(l10n.crewSection, _boxSetCrewTab),
+            _ModernTab('series', l10n.series, (context, item) => _mediaGrid(context, seriesList, firstFocusNode: _seriesFirstFocusNode)),
+          if (hasCast) _ModernTab('cast', l10n.castMembers, _boxSetCastTab),
+          if (hasCrew) _ModernTab('crew', l10n.crewSection, _boxSetCrewTab),
           if (hasStudios) studios,
           // Show the Playlist tab while the index is building (spinner) OR
           // once items are available (the list). Placed last so simple
           // movie-only collections land on Movies by default.
           if (_vm.playlistItems.isNotEmpty || _vm.playlistIndexBuilding)
             _ModernTab(
+              'playlist',
               l10n.playlist,
               (context, item) {
                 // Phase 1: flat ID index still building — show full spinner.
@@ -1115,6 +1161,7 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
           ...extraTabs,
           if (_vm.parentCollections.isNotEmpty)
             _ModernTab(
+              'collections',
               l10n.collections,
               (context, item) => _collectionsTab(context, item),
             ),
@@ -1124,16 +1171,73 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     }
   }
 
+  /// Body for a reserved tab with nothing in it yet: the placeholder row while
+  /// the fetch is out, then the message once it has come back empty, since a
+  /// shimmer that outlives the fetch reads as a row still on its way. Up goes
+  /// back to the tab bar so neither one is a focus dead end.
+  Widget _reservedTabBody({
+    required FocusNode focusNode,
+    required bool loaded,
+    required String emptyMessage,
+    required double cardWidth,
+    required double heightRatio,
+  }) {
+    return Focus(
+      focusNode: focusNode,
+      onKeyEvent: (node, event) {
+        if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.arrowUp) {
+          _focusSelectedTab();
+          return KeyEventResult.handled;
+        }
+        return KeyEventResult.ignored;
+      },
+      child: loaded
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32),
+              child: Center(
+                child: Text(
+                  emptyMessage,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: Colors.white70),
+                ),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 24),
+              child: SkeletonHomeRow(
+                cardWidth: cardWidth,
+                imageHeight: cardWidth * heightRatio,
+                isModern: true,
+              ),
+            ),
+    );
+  }
+
   Widget _seasonsTab(BuildContext context, AggregatedItem item) {
     final l10n = AppLocalizations.of(context);
+    if (_vm.seasons.isEmpty) {
+      return _reservedTabBody(
+        focusNode: _seasonsFirstFocusNode,
+        loaded: _vm.seasonsLoaded,
+        emptyMessage: l10n.noItemsLoaded(l10n.seasons),
+        cardWidth: _landscape ? 150.0 : 120.0,
+        heightRatio: 1.5,
+      );
+    }
     final textTheme = Theme.of(context).textTheme;
     final counts = _episodeCountsBySeason();
     final showPosterUrl = _imageUrl(item);
+    final watchedBehavior =
+        widget.prefs.get(UserPreferences.watchedIndicatorBehavior);
     // Determine which season contains the "next up" episode, mirroring the
     // episode-card logic: prefer _vm.nextUp.seasonId, fall back to the first
     // unplayed episode's seasonId so the cyan border always renders correctly.
     final nextUpSeasonId = _vm.nextUp?.seasonId ??
         _vm.seriesEpisodes.firstWhereOrNull((e) => !e.isPlayed)?.seasonId;
+    final showAvailabilityBadges =
+        widget.prefs.get(UserPreferences.showSeerrAvailabilityBadges);
     final seerrSeasonStatus = seerrItemSeasonStatus(_vm);
     // Set only for a series with no season to open, where the card offers to
     // request that season instead.
@@ -1143,37 +1247,66 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
       double? width,
       double? height,
       bool topRow = true,
-    }) =>
-        SeasonCard(
-          seerrStatus: seerrSeasonStatus[_vm.seasons[i].indexNumber],
-          title: _vm.seasons[i].name,
-          subtitle: l10n.episodeCount(
-            counts[_vm.seasons[i].id] ?? _vm.seasons[i].childCount ?? 0,
-          ),
-          imageUrl: _imageUrl(_vm.seasons[i]) ?? showPosterUrl,
-          isFallbackImage: _imageUrl(_vm.seasons[i]) == null,
-          landscape: _landscape,
-          isNextUp: _vm.seasons[i].id == nextUpSeasonId,
-          onNavigateUp: topRow ? _focusSelectedTab : null,
-          focusNode: i == 0 ? _seasonsFirstFocusNode : null,
-          width: width,
-          height: height,
-          autoScroll: true,
-          onTap: () => seerrOnlyVm != null
-              ? showSeerrRequestDialog(
-                  context: context,
-                  vm: seerrOnlyVm,
-                  is4k: false,
-                  qualityToggle: true,
-                  season: _vm.seasons[i].indexNumber,
-                )
-              : context.push(
-                  Destinations.item(
-                    _vm.seasons[i].id,
-                    serverId: _vm.seasons[i].serverId,
-                  ),
+    }) {
+      final season = _vm.seasons[i];
+      final seasonEpisodes = _vm.seriesEpisodes
+          .where(
+            (e) =>
+                e.seasonId == season.id ||
+                (season.indexNumber != null &&
+                    e.parentIndexNumber == season.indexNumber),
+          )
+          .toList(growable: false);
+      final unplayed = seasonEpisodes.where((e) => !e.isPlayed).length;
+      final isFullyPlayed =
+          season.isPlayed || (seasonEpisodes.isNotEmpty && unplayed == 0);
+      final remaining = isFullyPlayed
+          ? 0
+          : (seasonEpisodes.isNotEmpty
+              ? unplayed
+              : (season.unplayedItemCount ?? 0));
+      final showsIndicator = showsWatchedIndicator(
+        behavior: watchedBehavior,
+        isPlayed: isFullyPlayed,
+        itemType: 'Season',
+        unplayedCount: remaining,
+      );
+
+      return SeasonCard(
+        seerrStatus: showAvailabilityBadges
+            ? seerrSeasonStatus[season.indexNumber]
+            : null,
+        title: season.name,
+        subtitle: l10n.episodeCount(
+          counts[season.id] ?? season.childCount ?? 0,
+        ),
+        imageUrl: _imageUrl(season) ?? showPosterUrl,
+        isFallbackImage: _imageUrl(season) == null,
+        landscape: _landscape,
+        isNextUp: season.id == nextUpSeasonId,
+        isPlayed: showsIndicator && isFullyPlayed,
+        unplayedCount: showsIndicator && !isFullyPlayed ? remaining : null,
+        onNavigateUp: topRow ? _focusSelectedTab : null,
+        focusNode: i == 0 ? _seasonsFirstFocusNode : null,
+        width: width,
+        height: height,
+        autoScroll: true,
+        onTap: () => seerrOnlyVm != null
+            ? showSeerrRequestDialog(
+                context: context,
+                vm: seerrOnlyVm,
+                is4k: false,
+                qualityToggle: true,
+                season: season.indexNumber,
+              )
+            : context.push(
+                Destinations.item(
+                  season.id,
+                  serverId: season.serverId,
                 ),
-        );
+              ),
+      );
+    }
     final seasonLabelStyle = textTheme.labelMedium?.copyWith(
       color: Colors.white70,
       fontWeight: FontWeight.bold,
@@ -1248,6 +1381,16 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
   }
 
   Widget _episodeListTab(BuildContext context, AggregatedItem item) {
+    final l10n = AppLocalizations.of(context);
+    if (_vm.episodes.isEmpty) {
+      return _reservedTabBody(
+        focusNode: _episodesFirstFocusNode,
+        loaded: _vm.episodesLoaded,
+        emptyMessage: l10n.noEpisodesLoaded,
+        cardWidth: _landscape ? 240.0 : 180.0,
+        heightRatio: 9 / 16,
+      );
+    }
     // For Season pages _vm.nextUp is null (the API call uses seriesId which
     // on a Season item resolves to nothing). Fall back to the first unplayed
     // episode so the cyan "next up" border still renders correctly.
@@ -1310,9 +1453,12 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     final l10n = AppLocalizations.of(context);
     final episodes = _vm.seriesEpisodes;
     if (episodes.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 32),
-        child: Center(child: CircularProgressIndicator()),
+      return _reservedTabBody(
+        focusNode: _episodesFirstFocusNode,
+        loaded: _vm.seriesEpisodesLoaded,
+        emptyMessage: l10n.noEpisodesLoaded,
+        cardWidth: _landscape ? 240.0 : 180.0,
+        heightRatio: 9 / 16,
       );
     }
     final sorted = [...episodes]..sort((a, b) {
@@ -3339,6 +3485,8 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                 Builder(
                   builder: (cellContext) {
                     final entry = items[i];
+                    final isSeerrItem =
+                        entry.id.startsWith('tmdb:') || entry.serverId == 'seerr';
                     final topRow = i < columns;
                     return MediaCard(
                       title: entry.name,
@@ -3346,13 +3494,24 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                       imageUrl: _imageUrl(entry),
                       width: cardWidth,
                       aspectRatio: cardRatio,
-                      isPlayed: entry.isPlayed,
-                      isFavorite: entry.isFavorite,
+                      isPlayed: isSeerrItem ? false : entry.isPlayed,
+                      isFavorite: isSeerrItem ? false : entry.isFavorite,
                       itemType: entry.type,
                       focusNode: i == 0 ? firstFocusNode : null,
                       focusColor: focusColor,
                       cardFocusExpansion: cardExpansion,
                       suppressFocusGlow: isNeon,
+                      watchedBehavior: isSeerrItem
+                          ? WatchedIndicatorBehavior.never
+                          : watchedBehavior,
+                      imageOverlays: [
+                        if (isSeerrItem)
+                          const Positioned(
+                            top: 4,
+                            right: 4,
+                            child: SeerrBadge(size: 18),
+                          ),
+                      ],
                       onFocus: () => Scrollable.ensureVisible(
                         cellContext,
                         alignment: 0.5,
@@ -3370,14 +3529,23 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
                               return KeyEventResult.ignored;
                             }
                           : null,
-                      watchedBehavior: watchedBehavior,
                       onTap: () {
                         if (entry.serverId == 'seerr') {
                           final mediaType = entry.seerrMediaType ??
                               (entry.type == 'Series' ? 'tv' : 'movie');
+                          final tmdbId = entry.tmdbId;
+                          final targetId = (tmdbId != null && tmdbId.isNotEmpty)
+                              ? tmdbId
+                              : entry.id.replaceAll(
+                                  RegExp(r'^tmdb:(?:movie:|tv:)?'),
+                                  '',
+                                );
                           context.push(
-                            Destinations.seerrMedia(entry.id,
-                                mediaType: mediaType),
+                            Destinations.seerrMedia(
+                              targetId,
+                              mediaType: mediaType,
+                              title: entry.name,
+                            ),
                           );
                         } else {
                           context.push(
@@ -4007,6 +4175,14 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     final showTech = widget.prefs.get(UserPreferences.detailShowTechnicalDetails);
     final techRow = showTech ? _buildTechnicalDetailsRow(context, item, selectedSource) : null;
 
+    final seriesLogoHeight = (_landscape ? 90.0 : 64.0) * logoScaleFactor;
+    final seriesLogoWidth = (_landscape ? 360.0 : 260.0) * logoScaleFactor;
+    final itemLogoHeight = (_landscape ? 75.0 : 64.0) * logoScaleFactor;
+    final itemLogoWidth = (_landscape ? 300.0 : 260.0) * logoScaleFactor;
+    final effectiveSeriesLogoTag = _seriesLogoTag ?? item.seriesLogoImageTag;
+    final effectiveSeriesLogoId = _seriesLogoId ?? item.seriesId;
+    final hasSeriesLogo = effectiveSeriesLogoTag != null && effectiveSeriesLogoId != null;
+
     final Column childrenCol = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: hasUpNext ? MainAxisSize.max : MainAxisSize.min,
@@ -4033,28 +4209,34 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
               ],
             ),
           ] else if (isEpisode) ...[
-            if (_seriesLogoTag != null && _seriesLogoId != null) ...[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: LogoView(
-                  imageUrl: _vm.imageApi
-                      .getLogoImageUrl(_seriesLogoId!, maxWidth: 350, tag: _seriesLogoTag),
-                  maxHeight: (_landscape ? 90 : 64) * logoScaleFactor,
-                  maxWidth: (_landscape ? 360 : 260) * logoScaleFactor,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: SizedBox(
+                height: seriesLogoHeight,
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: hasSeriesLogo
+                      ? LogoView(
+                          imageUrl: _vm.imageApi.getLogoImageUrl(
+                            effectiveSeriesLogoId,
+                            maxWidth: 350,
+                            tag: effectiveSeriesLogoTag,
+                          ),
+                          maxHeight: seriesLogoHeight,
+                          maxWidth: seriesLogoWidth,
+                        )
+                      : (item.seriesName != null
+                          ? Text(
+                              item.seriesName!,
+                              style: textTheme.labelLarge?.copyWith(
+                                color: AppColorScheme.onSurface.withValues(alpha: 0.7),
+                                letterSpacing: 1.2,
+                              ),
+                            )
+                          : const SizedBox.shrink()),
                 ),
               ),
-            ] else if (item.seriesName != null) ...[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  item.seriesName!,
-                  style: textTheme.labelLarge?.copyWith(
-                    color: AppColorScheme.onSurface.withValues(alpha: 0.7),
-                    letterSpacing: 1.2,
-                  ),
-                ),
-              ),
-            ],
+            ),
             Text(
               item.name,
               style: (_landscape
@@ -4065,41 +4247,44 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
           ] else if (logoTag != null && logoId != null) ...[
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LogoView(
-                    imageUrl: _vm.imageApi
-                        .getLogoImageUrl(logoId, maxWidth: 350, tag: logoTag),
-                    maxHeight: (_landscape ? 75 : 64) * logoScaleFactor,
-                    maxWidth: (_landscape ? 300 : 260) * logoScaleFactor,
-                  ),
-                  if (item.mediaSources.length > 1) ...[
-                    const SizedBox(width: 16),
-                    () {
-                      final versionName = selectedSource?['Name'] as String? ?? 'Default';
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: AppColorScheme.accent.withValues(alpha: 0.15),
-                          borderRadius: AppRadius.circular(4),
-                          border: Border.all(
-                            color: AppColorScheme.accent.withValues(alpha: 0.4),
-                            width: 1,
+              child: SizedBox(
+                height: itemLogoHeight,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LogoView(
+                      imageUrl: _vm.imageApi
+                          .getLogoImageUrl(logoId, maxWidth: 350, tag: logoTag),
+                      maxHeight: itemLogoHeight,
+                      maxWidth: itemLogoWidth,
+                    ),
+                    if (item.mediaSources.length > 1) ...[
+                      const SizedBox(width: 16),
+                      () {
+                        final versionName = selectedSource?['Name'] as String? ?? 'Default';
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: AppColorScheme.accent.withValues(alpha: 0.15),
+                            borderRadius: AppRadius.circular(4),
+                            border: Border.all(
+                              color: AppColorScheme.accent.withValues(alpha: 0.4),
+                              width: 1,
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          versionName,
-                          style: textTheme.bodySmall?.copyWith(
-                            color: AppColorScheme.accent,
-                            fontWeight: FontWeight.bold,
+                          child: Text(
+                            versionName,
+                            style: textTheme.bodySmall?.copyWith(
+                              color: AppColorScheme.accent,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      );
-                    }(),
+                        );
+                      }(),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
           ] else ...[
@@ -4720,7 +4905,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     if (index == _selectedTab) {
       // With Expanded Tabs on, reselecting the current tab never collapses.
       if (!_expandedTabs) {
-        setState(() => _selectedTab = -1);
+        setState(() {
+          _selectedTab = -1;
+          _selectedTabId = null;
+        });
         if (_scrollController.hasClients) {
           _scrollController.animateTo(
             0.0,
@@ -4733,6 +4921,14 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
     }
 
     final wasCollapsed = _selectedTab < 0;
+    final item = _vm.item;
+    if (item != null) {
+      final l10n = AppLocalizations.of(context);
+      final tabs = _tabsFor(item, l10n);
+      if (index >= 0 && index < tabs.length) {
+        _selectedTabId = tabs[index].id;
+      }
+    }
     setState(() => _selectedTab = index);
     if (index >= 0 && !_expandedTabs && wasCollapsed) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -4769,13 +4965,41 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
 
     final tabs = _tabsFor(item, l10n);
     final isMusicAlbumOrPlaylist = item.type == 'Playlist' || item.type == 'MusicAlbum';
-    if (isMusicAlbumOrPlaylist) {
-      _selectedTab = 0;
-    } else if (_selectedTab >= tabs.length) {
-      _selectedTab = _expandedTabs ? 0 : -1;
+
+    // Reset tab selection if the item changed completely.
+    if (_lastItemId != item.id) {
+      _lastItemId = item.id;
+      _selectedTab = (isMusicAlbumOrPlaylist || _expandedTabs || item.type == 'Season') ? 0 : -1;
+      _selectedTabId = (_selectedTab == 0 && tabs.isNotEmpty) ? tabs[0].id : null;
     }
 
-    if (tabs.isNotEmpty && _selectedTab >= 0 && _selectedTab < tabs.length && tabs[_selectedTab].label == l10n.details) {
+    if (isMusicAlbumOrPlaylist) {
+      _selectedTab = 0;
+      _selectedTabId = tabs.isNotEmpty ? tabs[0].id : null;
+    } else if (tabs.isEmpty) {
+      _selectedTab = -1;
+      _selectedTabId = null;
+    } else {
+      // Identity-aware resolution: anchor to _selectedTabId across dynamic tab insertions/prepending
+      if (_selectedTabId != null) {
+        final foundIndex = tabs.indexWhere((t) => t.id == _selectedTabId);
+        if (foundIndex != -1) {
+          _selectedTab = foundIndex;
+        } else if (_selectedTab >= tabs.length) {
+          _selectedTab = _expandedTabs ? 0 : -1;
+          _selectedTabId = _selectedTab >= 0 ? tabs[_selectedTab].id : null;
+        }
+      } else if (_selectedTab >= 0 && _selectedTab < tabs.length) {
+        _selectedTabId = tabs[_selectedTab].id;
+      } else if (_expandedTabs || item.type == 'Season') {
+        _selectedTab = 0;
+        _selectedTabId = tabs[0].id;
+      } else {
+        _selectedTab = -1;
+      }
+    }
+
+    if (tabs.isNotEmpty && _selectedTab >= 0 && _selectedTab < tabs.length && tabs[_selectedTab].id == 'details') {
       final targetItem = _getRelevantEpisode(item) ?? item;
       final isPlayable = targetItem.type != 'Series' && targetItem.type != 'Season' && targetItem.type != 'Person';
       if (isPlayable) {
@@ -4862,44 +5086,47 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
             children: [
               const SizedBox(height: 24),
               if (logoTag != null && logoId != null) ...[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    LogoView(
-                      imageUrl: _vm.imageApi
-                          .getLogoImageUrl(logoId, maxWidth: 350, tag: logoTag),
-                      maxHeight: 75 * logoScaleFactor,
-                      maxWidth: 300 * logoScaleFactor,
-                    ),
-                    if (item.mediaSources.length > 1) ...[
-                      const SizedBox(width: 16),
-                      // The logo keeps the width it needs, so a narrow window
-                      // shortens the version name instead of overflowing the row.
-                      Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: AppColorScheme.accent.withValues(alpha: 0.15),
-                            borderRadius: AppRadius.circular(4),
-                            border: Border.all(
-                              color: AppColorScheme.accent.withValues(alpha: 0.4),
-                              width: 1,
+                SizedBox(
+                  height: 75 * logoScaleFactor,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      LogoView(
+                        imageUrl: _vm.imageApi
+                            .getLogoImageUrl(logoId, maxWidth: 350, tag: logoTag),
+                        maxHeight: 75 * logoScaleFactor,
+                        maxWidth: 300 * logoScaleFactor,
+                      ),
+                      if (item.mediaSources.length > 1) ...[
+                        const SizedBox(width: 16),
+                        // The logo keeps the width it needs, so a narrow window
+                        // shortens the version name instead of overflowing the row.
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: AppColorScheme.accent.withValues(alpha: 0.15),
+                              borderRadius: AppRadius.circular(4),
+                              border: Border.all(
+                                color: AppColorScheme.accent.withValues(alpha: 0.4),
+                                width: 1,
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            selectedSource?['Name'] as String? ?? 'Default',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: textTheme.bodySmall?.copyWith(
-                              color: AppColorScheme.accent,
-                              fontWeight: FontWeight.bold,
+                            child: Text(
+                              selectedSource?['Name'] as String? ?? 'Default',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: textTheme.bodySmall?.copyWith(
+                                color: AppColorScheme.accent,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 6),
               ] else ...[
@@ -4993,9 +5220,10 @@ class _ModernDetailContentState extends State<ModernDetailContent> {
 }
 
 class _ModernTab {
+  final String id;
   final String label;
   final Widget Function(BuildContext, AggregatedItem) builder;
-  const _ModernTab(this.label, this.builder);
+  const _ModernTab(this.id, this.label, this.builder);
 }
 
 class _DetailsContainer extends StatefulWidget {

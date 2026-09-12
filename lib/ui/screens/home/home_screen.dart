@@ -77,6 +77,8 @@ import '../../util/home_row_title_localizer.dart';
 import '../../../util/game_library.dart';
 import 'home_view_model.dart';
 import '../../widgets/seerr/seerr_genre_label.dart';
+import '../../widgets/skeleton/skeleton_home_row.dart';
+import '../../widgets/skeleton/skeleton_shimmer.dart';
 
 Color get _homeBackground => AppColorScheme.background;
 
@@ -882,6 +884,8 @@ class _ContentRowsState extends State<_ContentRows>
   FocusNode? _lastGlobalPrimaryFocus;
   String? _mobilePressedV2Key;
   String? _mouseHoveredV2Key;
+  String? _settledV2PreviewKey;
+  Timer? _v2ExpansionDwellTimer;
   final Set<String> _v2FocusPrefetchedUrls = <String>{};
   final ValueNotifier<Map<String, Map<String, double>>> _v2AdditionalRatingsNotifier = ValueNotifier({});
   Map<String, Map<String, double>> get _v2AdditionalRatingsByKey => _v2AdditionalRatingsNotifier.value;
@@ -1325,6 +1329,7 @@ class _ContentRowsState extends State<_ContentRows>
           _previousFocusContentFromNavbarCallback;
     }
     _scrollIdleTimer?.cancel();
+    _v2ExpansionDwellTimer?.cancel();
     _activeFocusedRowNotifier.removeListener(_updateIsScrolledToTop);
     _mediaBarFocusNode.removeListener(_updateIsScrolledToTop);
     _mediaBarFocusNode.dispose();
@@ -3955,6 +3960,70 @@ class _ContentRowsState extends State<_ContentRows>
     return null;
   }
 
+  Widget _buildHomeInitialLoadingSkeleton({
+    required BuildContext context,
+    required UserPreferences prefs,
+    required PosterSize posterSize,
+  }) {
+    final safeTop = MediaQuery.of(context).padding.top;
+    final desktopScale = _desktopUiScaleFactor();
+    final isRowsV2 = _isHomeRowsStyleV2();
+    final navbarIsTop =
+        prefs.get(UserPreferences.navbarPosition) == NavbarPosition.top;
+    final tvTopNavbarInset =
+        navbarIsTop && PlatformDetection.isTV && !PlatformDetection.useMobileUi
+            ? 48.0
+            : 0.0;
+    final navbarLeftInset = navbarIsTop ? 16.0 + tvTopNavbarInset : 56.0;
+    final platformScale = PlatformDetection.isTV
+        ? 1.0
+        : (PlatformDetection.useMobileUi ? 1.0 : desktopScale);
+    final v2ImageHeight =
+        posterSize.portraitHeight.toDouble() * platformScale * 2;
+    final v2PortraitWidth = v2ImageHeight * (2 / 3);
+    final cardWidth = isRowsV2
+        ? v2PortraitWidth
+        : (posterSize.portraitHeight.toDouble() * platformScale * (2 / 3));
+    final imageHeight = isRowsV2
+        ? v2ImageHeight
+        : (posterSize.portraitHeight.toDouble() * platformScale);
+
+    return SkeletonShimmer(
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.only(
+          top: safeTop + (navbarIsTop ? 70.0 : 24.0),
+          bottom: 48.0,
+        ),
+        children: [
+          for (int i = 0; i < 4; i++) ...[
+            Padding(
+              padding: EdgeInsets.only(
+                left: navbarLeftInset + (isRowsV2 ? _kHomeRowLabelInset : 0),
+                bottom: 8.0,
+                top: i == 0 ? 0 : 24.0,
+              ),
+              child: SkeletonBox(
+                width: 140.0 + (i * 24),
+                height: 18,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            SkeletonHomeRow(
+              cardWidth: cardWidth,
+              imageHeight: imageHeight,
+              leadingPadding:
+                  navbarLeftInset + (isRowsV2 ? _kHomeRowLabelInset : 0),
+              itemSpacing: 14.0,
+              isModern: isRowsV2,
+              count: 8,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final rows = widget.viewModel.rows;
@@ -3975,7 +4044,11 @@ class _ContentRowsState extends State<_ContentRows>
     final useSeriesThumbs = prefs.get(UserPreferences.seriesThumbnailsEnabled);
 
     if (widget.viewModel.isLoading && rows.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return _buildHomeInitialLoadingSkeleton(
+        context: context,
+        prefs: prefs,
+        posterSize: posterSize,
+      );
     }
 
     _updateOffsets();
@@ -4646,13 +4719,36 @@ class _ContentRowsState extends State<_ContentRows>
 
     final subtitle = _rowSubtitle(row, l10n);
     final hasSubtitle = subtitle != null && subtitle.isNotEmpty;
+    final rowTotalHeight =
+        maxCardHeight + (10 * metadataScale) + (hasSubtitle ? 18.0 : 0.0);
+
+    if (row.isLoading && row.items.isEmpty) {
+      return _buildTitledRow(
+        key: _rowContainerKey(rowIndex),
+        title: _localizedRowTitle(row, l10n),
+        subtitle: subtitle,
+        rowIndex: rowIndex,
+        hasItems: false,
+        height: rowTotalHeight,
+        child: SkeletonHomeRow(
+          cardWidth: firstCardWidth,
+          imageHeight: isRowsV2
+              ? v2ImageHeight
+              : (posterSize.portraitHeight.toDouble() * platformScale),
+          itemSpacing: _rowItemSpacing(firstCardWidth, cardExpansion),
+          leadingPadding: isRowsV2 ? _kHomeRowLabelInset : 0,
+          isModern: isRowsV2,
+        ),
+      );
+    }
+
     return _buildTitledRow(
       key: _rowContainerKey(rowIndex),
       title: _localizedRowTitle(row, l10n),
       subtitle: subtitle,
       rowIndex: rowIndex,
       hasItems: row.items.isNotEmpty,
-      height: maxCardHeight + (10 * metadataScale) + (hasSubtitle ? 18.0 : 0.0),
+      height: rowTotalHeight,
       child: LockedFocusRow<AggregatedItem>(
         key: _rowKey(rowIndex),
         items: row.items,
@@ -4675,6 +4771,22 @@ class _ContentRowsState extends State<_ContentRows>
           final forceReveal = _forceRevealOnNextRowFocusFromMediaBar;
           _forceRevealOnNextRowFocusFromMediaBar = false;
           widget.onItemSelected(item);
+          if (isRowsV2) {
+            final previewKey = _previewKeyFor(item, rowIndex);
+            final delayExpansion =
+                prefs.get(UserPreferences.delayCardExpansionOnRapidScroll);
+            if (delayExpansion && !PlatformDetection.useMobileUi) {
+              _v2ExpansionDwellTimer?.cancel();
+              _v2ExpansionDwellTimer =
+                  Timer(const Duration(milliseconds: 70), () {
+                if (mounted && _settledV2PreviewKey != previewKey) {
+                  setState(() => _settledV2PreviewKey = previewKey);
+                }
+              });
+            } else {
+              _settledV2PreviewKey = previewKey;
+            }
+          }
           if (isRowsV2 && !row.isAudio && !isModernMyMediaStatic) {
             _primeV2FocusedRatings(item);
             _prefetchV2FocusNeighbors(
@@ -4741,10 +4853,14 @@ class _ContentRowsState extends State<_ContentRows>
               isV2MobileTouch && _mobilePressedV2Key == previewKey;
           final isHoverFocused =
               isV2MouseHover && _mouseHoveredV2Key == previewKey;
+          final delayExpansion =
+              prefs.get(UserPreferences.delayCardExpansionOnRapidScroll);
+          final isDwellSettled =
+              !delayExpansion || (_settledV2PreviewKey == previewKey);
           final effectiveV2Focused = isRowsV2
               ? (isV2MobileTouch
                     ? isTouchFocused
-                    : (isFocused || isHoverFocused))
+                    : (isHoverFocused || (isFocused && isDwellSettled)))
               : isFocused;
           final canUseExpandedV2Card =
               isRowsV2 && effectiveV2Focused && !row.isAudio && !isModernMyMediaStatic;
@@ -5036,8 +5152,10 @@ class _ContentRowsState extends State<_ContentRows>
                             isAudioRow: row.isAudio,
                           )
                         : null;
+                    final modernSpeed =
+                        prefs.get(UserPreferences.modernCardTransitionSpeed);
                     return AnimatedSize(
-                      duration: const Duration(milliseconds: 150),
+                      duration: modernSpeed.duration,
                       curve: Curves.easeInOutCubic,
                       alignment: Alignment.topLeft,
                       clipBehavior: Clip.none,
