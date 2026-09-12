@@ -370,6 +370,8 @@ class Destinations {
       '/admin/logs/${Uri.encodeComponent(fileName)}';
   static String adminMetadata(String itemId) => '/admin/metadata/$itemId';
 
+  /// Whether [path] is one of the full-screen player routes: video, audio,
+  /// the reader and its overlays, live TV, or a game.
   static bool isPlayerRoute(String path) =>
       path.startsWith('/player/') ||
       path == liveTvPlayer ||
