@@ -4,6 +4,7 @@
 // are omitted.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:jellyfin_preference/jellyfin_preference.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:moonfin/data/models/aggregated_item.dart';
@@ -11,6 +12,7 @@ import 'package:moonfin/data/services/seerr/seerr_api_models.dart';
 import 'package:moonfin/data/viewmodels/item_detail_view_model.dart';
 import 'package:moonfin/data/viewmodels/seerr_media_detail_view_model.dart';
 import 'package:moonfin/l10n/app_localizations_en.dart';
+import 'package:moonfin/preference/seerr_preferences.dart';
 import 'package:moonfin/preference/user_preferences.dart';
 import 'package:moonfin/ui/screens/detail/spotlight/spotlight_cards.dart';
 import 'package:server_core/server_core.dart';
@@ -21,6 +23,8 @@ class _Vm extends Mock implements ItemDetailViewModel {}
 class _SeerrVm extends Mock implements SeerrMediaDetailViewModel {}
 
 class _ImageApi extends Mock implements ImageApi {}
+
+class _SeerrPrefs extends Mock implements SeerrPreferences {}
 
 final _l10n = AppLocalizationsEn();
 
@@ -75,6 +79,12 @@ void main() {
     await store.init();
     prefs = UserPreferences(store);
 
+    // The seasons card reads Seerr's per-season status, and the app always has
+    // these preferences registered.
+    final seerrPrefs = _SeerrPrefs();
+    when(() => seerrPrefs.showRequestStatus).thenReturn(false);
+    GetIt.instance.registerSingleton<SeerrPreferences>(seerrPrefs);
+
     final imageApi = _ImageApi();
     when(
       () => imageApi.getPrimaryImageUrl(
@@ -105,6 +115,8 @@ void main() {
     when(() => vm.seasons).thenReturn(const []);
     when(() => vm.episodes).thenReturn(const []);
     when(() => vm.seriesEpisodes).thenReturn(const []);
+    when(() => vm.seriesEpisodesLoaded).thenReturn(true);
+    when(() => vm.loadAllSeriesEpisodes()).thenAnswer((_) async {});
     when(() => vm.nextUp).thenReturn(null);
     when(() => vm.tracks).thenReturn(const []);
     when(() => vm.albums).thenReturn(const []);
@@ -118,6 +130,8 @@ void main() {
     when(() => vm.canManagePlaylistTracks).thenReturn(false);
     when(() => vm.seerr).thenReturn(null);
   });
+
+  tearDown(() => GetIt.instance.reset());
 
   List<SpotlightCardSpec> cardsFor(AggregatedItem item) => spotlightCardsFor(
     vm: vm,
@@ -192,13 +206,37 @@ void main() {
       _child('season-1', 'Season'),
       _child('season-2', 'Season'),
     ]);
-    final cards = cardsFor(_item('Series', {'RecursiveItemCount': 20}));
+    final cards = cardsFor(_item('Series', {
+      'RecursiveItemCount': 20,
+      'Name': 'Deadwood',
+    }));
 
     final seasons = cards.first;
     expect(seasons.id, 'seasons');
-    expect(seasons.title, 'Seasons and Episodes');
+    expect(seasons.title, _l10n.seasons);
+    expect(seasons.modalTitle, 'Deadwood');
+    expect(seasons.effectiveModalTitle, 'Deadwood');
     expect(seasons.subtitle, '2 seasons · 20 episodes');
     expect(seasons.sections.single.title, _l10n.seasons);
+  });
+
+  test('a season leads with the episodes card', () {
+    when(() => vm.episodes).thenReturn([
+      _child('ep-1', 'Episode'),
+      _child('ep-2', 'Episode'),
+    ]);
+    final cards = cardsFor(_item('Season', {
+      'SeriesName': 'Deadwood',
+      'Name': 'Season 1',
+    }));
+
+    final episodes = cards.first;
+    expect(episodes.id, 'episodes');
+    expect(episodes.title, _l10n.episodes);
+    expect(episodes.modalTitle, 'Deadwood - Season 1');
+    expect(episodes.effectiveModalTitle, 'Deadwood - Season 1');
+    expect(episodes.subtitle, '2 episodes');
+    expect(episodes.sections.single.title, _l10n.episodes);
   });
 
   test('an episode offers the rest of its season', () {
@@ -207,11 +245,54 @@ void main() {
       _child('ep-2', 'Episode'),
       _child('ep-3', 'Episode'),
     ]);
-    final cards = cardsFor(_item('Episode'));
+    final cards = cardsFor(_item('Episode', {'ParentIndexNumber': 1}));
 
     expect(cards.single.id, 'episodes');
     expect(cards.single.title, 'More Episodes');
+    expect(cards.single.effectiveModalTitle, 'More Episodes');
     expect(cards.single.subtitle, '3 episodes');
+    expect(cards.single.sections.single.title, 'Season 1');
+    expect(cards.single.sections.single.collapsible, isTrue);
+    expect(cards.single.sections.single.initiallyExpanded, isTrue);
+  });
+
+  test('an episode groups multiple seasons with only current season expanded', () {
+    when(() => vm.seriesEpisodes).thenReturn([
+      AggregatedItem(
+        id: 'ep-s1-1',
+        serverId: 'server-1',
+        rawData: const {
+          'Id': 'ep-s1-1',
+          'Type': 'Episode',
+          'Name': 'S1E1',
+          'ParentIndexNumber': 1,
+          'IndexNumber': 1,
+        },
+      ),
+      AggregatedItem(
+        id: 'ep-s2-1',
+        serverId: 'server-1',
+        rawData: const {
+          'Id': 'ep-s2-1',
+          'Type': 'Episode',
+          'Name': 'S2E1',
+          'ParentIndexNumber': 2,
+          'IndexNumber': 1,
+        },
+      ),
+    ]);
+    final cards = cardsFor(_item('Episode', {'ParentIndexNumber': 2}));
+
+    expect(cards.single.id, 'episodes');
+    expect(cards.single.title, 'More Episodes');
+    expect(cards.single.subtitle, '2 seasons · 2 episodes');
+    expect(cards.single.sections.length, 2);
+    expect(cards.single.sections[0].title, 'Season 1');
+    expect(cards.single.sections[0].collapsible, isTrue);
+    expect(cards.single.sections[0].initiallyExpanded, isFalse);
+    expect(cards.single.sections[1].title, 'Season 2');
+    expect(cards.single.sections[1].collapsible, isTrue);
+    expect(cards.single.sections[1].initiallyExpanded, isTrue);
   });
 
   test('a music album gets the track list card', () {

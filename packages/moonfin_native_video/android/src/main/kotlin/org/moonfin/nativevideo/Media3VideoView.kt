@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.ContextWrapper
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
 import android.media.AudioDeviceCallback
@@ -19,6 +20,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.view.Gravity
 import android.view.Display
+import android.view.PixelCopy
 import android.view.Surface
 import android.view.SurfaceView
 import android.view.TextureView
@@ -681,6 +683,8 @@ class Media3VideoView(
     private val subtitleView = SubtitleView(context)
     private val containerView: FrameLayout = FrameLayout(context).also { container ->
         container.setBackgroundColor(Color.BLACK)
+        container.clipChildren = true
+        container.clipToPadding = true
         // Hold the screen awake while a real player surface is attached so the
         // OS screensaver cannot interrupt playback if the wakelock lapses.
         // Previews stay excluded so browsing does not keep the screen on.
@@ -725,8 +729,8 @@ class Media3VideoView(
     // Recreated alongside the player in createPlayer(). A TrackSelector must not
     // be shared across ExoPlayer instances: it binds to the playback thread of
     // the player it is built with, so reusing it after the player is released
-    // and rebuilt throws "DefaultTrackSelector is accessed on the wrong thread" 
-    // on the new player's  playback thread, killing that thread and freezing 
+    // and rebuilt throws "DefaultTrackSelector is accessed on the wrong thread"
+    // on the new player's  playback thread, killing that thread and freezing
     // playback.
     private lateinit var trackSelector: DefaultTrackSelector
     private val audioPipeline = ExoPlayerAudioPipeline()
@@ -816,6 +820,7 @@ class Media3VideoView(
     private var pendingExternalSubtitleUrl: String? = null
     private var pendingAudioIndex: Int? = null
     private var zoomMode = ZoomMode.FIT
+    private var letterboxCrop: LetterboxCropRect? = null
     private var videoWidthPx = 0
     private var videoHeightPx = 0
     private var videoPixelRatio = 1f
@@ -863,6 +868,76 @@ class Media3VideoView(
     private val audioClockListener: (Long) -> Unit = { maybeRecoverAudioClock(it) }
     private var isPlayerReleased = false
     private var firstFrameRendered = false
+
+    // Picture sampling. A tuner's failover placeholder is a black video that
+    // decodes, renders and runs its clock like any channel; only the pixels
+    // say there is nothing to see. A thumbnail of the surface is read about
+    // once a second while a live channel plays, every five once a picture
+    // has been seen; tunneled playback and old APIs cannot be read, and
+    // then a drawn frame is taken on trust. Only live is sampled: nothing
+    // else asks.
+    private var pictureBlack: Boolean? = null
+    private var pictureSamplingUnavailable = false
+    private var pictureSampleInFlight = false
+    private var lastPictureSampleMs = 0L
+    private val pictureSampleBitmap: Bitmap by lazy {
+        Bitmap.createBitmap(PICTURE_SAMPLE_W, PICTURE_SAMPLE_H, Bitmap.Config.ARGB_8888)
+    }
+    private val pictureSamplePixels = IntArray(PICTURE_SAMPLE_W * PICTURE_SAMPLE_H)
+
+    /** The inverse of [revealVideo]: a new source hides the video until its first frame. */
+    private fun hideVideoUntilFirstFrame() {
+        firstFrameRendered = false
+        firstFrameCover.visibility = View.VISIBLE
+        pictureBlack = null
+        pictureSamplingUnavailable = false
+        lastPictureSampleMs = 0L
+    }
+
+    /** True while the picture is black, null before a frame or where the pixels cannot be read. */
+    private fun pictureBlackWire(): Boolean? = when {
+        !firstFrameRendered || pictureSamplingUnavailable -> null
+        else -> pictureBlack ?: true
+    }
+
+    private fun samplePicture() {
+        if (!firstFrameRendered || !currentIsLive || isDisposed || pictureSamplingUnavailable) return
+        val now = SystemClock.elapsedRealtime()
+        val interval =
+            if (pictureBlack == false) PICTURE_SAMPLE_SHOWN_INTERVAL_MS else PICTURE_SAMPLE_INTERVAL_MS
+        if (pictureSampleInFlight || now - lastPictureSampleMs < interval) return
+        val view = videoView as? SurfaceView
+        if (view == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.N || tunnelingActive) {
+            pictureSamplingUnavailable = true
+            return
+        }
+        if (player.playbackState != Player.STATE_READY || !player.playWhenReady) return
+        if (view.width == 0 || view.height == 0 || view.holder.surface?.isValid != true) return
+        pictureSampleInFlight = true
+        lastPictureSampleMs = now
+        try {
+            PixelCopy.request(view, pictureSampleBitmap, { result ->
+                pictureSampleInFlight = false
+                if (isDisposed) return@request
+                if (result != PixelCopy.SUCCESS) {
+                    pictureSamplingUnavailable = true
+                    return@request
+                }
+                pictureSampleBitmap.getPixels(
+                    pictureSamplePixels, 0, PICTURE_SAMPLE_W, 0, 0, PICTURE_SAMPLE_W, PICTURE_SAMPLE_H,
+                )
+                var brightest = 0
+                for (p in pictureSamplePixels) {
+                    val m = maxOf(Color.red(p), Color.green(p), Color.blue(p))
+                    if (m > brightest) brightest = m
+                }
+                pictureBlack = brightest < PICTURE_BLACK_LEVEL
+            }, mainHandler)
+        } catch (e: Exception) {
+            pictureSampleInFlight = false
+            pictureSamplingUnavailable = true
+        }
+    }
     private val externalSubtitleConfigurations = mutableListOf<MediaItem.SubtitleConfiguration>()
 
     /**
@@ -1374,8 +1449,7 @@ class Media3VideoView(
         if (!isPlayerReleased) return
         isPlayerReleased = false
         isDisposed = false
-        firstFrameRendered = false
-        firstFrameCover.visibility = View.VISIBLE
+        hideVideoUntilFirstFrame()
         recreateVideoView()
         player = createPlayer()
         playerHasLoadedSource = false
@@ -2044,6 +2118,15 @@ class Media3VideoView(
                     result.success(null)
                 }
 
+                "setLetterboxCrop" -> {
+                    updateLetterboxCrop(call.arguments)
+                    result.success(null)
+                }
+
+                "detectLetterbox" -> {
+                    detectLetterbox(result)
+                }
+
                 "setAudioTrack" -> {
                     val index = ((call.arguments as? Map<*, *>)?.get("index") as? Number)?.toInt() ?: 0
                     pendingAudioIndex = index
@@ -2211,6 +2294,10 @@ class Media3VideoView(
                     updateZoomMode(args)
                 }
 
+                "setLetterboxCrop" -> {
+                    updateLetterboxCrop(args)
+                }
+
                 "setAudioTrack" -> {
                     val index = (args as? Map<*, *>)?.get("index") as? Number ?: return
                     selectTrack(C.TRACK_TYPE_AUDIO, index.toInt())
@@ -2258,7 +2345,7 @@ class Media3VideoView(
         }
     }
 
-    fun stateSnapshot(): Map<String, Any> = stateMap()
+    fun stateSnapshot(): Map<String, Any?> = stateMap()
 
     fun trackSnapshot(): Map<String, Any?> = trackStateMap()
 
@@ -2371,8 +2458,11 @@ class Media3VideoView(
             ?.toInt()
             ?.takeIf { it > 0 }
         pendingClosedCaptionId = null
-        firstFrameRendered = false
-        firstFrameCover.visibility = View.VISIBLE
+        hideVideoUntilFirstFrame()
+        if (letterboxCrop != null) {
+            letterboxCrop = null
+            applyVideoLayout()
+        }
         cancelPendingSubtitleCue(clearView = true)
         clearAssSubtitleScript()
         applyTrackSelectorForCurrentSource()
@@ -3078,6 +3168,132 @@ class Media3VideoView(
         applyVideoLayout()
     }
 
+    private fun updateLetterboxCrop(arguments: Any?) {
+        val args = arguments as? Map<*, *> ?: return
+        if (args["clear"] == true) {
+            if (letterboxCrop != null) {
+                letterboxCrop = null
+                applyVideoLayout()
+            }
+            return
+        }
+        val w = (args["w"] as? Number)?.toInt() ?: return
+        val h = (args["h"] as? Number)?.toInt() ?: return
+        val x = (args["x"] as? Number)?.toInt() ?: return
+        val y = (args["y"] as? Number)?.toInt() ?: return
+        val next = LetterboxCropRect(w = w, h = h, x = x, y = y)
+        if (next != letterboxCrop) {
+            letterboxCrop = next
+            applyVideoLayout()
+        }
+    }
+
+    private fun detectLetterbox(result: MethodChannel.Result) {
+        val sourceW = videoWidthPx
+        val sourceH = videoHeightPx
+        if (sourceW <= 0 || sourceH <= 0) {
+            result.success(null)
+            return
+        }
+        when (val view = videoView) {
+            // Tunneled output never lands in a buffer this side can read.
+            is SurfaceView ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !tunnelingActive) {
+                    copySurfaceForLetterbox(view, sourceW, sourceH, result)
+                } else {
+                    result.success(null)
+                }
+            is TextureView -> copyTextureForLetterbox(view, sourceW, sourceH, result)
+            else -> result.success(null)
+        }
+    }
+
+    private fun copyTextureForLetterbox(
+        view: TextureView,
+        sourceWidth: Int,
+        sourceHeight: Int,
+        result: MethodChannel.Result,
+    ) {
+        if (view.width <= 0 || view.height <= 0) {
+            result.success(null)
+            return
+        }
+        val sample = letterboxSampleSize(view.width, view.height)
+        val bitmap = view.getBitmap(sample.width, sample.height)
+        if (bitmap == null) {
+            result.success(null)
+            return
+        }
+        result.success(scanBitmap(bitmap, sourceWidth, sourceHeight)?.toWireMap(sourceWidth, sourceHeight))
+        bitmap.recycle()
+    }
+
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
+    private fun copySurfaceForLetterbox(
+        view: SurfaceView,
+        sourceWidth: Int,
+        sourceHeight: Int,
+        result: MethodChannel.Result,
+    ) {
+        val surface = view.holder.surface
+        if (surface == null || !surface.isValid || view.width <= 0 || view.height <= 0) {
+            result.success(null)
+            return
+        }
+        val sample = letterboxSampleSize(view.width, view.height)
+        val bitmap = Bitmap.createBitmap(sample.width, sample.height, Bitmap.Config.ARGB_8888)
+        try {
+            PixelCopy.request(view, bitmap, { copyResult ->
+                if (isDisposedByFlutter || copyResult != PixelCopy.SUCCESS) {
+                    bitmap.recycle()
+                    result.success(null)
+                    return@request
+                }
+                result.success(
+                    scanBitmap(bitmap, sourceWidth, sourceHeight)
+                        ?.toWireMap(sourceWidth, sourceHeight),
+                )
+                bitmap.recycle()
+            }, mainHandler)
+        } catch (_: Throwable) {
+            bitmap.recycle()
+            result.success(null)
+        }
+    }
+
+    private fun letterboxSampleSize(viewWidth: Int, viewHeight: Int): android.util.Size {
+        val maxDim = 480
+        val width = viewWidth.coerceAtLeast(1)
+        val height = viewHeight.coerceAtLeast(1)
+        val longest = maxOf(width, height)
+        if (longest <= maxDim) {
+            return android.util.Size(width, height)
+        }
+        val scale = maxDim.toFloat() / longest.toFloat()
+        return android.util.Size(
+            (width * scale).roundToInt().coerceAtLeast(1),
+            (height * scale).roundToInt().coerceAtLeast(1),
+        )
+    }
+
+    private fun scanBitmap(
+        bitmap: Bitmap,
+        sourceWidth: Int,
+        sourceHeight: Int,
+    ): LetterboxCropRect? {
+        val width = bitmap.width
+        val height = bitmap.height
+        val pixels = IntArray(width * height)
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+        return LetterboxBarScanner.scanArgb(
+            pixels = pixels,
+            width = width,
+            height = height,
+            sourceWidth = sourceWidth,
+            sourceHeight = sourceHeight,
+        )
+    }
+
     // The Dart side only reports a codec when it drives the selection itself.
     // Media3 picks the track on its own for a preferred text language or a
     // closed caption, so the selected track's mime type is the reliable test
@@ -3124,10 +3340,32 @@ class Media3VideoView(
         // vertical offset is a fraction of this view's height, so pinning text
         // to a letterboxed box would make one setting land at a different
         // on-screen position for every aspect ratio.
-        fun applyBounds(width: Int, height: Int) {
-            applyLayoutBounds(videoView, videoLayoutParams, width, height)
+        fun applyBounds(
+            width: Int,
+            height: Int,
+            gravity: Int = Gravity.CENTER,
+            leftMargin: Int = 0,
+            topMargin: Int = 0,
+        ) {
+            applyLayoutBounds(
+                videoView,
+                videoLayoutParams,
+                width,
+                height,
+                gravity,
+                leftMargin,
+                topMargin,
+            )
             if (selectedSubtitleIsAss) {
-                applyLayoutBounds(subtitleView, subtitleLayoutParams, width, height)
+                applyLayoutBounds(
+                    subtitleView,
+                    subtitleLayoutParams,
+                    width,
+                    height,
+                    gravity,
+                    leftMargin,
+                    topMargin,
+                )
             } else {
                 applyLayoutBounds(
                     subtitleView,
@@ -3154,6 +3392,29 @@ class Media3VideoView(
             applyBounds(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT,
+            )
+            return
+        }
+
+        val crop = letterboxCrop
+        if (crop != null && crop.w > 0 && crop.h > 0) {
+            val bounds = LetterboxCropLayout.compute(
+                containerWidth = containerWidth,
+                containerHeight = containerHeight,
+                sourceWidth = sourceWidth,
+                sourceHeight = sourceHeight,
+                cropX = crop.x * videoPixelRatio,
+                cropY = crop.y.toFloat(),
+                cropW = crop.w * videoPixelRatio,
+                cropH = crop.h.toFloat(),
+                cover = zoomMode == ZoomMode.CROP,
+            )
+            applyBounds(
+                bounds.width,
+                bounds.height,
+                Gravity.TOP or Gravity.START,
+                bounds.left,
+                bounds.top,
             )
             return
         }
@@ -3199,18 +3460,29 @@ class Media3VideoView(
         layoutParams: FrameLayout.LayoutParams,
         width: Int,
         height: Int,
+        gravity: Int = Gravity.CENTER,
+        leftMargin: Int = 0,
+        topMargin: Int = 0,
     ) {
         if (
             layoutParams.width == width &&
             layoutParams.height == height &&
-            layoutParams.gravity == Gravity.CENTER
+            layoutParams.gravity == gravity &&
+            layoutParams.leftMargin == leftMargin &&
+            layoutParams.topMargin == topMargin &&
+            layoutParams.rightMargin == 0 &&
+            layoutParams.bottomMargin == 0
         ) {
             return
         }
 
         layoutParams.width = width
         layoutParams.height = height
-        layoutParams.gravity = Gravity.CENTER
+        layoutParams.gravity = gravity
+        layoutParams.leftMargin = leftMargin
+        layoutParams.topMargin = topMargin
+        layoutParams.rightMargin = 0
+        layoutParams.bottomMargin = 0
         view.layoutParams = layoutParams
     }
 
@@ -3832,6 +4104,27 @@ class Media3VideoView(
             ?.startsWith("audio/") == true
     }
 
+    private fun errorIsNoValidVarintLengthMaskFound(error: PlaybackException): Boolean {
+        val exo = error as? ExoPlaybackException ?: return false
+        if (exo.type != ExoPlaybackException.TYPE_SOURCE) return false
+
+        var cause: Throwable? = exo.sourceException
+        var depth = 0
+
+        while (cause != null && depth < 3) {
+            if (cause is IllegalStateException &&
+                cause.message == "No valid varint length mask found"
+            ) {
+                return true
+            }
+
+            cause = cause.cause
+            depth++
+        }
+
+        return false
+    }
+
     private fun emitRecoverablePlayerError(
         error: PlaybackException,
         audioOffloadRetryTriggered: Boolean,
@@ -3858,6 +4151,20 @@ class Media3VideoView(
             PlaybackException.ERROR_CODE_DECODING_FAILED ->
                 if (errorIsFromAudioRenderer(error)) "unsupported_audio" else null
 
+            // Some MKVs carry zero padding after the last real cluster while
+            // the Segment size runs to EOF. Media3 reads a 0x00 there as an
+            // EBML length byte, which has no leading 1-bit and so no valid
+            // varint length mask. The container is the malformed part, and any
+            // server transcode rewrites it without the tail.
+            PlaybackException.ERROR_CODE_IO_UNSPECIFIED ->
+                if (!containerFallbackAttempted &&
+                    errorIsNoValidVarintLengthMaskFound(error)
+                ) {
+                    "unsupported_container"
+                } else {
+                    null
+                }
+
             else -> null
         }
 
@@ -3878,6 +4185,7 @@ class Media3VideoView(
                 "kind" to recoverableKind,
                 "code" to error.errorCode,
                 "message" to (error.localizedMessage ?: ""),
+                "cause" to describeCauseChain(error),
                 "audioOffloadRetryTriggered" to audioOffloadRetryTriggered,
             ),
         )
@@ -4296,7 +4604,7 @@ class Media3VideoView(
         return names
     }
 
-    private fun stateMap(): Map<String, Any> {
+    private fun stateMap(): Map<String, Any?> {
         val duration = player.duration
         val bufferedPosition = player.bufferedPosition
         val videoSize = player.videoSize
@@ -4316,6 +4624,7 @@ class Media3VideoView(
             "volumeBoostLevel" to userVolumeBoostLevel,
             "subtitleRendererMode" to activeSubtitleRendererMode.wireValue,
             "subtitleRendererModeRequested" to requestedSubtitleRendererMode.wireValue,
+            "pictureBlack" to pictureBlackWire(),
         )
     }
 
@@ -4334,6 +4643,7 @@ class Media3VideoView(
     private fun startTicker() {
         val runnable = object : Runnable {
             override fun run() {
+                samplePicture()
                 emitState()
                 mainHandler.postDelayed(this, 250L)
             }
@@ -4361,3 +4671,10 @@ class Media3VideoView(
         }
     }
 }
+
+private const val PICTURE_SAMPLE_W = 32
+private const val PICTURE_SAMPLE_H = 18
+private const val PICTURE_SAMPLE_INTERVAL_MS = 1000L
+private const val PICTURE_SAMPLE_SHOWN_INTERVAL_MS = 5000L
+// Brightest channel of any sampled pixel below this is a black picture.
+private const val PICTURE_BLACK_LEVEL = 24

@@ -23,6 +23,8 @@ import '../services/user_data_sync.dart';
 import '../services/seerr/seerr_api_models.dart';
 import 'seerr_discover_view_model.dart';
 import 'seerr_media_detail_view_model.dart';
+import '../models/upcoming_episode_info.dart';
+import '../services/upcoming_episode_service.dart';
 
 enum CollectionSortOption {
   alphabetical,
@@ -463,6 +465,9 @@ class ItemDetailViewModel extends ChangeNotifier {
   String? _seerrResolvedLibraryId;
   String? get seerrResolvedLibraryId => _seerrResolvedLibraryId;
 
+  UpcomingEpisodeInfo? _upcomingEpisode;
+  UpcomingEpisodeInfo? get upcomingEpisode => _upcomingEpisode;
+
   /// Only used to resolve an IMDb-keyed id by searching for it.
   String? _seerrOnlyTitle;
   set seerrOnlyTitle(String? value) => _seerrOnlyTitle = value;
@@ -473,22 +478,57 @@ class ItemDetailViewModel extends ChangeNotifier {
   Future<void> _loadSeerrOverlay() async {
     final item = _item;
     if (item == null) return;
-    if (item.type != 'Movie' && item.type != 'Series') return;
+    final isMedia = item.type == 'Movie' || item.type == 'Series';
+    final isTvPart = item.type == 'Season' || item.type == 'Episode';
+    if (!isMedia && !isTvPart) return;
     if (!GetIt.instance<PluginSyncService>().seerrAvailable) return;
 
-    // TMDB is the id Seerr speaks. IMDb goes through its search fallback.
-    final tmdbId = item.tmdbId;
-    final lookupId = (tmdbId != null && tmdbId.isNotEmpty)
-        ? tmdbId
-        : item.imdbId;
+    String? lookupId;
+    String mediaType = 'movie';
+    String title = item.name;
+
+    if (item.type == 'Movie') {
+      lookupId = (item.tmdbId != null && item.tmdbId!.isNotEmpty)
+          ? item.tmdbId
+          : item.imdbId;
+      mediaType = 'movie';
+      title = item.name;
+    } else if (item.type == 'Series') {
+      lookupId = (item.tmdbId != null && item.tmdbId!.isNotEmpty)
+          ? item.tmdbId
+          : item.imdbId;
+      mediaType = 'tv';
+      title = item.name;
+    } else if (isTvPart) {
+      final seriesId = item.seriesId;
+      if (seriesId != null && seriesId.isNotEmpty) {
+        try {
+          final seriesData = await _client.itemsApi.getItem(seriesId);
+          if (_isDisposed) return;
+          final seriesItem = AggregatedItem(
+            id: seriesId,
+            serverId: _serverId ?? _client.baseUrl,
+            rawData: seriesData,
+          );
+          lookupId =
+              (seriesItem.tmdbId != null && seriesItem.tmdbId!.isNotEmpty)
+                  ? seriesItem.tmdbId
+                  : seriesItem.imdbId;
+          mediaType = 'tv';
+          title = seriesItem.name;
+        } catch (_) {}
+      }
+    }
+
     if (lookupId == null || lookupId.isEmpty) return;
 
     try {
       final vm = await _ensureSeerr();
+      if (_isDisposed) return;
       await vm.load(
         lookupId,
-        item.type == 'Series' ? 'tv' : 'movie',
-        title: item.name,
+        mediaType,
+        title: title,
       );
     } catch (_) {}
   }
@@ -646,6 +686,9 @@ class ItemDetailViewModel extends ChangeNotifier {
     // Everything else in _loadSecondary needs a library id, but ratings are
     // keyed by TMDB id, which this does have.
     unawaited(_loadRatings());
+    if (state.isTv) {
+      unawaited(_loadUpcomingEpisode());
+    }
   }
 
   Map<String, dynamic> _seerrRawData(SeerrMediaDetailState s) {
@@ -697,7 +740,7 @@ class ItemDetailViewModel extends ChangeNotifier {
         for (final season in s.tv?.seasons ?? const [])
           if (season.seasonNumber > 0)
             AggregatedItem(
-              id: '${itemId}:s${season.seasonNumber}',
+              id: '$itemId:s${season.seasonNumber}',
               serverId: 'seerr',
               rawData: {
                 'Name': season.name ?? '',
@@ -836,6 +879,7 @@ class ItemDetailViewModel extends ChangeNotifier {
       futures.add(_loadSimilar());
       futures.add(_loadFeatures());
       futures.add(_loadParentCollection());
+      unawaited(_loadUpcomingEpisode());
     } else if (type == 'Season') {
       futures.add(_loadRatings());
       futures.add(_loadEpisodes());
@@ -938,16 +982,18 @@ class ItemDetailViewModel extends ChangeNotifier {
   }
 
   /// Loads every episode of the current Series (all seasons) on demand. Used by
-  /// the Modern and Nouveau detail layout's Episodes tab and accurate season counts. No-op
-  /// for non-Series items or once already loaded.
+  /// the Modern and Nouveau detail layout's Episodes tab, accurate season counts,
+  /// and the Spotlight More Episodes modal. No-op once already loaded.
   Future<void> loadAllSeriesEpisodes() async {
     final item = _item;
-    if (item == null || item.type != 'Series') return;
+    if (item == null) return;
+    final seriesId = item.type == 'Series' ? itemId : item.seriesId;
+    if (seriesId == null || seriesId.isEmpty) return;
     if (_seriesEpisodesRequested) return;
     _seriesEpisodesRequested = true;
     try {
       final data = await _client.itemsApi.getEpisodes(
-        itemId,
+        seriesId,
         fields: _episodeOverviewFields,
       );
       final items = (data['Items'] as List?) ?? [];
@@ -2097,6 +2143,32 @@ class ItemDetailViewModel extends ChangeNotifier {
         notifyListeners();
       }
     } catch (_) {}
+  }
+
+  Future<void> _loadUpcomingEpisode() async {
+    final item = _item;
+    if (item == null || item.type != 'Series') return;
+    try {
+      if (!GetIt.instance.isRegistered<UpcomingEpisodeService>()) return;
+      final service = GetIt.instance<UpcomingEpisodeService>();
+      final cached = service.getCached(item.id);
+      if (cached != null) {
+        _upcomingEpisode = cached;
+        notifyListeners();
+        return;
+      }
+      final episode = await service.resolveUpcomingEpisode(
+        seriesId: item.id,
+        providerIds: item.providerIds,
+      );
+      if (_isDisposed) return;
+      if (episode != null && !episode.hasAired) {
+        _upcomingEpisode = episode;
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint('[ItemDetailViewModel] Upcoming episode resolution failed: $e');
+    }
   }
 
   Future<void> toggleFavorite() async {
