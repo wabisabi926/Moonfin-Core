@@ -74,11 +74,12 @@ abstract class PlayerBackend {
   Stream<bool> get completedStream;
   Stream<Map<String, dynamic>>? get errorStream => null;
 
-  /// Whether there is a picture to see: true once a frame that is not
-  /// black has been drawn, false while the picture is absent or black. Only
-  /// the backends that can tell provide it; elsewhere a clock that runs is
-  /// the only sign of a picture.
-  Stream<bool>? get pictureShownStream => null;
+  /// A correction the backend applies to sideloaded subtitles on its own,
+  /// in seconds, positive meaning later. It sits on top of the delay the
+  /// user set and is shown next to it, never added into it. Only a backend
+  /// that measures one provides it.
+  double get subtitleAutoOffsetSeconds => 0.0;
+  Stream<double>? get subtitleAutoOffsetStream => null;
 
   Map<String, dynamic> getDeviceProfile({bool useProgressiveTranscode = false});
 

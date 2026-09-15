@@ -13,6 +13,33 @@ class AppLocalizationsKo extends AppLocalizations {
   String get appTitle => 'Moonfin';
 
   @override
+  String get animeMarkerFiller => 'Filler';
+
+  @override
+  String get animeMarkerMixed => 'Mixed';
+
+  @override
+  String get animeMarkerAnimeCanon => 'Anime Canon';
+
+  @override
+  String get animeMarkerMangaCanon => 'Manga Canon';
+
+  @override
+  String get animeMarkerSubbed => 'Subbed';
+
+  @override
+  String get animeMarkerDubbed => 'Dubbed';
+
+  @override
+  String get animeMarkerSubbedAndDubbed => 'Subbed/Dubbed';
+
+  @override
+  String get animeMarkerPending => 'Pending';
+
+  @override
+  String get animeMarkerRecap => 'Recap';
+
+  @override
   String get accountPreferences => '계정 환경설정';
 
   @override
@@ -1865,6 +1892,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get subtitleDelay => '자막 지연';
 
   @override
+  String subtitleDelayAuto(String value) {
+    return 'Auto $value';
+  }
+
+  @override
   String get reset => '초기화';
 
   @override
@@ -2321,6 +2353,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get noChannelsFound => '채널을 찾을 수 없습니다';
 
   @override
+  String get noProgramData => 'No program data';
+
+  @override
   String get liveBadge => '살다';
 
   @override
@@ -2390,6 +2425,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get watch => '시청';
+
+  @override
+  String get watchChannelLive => 'Watch channel live';
 
   @override
   String get close => '닫기';
@@ -3097,6 +3135,22 @@ class AppLocalizationsKo extends AppLocalizations {
       '재생 버튼은 항상 첫 번째로 표시되며 잠긴 버튼은 항상 표시됩니다. 그 외의 항목은 원하는 대로 설정할 수 있으며, 기기 종류별로 목록이 각각 저장됩니다.';
 
   @override
+  String get actionButtonsOnScreen => 'Action Buttons on Screen';
+
+  @override
+  String get actionButtonsOnScreenDescription =>
+      'Customize how many action buttons appear before folding into the More Actions menu.';
+
+  @override
+  String get actionButtonsOnScreenAuto => 'Auto (Theme Default)';
+
+  @override
+  String get actionButtonsOnScreenPlayOnly => '1 (Play only)';
+
+  @override
+  String get actionButtonsOnScreenAll => 'All (Horizontal Scroll)';
+
+  @override
   String get detailMetadata => 'Metadata Row';
 
   @override
@@ -3372,6 +3426,23 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsAudioPassthroughModeManual => '수동(아래에서 형식 선택)';
+
+  @override
+  String get settingsAudioPassthroughOutput => 'Passthrough output';
+
+  @override
+  String get settingsAudioPassthroughOutputDescription =>
+      'Who packs bitstreams for the HDMI link. Try the app packer if passthrough is silent or glitchy on this device.';
+
+  @override
+  String get settingsAudioPassthroughOutputPlatform =>
+      'Automatic, system packer (AudioTrack RAW)';
+
+  @override
+  String get settingsAudioPassthroughOutputIec => 'App packer (AudioTrack IEC)';
+
+  @override
+  String get settingsAudioPassthroughOutputIecLabel => 'App (IEC)';
 
   @override
   String get settingsDownmixToStereoDescription => '디코딩된 모든 오디오를 2채널로 다운믹스합니다.';
@@ -11999,26 +12070,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get pageTransitionFadeLong => 'Long Fade';
 
   @override
-  String get liveTvConnecting => 'Connecting to channel…';
+  String get siriRemoteSwipeSensitivity => 'Touchpad swipe sensitivity';
 
   @override
-  String get liveTvTunerStillTrying =>
-      'The tuner is still trying to get this channel…';
-
-  @override
-  String get liveTvReconnecting => 'Signal lost. The tuner is reconnecting…';
-
-  @override
-  String get liveTvChannelUnavailableTitle => 'Channel unavailable';
-
-  @override
-  String get liveTvChannelUnavailableBody =>
-      'The server could not get this channel from the tuner. The source may be down, or the tuner gave up after retrying.';
-
-  @override
-  String get liveTvChannelLostTitle => 'Channel lost';
-
-  @override
-  String get liveTvChannelLostBody =>
-      'The stream stopped and the tuner did not bring it back. Try again or pick another channel.';
+  String get siriRemoteSwipeSensitivityDescription =>
+      'How far focus moves for each swipe on the Siri Remote touchpad';
 }

@@ -226,6 +226,60 @@ abstract class AppLocalizations {
   /// **'Moonfin'**
   String get appTitle;
 
+  /// Badge on an anime episode that is filler, meaning it is not adapted from the source manga
+  ///
+  /// In en, this message translates to:
+  /// **'Filler'**
+  String get animeMarkerFiller;
+
+  /// Badge on an anime episode that mixes source material with filler, so it still contains story
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed'**
+  String get animeMarkerMixed;
+
+  /// Badge on an anime episode that is not in the source manga but is part of the anime's own continuity
+  ///
+  /// In en, this message translates to:
+  /// **'Anime Canon'**
+  String get animeMarkerAnimeCanon;
+
+  /// Badge on an anime episode adapted from the source manga
+  ///
+  /// In en, this message translates to:
+  /// **'Manga Canon'**
+  String get animeMarkerMangaCanon;
+
+  /// Badge on an anime episode or season whose only audio is Japanese, so it is watched with subtitles
+  ///
+  /// In en, this message translates to:
+  /// **'Subbed'**
+  String get animeMarkerSubbed;
+
+  /// Badge on an anime episode or season that has an audio track in a language other than Japanese
+  ///
+  /// In en, this message translates to:
+  /// **'Dubbed'**
+  String get animeMarkerDubbed;
+
+  /// Badge on anime that carries both the original Japanese audio and a dub, so it can be watched either way
+  ///
+  /// In en, this message translates to:
+  /// **'Subbed/Dubbed'**
+  String get animeMarkerSubbedAndDubbed;
+
+  /// Badge on an anime episode whose filler information the server has matched but not downloaded yet
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get animeMarkerPending;
+
+  /// Badge on an anime episode that recaps earlier episodes
+  ///
+  /// In en, this message translates to:
+  /// **'Recap'**
+  String get animeMarkerRecap;
+
   /// Section header for account preferences settings
   ///
   /// In en, this message translates to:
@@ -3280,6 +3334,12 @@ abstract class AppLocalizations {
   /// **'Subtitle Delay'**
   String get subtitleDelay;
 
+  /// Read-only line under the subtitle delay showing a correction the player applied on its own, value is a formatted delay like +2000 ms
+  ///
+  /// In en, this message translates to:
+  /// **'Auto {value}'**
+  String subtitleDelayAuto(String value);
+
   /// Button label to reset a value
   ///
   /// In en, this message translates to:
@@ -4114,6 +4174,12 @@ abstract class AppLocalizations {
   /// **'No channels found'**
   String get noChannelsFound;
 
+  /// Guide cell label for a real EPG schedule gap, not a genre-filtered program
+  ///
+  /// In en, this message translates to:
+  /// **'No program data'**
+  String get noProgramData;
+
   /// Badge label shown on currently airing programs
   ///
   /// In en, this message translates to:
@@ -4239,6 +4305,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Watch'**
   String get watch;
+
+  /// Button label to tune a channel live when the selected program is not the one that will play (ended or upcoming)
+  ///
+  /// In en, this message translates to:
+  /// **'Watch channel live'**
+  String get watchChannelLive;
 
   /// Button label to close a dialog
   ///
@@ -5530,6 +5602,36 @@ abstract class AppLocalizations {
   /// **'Play is always first and the locked buttons are always shown. Everything else is up to you, and each kind of device keeps its own list.'**
   String get detailButtonsSectionDescription;
 
+  /// Setting title for choosing how many action buttons are visible before overflowing into More Actions
+  ///
+  /// In en, this message translates to:
+  /// **'Action Buttons on Screen'**
+  String get actionButtonsOnScreen;
+
+  /// Subtitle explaining how action buttons overflow into More Actions
+  ///
+  /// In en, this message translates to:
+  /// **'Customize how many action buttons appear before folding into the More Actions menu.'**
+  String get actionButtonsOnScreenDescription;
+
+  /// Option showing theme default number of action buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Auto (Theme Default)'**
+  String get actionButtonsOnScreenAuto;
+
+  /// Option showing only the play action button on screen
+  ///
+  /// In en, this message translates to:
+  /// **'1 (Play only)'**
+  String get actionButtonsOnScreenPlayOnly;
+
+  /// Option showing all action buttons in a horizontal scrollable row
+  ///
+  /// In en, this message translates to:
+  /// **'All (Horizontal Scroll)'**
+  String get actionButtonsOnScreenAll;
+
   /// Settings screen for choosing and reordering details screen metadata items
   ///
   /// In en, this message translates to:
@@ -6057,6 +6159,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manual (choose formats below)'**
   String get settingsAudioPassthroughModeManual;
+
+  /// Title of the RAW-vs-IEC passthrough packer selector (Android TV, Media3 engine)
+  ///
+  /// In en, this message translates to:
+  /// **'Passthrough output'**
+  String get settingsAudioPassthroughOutput;
+
+  /// No description provided for @settingsAudioPassthroughOutputDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Who packs bitstreams for the HDMI link. Try the app packer if passthrough is silent or glitchy on this device.'**
+  String get settingsAudioPassthroughOutputDescription;
+
+  /// No description provided for @settingsAudioPassthroughOutputPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic, system packer (AudioTrack RAW)'**
+  String get settingsAudioPassthroughOutputPlatform;
+
+  /// No description provided for @settingsAudioPassthroughOutputIec.
+  ///
+  /// In en, this message translates to:
+  /// **'App packer (AudioTrack IEC)'**
+  String get settingsAudioPassthroughOutputIec;
+
+  /// No description provided for @settingsAudioPassthroughOutputIecLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'App (IEC)'**
+  String get settingsAudioPassthroughOutputIecLabel;
 
   /// No description provided for @settingsDownmixToStereoDescription.
   ///
@@ -21689,47 +21821,17 @@ abstract class AppLocalizations {
   /// **'Long Fade'**
   String get pageTransitionFadeLong;
 
-  /// Live TV player status while a channel is being tuned
+  /// Apple TV settings label for how far a swipe on the Siri Remote touchpad moves the focus highlight
   ///
   /// In en, this message translates to:
-  /// **'Connecting to channel…'**
-  String get liveTvConnecting;
+  /// **'Touchpad swipe sensitivity'**
+  String get siriRemoteSwipeSensitivity;
 
-  /// Live TV player status when the server has kept a channel request open for several seconds, meaning the tuner is retrying its source
+  /// Apple TV settings subtitle for the Siri Remote touchpad swipe sensitivity option
   ///
   /// In en, this message translates to:
-  /// **'The tuner is still trying to get this channel…'**
-  String get liveTvTunerStillTrying;
-
-  /// Live TV player status when a playing channel stops receiving data
-  ///
-  /// In en, this message translates to:
-  /// **'Signal lost. The tuner is reconnecting…'**
-  String get liveTvReconnecting;
-
-  /// Title shown when a live TV channel could not be started
-  ///
-  /// In en, this message translates to:
-  /// **'Channel unavailable'**
-  String get liveTvChannelUnavailableTitle;
-
-  /// Explanation shown when a live TV channel could not be started
-  ///
-  /// In en, this message translates to:
-  /// **'The server could not get this channel from the tuner. The source may be down, or the tuner gave up after retrying.'**
-  String get liveTvChannelUnavailableBody;
-
-  /// Title shown when a playing live TV channel stopped and did not recover
-  ///
-  /// In en, this message translates to:
-  /// **'Channel lost'**
-  String get liveTvChannelLostTitle;
-
-  /// Explanation shown when a playing live TV channel stopped and did not recover
-  ///
-  /// In en, this message translates to:
-  /// **'The stream stopped and the tuner did not bring it back. Try again or pick another channel.'**
-  String get liveTvChannelLostBody;
+  /// **'How far focus moves for each swipe on the Siri Remote touchpad'**
+  String get siriRemoteSwipeSensitivityDescription;
 }
 
 class _AppLocalizationsDelegate

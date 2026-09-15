@@ -13,6 +13,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Moonfin';
 
   @override
+  String get animeMarkerFiller => 'Filler';
+
+  @override
+  String get animeMarkerMixed => 'Mixed';
+
+  @override
+  String get animeMarkerAnimeCanon => 'Anime Canon';
+
+  @override
+  String get animeMarkerMangaCanon => 'Manga Canon';
+
+  @override
+  String get animeMarkerSubbed => 'Subbed';
+
+  @override
+  String get animeMarkerDubbed => 'Dubbed';
+
+  @override
+  String get animeMarkerSubbedAndDubbed => 'Subbed/Dubbed';
+
+  @override
+  String get animeMarkerPending => 'Pending';
+
+  @override
+  String get animeMarkerRecap => 'Recap';
+
+  @override
   String get accountPreferences => 'ACCOUNT PREFERENCES';
 
   @override
@@ -1891,6 +1918,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subtitleDelay => 'Subtitle Delay';
 
   @override
+  String subtitleDelayAuto(String value) {
+    return 'Auto $value';
+  }
+
+  @override
   String get reset => 'Reset';
 
   @override
@@ -2349,6 +2381,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noChannelsFound => 'No channels found';
 
   @override
+  String get noProgramData => 'No program data';
+
+  @override
   String get liveBadge => 'LIVE';
 
   @override
@@ -2420,6 +2455,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get watch => 'Watch';
+
+  @override
+  String get watchChannelLive => 'Watch channel live';
 
   @override
   String get close => 'Close';
@@ -3139,6 +3177,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'Play is always first and the locked buttons are always shown. Everything else is up to you, and each kind of device keeps its own list.';
 
   @override
+  String get actionButtonsOnScreen => 'Action Buttons on Screen';
+
+  @override
+  String get actionButtonsOnScreenDescription =>
+      'Customize how many action buttons appear before folding into the More Actions menu.';
+
+  @override
+  String get actionButtonsOnScreenAuto => 'Auto (Theme Default)';
+
+  @override
+  String get actionButtonsOnScreenPlayOnly => '1 (Play only)';
+
+  @override
+  String get actionButtonsOnScreenAll => 'All (Horizontal Scroll)';
+
+  @override
   String get detailMetadata => 'Metadata Row';
 
   @override
@@ -3420,6 +3474,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsAudioPassthroughModeManual =>
       'Manual (choose formats below)';
+
+  @override
+  String get settingsAudioPassthroughOutput => 'Passthrough output';
+
+  @override
+  String get settingsAudioPassthroughOutputDescription =>
+      'Who packs bitstreams for the HDMI link. Try the app packer if passthrough is silent or glitchy on this device.';
+
+  @override
+  String get settingsAudioPassthroughOutputPlatform =>
+      'Automatic, system packer (AudioTrack RAW)';
+
+  @override
+  String get settingsAudioPassthroughOutputIec => 'App packer (AudioTrack IEC)';
+
+  @override
+  String get settingsAudioPassthroughOutputIecLabel => 'App (IEC)';
 
   @override
   String get settingsDownmixToStereoDescription =>
@@ -12267,28 +12338,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pageTransitionFadeLong => 'Long Fade';
 
   @override
-  String get liveTvConnecting => 'Connecting to channel…';
+  String get siriRemoteSwipeSensitivity => 'Touchpad swipe sensitivity';
 
   @override
-  String get liveTvTunerStillTrying =>
-      'The tuner is still trying to get this channel…';
-
-  @override
-  String get liveTvReconnecting => 'Signal lost. The tuner is reconnecting…';
-
-  @override
-  String get liveTvChannelUnavailableTitle => 'Channel unavailable';
-
-  @override
-  String get liveTvChannelUnavailableBody =>
-      'The server could not get this channel from the tuner. The source may be down, or the tuner gave up after retrying.';
-
-  @override
-  String get liveTvChannelLostTitle => 'Channel lost';
-
-  @override
-  String get liveTvChannelLostBody =>
-      'The stream stopped and the tuner did not bring it back. Try again or pick another channel.';
+  String get siriRemoteSwipeSensitivityDescription =>
+      'How far focus moves for each swipe on the Siri Remote touchpad';
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -12432,13 +12486,19 @@ class AppLocalizationsEnGb extends AppLocalizationsEn {
 
   @override
   String get detailScreenStyleSubtitle =>
-      'Classic is the original centered moonfin layout. Modern is a responsive cinematic layout.';
+      'Classic is the original centred Moonfin layout. Modern is a responsive cinematic layout. Spotlight is a hero-first layout with pop-up content cards. Nouveau is a full-screen layout with sections stacked down the page.';
 
   @override
   String get detailScreenStyleMoonfin => 'Classic';
 
   @override
   String get detailScreenStyleModern => 'Modern';
+
+  @override
+  String get detailScreenStyleSpotlight => 'Spotlight';
+
+  @override
+  String get spotlightMoreActions => 'More Actions';
 
   @override
   String get expandedTabs => 'Expanded Tabs';

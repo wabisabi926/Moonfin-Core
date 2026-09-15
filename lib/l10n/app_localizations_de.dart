@@ -13,6 +13,33 @@ class AppLocalizationsDe extends AppLocalizations {
   String get appTitle => 'Moonfin';
 
   @override
+  String get animeMarkerFiller => 'Filler';
+
+  @override
+  String get animeMarkerMixed => 'Mixed';
+
+  @override
+  String get animeMarkerAnimeCanon => 'Anime Canon';
+
+  @override
+  String get animeMarkerMangaCanon => 'Manga Canon';
+
+  @override
+  String get animeMarkerSubbed => 'Subbed';
+
+  @override
+  String get animeMarkerDubbed => 'Dubbed';
+
+  @override
+  String get animeMarkerSubbedAndDubbed => 'Subbed/Dubbed';
+
+  @override
+  String get animeMarkerPending => 'Pending';
+
+  @override
+  String get animeMarkerRecap => 'Recap';
+
+  @override
   String get accountPreferences => 'Kontopräferenzen';
 
   @override
@@ -161,37 +188,37 @@ class AppLocalizationsDe extends AppLocalizations {
   String get spotlightMoreActions => 'More Actions';
 
   @override
-  String get spotlightCastCrewStudios => 'Cast, Crew, and Studios';
+  String get spotlightCastCrewStudios => 'Schauspieler, Crew und Studio';
 
   @override
-  String get spotlightChaptersExtras => 'Chapters and Extras';
+  String get spotlightChaptersExtras => 'Kapitel und Extras';
 
   @override
-  String get spotlightSimilarRecommendations => 'Similar and Recommendations';
+  String get spotlightSimilarRecommendations => 'Ähnlich und Vorschläge';
 
   @override
-  String get spotlightSeasonsEpisodes => 'Seasons and Episodes';
+  String get spotlightSeasonsEpisodes => 'Staffeln und Folgen';
 
   @override
-  String get spotlightMoreEpisodes => 'More Episodes';
+  String get spotlightMoreEpisodes => 'Mehr Folgen';
 
   @override
-  String get spotlightFilmography => 'Filmography';
+  String get spotlightFilmography => 'Filmografie';
 
   @override
-  String get spotlightCollectionsCard => 'Collections';
+  String get spotlightCollectionsCard => 'Kollektionen';
 
   @override
-  String get spotlightPlaylistOrder => 'Playlist Order';
+  String get spotlightPlaylistOrder => 'Wiedergabeliste Reihenfolge';
 
   @override
-  String get spotlightMoviesAndShows => 'Movies & Shows';
+  String get spotlightMoviesAndShows => 'Filme und Serien';
 
   @override
-  String get spotlightSimilarSeerr => 'Similar (Seerr)';
+  String get spotlightSimilarSeerr => 'Ähnlich (Seer)';
 
   @override
-  String get spotlightRecommendationsSeerr => 'Recommendations (Seerr)';
+  String get spotlightRecommendationsSeerr => 'Vorschläge (Seer)';
 
   @override
   String spotlightPeopleCount(int count) {
@@ -364,7 +391,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get recommendationSystemMoonfin => 'Moonfin Empfehlungen';
 
   @override
-  String get recommendationSystemJellyfin => 'Jellyfin Recommends';
+  String get recommendationSystemJellyfin => 'Jellyfin schlägt vor';
 
   @override
   String get recommendationSystemTmdb => 'TMDb Ähnlichkeit';
@@ -442,7 +469,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get glassQualityReduced => 'Verringert';
 
   @override
-  String get performanceMode => 'Performance';
+  String get performanceMode => 'Leistung';
 
   @override
   String get performanceModeSubtitle =>
@@ -455,11 +482,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get performanceModeStandard => 'Standard';
 
   @override
-  String get performanceModeReduced => 'Reduced';
+  String get performanceModeReduced => 'Verringert';
 
   @override
   String get trailerPreviewHeldBack =>
-      'Off because Performance is set to Reduced for this device';
+      'Aus weil Leistung auf diesem Gerät auf verringert eingestellt ist';
 
   @override
   String get settingsAppearanceThemeSubtitle =>
@@ -1083,7 +1110,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get latestAudiobooks => 'Neueste Hörbücher';
 
   @override
-  String get latestComics => 'Latest Comics';
+  String get latestComics => 'Neueste Comics';
 
   @override
   String get comics => 'Comics';
@@ -1113,7 +1140,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noBooksFoundDescription =>
-      'This library does not contain any books, audiobooks, or comics yet.';
+      'Diese Bibliothek enthält bisher keine Bücher, Hörbücher oder Comics.';
 
   @override
   String bookPercentRead(int percent) {
@@ -1624,25 +1651,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noEpisodesLoaded => 'Keine Episoden geladen';
 
   @override
-  String get downloadScopeTitle => 'What to download';
+  String get downloadScopeTitle => 'Was heruntergeladen werden soll';
 
   @override
-  String get downloadAllEpisodes => 'All episodes';
+  String get downloadAllEpisodes => 'Alle Folgen';
 
   @override
-  String get downloadUnwatchedEpisodes => 'All unwatched episodes';
+  String get downloadUnwatchedEpisodes => 'Alle ungesehenen Folgen';
 
   @override
-  String get downloadAllMovies => 'All movies';
+  String get downloadAllMovies => 'Alle Filme';
 
   @override
-  String get downloadUnwatchedMovies => 'All unwatched movies';
+  String get downloadUnwatchedMovies => 'Alle ungesehenen Filme';
 
   @override
-  String get downloadScopeLoading => 'Loading items...';
+  String get downloadScopeLoading => 'Lade Dinge ...';
 
   @override
-  String get downloadScopeLoadFailed => 'Could not load items to download';
+  String get downloadScopeLoadFailed =>
+      'Konnte Dinge zum herunterladen nicht laden';
 
   @override
   String downloadEstimateTotal(String size) {
@@ -1666,7 +1694,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String downloadEstimateUnknownCount(int count) {
-    return '$count unknown';
+    return 'unbekannt';
   }
 
   @override
@@ -1979,6 +2007,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get subtitleDelay => 'Untertitelverzögerung';
 
   @override
+  String subtitleDelayAuto(String value) {
+    return 'Auto $value';
+  }
+
+  @override
   String get reset => 'Zurücksetzen';
 
   @override
@@ -1988,30 +2021,30 @@ class AppLocalizationsDe extends AppLocalizations {
   String get playbackInformation => 'Wiedergabeinformationen';
 
   @override
-  String get showMpvStats => 'Show mpv Statistics (Shift+I)';
+  String get showMpvStats => 'Zeige MPV Statistiken (Shift+i)';
 
   @override
-  String get hideMpvStats => 'Hide mpv Statistics (Shift+I)';
+  String get hideMpvStats => 'Verstecke MPV Statistiken (Shift+i)';
 
   @override
-  String get keyboardShortcutsTitle => 'Keyboard shortcuts';
+  String get keyboardShortcutsTitle => 'Tastaturkürzel';
 
   @override
   String get keyboardShortcutsSubtitle =>
-      'Keys for the app, video player and reader';
+      'Tasten für die App den Videoplayer und Leser';
 
   @override
   String get keyboardShortcutsPlayerHint =>
       'Press ? or F1 while a video plays to see this list without leaving the player.';
 
   @override
-  String get keyboardShortcutsSectionApp => 'Everywhere';
+  String get keyboardShortcutsSectionApp => 'Überall';
 
   @override
-  String get keyboardShortcutsSectionAppScope => 'On any screen';
+  String get keyboardShortcutsSectionAppScope => 'auf irgendeinem Display';
 
   @override
-  String get keyboardShortcutsSectionPlayer => 'Video player';
+  String get keyboardShortcutsSectionPlayer => 'Video Player';
 
   @override
   String get keyboardShortcutsSectionPlayerScope =>
@@ -2025,10 +2058,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'While reading a book or comic';
 
   @override
-  String get keyNameArrowKeys => 'Arrow keys';
+  String get keyNameArrowKeys => 'Pfeiltasten';
 
   @override
-  String get keyNameSpace => 'Space';
+  String get keyNameSpace => 'Leertaste';
 
   @override
   String get keyNameEnter => 'Enter';
@@ -2037,31 +2070,31 @@ class AppLocalizationsDe extends AppLocalizations {
   String get keyNameEsc => 'Esc';
 
   @override
-  String get keyNameBackspace => 'Backspace';
+  String get keyNameBackspace => 'Rücktaste';
 
   @override
-  String get keyNamePageUp => 'Page Up';
+  String get keyNamePageUp => 'Seite nach oben';
 
   @override
-  String get keyNamePageDown => 'Page Down';
+  String get keyNamePageDown => 'Seite nach unten';
 
   @override
   String get keyNameHome => 'Home';
 
   @override
-  String get keyNameEnd => 'End';
+  String get keyNameEnd => 'Ende';
 
   @override
-  String get keyNameShift => 'Shift';
+  String get keyNameShift => 'Umschalt';
 
   @override
-  String get keyNameCtrl => 'Ctrl';
+  String get keyNameCtrl => 'Strg';
 
   @override
   String get keyNameAlt => 'Alt';
 
   @override
-  String get keyNameScrollWheel => 'Scroll wheel';
+  String get keyNameScrollWheel => 'Mausrad';
 
   @override
   String get shortcutMoveFocus => 'Move between items';
@@ -2070,16 +2103,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get shortcutActivate => 'Open the selected item';
 
   @override
-  String get shortcutGoBack => 'Go back';
+  String get shortcutGoBack => 'Zurück gehen';
 
   @override
-  String get shortcutToggleFullscreen => 'Fullscreen on or off';
+  String get shortcutToggleFullscreen => 'Vollbild an oder aus';
 
   @override
-  String get shortcutQuit => 'Quit Moonfin';
+  String get shortcutQuit => 'Moonfin Beenden';
 
   @override
-  String get shortcutPlayPause => 'Play or pause';
+  String get shortcutPlayPause => 'Play oder Pause';
 
   @override
   String get shortcutShowControlsOrPlayPause =>
@@ -2092,25 +2125,25 @@ class AppLocalizationsDe extends AppLocalizations {
   String get shortcutSeekForward => 'Seek forward (hold for bigger jumps)';
 
   @override
-  String get shortcutVolumeUp => 'Volume up';
+  String get shortcutVolumeUp => 'Lautstärke hoch';
 
   @override
-  String get shortcutVolumeDown => 'Volume down';
+  String get shortcutVolumeDown => 'lautstärke runter';
 
   @override
-  String get shortcutMute => 'Mute or unmute';
+  String get shortcutMute => 'Stummschalten toggle';
 
   @override
-  String get shortcutToggleSubtitles => 'Subtitles on or off';
+  String get shortcutToggleSubtitles => 'Untertitel an oder aus';
 
   @override
-  String get shortcutSlower => 'Slow down';
+  String get shortcutSlower => 'Langsamer';
 
   @override
-  String get shortcutFaster => 'Speed up';
+  String get shortcutFaster => 'Schneller';
 
   @override
-  String get shortcutPlaybackInfo => 'Show playback information';
+  String get shortcutPlaybackInfo => 'Zeige Wiedergabeinformationen';
 
   @override
   String get shortcutMpvStats => 'mpv statistics on or off';
@@ -2439,6 +2472,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noChannelsFound => 'Keine TV-Kanäle gefunden';
 
   @override
+  String get noProgramData => 'No program data';
+
+  @override
   String get liveBadge => 'LIVE';
 
   @override
@@ -2509,6 +2545,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get watch => 'Ansehen';
+
+  @override
+  String get watchChannelLive => 'Watch channel live';
 
   @override
   String get close => 'Schließen';
@@ -3239,6 +3278,22 @@ class AppLocalizationsDe extends AppLocalizations {
       '\"Wiedergeben\" steht immer an erster Stelle und gesperrte Schaltflächen werden immer angezeigt. Die übrigen Aktionen können Sie frei festlegen. Jeder Gerätetyp verwendet eine eigene Liste.';
 
   @override
+  String get actionButtonsOnScreen => 'Action Buttons on Screen';
+
+  @override
+  String get actionButtonsOnScreenDescription =>
+      'Customize how many action buttons appear before folding into the More Actions menu.';
+
+  @override
+  String get actionButtonsOnScreenAuto => 'Auto (Theme Default)';
+
+  @override
+  String get actionButtonsOnScreenPlayOnly => '1 (Play only)';
+
+  @override
+  String get actionButtonsOnScreenAll => 'All (Horizontal Scroll)';
+
+  @override
   String get detailMetadata => 'Metadata Row';
 
   @override
@@ -3522,6 +3577,23 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settingsAudioPassthroughModeManual =>
       'manuell (Formate unten auswählen)';
+
+  @override
+  String get settingsAudioPassthroughOutput => 'Passthrough output';
+
+  @override
+  String get settingsAudioPassthroughOutputDescription =>
+      'Who packs bitstreams for the HDMI link. Try the app packer if passthrough is silent or glitchy on this device.';
+
+  @override
+  String get settingsAudioPassthroughOutputPlatform =>
+      'Automatic, system packer (AudioTrack RAW)';
+
+  @override
+  String get settingsAudioPassthroughOutputIec => 'App packer (AudioTrack IEC)';
+
+  @override
+  String get settingsAudioPassthroughOutputIecLabel => 'App (IEC)';
 
   @override
   String get settingsDownmixToStereoDescription =>
@@ -12533,26 +12605,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pageTransitionFadeLong => 'Long Fade';
 
   @override
-  String get liveTvConnecting => 'Connecting to channel…';
+  String get siriRemoteSwipeSensitivity => 'Touchpad swipe sensitivity';
 
   @override
-  String get liveTvTunerStillTrying =>
-      'The tuner is still trying to get this channel…';
-
-  @override
-  String get liveTvReconnecting => 'Signal lost. The tuner is reconnecting…';
-
-  @override
-  String get liveTvChannelUnavailableTitle => 'Channel unavailable';
-
-  @override
-  String get liveTvChannelUnavailableBody =>
-      'The server could not get this channel from the tuner. The source may be down, or the tuner gave up after retrying.';
-
-  @override
-  String get liveTvChannelLostTitle => 'Channel lost';
-
-  @override
-  String get liveTvChannelLostBody =>
-      'The stream stopped and the tuner did not bring it back. Try again or pick another channel.';
+  String get siriRemoteSwipeSensitivityDescription =>
+      'How far focus moves for each swipe on the Siri Remote touchpad';
 }

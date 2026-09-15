@@ -13,6 +13,33 @@ class AppLocalizationsBn extends AppLocalizations {
   String get appTitle => 'Moonfin';
 
   @override
+  String get animeMarkerFiller => 'Filler';
+
+  @override
+  String get animeMarkerMixed => 'Mixed';
+
+  @override
+  String get animeMarkerAnimeCanon => 'Anime Canon';
+
+  @override
+  String get animeMarkerMangaCanon => 'Manga Canon';
+
+  @override
+  String get animeMarkerSubbed => 'Subbed';
+
+  @override
+  String get animeMarkerDubbed => 'Dubbed';
+
+  @override
+  String get animeMarkerSubbedAndDubbed => 'Subbed/Dubbed';
+
+  @override
+  String get animeMarkerPending => 'Pending';
+
+  @override
+  String get animeMarkerRecap => 'Recap';
+
+  @override
   String get accountPreferences => 'অ্যাকাউন্ট পছন্দসমূহ';
 
   @override
@@ -1893,6 +1920,11 @@ class AppLocalizationsBn extends AppLocalizations {
   String get subtitleDelay => 'সাবটাইটেল বিলম্ব';
 
   @override
+  String subtitleDelayAuto(String value) {
+    return 'Auto $value';
+  }
+
+  @override
   String get reset => 'রিসেট করুন';
 
   @override
@@ -2352,6 +2384,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get noChannelsFound => 'কোনো চ্যানেল পাওয়া যায়নি';
 
   @override
+  String get noProgramData => 'No program data';
+
+  @override
   String get liveBadge => 'লাইভ';
 
   @override
@@ -2423,6 +2458,9 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get watch => 'দেখুন';
+
+  @override
+  String get watchChannelLive => 'Watch channel live';
 
   @override
   String get close => 'বন্ধ করুন';
@@ -3142,6 +3180,22 @@ class AppLocalizationsBn extends AppLocalizations {
       'Play is always first and the locked buttons are always shown. Everything else is up to you, and each kind of device keeps its own list.';
 
   @override
+  String get actionButtonsOnScreen => 'Action Buttons on Screen';
+
+  @override
+  String get actionButtonsOnScreenDescription =>
+      'Customize how many action buttons appear before folding into the More Actions menu.';
+
+  @override
+  String get actionButtonsOnScreenAuto => 'Auto (Theme Default)';
+
+  @override
+  String get actionButtonsOnScreenPlayOnly => '1 (Play only)';
+
+  @override
+  String get actionButtonsOnScreenAll => 'All (Horizontal Scroll)';
+
+  @override
   String get detailMetadata => 'Metadata Row';
 
   @override
@@ -3425,6 +3479,23 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get settingsAudioPassthroughModeManual =>
       'Manual (choose formats below)';
+
+  @override
+  String get settingsAudioPassthroughOutput => 'Passthrough output';
+
+  @override
+  String get settingsAudioPassthroughOutputDescription =>
+      'Who packs bitstreams for the HDMI link. Try the app packer if passthrough is silent or glitchy on this device.';
+
+  @override
+  String get settingsAudioPassthroughOutputPlatform =>
+      'Automatic, system packer (AudioTrack RAW)';
+
+  @override
+  String get settingsAudioPassthroughOutputIec => 'App packer (AudioTrack IEC)';
+
+  @override
+  String get settingsAudioPassthroughOutputIecLabel => 'App (IEC)';
 
   @override
   String get settingsDownmixToStereoDescription =>
@@ -12330,26 +12401,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get pageTransitionFadeLong => 'Long Fade';
 
   @override
-  String get liveTvConnecting => 'Connecting to channel…';
+  String get siriRemoteSwipeSensitivity => 'Touchpad swipe sensitivity';
 
   @override
-  String get liveTvTunerStillTrying =>
-      'The tuner is still trying to get this channel…';
-
-  @override
-  String get liveTvReconnecting => 'Signal lost. The tuner is reconnecting…';
-
-  @override
-  String get liveTvChannelUnavailableTitle => 'Channel unavailable';
-
-  @override
-  String get liveTvChannelUnavailableBody =>
-      'The server could not get this channel from the tuner. The source may be down, or the tuner gave up after retrying.';
-
-  @override
-  String get liveTvChannelLostTitle => 'Channel lost';
-
-  @override
-  String get liveTvChannelLostBody =>
-      'The stream stopped and the tuner did not bring it back. Try again or pick another channel.';
+  String get siriRemoteSwipeSensitivityDescription =>
+      'How far focus moves for each swipe on the Siri Remote touchpad';
 }

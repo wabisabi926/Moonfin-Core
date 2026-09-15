@@ -581,6 +581,13 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
         subtitle: l10n.gamepadNavigationDescription,
         keywords: ['gamepad', 'controller', 'input'],
       ),
+    if (PlatformDetection.isAppleTV)
+      style.leaf(
+        'pref_siri_remote_swipe_sensitivity',
+        l10n.siriRemoteSwipeSensitivity,
+        subtitle: l10n.siriRemoteSwipeSensitivityDescription,
+        keywords: ['siri remote', 'touchpad', 'swipe', 'scroll speed'],
+      ),
     style.leaf('pref_clock_behavior', l10n.clockDisplay, keywords: ['time']),
     style.leaf(
       'pref_use_24_hour_clock',
@@ -1367,6 +1374,12 @@ List<_SettingsSearchEntry> _buildSettingsSearchIndex({
         l10n.settingsAudioPassthroughMode,
         keywords: ['passthrough', 'bitstream', 'receiver', 'output'],
       ),
+      if (PlatformDetection.isAndroid && PlatformDetection.isTV)
+        audio.leaf(
+          'pref_audio_passthrough_output',
+          l10n.settingsAudioPassthroughOutput,
+          keywords: ['iec', 'audiotrack', 'bitstream', 'packer', 'kodi', 'raw'],
+        ),
       audio.leaf(
         'pref_downmix_to_stereo',
         l10n.downmixToStereo,
