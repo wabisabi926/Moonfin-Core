@@ -9502,6 +9502,17 @@ class AppLocalizationsHi extends AppLocalizations {
   String get contextMenuAddToCollection => 'कलेक्शन में जोड़ें';
 
   @override
+  String get contextMenuRemoveFromCollection => 'Remove from Collection';
+
+  @override
+  String removeFromCollectionConfirm(String item, String collection) {
+    return 'Remove $item from $collection? The item stays in your library.';
+  }
+
+  @override
+  String get removeFromCollectionFailed => 'Failed to remove from collection';
+
+  @override
   String get settingsAdministrationSubtitle => 'सर्वर प्रशासन पैनल तक पहुंचें';
 
   @override
@@ -12090,6 +12101,13 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get serverMessagesShowButtonSubtitle =>
       'Adds a button to the menu for messages sent by your server admin';
+
+  @override
+  String get showBookDiscoverTab => 'Show Book Library Discovery';
+
+  @override
+  String get showBookDiscoverTabDescription =>
+      'Browse titles from Open Library and LibriVox in your book and audiobook libraries';
 
   @override
   String get autoDownloadNewEpisodes => 'Auto-download new episodes';

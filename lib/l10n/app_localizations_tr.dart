@@ -13,10 +13,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appTitle => 'Moonfin';
 
   @override
-  String get animeMarkerFiller => 'Filler';
+  String get animeMarkerFiller => 'Filtre';
 
   @override
-  String get animeMarkerMixed => 'Mixed';
+  String get animeMarkerMixed => 'Karışık';
 
   @override
   String get animeMarkerAnimeCanon => 'Anime Canon';
@@ -25,19 +25,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get animeMarkerMangaCanon => 'Manga Canon';
 
   @override
-  String get animeMarkerSubbed => 'Subbed';
+  String get animeMarkerSubbed => 'Altyazılı';
 
   @override
-  String get animeMarkerDubbed => 'Dubbed';
+  String get animeMarkerDubbed => 'Dublajlı';
 
   @override
-  String get animeMarkerSubbedAndDubbed => 'Subbed/Dubbed';
+  String get animeMarkerSubbedAndDubbed => 'Altyazılı/Dublajlı';
 
   @override
-  String get animeMarkerPending => 'Pending';
+  String get animeMarkerPending => 'Bekleniyor';
 
   @override
-  String get animeMarkerRecap => 'Recap';
+  String get animeMarkerRecap => 'Özet';
 
   @override
   String get accountPreferences => 'Hesap Ayarları';
@@ -9533,6 +9533,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get contextMenuAddToCollection => 'Koleksiyona ekle';
 
   @override
+  String get contextMenuRemoveFromCollection => 'Remove from Collection';
+
+  @override
+  String removeFromCollectionConfirm(String item, String collection) {
+    return 'Remove $item from $collection? The item stays in your library.';
+  }
+
+  @override
+  String get removeFromCollectionFailed => 'Failed to remove from collection';
+
+  @override
   String get settingsAdministrationSubtitle => 'Sunucu yönetim paneline erişin';
 
   @override
@@ -12132,6 +12143,13 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get serverMessagesShowButtonSubtitle =>
       'Sunucu yöneticiniz tarafından gönderilen mesajlar için menüye bir düğme ekler';
+
+  @override
+  String get showBookDiscoverTab => 'Show Book Library Discovery';
+
+  @override
+  String get showBookDiscoverTabDescription =>
+      'Browse titles from Open Library and LibriVox in your book and audiobook libraries';
 
   @override
   String get autoDownloadNewEpisodes => 'Auto-download new episodes';

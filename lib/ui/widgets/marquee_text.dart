@@ -1,7 +1,9 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+
+/// Shared speed for the long-form program descriptions in Live TV.
+const double kLiveTvDescriptionMarqueeMillisPerPixel = 55.0;
 
 class MarqueeText extends StatefulWidget {
   final String text;
@@ -27,7 +29,6 @@ class MarqueeText extends StatefulWidget {
   final bool showDotSeparator;
   final double dotSize;
   final TextAlign textAlign;
-  final bool startAtEnd;
 
   const MarqueeText({
     super.key,
@@ -43,7 +44,6 @@ class MarqueeText extends StatefulWidget {
     this.showDotSeparator = true,
     this.dotSize = 4.0,
     this.textAlign = TextAlign.start,
-    this.startAtEnd = false,
   }) : assert(maxLines > 0);
 
   @override
@@ -56,17 +56,10 @@ class _MarqueeTextState extends State<MarqueeText>
   late final AnimationController _anim;
   Timer? _pauseTimer;
   double _lastTextWidth = 0.0;
-  double _lastParentWidth = 0.0;
   bool _overflows = false;
 
-  double get _startOffset =>
-      widget.startAtEnd ? math.max(0, _lastTextWidth - _lastParentWidth) : 0;
-
-  double get _endOffset => widget.maxLines > 1
-      ? _lastTextWidth
-      : widget.startAtEnd
-      ? 0
-      : _lastTextWidth + widget.gap;
+  double get _endOffset =>
+      widget.maxLines > 1 ? _lastTextWidth : _lastTextWidth + widget.gap;
 
   /// What gets painted and measured, the spans when given, otherwise [text].
   TextSpan get _span => widget.spans != null
@@ -110,14 +103,13 @@ class _MarqueeTextState extends State<MarqueeText>
 
   void _onTick() {
     if (_controller.hasClients) {
-      final offset = _startOffset + _anim.value * (_endOffset - _startOffset);
-      _controller.jumpTo(offset);
+      _controller.jumpTo(_anim.value * _endOffset);
     }
   }
 
   void _onAnimationStatus(AnimationStatus status) {
     if (status != AnimationStatus.completed) return;
-    if (_controller.hasClients) _controller.jumpTo(_startOffset);
+    if (_controller.hasClients) _controller.jumpTo(0);
     _anim.value = 0;
     _scheduleScroll();
   }
@@ -134,7 +126,6 @@ class _MarqueeTextState extends State<MarqueeText>
     if (!mounted) return;
 
     _lastTextWidth = textWidth;
-    _lastParentWidth = parentWidth;
 
     _overflows = textWidth > parentWidth;
     if (!_overflows) {
@@ -150,10 +141,9 @@ class _MarqueeTextState extends State<MarqueeText>
     }
 
     if (!_anim.isAnimating && _controller.hasClients) {
-      _controller.jumpTo(_startOffset);
+      _controller.jumpTo(0);
     }
-    final scrollDistance = (_endOffset - _startOffset).abs();
-    final scrollDurationMs = (scrollDistance * widget.millisPerPixel).toInt();
+    final scrollDurationMs = (_endOffset * widget.millisPerPixel).toInt();
     final newDuration = Duration(milliseconds: scrollDurationMs);
 
     if (_anim.duration != newDuration) {
@@ -252,23 +242,20 @@ class _MarqueeTextState extends State<MarqueeText>
         final overflows = textWidth > parentWidth;
 
         if (!overflows) {
-          return SizedBox(
-            width: parentWidth.isFinite ? parentWidth : null,
-            child: widget.spans == null
-                ? Text(
-                    widget.text,
-                    style: widget.style,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: widget.textAlign,
-                  )
-                : Text.rich(
-                    span,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: widget.textAlign,
-                  ),
-          );
+          return widget.spans == null
+              ? Text(
+                  widget.text,
+                  style: widget.style,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: widget.textAlign,
+                )
+              : Text.rich(
+                  span,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: widget.textAlign,
+                );
         }
 
         final Widget separatorWidget;
@@ -300,7 +287,7 @@ class _MarqueeTextState extends State<MarqueeText>
           separatorWidget = SizedBox(width: widget.gap);
         }
 
-        return SingleChildScrollView(
+        final scrollView = SingleChildScrollView(
           controller: _controller,
           scrollDirection: Axis.horizontal,
           physics: const NeverScrollableScrollPhysics(),
@@ -312,6 +299,10 @@ class _MarqueeTextState extends State<MarqueeText>
             ],
           ),
         );
+
+        return parentWidth.isFinite
+            ? SizedBox(width: parentWidth, child: scrollView)
+            : scrollView;
       },
     );
   }

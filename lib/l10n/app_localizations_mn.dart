@@ -9544,6 +9544,17 @@ class AppLocalizationsMn extends AppLocalizations {
   String get contextMenuAddToCollection => 'Цуглуулгад нэмэх';
 
   @override
+  String get contextMenuRemoveFromCollection => 'Remove from Collection';
+
+  @override
+  String removeFromCollectionConfirm(String item, String collection) {
+    return 'Remove $item from $collection? The item stays in your library.';
+  }
+
+  @override
+  String get removeFromCollectionFailed => 'Failed to remove from collection';
+
+  @override
   String get settingsAdministrationSubtitle =>
       'Серверийн удирдлагын самбарт хандах';
 
@@ -12139,6 +12150,13 @@ class AppLocalizationsMn extends AppLocalizations {
   @override
   String get serverMessagesShowButtonSubtitle =>
       'Adds a button to the menu for messages sent by your server admin';
+
+  @override
+  String get showBookDiscoverTab => 'Show Book Library Discovery';
+
+  @override
+  String get showBookDiscoverTabDescription =>
+      'Browse titles from Open Library and LibriVox in your book and audiobook libraries';
 
   @override
   String get autoDownloadNewEpisodes => 'Auto-download new episodes';

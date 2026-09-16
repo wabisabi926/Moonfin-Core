@@ -39,6 +39,12 @@ void main() {
     );
     expect(
       tester.state<ScrollableState>(channelScroller).position.pixels,
+      closeTo(0, 0.01),
+    );
+    await tester.pump(const Duration(milliseconds: 1500));
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(
+      tester.state<ScrollableState>(channelScroller).position.pixels,
       greaterThan(0),
     );
   });
@@ -120,6 +126,10 @@ void main() {
     final marquee = find.byType(MarqueeText);
     expect(marquee, findsOneWidget);
     expect(tester.getSize(marquee).height, greaterThan(45));
+    expect(
+      tester.widget<MarqueeText>(marquee).millisPerPixel,
+      kLiveTvDescriptionMarqueeMillisPerPixel,
+    );
     expect(
       find.descendant(of: marquee, matching: find.byType(Scrollable)),
       findsOneWidget,

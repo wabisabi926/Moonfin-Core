@@ -16888,6 +16888,24 @@ abstract class AppLocalizations {
   /// **'Add to Collection'**
   String get contextMenuAddToCollection;
 
+  /// Context menu action to remove an item from the collection whose page it is shown on
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from Collection'**
+  String get contextMenuRemoveFromCollection;
+
+  /// Confirmation shown before removing an item from a collection
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {item} from {collection}? The item stays in your library.'**
+  String removeFromCollectionConfirm(String item, String collection);
+
+  /// Error shown when removing an item from a collection fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to remove from collection'**
+  String get removeFromCollectionFailed;
+
   /// No description provided for @settingsAdministrationSubtitle.
   ///
   /// In en, this message translates to:
@@ -21396,6 +21414,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adds a button to the menu for messages sent by your server admin'**
   String get serverMessagesShowButtonSubtitle;
+
+  /// Setting that shows or hides the discovery tab in book and audiobook libraries
+  ///
+  /// In en, this message translates to:
+  /// **'Show Book Library Discovery'**
+  String get showBookDiscoverTab;
+
+  /// Explains the setting that shows or hides the discovery tab in book libraries
+  ///
+  /// In en, this message translates to:
+  /// **'Browse titles from Open Library and LibriVox in your book and audiobook libraries'**
+  String get showBookDiscoverTabDescription;
 
   /// Row in the download sheet of a series that subscribes it to automatic downloads
   ///
