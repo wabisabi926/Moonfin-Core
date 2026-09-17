@@ -32,6 +32,7 @@ import '../../widgets/skeleton/skeleton_library_grid.dart';
 import '../../widgets/seerr/seerr_tv_controls.dart';
 import '../../widgets/track_selector_dialog.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../util/error_message.dart';
 import '../../widgets/focus/focusable_wrapper.dart';
 import '../../widgets/focus/request_initial_focus.dart';
 
@@ -661,14 +662,14 @@ class _SeerrRequestsScreenState extends State<SeerrRequestsScreen>
     );
   }
 
-  Widget _buildError(String error, Future<void> Function() onRetry) {
+  Widget _buildError(Object error, Future<void> Function() onRetry) {
     final l10n = AppLocalizations.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            error,
+            describeError(error, l10n),
             style: TextStyle(
               color: AppColorScheme.onSurface.withValues(alpha: 0.7),
             ),

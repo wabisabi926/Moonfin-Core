@@ -43,8 +43,11 @@ class LibraryBrowseViewModel extends ChangeNotifier {
   // whole library before the first item can render.
   static const _libraryMetaFields = '';
 
+  // Genres and Studios stay, since grouping reads them off every item. Ratings
+  // are only wanted for the focused one, and resolveTmdbId fetches that id on
+  // its own behind a cache, so the grid doesn't carry ProviderIds.
   static const _browseFields =
-      'PrimaryImageAspectRatio,SortName,Type,IsFolder,UserData,CommunityRating,OfficialRating,RunTimeTicks,ProductionYear,ProviderIds,ImageTags,BackdropImageTags,ParentBackdropItemId,ParentBackdropImageTags,ParentThumbItemId,ParentThumbImageTag,SeriesId,SeriesPrimaryImageTag,Album,AlbumId,AlbumArtist,Artists,Genres,Studios';
+      'PrimaryImageAspectRatio,SortName,Type,IsFolder,UserData,CommunityRating,OfficialRating,RunTimeTicks,ProductionYear,ImageTags,BackdropImageTags,ParentBackdropItemId,ParentBackdropImageTags,ParentThumbItemId,ParentThumbImageTag,SeriesId,SeriesPrimaryImageTag,Album,AlbumId,AlbumArtist,Artists,Genres,Studios';
   // Cap image tags to one per type (server returns all by default)
   static const _imageTypes = 'Primary,Backdrop,Thumb,Banner';
   static const _imageTypeLimit = 1;
@@ -230,8 +233,8 @@ class LibraryBrowseViewModel extends ChangeNotifier {
 
   static const _catchAllCategories = {'Other', 'Unknown', 'Unrated'};
 
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
+  Object? _error;
+  Object? get error => _error;
   bool _isNetworkError = false;
   bool get isNetworkError => _isNetworkError;
 
@@ -578,7 +581,7 @@ class LibraryBrowseViewModel extends ChangeNotifier {
       await _fetchPage(0);
       _state = LibraryBrowseState.ready;
     } catch (e) {
-      _errorMessage = e.toString();
+      _error = e;
       _isNetworkError = isNetworkException(e);
       _state = LibraryBrowseState.error;
     }

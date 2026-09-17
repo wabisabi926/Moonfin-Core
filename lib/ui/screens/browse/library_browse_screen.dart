@@ -37,6 +37,7 @@ import '../detail/item_detail_screen.dart';
 import '../../widgets/local_search_field.dart';
 import '../../widgets/skeleton/skeleton_library_grid.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../util/error_message.dart';
 
 Color get _navyBackground => AppColorScheme.background;
 Color get _jellyfinBlue => AppColorScheme.accent;
@@ -943,6 +944,13 @@ class _LibraryBrowseScreenState extends State<LibraryBrowseScreen>
     context.push(Destinations.audioPlayer);
   }
 
+  /// What a player shows for a queued track. These go straight into the queue
+  /// rather than onto a grid, so they carry none of the poster and series
+  /// artwork a browse card needs.
+  static const _audioShuffleFields =
+      'Type,UserData,RunTimeTicks,ImageTags,Album,AlbumId,'
+      'AlbumPrimaryImageTag,AlbumArtist,Artists';
+
   Future<void> _shuffleSongsLibrary() async {
     final client = GetIt.instance<MediaServerClientFactory>()
         .clientForServerOrActive(widget.serverId);
@@ -953,7 +961,7 @@ class _LibraryBrowseScreenState extends State<LibraryBrowseScreen>
         recursive: true,
         sortBy: 'Random',
         limit: 300,
-        fields: 'PrimaryImageAspectRatio,SortName,Type,IsFolder,UserData,CommunityRating,OfficialRating,RunTimeTicks,ProductionYear,ProviderIds,ImageTags,BackdropImageTags,ParentBackdropItemId,ParentBackdropImageTags,ParentThumbItemId,ParentThumbImageTag,SeriesId,SeriesPrimaryImageTag,Album,AlbumId,AlbumArtist,Artists',
+        fields: _audioShuffleFields,
       );
       final rawItems = (response['Items'] as List?) ?? [];
       final mapped = rawItems
@@ -1053,7 +1061,7 @@ class _LibraryBrowseScreenState extends State<LibraryBrowseScreen>
                     Text(
                       _vm.isNetworkError
                           ? AppLocalizations.of(context).unableToConnectToServer
-                          : _vm.errorMessage ?? AppLocalizations.of(context).failedToLoadLibrary,
+                          : describeError(_vm.error!, AppLocalizations.of(context)),
                       style: TextStyle(
                         color: _vm.isBookLibrary ? const Color(0xFFF4E6D5) : Colors.white,
                       ),
