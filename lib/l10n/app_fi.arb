@@ -309,7 +309,7 @@
     "@collectionPlaceholder": {
         "description": "Placeholder text for empty collection screen"
     },
-    "browseByLetter": "Selaa kirjeen mukaan",
+    "browseByLetter": "Selaa Aakkosjärjestyksessä",
     "@browseByLetter": {
         "description": "Title for alphabetical browse screen"
     },
@@ -317,7 +317,7 @@
     "@alphabeticalBrowsePlaceholder": {
         "description": "Placeholder text for alphabetical browse screen"
     },
-    "suggestions": "ehdotuksia",
+    "suggestions": "Ehdotuksia",
     "@suggestions": {
         "description": "Title for suggestions screen"
     },
@@ -325,7 +325,7 @@
     "@suggestionsPlaceholder": {
         "description": "Placeholder text for suggestions screen"
     },
-    "failedToLoadLibraries": "Kirjastojen lataaminen epäonnistui",
+    "failedToLoadLibraries": "Kirjastoja ei voitu ladata",
     "@failedToLoadLibraries": {
         "description": "Error when library list cannot be loaded"
     },
@@ -345,7 +345,7 @@
     "@allGenres": {
         "description": "Title for the all genres screen"
     },
-    "noGenresFound": "Genrejä ei löytynyt",
+    "noGenresFound": "Mitään genrejä ei löytynyt",
     "@noGenresFound": {
         "description": "Empty state when no genres are available"
     },
@@ -6397,7 +6397,7 @@
     "shuffleLibrary": "Kirjasto",
     "shuffleGenre": "Genre",
     "shuffleNoLibraries": "Yhteensopivia kirjastoja ei ole saatavilla.",
-    "shuffleNoGenres": "Tälle sekoitustilalle ei löytynyt genrejä.",
+    "shuffleNoGenres": "Tälle shuffle-tilalle ei löytynyt yhtään tyylilajia.",
     "posterDisplayTitle": "Näyttö",
     "posterImageType": "Kuvatyyppi",
     "imageTypePoster": "Juliste",
@@ -11612,7 +11612,7 @@
     "@animeMarkerFiller": {
         "description": "Badge on an anime episode that is filler, meaning it is not adapted from the source manga"
     },
-    "animeMarkerMixed": "MIxed",
+    "animeMarkerMixed": "Mixed",
     "@animeMarkerMixed": {
         "description": "Badge on an anime episode that mixes source material with filler, so it still contains story"
     },
@@ -11696,5 +11696,156 @@
     "siriRemoteSwipeSensitivityDescription": "Kuinka paljon tarkennus siirtyy jokaisen Siri Remote -kaukosäätimen kosketuslevyllä tehdyn pyyhkäisyn yhteydessä",
     "@siriRemoteSwipeSensitivityDescription": {
         "description": "Apple TV settings subtitle for the Siri Remote touchpad swipe sensitivity option"
-    }
+    },
+    "contextMenuRemoveFromCollection": "Poista Kokoelmasta",
+    "@contextMenuRemoveFromCollection": {
+        "description": "Context menu action to remove an item from the collection whose page it is shown on"
+    },
+    "removeFromCollectionConfirm": "Poistatko {item} kohteen {collection} kokoelmasta? Kohde säilyy kirjastossasi.",
+    "@removeFromCollectionConfirm": {
+        "description": "Confirmation shown before removing an item from a collection",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            },
+            "collection": {
+                "type": "String"
+            }
+        }
+    },
+    "removeFromCollectionFailed": "Poistaminen kokoelmasta epäonnistui",
+    "@removeFromCollectionFailed": {
+        "description": "Error shown when removing an item from a collection fails"
+    },
+    "showBookDiscoverTab": "Näytä Kirjasto Kirjastohakutoiminto",
+    "@showBookDiscoverTab": {
+        "description": "Setting that shows or hides the discovery tab in book and audiobook libraries"
+    },
+    "showBookDiscoverTabDescription": "Selaa Open Libraryn ja LibriVoxin teoksia kirja- ja äänikirjastoissasi",
+    "@showBookDiscoverTabDescription": {
+        "description": "Explains the setting that shows or hides the discovery tab in book libraries"
+    },
+    "spotlightFactsCount": "{count, plural, =1{1 fact} other{{count} facts}}",
+    "@spotlightFactsCount": {
+        "description": "Count fragment on spotlight summary cards: Seerr facts",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "spotlightTagsCount": "{count, plural, =1{1 tag} other{{count} tags}}",
+    "@spotlightTagsCount": {
+        "description": "Count fragment on spotlight summary cards: genres, networks and keywords",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "activeDownloads": "Aktiiviset Lataukset",
+    "@activeDownloads": {
+        "description": "Tab title for downloads that are transferring or queued"
+    },
+    "savedMediaCount": "{count, plural, =1{1 item} other{{count} items}}",
+    "@savedMediaCount": {
+        "description": "How many downloads the saved media list holds, shown beside the total size",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "savedMediaOfLimit": "{used} of {limit}",
+    "@savedMediaOfLimit": {
+        "description": "Storage used against the configured limit, for example '56.4 GB of 80 GB'",
+        "placeholders": {
+            "used": {
+                "type": "String"
+            },
+            "limit": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaSelectItems": "Valitse kohteet",
+    "@savedMediaSelectItems": {
+        "description": "Overflow menu entry that turns on multi-select in the saved media list"
+    },
+    "savedMediaNoDownloads": "Mitään ei ole vielä tallennettu",
+    "@savedMediaNoDownloads": {
+        "description": "Empty state title when no downloads are on the device"
+    },
+    "savedMediaNoDownloadsDetail": "Täältä näkyvät aloittamasi lataukset, ja niitä voi toistaa ilman verkkoyhteyttä.",
+    "@savedMediaNoDownloadsDetail": {
+        "description": "Empty state body when no downloads are on the device"
+    },
+    "savedMediaNoActiveDownloads": "Tällä hetkellä ei ole käynnissä yhtään latausta",
+    "@savedMediaNoActiveDownloads": {
+        "description": "Empty state for the active downloads tab"
+    },
+    "savedMediaNoResults": "Hakutuloksia ei löytynyt",
+    "@savedMediaNoResults": {
+        "description": "Empty state when a search over saved media matches nothing"
+    },
+    "savedMediaPlayFromStart": "Toista alusta alkaen",
+    "@savedMediaPlayFromStart": {
+        "description": "Row menu action that restarts a partly watched download from the beginning"
+    },
+    "savedMediaGoToDetails": "Siirry yksityiskohtiin",
+    "@savedMediaGoToDetails": {
+        "description": "Row menu action that opens the item's detail screen"
+    },
+    "savedMediaDeleteDownload": "Poista lataus",
+    "@savedMediaDeleteDownload": {
+        "description": "Row menu action that removes one downloaded file from the device"
+    },
+    "savedMediaDeleteSeason": "Poista {season}",
+    "@savedMediaDeleteSeason": {
+        "description": "Menu action that removes every saved episode of one season",
+        "placeholders": {
+            "season": {
+                "type": "String"
+            }
+        }
+    },
+    "savedMediaDeleteEpisodes": "{count, plural, =1{Delete 1 episode} other{Delete {count} episodes}}",
+    "@savedMediaDeleteEpisodes": {
+        "description": "Menu action that removes every saved episode of one series",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "savedMediaOpenShow": "Avaa esitys",
+    "@savedMediaOpenShow": {
+        "description": "Row menu action that opens a saved show's seasons and episodes"
+    },
+    "savedMediaPlayNextUnwatched": "Toista seuraava katsomaton",
+    "@savedMediaPlayNextUnwatched": {
+        "description": "Row menu action that plays the earliest unwatched saved episode of a show"
+    },
+    "savedMediaRead": "Lue",
+    "@savedMediaRead": {
+        "description": "Row menu action that opens a downloaded book in the reader"
+    },
+    "savedMediaCancelDownload": "Peruuta lataus",
+    "@savedMediaCancelDownload": {
+        "description": "Row menu action that stops a running or queued transfer"
+    },
+    "sortBySize": "Koko",
+    "@sortBySize": {
+        "description": "Sort option: largest download first"
+    },
+    "sortByName": "Nimi",
+    "@sortByName": {
+        "description": "Sort option: alphabetical by title"
+    },
+    "sortByDateAdded": "Lisäyspäivä",
+    "@sortByDateAdded": {
+        "description": "Sort option: most recently downloaded first"
+    },
+    "locallyDecodedCodecs": "Paikallisesti dekoodatut koodekit",
+    "transcodeTargetCodecs": "Transkoodauksen kohdekoodekit"
 }
