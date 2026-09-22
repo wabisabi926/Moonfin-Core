@@ -3267,6 +3267,13 @@ class AppLocalizationsMn extends AppLocalizations {
       'Түр зогсоох үед видеог бүдгэрүүлж, тойм текстийг харуул';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'OSD түгжээний товчлуур';
 
   @override
@@ -5145,6 +5152,9 @@ class AppLocalizationsMn extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Moonfin дээр тоглох';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12367,6 +12377,9 @@ class AppLocalizationsMn extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12383,6 +12396,9 @@ class AppLocalizationsMn extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

@@ -3248,6 +3248,13 @@ class AppLocalizationsHe extends AppLocalizations {
       'עמעום את הסרטון והצג טקסט סקירה בזמן השהייה';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'לחצן נעילה של OSD';
 
   @override
@@ -5090,6 +5097,9 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'שחקו ב- Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12204,6 +12214,9 @@ class AppLocalizationsHe extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12220,6 +12233,9 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

@@ -3277,6 +3277,13 @@ class AppLocalizationsIt extends AppLocalizations {
       'Oscura il video e mostra il testo della panoramica in pausa';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'Pulsante Blocco OSD';
 
   @override
@@ -5161,6 +5168,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Riproduci in Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12438,6 +12448,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Musica)';
 
   @override
@@ -12454,6 +12467,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Playlist Video';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Playlist Audio';

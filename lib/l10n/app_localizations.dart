@@ -5692,6 +5692,18 @@ abstract class AppLocalizations {
   /// **'Dim video and show overview text while paused'**
   String get dimVideoShowOverview;
 
+  /// Setting label for drawing a mark per chapter on the player seek bar
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter Marks'**
+  String get showChapterMarkers;
+
+  /// Description for the chapter marks setting
+  ///
+  /// In en, this message translates to:
+  /// **'Mark where each chapter starts on the seek bar'**
+  String get showChapterMarkersDescription;
+
   /// Setting for OSD lock button
   ///
   /// In en, this message translates to:
@@ -9087,6 +9099,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Play in Moonfin'**
   String get playInMoonfin;
+
+  /// Label above the name of whoever requested media, where the name sits on its own line
+  ///
+  /// In en, this message translates to:
+  /// **'Requested by'**
+  String get requestedByLabel;
 
   /// Label showing who requested media
   ///
@@ -21697,6 +21715,12 @@ abstract class AppLocalizations {
   /// **'Video'**
   String get playlistTypeVideo;
 
+  /// Filter checkbox label for music video playlists
+  ///
+  /// In en, this message translates to:
+  /// **'Music Video'**
+  String get playlistTypeMusicVideo;
+
   /// Filter checkbox label for audio/music playlists
   ///
   /// In en, this message translates to:
@@ -21732,6 +21756,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Video Playlists'**
   String get videoPlaylistsSection;
+
+  /// Section header above music video playlists when Group by Type is enabled
+  ///
+  /// In en, this message translates to:
+  /// **'Music Video Playlists'**
+  String get musicVideoPlaylistsSection;
 
   /// Section header above audio playlists when Group by Type is enabled
   ///

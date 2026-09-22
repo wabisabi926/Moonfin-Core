@@ -3287,6 +3287,13 @@ class AppLocalizationsUk extends AppLocalizations {
       'Зменшити відео та показати оглядовий текст під час паузи';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'Кнопка блокування OSD';
 
   @override
@@ -5161,6 +5168,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Грайте в Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12435,6 +12445,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12451,6 +12464,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

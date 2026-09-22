@@ -3284,6 +3284,13 @@ class AppLocalizationsTl extends AppLocalizations {
       'I-dim ang video at ipakita ang pangkalahatang-ideya ng teksto habang naka-pause';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'OSD Lock Button';
 
   @override
@@ -5175,6 +5182,9 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Maglaro sa Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12462,6 +12472,9 @@ class AppLocalizationsTl extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12478,6 +12491,9 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

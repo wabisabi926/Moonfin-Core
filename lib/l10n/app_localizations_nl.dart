@@ -3279,6 +3279,13 @@ class AppLocalizationsNl extends AppLocalizations {
       'Video dimmen en overzichtstekst weergeven tijdens pauze';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'OSD-vergrendelknop';
 
   @override
@@ -5159,6 +5166,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Speel in Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12408,6 +12418,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Muziek)';
 
   @override
@@ -12424,6 +12437,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Videoafspeellijst';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audioafspeellijst';

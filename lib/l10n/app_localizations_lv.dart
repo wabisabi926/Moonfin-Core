@@ -3282,6 +3282,13 @@ class AppLocalizationsLv extends AppLocalizations {
       'Aptumšot video un rādīt kopsavilkuma tekstu, kamēr tas ir apturēts';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'OSD bloķēšanas poga';
 
   @override
@@ -5155,6 +5162,9 @@ class AppLocalizationsLv extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Spēlē Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12410,6 +12420,9 @@ class AppLocalizationsLv extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12426,6 +12439,9 @@ class AppLocalizationsLv extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

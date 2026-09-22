@@ -3261,6 +3261,13 @@ class AppLocalizationsPa extends AppLocalizations {
       'ਵਿਡਿਓ ਨੂੰ ਮੱਧਮ ਕਰੋ ਅਤੇ ਵਿਰਾਮ ਦੇ ਦੌਰਾਨ ਓਵਰਵਿਊ ਟੈਕਸਟ ਦਿਖਾਓ';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'OSD ਲਾਕ ਬਟਨ';
 
   @override
@@ -5121,6 +5128,9 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Moonfin ਵਿੱਚ ਚਲਾਓ';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12306,6 +12316,9 @@ class AppLocalizationsPa extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12322,6 +12335,9 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

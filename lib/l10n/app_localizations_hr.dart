@@ -3382,6 +3382,13 @@ class AppLocalizationsHr extends AppLocalizations {
       'Zatamnite video i prikažite tekst pregleda dok je pauziran';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'Gumb za zaključavanje OSD-a';
 
   @override
@@ -5262,6 +5269,9 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Igrajte u Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12571,6 +12581,9 @@ class AppLocalizationsHr extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12587,6 +12600,9 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

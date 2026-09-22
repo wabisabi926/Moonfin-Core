@@ -3278,6 +3278,13 @@ class AppLocalizationsTe extends AppLocalizations {
       'వీడియోను మసకబారండి మరియు పాజ్ చేయబడినప్పుడు స్థూలదృష్టి వచనాన్ని చూపండి';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'OSD లాక్ బటన్';
 
   @override
@@ -5158,6 +5165,9 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Moonfinలో ఆడండి';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12418,6 +12428,9 @@ class AppLocalizationsTe extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12434,6 +12447,9 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

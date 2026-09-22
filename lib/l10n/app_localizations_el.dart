@@ -3295,6 +3295,13 @@ class AppLocalizationsEl extends AppLocalizations {
       'Χαμηλώστε το βίντεο και εμφανίστε κείμενο επισκόπησης κατά την παύση';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'Κουμπί κλειδώματος OSD';
 
   @override
@@ -5182,6 +5189,9 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Αναπαραγωγή στο Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12518,6 +12528,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12534,6 +12547,9 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

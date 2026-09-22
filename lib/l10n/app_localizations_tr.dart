@@ -3263,6 +3263,13 @@ class AppLocalizationsTr extends AppLocalizations {
       'Duraklatıldığında videoyu karart ve özet metnini göster';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'Ekran Kilidi Butonu';
 
   @override
@@ -5147,6 +5154,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Moonfin\'da oynat';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12357,6 +12367,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Ses (Müzik)';
 
   @override
@@ -12373,6 +12386,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Oynatma Listeleri';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Ses Oynatma Listesi';

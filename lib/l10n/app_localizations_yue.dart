@@ -3203,6 +3203,13 @@ class AppLocalizationsYue extends AppLocalizations {
   String get dimVideoShowOverview => '暫停時調暗影片並顯示概述文本';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'OSD 鎖定按鈕';
 
   @override
@@ -5000,6 +5007,9 @@ class AppLocalizationsYue extends AppLocalizations {
 
   @override
   String get playInMoonfin => '玩 Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -11945,6 +11955,9 @@ class AppLocalizationsYue extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -11961,6 +11974,9 @@ class AppLocalizationsYue extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';

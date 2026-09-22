@@ -3294,6 +3294,13 @@ class AppLocalizationsGl extends AppLocalizations {
       'Atenua o vídeo e mostra o texto xeral mentres está en pausa';
 
   @override
+  String get showChapterMarkers => 'Chapter Marks';
+
+  @override
+  String get showChapterMarkersDescription =>
+      'Mark where each chapter starts on the seek bar';
+
+  @override
   String get osdLockButton => 'Botón de bloqueo OSD';
 
   @override
@@ -5181,6 +5188,9 @@ class AppLocalizationsGl extends AppLocalizations {
 
   @override
   String get playInMoonfin => 'Xoga en Moonfin';
+
+  @override
+  String get requestedByLabel => 'Requested by';
 
   @override
   String requestedByName(String name) {
@@ -12492,6 +12502,9 @@ class AppLocalizationsGl extends AppLocalizations {
   String get playlistTypeVideo => 'Video';
 
   @override
+  String get playlistTypeMusicVideo => 'Music Video';
+
+  @override
   String get playlistTypeAudio => 'Audio (Music)';
 
   @override
@@ -12508,6 +12521,9 @@ class AppLocalizationsGl extends AppLocalizations {
 
   @override
   String get videoPlaylistsSection => 'Video Playlists';
+
+  @override
+  String get musicVideoPlaylistsSection => 'Music Video Playlists';
 
   @override
   String get audioPlaylistsSection => 'Audio Playlists';
